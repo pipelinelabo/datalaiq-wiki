@@ -39,7 +39,7 @@ tag=shodan grep "AT&T U-verse" | json location.region_code | count by region_cod
 We can also operate on enumerated values rather than the full entry data if desired; for instance, if an XML entry contains json within it:
 
 ```
-<System><Data>{ "domain": "gravwell.io" }</Data></System>
+<System><Data>{ "domain": "datalaiq.io" }</Data></System>
 ```
 
 We can use the following command to extract the JSON from within the XML as an enumerated value named "Data", then apply the json module to parse out the domain value into another enumerated value named "domain":
@@ -63,7 +63,7 @@ json -e Data domain != "google.com" as dd
 
 ### Quoting Rules
 
-The JSON format is extremely liberal and allows names of all types, including characters Gravwell usually treats as separators such as '.' and "-". In cases where the JSON name contains such characters, wrap the individual field in double-quotes to parse it as a single token. For example, this JSON string contains a dot character in a field name:
+The JSON format is extremely liberal and allows names of all types, including characters DatalaiQ usually treats as separators such as '.' and "-". In cases where the JSON name contains such characters, wrap the individual field in double-quotes to parse it as a single token. For example, this JSON string contains a dot character in a field name:
 
 ```
 { "subfield.op": "stuff", "subfield.type": "int", "subfield.value": 99}

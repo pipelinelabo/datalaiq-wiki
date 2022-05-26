@@ -1,6 +1,6 @@
 ## Eval
 
-Eval is most commonly used for performing AND and OR logic on searches and enumerated values. However, the eval module is a bit of a Swiss Army knife, providing access to a limited subset of the Anko programming language (a dynamically-typed Go-like language, see [https://github.com/mattn/anko/](https://github.com/mattn/anko/) and the [Gravwell documentation for the Anko language](#!scripting/scripting.md)) to allow flexible operations on data within Gravwell. The eval module will execute exactly one expression or statement. In order to keep this page relatively simple, this section provides only a brief overview of some example eval invocations; more details are available [in this article](#!scripting/eval.md)
+Eval is most commonly used for performing AND and OR logic on searches and enumerated values. However, the eval module is a bit of a Swiss Army knife, providing access to a limited subset of the Anko programming language (a dynamically-typed Go-like language, see [https://github.com/mattn/anko/](https://github.com/mattn/anko/) and the [DatalaiQ documentation for the Anko language](#!scripting/scripting.md)) to allow flexible operations on data within DatalaiQ. The eval module will execute exactly one expression or statement. In order to keep this page relatively simple, this section provides only a brief overview of some example eval invocations; more details are available [in this article](#!scripting/eval.md)
 
 ### Syntax
 
@@ -42,5 +42,5 @@ switch DstPort { case 80: setEnum(“protocol”, “http”); case 22: setEnum(
 
 ### Further reference
 
-* [The Gravwell documentation for the Anko language](#!scripting/scripting.md) is a generic description of the Anko scripting language
+* [The DatalaiQ documentation for the Anko language](#!scripting/scripting.md) is a generic description of the Anko scripting language
 * [The eval module article](#!scripting/eval.md) describes the eval module in more detail.

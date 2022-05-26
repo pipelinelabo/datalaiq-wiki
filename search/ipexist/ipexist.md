@@ -1,6 +1,6 @@
 # IPexist
 
-The ipexist module is designed to perform simple existence checks on IP addresses as fast as possible. It uses Gravwell's [ipexist library](https://github.com/gravwell/ipexist) to manage sets of IP addresses and quickly query the existence of a given IP within the set. Users specify one or more enumerated values to match against the set; by default, if all enumerated values match addresses within the set, the entry is passed.
+The ipexist module is designed to perform simple existence checks on IP addresses as fast as possible. It uses DatalaiQ's [ipexist library](https://github.com/gravwell/ipexist) to manage sets of IP addresses and quickly query the existence of a given IP within the set. Users specify one or more enumerated values to match against the set; by default, if all enumerated values match addresses within the set, the entry is passed.
 
 ## Supported Options
 

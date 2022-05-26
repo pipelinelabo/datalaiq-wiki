@@ -40,7 +40,7 @@
 * [langfind](langfind/langfind.md) - classify the language of text.
 * [length](length/length.md) - compute the length of entries or enumerated values.
 * [limit](limit/limit.md) - limit the number of entries which will pass further down the pipeline.
-* [location](location/location.md) - convert individual lat/lon enumerated values into a single Gravwell Location enumerated value.
+* [location](location/location.md) - convert individual lat/lon enumerated values into a single DatalaiQ Location enumerated value.
 * [lookup](lookup/lookup.md) - enrich entries by looking up keys in a table.
 * [lower](upperlower/upperlower.md) - convert text to lower-case.
 * [maclookup](maclookup/maclookup.md) - look up manufacturer, address, and country information based on a MAC address.

@@ -1,6 +1,6 @@
 # Search Extraction Modules
 
-Gravwell is a structure-on-read data lake, and these are the modules that add that structure. This is where the power and flexibility of the platform can be seen, as information about data doesn't need to be known before collection. Instead, we can ingest the raw data and perform the extractions at search time which gives tremendous flexibility to search operations.
+DatalaiQ is a structure-on-read data lake, and these are the modules that add that structure. This is where the power and flexibility of the platform can be seen, as information about data doesn't need to be known before collection. Instead, we can ingest the raw data and perform the extractions at search time which gives tremendous flexibility to search operations.
 
 Extraction modules are often the first module in a search. Netflow data, as an example, sits in it's native binary format on disk and any searches looking to operate on that data will be using the netflow extraction module as a first module in the analysis pipeline to do extraction and basic filtering. While you *could* do filtering before the `netflow` extraction module using modules like `grep`, that is unlikely to be effective.
 

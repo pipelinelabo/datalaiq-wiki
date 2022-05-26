@@ -1,6 +1,6 @@
 ## CEF
 
-The CEF or Common Event Format is used by several data providers and many data enrichment systems.  The Gravwell CEF parser is designed to allow for very fast extraction of the common CEF header variables, as well as an arbitrary set of key value pairs.  The loose specification that is CEF technically defines a set of known key names, but we have yet to see a data generating product that produces CEF and strictly holds to those set of keys, which is why the Gravwell module can handle any key name.
+The CEF or Common Event Format is used by several data providers and many data enrichment systems.  The DatalaiQ CEF parser is designed to allow for very fast extraction of the common CEF header variables, as well as an arbitrary set of key value pairs.  The loose specification that is CEF technically defines a set of known key names, but we have yet to see a data generating product that produces CEF and strictly holds to those set of keys, which is why the DatalaiQ module can handle any key name.
 
 ### Standard CEF Header Key Names
 
@@ -13,9 +13,9 @@ CEF contains a set of standardized header values that should be present in every
 * Name
 * Severity
 
-The Gravwell CEF parser allows additional flexibility in extracting submember keys that collide with the header names.  By default, if a search specifies the key Version, we will extract the header value Version.  However, if a misbehaving data source is providing CEF records with a key named Version you can still access it by prepending "EXT" to the name.
+The DatalaiQ CEF parser allows additional flexibility in extracting submember keys that collide with the header names.  By default, if a search specifies the key Version, we will extract the header value Version.  However, if a misbehaving data source is providing CEF records with a key named Version you can still access it by prepending "EXT" to the name.
 
-Extracted header and key values are extracted into enumerated values with the same name as the key or header.  However, using the "as" syntax the extracted values can be renamed to any value.  The gravwell CEF parser is designed with flexibility in mind, and can deal with poorly formed CEF records and records that technically violate the loosely defined CEF spec.
+Extracted header and key values are extracted into enumerated values with the same name as the key or header.  However, using the "as" syntax the extracted values can be renamed to any value.  The DatalaiQ CEF parser is designed with flexibility in mind, and can deal with poorly formed CEF records and records that technically violate the loosely defined CEF spec.
 
 ## Supported Options
 

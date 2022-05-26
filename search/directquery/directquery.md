@@ -1,10 +1,10 @@
-# Gravwell Direct Query API
+# DatalaiQ Direct Query API
 
-The Gravwell Direct Query API is designed to provide atomic, REST-powered access to the Gravwell query system.  This API allows for simple integration with external tools and systems that do not normally know how to interact with Gravwell.  The API is designed to be as flexible as possible and support tools that know how to interact with an HTTP API.
+The DatalaiQ Direct Query API is designed to provide atomic, REST-powered access to the DatalaiQ query system.  This API allows for simple integration with external tools and systems that do not normally know how to interact with DatalaiQ.  The API is designed to be as flexible as possible and support tools that know how to interact with an HTTP API.
 
-The Direct Query API is authenticated and requires a valid Gravwell account with access to the Gravwell query system.  Most users will want to generate a [Gravwell Token](/tokens/tokens.md) and use that to access the query API.
+The Direct Query API is authenticated and requires a valid DatalaiQ account with access to the DatalaiQ query system.  Most users will want to generate a [DatalaiQ Token](/tokens/tokens.md) and use that to access the query API.
 
-Issuing a query via the Direct Query API requires the same set of parameters as issuing a query via the Gravwell web GUI.  You will need a query string, a time range, and an optional output format.  The Direct Query API has some limitations on which output formats can be provided.  For example, the [pointmap](/search/map/map.md) and [heatmap](/search/map/map.md) renderers cannot output rendered maps via this API, nor can this API draw a chart and deliver it as an image.  This API is primarily used for retrieving raw results and delivering them to other systems for direct integration.
+Issuing a query via the Direct Query API requires the same set of parameters as issuing a query via the DatalaiQ web GUI.  You will need a query string, a time range, and an optional output format.  The Direct Query API has some limitations on which output formats can be provided.  For example, the [pointmap](/search/map/map.md) and [heatmap](/search/map/map.md) renderers cannot output rendered maps via this API, nor can this API draw a chart and deliver it as an image.  This API is primarily used for retrieving raw results and delivering them to other systems for direct integration.
 
 NOTE: The Direct Query API is atomic, one request will execute and entire search and deliver the completed results.  Queries that cover large time durations or require significant time to execute may require that HTTP clients adjust their respective client timeouts.
 
@@ -18,7 +18,7 @@ The parse API is accessed via the POST HTTP method and is located at `/api/parse
 
 | Parameter | Description |
 | --------- | ----------- |
-| `query` | A complete Gravwell query string |
+| `query` | A complete DatalaiQ query string |
 
 The `query` can be delivered as a header value, as query parameter, or as a `ParseSearchRequest` JSON object in the body of the request.
 
@@ -96,7 +96,7 @@ The query API is accessed via the POST HTTP method and is located at `/api/searc
 
 | Parameter | Description | Optional |
 | --------- | ----------- | -------- |
-| query     | A complete Gravwell query string | |
+| query     | A complete DatalaiQ query string | |
 | format    | Query output format | |
 | preview   | Boolean indicating that the query should execute as a preview query | X |
 | start     | RFC3339 start timestamp for the query | X |

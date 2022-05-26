@@ -84,7 +84,7 @@ Specifying a field not listed above will cause the winlog module to attempt to e
 
 ### Data Field Filtering
 
-Every extractable field in a windows log supports inline filtering with various comparison operations depending on the type of the field.  Some of the Event System fields are integers and can be compared as an integer, such as the `EventID`, `Version`, and `Level` fields.  The other System fields and all data fields are treated as byte arrays.  As with most Gravwell search modules it is almost always faster to perform filtering right when an enumerated value is created.
+Every extractable field in a windows log supports inline filtering with various comparison operations depending on the type of the field.  Some of the Event System fields are integers and can be compared as an integer, such as the `EventID`, `Version`, and `Level` fields.  The other System fields and all data fields are treated as byte arrays.  As with most DatalaiQ search modules it is almost always faster to perform filtering right when an enumerated value is created.
 
 
 ## Examples

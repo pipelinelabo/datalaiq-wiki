@@ -55,7 +55,7 @@ tag=pcap packet ipv4.IP ~ 192.168.0.0/16 tcp.Port | length | stats min(length) m
 
 ## Intelligent Keying with Multiple Categories
 
-The `chart` renderer utilizes the Gravwell pipeline to decide how to key and condense multiple categories.  It is intelligent enough to identify the correct keys that generated a data category and condense using those keys.  This allows us to generate very complex charts with multiple categories that do not have uniform key sets.  For example, maybe we want mean packet sizes for each IP, but we want the standard deviation of packet sizes for everything.  This can be accomplished using the following query:
+The `chart` renderer utilizes the DatalaiQ pipeline to decide how to key and condense multiple categories.  It is intelligent enough to identify the correct keys that generated a data category and condense using those keys.  This allows us to generate very complex charts with multiple categories that do not have uniform key sets.  For example, maybe we want mean packet sizes for each IP, but we want the standard deviation of packet sizes for everything.  This can be accomplished using the following query:
 
 ```
 tag=pcap packet ipv4.IP ~ 192.168.0.0/16 tcp.Port | length | stats mean(length) by IP stddev(length) over 1m | chart stddev mean by IP limit 3

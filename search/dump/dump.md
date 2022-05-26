@@ -2,7 +2,7 @@
 
 The `dump` module is designed to treat resources as queryable data, meaning that you can inject a CSV or lookup table into the query pipeline and perform operations on the rows as if they are full fledged search entries.  Dump can be particularly useful when building dashboards and views that need to operate on data that has already been imported from some other static source or aggregated used scheduled queries.
 
-The Gravwell search system will infer from the query whether or not it needs to engage the indexers and/or stored data.  If the `dump` module can satisfy all the enumerated value requirements and no other extraction modules are present the query will not execute on the indexers at all.  However, the dump module does support injecting values along side other data through the `-p` execution flag which is documented below.
+The DatalaiQ search system will infer from the query whether or not it needs to engage the indexers and/or stored data.  If the `dump` module can satisfy all the enumerated value requirements and no other extraction modules are present the query will not execute on the indexers at all.  However, the dump module does support injecting values along side other data through the `-p` execution flag which is documented below.
 
 ### Supported Options
 
