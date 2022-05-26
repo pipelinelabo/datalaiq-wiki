@@ -1,6 +1,6 @@
 # Ingester Info Node
 
-This node injects information about currently-connected Gravwell ingesters into the payload. This is useful when generating reports or monitoring cluster health.
+This node injects information about currently-connected DatalaiQ ingesters into the payload. This is useful when generating reports or monitoring cluster health.
 
 ## Configuration
 
@@ -8,7 +8,7 @@ This node injects information about currently-connected Gravwell ingesters into 
 
 ## Output
 
-The node inserts an array (named `gravwell_ingesters` by default) into the payload containing information about the ingesters currently active in the Gravwell cluster. Each element in the array is a structure containing the following fields:
+The node inserts an array (named `gravwell_ingesters` by default) into the payload containing information about the ingesters currently active in the DatalaiQ cluster. Each element in the array is a structure containing the following fields:
 
 * `Name`: the name of the ingester, e.g. "Federator".
 * `RemoteAddress`: the IP address of the ingester, e.g. "tcp://192.168.0.5:45022".

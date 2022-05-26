@@ -1,6 +1,6 @@
 # Flows
 
-Flows provide a no-code method for developing advanced automations in Gravwell. By wiring together nodes in a drag-and-drop user interface, you can:
+Flows provide a no-code method for developing advanced automations in DatalaiQ. By wiring together nodes in a drag-and-drop user interface, you can:
 
 * Run queries
 * Generate PDF reports
@@ -25,7 +25,7 @@ Flows are *automations*, meaning they are normally executed on a user-specified 
 
 ### Nodes
 
-A flow is a collection of *nodes*, linked together to define an order of execution. Each node does a single task, such as running a query or sending an email. In the example below, the leftmost node runs a Gravwell query, then the middle node formats the results of that query into a PDF document, and finally the rightmost node sends that PDF document as an email attachment.
+A flow is a collection of *nodes*, linked together to define an order of execution. Each node does a single task, such as running a query or sending an email. In the example below, the leftmost node runs a DatalaiQ query, then the middle node formats the results of that query into a PDF document, and finally the rightmost node sends that PDF document as an email attachment.
 
 ![](nodes.png)
 
@@ -56,19 +56,19 @@ Flows are created using the flow editor. Please refer to the [flow editor docume
 * [Email](nodes/email.md): send email.
 * [Flow Storage Read](nodes/storageread.md): read items from a persistent storage.
 * [Flow Storage Write](nodes/storagewrite.md): write items into a persistent storage.
-* [Gravwell Indexers](nodes/indexerinfo.md): get information about Gravwell indexers.
-* [Gravwell Ingesters](nodes/ingesterinfo.md): get information about Gravwell ingesters.
-* [Gravwell Notification](nodes/notification.md): set Gravwell notifications.
+* [DatalaiQ Indexers](nodes/indexerinfo.md): get information about DatalaiQ indexers.
+* [DatalaiQ Ingesters](nodes/ingesterinfo.md): get information about DatalaiQ ingesters.
+* [DatalaiQ Notification](nodes/notification.md): set DatalaiQ notifications.
 * [HTTP](nodes/http.md): do HTTP requests.
 * [If](nodes/if.md): perform logical operations.
-* [Ingest](nodes/ingest.md): ingest data into Gravwell.
+* [Ingest](nodes/ingest.md): ingest data into DatalaiQ.
 * [JavaScript](nodes/javascript.md): run JavaScript code.
 * [Nest Merge](nodes/nestmerge.md): join multiple input payloads into one.
 * [PDF](nodes/pdf.md): create PDF documents.
 * [Query Log Ingest](nodes/queryalert.md): convert search results to alert entries & ingest.
-* [Read Macros](nodes/macroget.md): read Gravwell macros.
+* [Read Macros](nodes/macroget.md): read DatalaiQ macros.
 * [Rename](nodes/rename.md): rename variables in the payload.
-* [Run a Query](nodes/runquery.md): run a Gravwell query.
+* [Run a Query](nodes/runquery.md): run a DatalaiQ query.
 * [Set Variables](nodes/inject.md): inject variables into the payload.
 * [Slack File](nodes/slackfile.md): upload a file to a Slack channel.
 * [Slack Message](nodes/slackmessage.md): send a message to a Slack channel.

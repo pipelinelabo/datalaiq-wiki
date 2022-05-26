@@ -1,6 +1,6 @@
-# Gravwell Notification Node
+# DatalaiQ Notification Node
 
-This node sends a Gravwell notification to the owner of the flow. Notifications consist of a message, an optional URL, and a notification ID. The notification ID is used to differentiate and deduplicate notifications; only one notification with a given ID will exist at one time, to prevent the same flow from creating hundreds of notifications when run repeatedly.
+This node sends a DatalaiQ notification to the owner of the flow. Notifications consist of a message, an optional URL, and a notification ID. The notification ID is used to differentiate and deduplicate notifications; only one notification with a given ID will exist at one time, to prevent the same flow from creating hundreds of notifications when run repeatedly.
 
 ## Configuration
 

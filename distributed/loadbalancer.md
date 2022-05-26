@@ -1,22 +1,22 @@
-# The Gravwell Load Balancer
+# The DatalaiQ Load Balancer
 
-To make setting up your environment as easy as possible, Gravwell provides a custom load balancer specifically designed for use with Gravwell webservers. It can automatically discover Gravwell webservers, meaning you don't need to reconfigure the loadbalancer every time you add or remove a webserver--and if a webserver goes down, it will automatically direct users to another server.
+To make setting up your environment as easy as possible, DatalaiQ provides a custom load balancer specifically designed for use with DatalaiQ webservers. It can automatically discover DatalaiQ webservers, meaning you don't need to reconfigure the loadbalancer every time you add or remove a webserver--and if a webserver goes down, it will automatically direct users to another server.
 
 ## Load Balancer Architecture
 
-The load balancer is an HTTP(S) proxy which automatically directs clients to one of the Gravwell webservers. It sets a cookie on the user's browser to maintain a level of "stickiness", so one session's requests all go to the same webserver.
+The load balancer is an HTTP(S) proxy which automatically directs clients to one of the DatalaiQ webservers. It sets a cookie on the user's browser to maintain a level of "stickiness", so one session's requests all go to the same webserver.
 
-The load balancer discovers Gravwell webservers by communicating with the Gravwell datastore, which provides a list of active webservers. See [the distributed webserver documentation](frontend.md) for more info about the datastore.
+The load balancer discovers DatalaiQ webservers by communicating with the DatalaiQ datastore, which provides a list of active webservers. See [the distributed webserver documentation](frontend.md) for more info about the datastore.
 
-Once installed and configured, users should access Gravwell through the load balancer. We recommend setting a hostname such as `gravwell.example.org` to point at the load balancer while naming webservers something like `web1.example.org`; encourage users to visit `gravwell.example.org` instead of accessing the webservers directly.  Users do not need direct access to Gravwell webservers when using the load balancer--the webservers may be privately addressed or otherwise inaccessible to the wider world.
+Once installed and configured, users should access DatalaiQ through the load balancer. We recommend setting a hostname such as `datalaiq.example.org` to point at the load balancer while naming webservers something like `web1.example.org`; encourage users to visit `datalaiq.example.org` instead of accessing the webservers directly.  Users do not need direct access to DatalaiQ webservers when using the load balancer--the webservers may be privately addressed or otherwise inaccessible to the wider world.
 
 ## Deploying the Load Balancer
 
-The load balancer component is distributed through all the same channels as the main Gravwell installer:
+The load balancer component is distributed through all the same channels as the main DatalaiQ installer:
 
-* Self-extracting shell installer is available [on the downloads page](https://docs.gravwell.io/#!quickstart/downloads.md)
+* Self-extracting shell installer is available [on the downloads page](https://doc.datalaiq.io/#!quickstart/downloads.md)
 * In the Debian and RedHat repositories as a package named `gravwell-loadbalancer`.
-* On DockerHub as [gravwell/loadbalancer](https://hub.docker.com/r/gravwell/loadbalancer)
+* On DockerHub as [datalaiq/loadbalancer](https://hub.docker.com/r/gravwell/loadbalancer)
 
 The Debian installer will prompt for basic configuration options and should need no further setup after you've installed. For other installation methods, you will need to edit `/opt/gravwell/etc/loadbalancer.conf` as detailed below. If you are using Docker, you can also configure the container purely through environment variables, as described in the "Docker Environment Variables" section below.
 
@@ -39,9 +39,9 @@ Datastore=datastore.example.org
 Datastore-Insecure-Disable-TLS=true
 ```
 
-The Disable-HTTP-Redirector and Insecure-Disable-HTTPS settings make the load balancer listen for incoming connections on HTTP only. At the bottom of the file, the Datastore parameter tells the load balancer where the Gravwell datastore may be found; the Control-Secret parameter gives the authentication token for communicating with the datastore, while Datastore-Insecure-Disable-TLS sets us to talk to the datastore over an unencrypted connection.
+The Disable-HTTP-Redirector and Insecure-Disable-HTTPS settings make the load balancer listen for incoming connections on HTTP only. At the bottom of the file, the Datastore parameter tells the load balancer where the DatalaiQ datastore may be found; the Control-Secret parameter gives the authentication token for communicating with the datastore, while Datastore-Insecure-Disable-TLS sets us to talk to the datastore over an unencrypted connection.
 
-If we want to use HTTPS instead, we need to provide the load balancer with a valid TLS certificate & key pair (see [the TLS documentation](#!configuration/certificates.md) for more information on setting up TLS in Gravwell). Here's an example configuration that listens on HTTPS and communicates with the datastore over an encrypted channel:
+If we want to use HTTPS instead, we need to provide the load balancer with a valid TLS certificate & key pair (see [the TLS documentation](#!configuration/certificates.md) for more information on setting up TLS in DatalaiQ). Here's an example configuration that listens on HTTPS and communicates with the datastore over an encrypted channel:
 
 ```
 [Global]
@@ -89,7 +89,7 @@ Description:	Sets the location of a TLS certificate file. The certificate must b
 
 **Insecure-Skip-TLS-Verify**
 Default Value:	`false`
-Description:	If this parameter is set to `true`, the load balancer will not verify TLS certificates on Gravwell webservers when proxying connections. This setting is ignored if `Insecure-Disable-HTTPS=true` is set.
+Description:	If this parameter is set to `true`, the load balancer will not verify TLS certificates on DatalaiQ webservers when proxying connections. This setting is ignored if `Insecure-Disable-HTTPS=true` is set.
 
 **Update-Interval**
 Default Value:	30
@@ -97,11 +97,11 @@ Description:	This parameter sets, in seconds, how frequently the load balancer s
 
 **Session-Timeout**
 Default Value:	10
-Description:	This parameter sets, in minutes, how long each load balancer session lasts. Note that users will not notice when these sessions expire; Gravwell webservers synchronize their user login sessions, so even though the load balancer starts sending requests to a different webserver, they will still work. The default value should be fine.
+Description:	This parameter sets, in minutes, how long each load balancer session lasts. Note that users will not notice when these sessions expire; DatalaiQ webservers synchronize their user login sessions, so even though the load balancer starts sending requests to a different webserver, they will still work. The default value should be fine.
 
 **Datastore**
 Default Value:	(empty)
-Description:	This parameter points to the Gravwell datastore component. It should be a hostname or IP address, e.g. `Datastore=datastore.example.org` or `Datastore=192.168.0.11`. If the datastore is listening on a non-standard port (instead of 9405), you may include the port: `Datastore=datastore.example.org:9999`.
+Description:	This parameter points to the DatalaiQ datastore component. It should be a hostname or IP address, e.g. `Datastore=datastore.example.org` or `Datastore=192.168.0.11`. If the datastore is listening on a non-standard port (instead of 9405), you may include the port: `Datastore=datastore.example.org:9999`.
 
 **Control-Secret**
 Default Value:	`ControlSecrets`
@@ -133,7 +133,7 @@ Description:	If this parameter is set to true, the load balancer will log every 
 
 ### Override Stanzas
 
-Most systems will use the datastore to automatically get a list of Gravwell webservers. However, sometimes the load balancer cannot communicate directly with the datastore--frequently this is a result of corporate network security rules. In this case, you may add `[Override]` configuration blocks at the end of the configuration file to manually list webservers:
+Most systems will use the datastore to automatically get a list of DatalaiQ webservers. However, sometimes the load balancer cannot communicate directly with the datastore--frequently this is a result of corporate network security rules. In this case, you may add `[Override]` configuration blocks at the end of the configuration file to manually list webservers:
 
 ```
 [Global]

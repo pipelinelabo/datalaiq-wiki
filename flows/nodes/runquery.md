@@ -1,10 +1,10 @@
 # Run Query Node
 
-This node executes a Gravwell query. It outputs a structure into the payload (named `search` by default) which contains information about the search and allows other nodes to access the results.
+This node executes a DatalaiQ query. It outputs a structure into the payload (named `search` by default) which contains information about the search and allows other nodes to access the results.
 
 ## Configuration
 
-* `Query String`, required: the Gravwell query to run.
+* `Query String`, required: the DatalaiQ query to run.
 * `Search Timeframe`, required: the timeframe over which to run. You can manually set a duration, or by selecting the variable `flow.Interval` the query will run over the scheduled timespan of the flow, e.g. if the flow is scheduled to run `@daily`, the query will run over the last 24 hours.
 * `Output Variable Name`: the name to use for results in the payload, default "search".
 

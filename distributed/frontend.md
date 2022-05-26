@@ -1,12 +1,12 @@
-# The distributed Gravwell webserver
+# The distributed DatalaiQ webserver
 
-Just as Gravwell is designed to have multiple indexers operating at once, it can also have multiple webservers operating at once, pointing to the same set of indexers. Having multiple webservers allows for load balancing and high availability. Even if you only have a single webserver, deploying a datastore can provide useful resiliency, since the datastore can be used to restore a failed webserver or vice versa.
+Just as DatalaiQ is designed to have multiple indexers operating at once, it can also have multiple webservers operating at once, pointing to the same set of indexers. Having multiple webservers allows for load balancing and high availability. Even if you only have a single webserver, deploying a datastore can provide useful resiliency, since the datastore can be used to restore a failed webserver or vice versa.
 
 Once configured, distributed webservers will synchronize resources, users, dashboards, user preferences, and user search histories.
 
 ## The datastore server
 
-Gravwell uses a separate server process called the datastore to keep webservers in sync. It can run on its own machine or it can share a server with a webserver. Fetch the datastore installer from [the downloads page](#!quickstart/downloads.md), then run it on the machine which will contain the datastore.
+DatalaiQ uses a separate server process called the datastore to keep webservers in sync. It can run on its own machine or it can share a server with a webserver. Fetch the datastore installer from [the downloads page](#!quickstart/downloads.md), then run it on the machine which will contain the datastore.
 
 ### Configuring the datastore server
 
@@ -61,4 +61,4 @@ If the datastore is on a separate machine, use `scp` or another file transfer me
 
 ## Load balancing
 
-Gravwell now offers a custom load balancing component specifically designed to distribute users across multiple webservers with minimal configuration. See [the load balancing configuration page](loadbalancer.md) for information on setting it up.
+DatalaiQ now offers a custom load balancing component specifically designed to distribute users across multiple webservers with minimal configuration. See [the load balancing configuration page](loadbalancer.md) for information on setting it up.

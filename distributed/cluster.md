@@ -1,10 +1,10 @@
-# Gravwell Clusters
+# DatalaiQ Clusters
 
-While Gravwell will happily run entirely contained on a single node, environments with large quantities of data may be best served with a cluster. In a Gravwell cluster, one or more webservers control one or more indexers, all on separate servers.
+While DatalaiQ will happily run entirely contained on a single node, environments with large quantities of data may be best served with a cluster. In a DatalaiQ cluster, one or more webservers control one or more indexers, all on separate servers.
 
-The Gravwell architecture is described in detail in [this document](#!architecture/architecture.md); this article deals more concretely with details of configuration for clustering.
+The DatalaiQ architecture is described in detail in [this document](#!architecture/architecture.md); this article deals more concretely with details of configuration for clustering.
 
-The following are all valid Gravwell configurations:
+The following are all valid DatalaiQ configurations:
 
 * One webserver and one indexer, both running on the same system. This is the default installation; we do not consider it a cluster because the webserver and indexer are on the same machine.
 * One webserver and one indexer, each on its own server. This is the simplest possible cluster.
@@ -17,14 +17,14 @@ We will discuss configuring a cluster with a single webserver and one or more in
 
 There are several things to keep in mind while planning your cluster:
 
-* Your Gravwell license -- how many nodes does it allow?
+* Your DatalaiQ license -- how many nodes does it allow?
 * Type and number of servers available
 * Network interconnect
 * Quantity of data you wish to ingest
 
-The last point is tricky, because the number of indexers required to store a given amount of data depends heavily on the hardware available (how much RAM per node, NVME vs SSD vs spinning disk, etc.) and how much querying you intend to do. We recommend contacting [Gravwell support](mailto:support@gravwell.io) for help in planning your cluster.
+The last point is tricky, because the number of indexers required to store a given amount of data depends heavily on the hardware available (how much RAM per node, NVME vs SSD vs spinning disk, etc.) and how much querying you intend to do. We recommend contacting [DatalaiQ support](mailto:support@pipelinesecurity.net) for help in planning your cluster.
 
-Before beginning, it is useful to know the specific IP addresses or hostnames which will be used for the webserver and the indexers. Also, review the ports in [this document](#!configuration/networking.md) to ensure that your network is configured to allow necessary connections between Gravwell components; in brief, you'll want to make sure the webserver can reach port 9404 on the indexers, that users can reach port 80 and 443 on the webserver, and that your ingesters will be able to reach ports 4023 and 4024 on the indexers.
+Before beginning, it is useful to know the specific IP addresses or hostnames which will be used for the webserver and the indexers. Also, review the ports in [this document](#!configuration/networking.md) to ensure that your network is configured to allow necessary connections between DatalaiQ components; in brief, you'll want to make sure the webserver can reach port 9404 on the indexers, that users can reach port 80 and 443 on the webserver, and that your ingesters will be able to reach ports 4023 and 4024 on the indexers.
 
 **Do I need multiple webservers?** Most likely, no. Multiple webservers make your cluster more complex. In general, we recommend setting up a single webserver, then adding more if the load is too high in use. 
 
@@ -50,7 +50,7 @@ root@headnode# bash gravwell_3.2.0.sh --no-indexer
 
 ### Installing webserver via Debian package
 
-Setting up a webserver-only node from the Debian package requires a few additional steps. Set up the repository and install the Gravwell package as described in [the quickstart document](#!quickstart/quickstart.md#Debian_repository). You can allow the installer to auto-generate secret tokens for you when prompted.
+Setting up a webserver-only node from the Debian package requires a few additional steps. Set up the repository and install the DatalaiQ package as described in [the quickstart document](#!quickstart/quickstart.md#Debian_repository). You can allow the installer to auto-generate secret tokens for you when prompted.
 
 After installing the `gravwell` package, you'll need to disable the indexer:
 
@@ -87,9 +87,9 @@ This will copy your config file to its proper location in /opt/gravwell/etc/grav
 
 Setting up an indexer-only node from the Debian package requires a few additional steps. Follow these steps on every indexer server.
 
-Set up the repository and install the Gravwell package as described in [the quickstart document](#!quickstart/quickstart.md#Debian_repository). You can allow the installer to auto-generate secret tokens for you when prompted, because we will be replacing the config file with our own.
+Set up the repository and install the DatalaiQ package as described in [the quickstart document](#!quickstart/quickstart.md#Debian_repository). You can allow the installer to auto-generate secret tokens for you when prompted, because we will be replacing the config file with our own.
 
-After installing the `gravwell` package, we want to stop all Gravwell services:
+After installing the `datalaiq` package, we want to stop all DatalaiQ services:
 
 ```
 root@indexer0# systemctl stop gravwell_indexer.service
@@ -142,7 +142,7 @@ You can now point your web browser at the webserver and upload a license file wh
 
 ## Administration
 
-For the most part, administration of a Gravwell cluster is the same as administration of a single-node Gravwell instance. If an indexer is down, a high-priority notification will be shown in the Gravwell UI. If any indexer's disk becomes overly full, it will send a notification message.
+For the most part, administration of a DatalaiQ cluster is the same as administration of a single-node DatalaiQ instance. If an indexer is down, a high-priority notification will be shown in the DatalaiQ UI. If any indexer's disk becomes overly full, it will send a notification message.
 
 ## Caveats
 

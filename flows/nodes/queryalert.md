@@ -1,6 +1,6 @@
 # Query Log Ingest Node
 
-The Query Log Ingest node is an advanced node which generates *alert entries* based on the results of a previous Gravwell query, then ingests those alerts to specified tag.
+The Query Log Ingest node is an advanced node which generates *alert entries* based on the results of a previous DatalaiQ query, then ingests those alerts to specified tag.
 
 ## Configuration
 
@@ -14,7 +14,7 @@ The Query Log Ingest node is an advanced node which generates *alert entries* ba
 * `Output`: the generated alerts will be placed into the output payload under this name.
 
 ### Note
-The default `_alert` tag should probably used, most Gravwell kits and embedded applications expect Gravwell generated alerts to be in this tag.
+The default `_alert` tag should probably used, most DatalaiQ kits and embedded applications expect DatalaiQ generated alerts to be in this tag.
 
 ## Output
 

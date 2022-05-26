@@ -16,18 +16,18 @@ Clicking the "+" icon will add additional sockets:
 
 ## Example
 
-This example runs two Gravwell queries, combines the outputs via a Nest Merge node, then generates a PDF containing both searches:
+This example runs two DatalaiQ queries, combines the outputs via a Nest Merge node, then generates a PDF containing both searches:
 
 ![](stackmerge-example1.png)
 
-The Run Query nodes are configured with unique output names ("GravwellLogs" and "TagStats"):
+The Run Query nodes are configured with unique output names ("DatalaiQLogs" and "TagStats"):
 
 ![](stackmerge-example2.png)
 
-The Stack Merge node has two input sockets defined. Observe the output payloads of the Stack Merge node; there is a `GravwellLogs` item and a `TagStats` item, containing the results from the Run Query nodes, but only one `flow` item:
+The Stack Merge node has two input sockets defined. Observe the output payloads of the Stack Merge node; there is a `DatalaiQLogs` item and a `TagStats` item, containing the results from the Run Query nodes, but only one `flow` item:
 
 ![](stackmerge-example3.png)
 
-The PDF node is then configured to include `TagStats` and `GravwellLogs` in its contents:
+The PDF node is then configured to include `TagStats` and `DatalaiQLogs` in its contents:
 
 ![](stackmerge-example4.png)
