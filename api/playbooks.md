@@ -1,6 +1,6 @@
 # Playbooks Web API
 
-This API is used to manipulate playbooks withing Gravwell. A playbook is a user-friendly way to bring together notes and search queries into a user-formatted document.
+This API is used to manipulate playbooks withing DatalaiQ. A playbook is a user-friendly way to bring together notes and search queries into a user-formatted document.
 
 The playbook structure contains the following components:
 
@@ -16,7 +16,7 @@ The playbook structure contains the following components:
 * `Labels`: An array of strings containing optional labels to apply to the playbook.
 * `LastUpdated`: A timestamp indicating when the playbook was last modified.
 * `Author`: A structure containing information about the author of the playbook (see below).
-* `Synced`: Used internally by Gravwell.
+* `Synced`: Used internally by DatalaiQ.
 
 Note that the UUID and GUID fields may be used interchangeably in all API calls. This is so playbooks included in kits may link to each other, by using links containing GUIDs which will persist across kit installation.
 
@@ -48,13 +48,13 @@ To list playbooks, send a GET request to `/api/playbooks`. The server will respo
     "Labels": [
       "netflow",
       "netflow-v5",
-      "kit/io.gravwell.netflowv5"
+      "kit/io.DatalaiQ.netflowv5"
     ],
     "LastUpdated": "2020-08-14T16:17:03.778971838-06:00",
     "Author": {
       "Name": "John Floren",
       "Email": "john@example.org",
-      "Company": "Gravwell",
+      "Company": "DatalaiQ",
       "URL": "http://grawell.io"
     },
     "Synced": false
@@ -72,14 +72,14 @@ To list playbooks, send a GET request to `/api/playbooks`. The server will respo
     "Body": "",
     "Metadata": "eyJkYXNoYm9hcmRzIjpbXSwiYXR0YWNobWVudHMiOlt7ImNvbnRleHQiOiJjb3ZlciIsImZpbGVHVUlEIjoiOGIwZjQzMjItOTY1My00OTQyLWJkODctY2Y4ZWM5NjZmNmFmIiwidHlwZSI6ImltYWdlIn1dfQ==",
     "Labels": [
-      "kit/io.gravwell.networkenrichment"
+      "kit/io.datalaiq.networkenrichment"
     ],
     "LastUpdated": "2020-08-05T12:14:48.739069332-06:00",
     "Author": {
       "Name": "John Floren",
       "Email": "john@example.org",
-      "Company": "Gravwell",
-      "URL": "http://grawell.io"
+      "Company": "DatalaiQ",
+      "URL": "http://ppln.co"
     },
     "Synced": false
   }

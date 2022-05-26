@@ -109,7 +109,7 @@ null
 
 ## Importing a saved search archive
 
-An optional download format for a search is an `archive`.  An archive represents a fully self-contained search that can be imported into another Gravwell instance.  The import API accepts the saved search archives as an upload and unpacks the search into the saved search system.  Users can then attach to the search as if it were saved on the local system.
+An optional download format for a search is an `archive`.  An archive represents a fully self-contained search that can be imported into another DatalaiQ instance.  The import API accepts the saved search archives as an upload and unpacks the search into the saved search system.  Users can then attach to the search as if it were saved on the local system.
 
 When a search archive is re-imported, the imported search is owned by the user that *imported* it, regardless of which user *downloaded* it.  An optional `GID` form field may be supplied in the import request to share the imported search with a group.
 

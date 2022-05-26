@@ -65,7 +65,7 @@ To get a list of all groups on the system, send a GET request to `/api/groups`. 
     {
         "Desc": "",
         "GID": 7,
-        "Name": "gravwell-users",
+        "Name": "datalaiq-users",
         "Synced": false
     },
     {
@@ -85,7 +85,7 @@ Administrators or members of a particular group may get information about a part
 {
     "Desc": "",
     "GID": 7,
-    "Name": "gravwell-users",
+    "Name": "datalaiq-users",
     "Synced": false
 }
 ```
@@ -98,7 +98,7 @@ Administrators or members of a particular group may query the list of users in t
 [
     {
         "Admin": false,
-        "Email": "joe@gravwell.io",
+        "Email": "joe@datalaiq.io",
         "Groups": [
             {
                 "Desc": "bar",
@@ -109,7 +109,7 @@ Administrators or members of a particular group may query the list of users in t
             {
                 "Desc": "",
                 "GID": 7,
-                "Name": "gravwell-users",
+                "Name": "datalaiq-users",
                 "Synced": false
             },
             {
@@ -133,7 +133,7 @@ Administrators or members of a particular group may query the list of users in t
             {
                 "Desc": "",
                 "GID": 7,
-                "Name": "gravwell-users",
+                "Name": "datalaiq-users",
                 "Synced": false
             }
         ],

@@ -19,7 +19,7 @@ The bulk of the API is RESTful. The exception to this rule is the searching API 
 * [Miscellaneous APIs](misc.md)
 * [System Management](management.md)
 
-## Objects within Gravwell
+## Objects within DatalaiQ
 
 There are a variety of "things" which users may create and modify. Their APIs are listed in this section.
 

@@ -1,6 +1,6 @@
 # Templates API
 
-Templates are special objects which define a Gravwell query containing *variables*. Multiple templates using the same variable(s) can be included in a dashboard to create a powerful investigative tool--for instance, templates which expect an IP address as their variable can be used to create an IP address investigation dashboard.
+Templates are special objects which define a DatalaiQ query containing *variables*. Multiple templates using the same variable(s) can be included in a dashboard to create a powerful investigative tool--for instance, templates which expect an IP address as their variable can be used to create an IP address investigation dashboard.
 
 ## Data Structure
 
@@ -64,7 +64,7 @@ interface RawTemplate {
 
 Templates have two different IDs attached to them: a GUID, and a ThingUUID. They are both UUIDs, which can be confusing--why have two identifiers for one object? We will attempt to clarify in this section.
 
-In Gravwell, a dashboard may refer to a particular template. This dashboard & corresponding template may also be packed into a kit for distribution to other users. The dashboard needs a way to refer to the template that will **persist** when packed in a kit and installed elsewhere, so we introduce the GUID as a "global" name for the template: wherever the kit gets installed, that template will have the same GUID. However, multiple users are allowed to install the same kit, so we also need a different identifier for *for each individual instantiation* of the template. This role is filled by the ThingUUID field.
+In DatalaiQ, a dashboard may refer to a particular template. This dashboard & corresponding template may also be packed into a kit for distribution to other users. The dashboard needs a way to refer to the template that will **persist** when packed in a kit and installed elsewhere, so we introduce the GUID as a "global" name for the template: wherever the kit gets installed, that template will have the same GUID. However, multiple users are allowed to install the same kit, so we also need a different identifier for *for each individual instantiation* of the template. This role is filled by the ThingUUID field.
 
 Consider an example: I build a kit which includes a dashboard and a template. I create the template from scratch, so it gets assigned a random GUID, `e80293f0-5732-4c7e-a3d1-2fb779b91bf7`, and a random ThingUUID, `c3b24e1e-5186-4828-82ee-82724a1d4c45`. I then create a tile in the dashboard which refers to the template by its GUID (`e80293f0-5732-4c7e-a3d1-2fb779b91bf7`) and bundle both template & dashboard into a kit. Another user on the same system then installs this kit for themselves, which instantiates a template with the **same** GUID (`e80293f0-5732-4c7e-a3d1-2fb779b91bf7`) but a **random** ThingUUID (`f07373a8-ea85-415f-8dfd-61f7b9204ae0`). When the user opens the dashboard, the dashboard will ask for a template with GUID == `e80293f0-5732-4c7e-a3d1-2fb779b91bf7`. The webserver will return that user's instance of the template, with ThingUUID == `f07373a8-ea85-415f-8dfd-61f7b9204ae0`.
 
@@ -248,7 +248,7 @@ To delete a template, issue a DELETE request to `/api/templates/<guid>`.
 
 ## Admin actions
 
-Admin users may occasionally need to view all templates on the system, modify them, or delete them. Because GUIDs are not necessarily unique, the admin API must refer instead to the unique UUID Gravwell uses internally to store the items. Note that the example template listings above include a field named "ThingUUID". This is the internal, unique identifier for that template.
+Admin users may occasionally need to view all templates on the system, modify them, or delete them. Because GUIDs are not necessarily unique, the admin API must refer instead to the unique UUID DatalaiQ uses internally to store the items. Note that the example template listings above include a field named "ThingUUID". This is the internal, unique identifier for that template.
 
 An administrator user may obtain a global listing of all templates in the system with a GET request on `/api/templates?admin=true`.
 

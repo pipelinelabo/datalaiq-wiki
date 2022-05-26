@@ -1,6 +1,6 @@
 # Kits Web API
 
-This API implements the creation, installation, and deletion of Gravwell kits. Kits contain other components which are installed on the local system to provide a ready-to-go solution to a particular problem. Kits can contain:
+This API implements the creation, installation, and deletion of DatalaiQ kits. Kits contain other components which are installed on the local system to provide a ready-to-go solution to a particular problem. Kits can contain:
 
 * Resources
 * Scheduled searches
@@ -68,9 +68,9 @@ Note that while the ID, Name, Description, and Version fields are required, the 
         7,
         10
     ],
-    "Description": "Test Gravwell kit",
-    "ID": "io.gravwell.test",
-    "Name": "test-gravwell",
+    "Description": "Test DatalaiQ kit",
+    "ID": "io.datalaiq.test",
+    "Name": "test-datalaiq",
     "Description":"testing\n\n## TESTING",
     "Pivots": [
         "ae9f2598-598f-4859-a3d4-832a512b6104"
@@ -135,11 +135,11 @@ A kit may depend on other kits. List these dependencies in the Dependencies arra
 }
 ```
 
-The ID field specifies the dependency's ID, e.g. io.gravwell.testresource. The MinVersion field specifies the minimum version of that kit which must be installed, e.g. 3.
+The ID field specifies the dependency's ID, e.g. io.datalaiq.testresource. The MinVersion field specifies the minimum version of that kit which must be installed, e.g. 3.
 
 ### Config Macros
 
-A kit may define "config macros", which are special macros which will be created by Gravwell when the kit is installed. A config macro looks like this:
+A kit may define "config macros", which are special macros which will be created by DatalaiQ when the kit is installed. A config macro looks like this:
 
 ```
 {
@@ -211,9 +211,9 @@ The server will respond with a description of the kit which has been uploaded, e
             "Type": "resource"
         }
     ],
-    "Description": "Test Gravwell kit",
+    "Description": "Test DatalaiQ kit",
     "GID": 0,
-    "ID": "io.gravwell.test",
+    "ID": "io.datalaiq.test",
     "Installed": false,
     "Items": [
         {
@@ -261,7 +261,7 @@ The server will respond with a description of the kit which has been uploaded, e
             "Type": "dashboard"
         }
     ],
-    "Name": "test-gravwell",
+    "Name": "test-datalaiq",
     "RequiredDependencies": [
         {
             "AdminRequired": false,
@@ -282,7 +282,7 @@ The server will respond with a description of the kit which has been uploaded, e
             "Created": "2020-03-23T15:36:00.294625802-06:00",
             "Dependencies": null,
             "Description": "A simple test kit that just provides a resource",
-            "ID": "io.gravwell.testresource",
+            "ID": "io.datalaiq.testresource",
             "Ingesters": [
                 "simplerelay"
             ],
@@ -348,9 +348,9 @@ A GET request on `/api/kits` will return a list of all known kits. Here is an ex
 [
     {
         "AdminRequired": false,
-        "Description": "Test Gravwell kit",
+        "Description": "Test DatalaiQ kit",
         "GID": 0,
-        "ID": "io.gravwell.test",
+        "ID": "io.datalaiq.test",
         "Installed": false,
         "Items": [
             {
@@ -397,7 +397,7 @@ A GET request on `/api/kits` will return a list of all known kits. Here is an ex
                 "Type": "pivot"
             }
         ],
-        "Name": "test-gravwell",
+        "Name": "test-datalaiq",
         "Signed": false,
         "UID": 7,
         "UUID": "549c0805-a693-40bd-abb5-bfb29fc98ef1",
@@ -417,9 +417,9 @@ For example, a GET request on `/api/kits/549c0805-a693-40bd-abb5-bfb29fc98ef1` w
 ```
 {
     "AdminRequired": false,
-    "Description": "Test Gravwell kit",
+    "Description": "Test DatalaiQ kit",
     "GID": 0,
-    "ID": "io.gravwell.test",
+    "ID": "io.datalaiq.test",
     "Installed": false,
     "Items": [
         {
@@ -466,7 +466,7 @@ For example, a GET request on `/api/kits/549c0805-a693-40bd-abb5-bfb29fc98ef1` w
             "Type": "pivot"
         }
     ],
-    "Name": "test-gravwell",
+    "Name": "test-datalaiq",
     "Signed": false,
     "UID": 7,
     "UUID": "549c0805-a693-40bd-abb5-bfb29fc98ef1",
@@ -518,11 +518,11 @@ If set, `OverwriteExisting` tells the installer to simply replace any existing i
 
 The `Global` flag may only be set by the administrator. If set, all items will be marked as Global, meaning all users will have access.
 
-Regular users can only install properly-signed kits from Gravwell. If `AllowUnsigned` is set, *administrators* can install unsigned kits.
+Regular users can only install properly-signed kits from DatalaiQ. If `AllowUnsigned` is set, *administrators* can install unsigned kits.
 
 `InstallationGroup` allows the installing user to share the contents of the kit with one of the groups to which he belongs.
 
-`Labels` is a list of additional labels which should be applied to all label-able items in the kit upon installation. Note that Gravwell automatically labels kit-installed items with "kit" and the ID of the kit (e.g. "io.gravwell.coredns").
+`Labels` is a list of additional labels which should be applied to all label-able items in the kit upon installation. Note that DatalaiQ automatically labels kit-installed items with "kit" and the ID of the kit (e.g. "io.datalaiq.coredns").
 
 `ConfigMacros` is the list of ConfigMacros found in the kit information structure, with the "Value" fields optionally set to whatever the user wishes. If the "Value" field is blank, the webserver will use the "DefaultValue".
 
@@ -538,7 +538,7 @@ When an installation request is sent, the server places the request into a queue
     "Done": true,
     "Error": "",
     "InstallID": 2019727887,
-    "Log": "\nQueued installation of kit io.gravwell.testresource, with 0 dependencies also to be installed\nBeginning installation of io.gravwell.testresource (9b701e75-76ee-40fc-b9b5-4c7e1706339d) for user Admin John (1)\nInstalling requested kit io.gravwell.testresource\nDone",
+    "Log": "\nQueued installation of kit io.datalaiq.testresource, with 0 dependencies also to be installed\nBeginning installation of io.datalaiq.testresource (9b701e75-76ee-40fc-b9b5-4c7e1706339d) for user Admin John (1)\nInstalling requested kit io.datalaiq.testresource\nDone",
     "Owner": 1,
     "Percentage": 1,
     "Updated": "2020-03-25T15:39:37.184221203-06:00"
@@ -565,7 +565,7 @@ To remove a kit, issue a DELETE request on `/api/kits/<uuid>`. If any of the ite
                 "VersionNumber": 1
             },
             "ID": "2e4c8f31-92a4-48b5-a040-d2c895caf0b2",
-            "KitID": "io.gravwell.networkenrichment",
+            "KitID": "io.datalaiq.networkenrichment",
             "KitName": "Network enrichment",
             "KitVersion": 1,
             "Name": "network_services",
@@ -579,7 +579,7 @@ The UI should prompt the user at this point; to force removal of the kit, add th
 
 ## Querying Remote Kit Server
 
-To get a list of remote kits from the Gravwell Kit Server, issue a GET on `/api/kits/remote/list`.  This will return a JSON encoded list of kit metadata structures that represents the latest versions for all available kits.  The API path `/api/kits/remote/list/all` will provide all kits for all versions.
+To get a list of remote kits from the DatalaiQ Kit Server, issue a GET on `/api/kits/remote/list`.  This will return a JSON encoded list of kit metadata structures that represents the latest versions for all available kits.  The API path `/api/kits/remote/list/all` will provide all kits for all versions.
 
 The Metadata structure is as follows:
 
@@ -621,7 +621,7 @@ Here is an example:
 WEB GET http://172.19.0.2:80/api/kits/remote/list:
 [
 	{
-		"ID": "io.gravwell.test",
+		"ID": "io.datalaiq.test",
 		"Name": "testkit",
 		"GUID": "c2870b48-ff31-4550-bd58-7b2c1c10eeb3",
 		"Version": 1,
@@ -680,7 +680,7 @@ For example if we issue a `GET` on `/api/kits/remote/c2870b48-ff31-4550-bd58-7b2
 
 ```
 {
-	"ID": "io.gravwell.test",
+	"ID": "io.datalaiq.test",
 	"Name": "testkit",
 	"GUID": "c2870b48-ff31-4550-bd58-7b2c1c10eeb3",
 	"Version": 1,
@@ -806,9 +806,9 @@ License:
 Successful kit build requests are stored by the webserver. You can get a list of build requests for the current user by sending a GET request to `/api/kits/build/history`. The response will be an array of build requests:
 
 ```
-[{"ID":"io.gravwell.test","Name":"test","Description":"","Version":1,"MinVersion":{"Major":0,"Minor":0,"Point":0},"MaxVersion":{"Major":0,"Minor":0,"Point":0},"Macros":[4,41],"ConfigMacros":null}]
+[{"ID":"io.datalaiq.test","Name":"test","Description":"","Version":1,"MinVersion":{"Major":0,"Minor":0,"Point":0},"MaxVersion":{"Major":0,"Minor":0,"Point":0},"Macros":[4,41],"ConfigMacros":null}]
 ```
 
-Note: This store is keyed on UID + kit ID; if I build a kit named "io.gravwell.test" again, it will overwrite the version in the store.
+Note: This store is keyed on UID + kit ID; if I build a kit named "io.datalaiq.test" again, it will overwrite the version in the store.
 
-You can delete a particular item by sending a DELETE request to `/api/kits/build/history/<id>`, e.g. `/api/kits/build/history/io.gravwell.test`.
+You can delete a particular item by sending a DELETE request to `/api/kits/build/history/<id>`, e.g. `/api/kits/build/history/io.datalaiq.test`.

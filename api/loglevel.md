@@ -1,6 +1,6 @@
 # Logging APIs
 
-The API provides utilities for admin users to manage logging and inject log entries into Gravwell's on-disk log files.
+The API provides utilities for admin users to manage logging and inject log entries into DatalaiQ's on-disk log files.
 
 ## Show/set webserver logging level
 
@@ -26,7 +26,7 @@ To set the log level perform a PUT to `/api/logging` setting the "Level" field:
 
 ## Inject logs
 
-Admin users can insert log entries by sending POST requests to the appropriate URLs. These logs will be written out to the Gravwell webserver's on-disk log files.
+Admin users can insert log entries by sending POST requests to the appropriate URLs. These logs will be written out to the DatalaiQ webserver's on-disk log files.
 
 The URLs are:
 

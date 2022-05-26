@@ -1,10 +1,10 @@
 # System Management
 
-This page documents admin-only APIs for managing the Gravwell processes and configuration.
+This page documents admin-only APIs for managing the DatalaiQ processes and configuration.
 
-## Restarting Gravwell
+## Restarting DatalaiQ
 
-Two APIs are provided to restart Gravwell processes; one to restart the webserver, and one to restart the indexers. In both cases, "restarting" is accomplished by shutting down the process and allowing systemd (or whatever init system is in use) to restart it.
+Two APIs are provided to restart DatalaiQ processes; one to restart the webserver, and one to restart the indexers. In both cases, "restarting" is accomplished by shutting down the process and allowing systemd (or whatever init system is in use) to restart it.
 
 ### Restarting the webserver
 
@@ -16,7 +16,7 @@ To restart all indexers to which the webserver is currently connected, send a PO
 
 ### Checking for a Distributed Frontend and deployment info
 
-To check whether the Gravwell cluster is operating in a distributed frontend mode, perform a GET on `/api/deployment`.  The webserver will respond with a JSON object indicating whether the frontend is configured in a distributed mode.
+To check whether the DatalaiQ cluster is operating in a distributed frontend mode, perform a GET on `/api/deployment`.  The webserver will respond with a JSON object indicating whether the frontend is configured in a distributed mode.
 
 An example response when not in distributed mode:
 
@@ -30,7 +30,7 @@ An example response when not in distributed mode:
 
 ### Performing a system backup
 
-Admin users may request a system backup which will provide a backup file containing all content related to the state of Gravwell.
+Admin users may request a system backup which will provide a backup file containing all content related to the state of DatalaiQ.
 
 A system backup can be used to save user and group accounts, dashboards, kits, query libraries, and even saved searches.  This is essentially everything but data and system configuration.
 

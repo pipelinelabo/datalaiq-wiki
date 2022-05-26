@@ -24,7 +24,7 @@ A scheduled search contains the following fields of interest:
 
 If the search is a 'standard' scheduled search, it will also set these fields:
 
-* SearchString: the Gravwell query to execute
+* SearchString: the DatalaiQ query to execute
 * Duration: a value in seconds specifying how far back to run the search. This must be a negative value.
 * SearchSinceLastRun: a boolean. If set, the Duration field will be ignored and the search will instead run from the LastRun time to the present.
 

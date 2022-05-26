@@ -4,7 +4,7 @@ Although all modules respond to the same commands, the format in which they retu
 
 ## Render Store Limits
 
-Note that Gravwell has limits in place to prevent users from consuming too much disk space with query results. By default, searches can generate a maximum 1GB of output; this is configurable through the `Render-Store-Limit` parameter in `gravwell.conf`. Once the limit is exceeded, the renderer will stop storing results, but will otherwise allow the search to complete.
+Note that DatalaiQ has limits in place to prevent users from consuming too much disk space with query results. By default, searches can generate a maximum 1GB of output; this is configurable through the `Render-Store-Limit` parameter in `gravwell.conf`. Once the limit is exceeded, the renderer will stop storing results, but will otherwise allow the search to complete.
 
 All search socket response messages may contain the fields `OverLimit` and `LimitDroppedRange`. OverLimit is a boolean, set to true if the search results exceeded the limits. LimitDroppedRange indicates what, if any, time range of results has been dropped.
 

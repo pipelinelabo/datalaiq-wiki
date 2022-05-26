@@ -1,16 +1,16 @@
-# Gravwell Beta Program
+# DatalaiQ Beta Program
 
 Greetings and salutations!
 
-You are reading this message because you are in the early access group for Gravwell Beta!  We sincerely thank you for your participation and look forward to feedback and bug reports.
+You are reading this message because you are in the early access group for DatalaiQ Beta!  We sincerely thank you for your participation and look forward to feedback and bug reports.
 
-Please submit any bugs or feedback to [beta@gravwell.io](mailto:beta@gravwell.io)
+Please submit any bugs or feedback to [support@pipelinesecurity.net](mailto:support@pipelinesecurity.net)
 
 Thank you!
 
 ## Current "State of the Beta"
 
-We're preparing for the release of Gravwell 4.2.0. The primary new feature of this release is the Data Explorer, which makes it easier to play with your data in a point-and-click manner.
+We're preparing for the release of DatalaiQ 4.2.0. The primary new feature of this release is the Data Explorer, which makes it easier to play with your data in a point-and-click manner.
 
 ### Desired Testing
 
@@ -44,11 +44,11 @@ apt install gravwell
 
 ### Docker
 
-The Docker image is available at [gravwell/beta](https://hub.docker.com/r/gravwell/beta). You can change `gravwell/gravwell` to `gravwell/beta` in any of our Docker commands in the documentation and it should "just work."
+The Docker image is available at [datalaiq/beta](https://hub.docker.com/r/gravwell/beta). You can change `datalaiq/datalaiq` to `datalaiq/beta` in any of our Docker commands in the documentation and it should "just work."
 
 
 ## Thank You
 
-We are very excited about the new capabilities that Gravwell brings. Thank you for your interest and participation in the beta program. We couldn't do it without you!
+We are very excited about the new capabilities that DatalaiQ brings. Thank you for your interest and participation in the beta program. We couldn't do it without you!
 
 Please send us feedback, bug reports, and especially show us cool stuff that you build with the new tools!

@@ -6,7 +6,7 @@ Beyond the contents of these articles, the easiest way to see how the render mod
 
 ![](webconsole.png)
 
-Another way to observe websocket traffic is by running the [Gravwell CLI client](#!cli/cli.md) with the `-debug` flag. The flag takes a filename as an argument; JSON messages sent to and read from the websocket will be written to that file.
+Another way to observe websocket traffic is by running the [DatalaiQ CLI client](#!cli/cli.md) with the `-debug` flag. The flag takes a filename as an argument; JSON messages sent to and read from the websocket will be written to that file.
 
 ## Operation IDs universal to all render modules
 

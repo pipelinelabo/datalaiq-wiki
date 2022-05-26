@@ -8,7 +8,7 @@ User files are referred to by GUID. GUIDs are not necessarily unique across a sy
 * Shared with a group the user is a member of
 * Global
 
- Each file *does* have a unique UUID used by Gravwell for storage; the admin API, documented below, allows administrators to manage user files by referring to their "ThingUUID".
+ Each file *does* have a unique UUID used by DatalaiQ for storage; the admin API, documented below, allows administrators to manage user files by referring to their "ThingUUID".
 
 ## Create a user file
 
@@ -101,7 +101,7 @@ User files may be removed via a DELETE on `/api/files/<uuid>`
 
 ## Admin actions
 
-Admin users may occasionally need to view all user files on the system, modify them, or delete them. Because GUIDs are not necessarily unique, the admin API must refer instead to the unique UUID Gravwell uses internally to store the items. Note that the example file listings above include a field named "ThingUUID". This is the internal, unique identifier for that user file.
+Admin users may occasionally need to view all user files on the system, modify them, or delete them. Because GUIDs are not necessarily unique, the admin API must refer instead to the unique UUID DatalaiQ uses internally to store the items. Note that the example file listings above include a field named "ThingUUID". This is the internal, unique identifier for that user file.
 
 An administrator user may obtain a global listing of all user files in the system with a GET request on `/api/files?admin=true`.
 

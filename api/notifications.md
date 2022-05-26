@@ -18,7 +18,7 @@ Consider the following notification:
     "GID": 0,
     "IgnoreUntil": "0001-01-01T00:00:00Z",
     "Msg": "foobar",
-	"Link": "https://gravwell.io",
+	"Link": "https://ppln.co",
     "Origin": "00000000-0000-0000-0000-000000000000",
     "Sender": 7,
     "Sent": "2019-04-22T21:44:01.776942432Z",
@@ -27,7 +27,7 @@ Consider the following notification:
 }
 ```
 
-This notification is targeted at the user with UID 7 and at no particular group. It was created by the same user. It has a Type of '1'. It is not a broadcast notification. It was sent at 21:44 UTC and will expire 12 hours later. The message is "foobar" and has an associated link to https://gravwell.io.
+This notification is targeted at the user with UID 7 and at no particular group. It was created by the same user. It has a Type of '1'. It is not a broadcast notification. It was sent at 21:44 UTC and will expire 12 hours later. The message is "foobar" and has an associated link to https://ppln.co.
 
 When creating a notification, the only *truly* required field is Msg. If creating a targeted notification, you must also specify GID and/or UID. The Link and IgnoreUntil fields are optional. The Broadcast flag is set by the server depending on which API endpoint is used.
 

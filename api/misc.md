@@ -32,7 +32,7 @@ Perform a GET on `/api/version` to get version info.  No authentication required
 The webserver maintains a list of all tags known to the indexers. This list can be fetched with a GET request on `/api/tags`. This will return a list of tags:
 
 ```
-["default", "gravwell", "pcap", "windows"]
+["default", "DatalaiQ", "pcap", "windows"]
 ```
 
 ## Search Module List
@@ -141,7 +141,7 @@ This API provides some basic information for the user interface. A GET on `/api/
 
 ```
 
-* `DisableMapTileProxy`, if true, tells the UI that it should send map requests directly to OpenStreetMap servers, rather than using the Gravwell proxy.
+* `DisableMapTileProxy`, if true, tells the UI that it should send map requests directly to OpenStreetMap servers, rather than using the DatalaiQ proxy.
 * `MapTileUrl` is the URL which the UI should use to fetch map tiles.
 * `DistributedWebservers` will be set to true if there are multiple webservers coordinating via a datastore.
 * `MaxFileSize` is the maximum allowable file size (in bytes) which may be uploaded to the `/api/files` APIs.
