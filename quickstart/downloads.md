@@ -4,7 +4,7 @@ Attention: The Debian and RHEL repositories are more easily maintained than thes
 
 ## DatalaiQ Core
 
-The DatalaiQ core installer contains the indexer and webserver frontend. You'll need a license; either get a Community Edition free license, or contact info@gravwell.io for commercial options.
+The DatalaiQ core installer contains the indexer and webserver frontend. You'll need a license; either get a Community Edition free license, or contact support@pipelinesecurity.net for commercial options.
 
 [Download DatalaiQ Core Installer](https://update.gravwell.io/archive/5.0.2/installers/gravwell_5.0.2.sh) (SHA256: 44e3ba4b319358bfd4e2b419f0f00987457303ac46b6cf436706b0193ec177a1)
 

@@ -19,7 +19,7 @@ This guide is suitable for Community Edition users as well as users with a paid 
 
 You may find the [installation checklist](checklist.md) a useful companion to this document.
 
-[//]: # (If you are interested in a complete training package, please see the [complete training PDF]&#40;https://github.com/gravwell/training/releases/download/v5.0.1/Gravwell_Training_5.0.1.pdf&#41;.  The Gravwell training PDF is the complete training manual which is paired with labs and exercises. The exercises are built from the open source [Gravwell Training]&#40;https://github.com/gravwell/training&#41; repository.)
+[//]: # (If you are interested in a complete training package, please see the [complete training PDF]&#40;https://github.com/gravwell/training/releases/download/v5.0.1/Gravwell_Training_5.0.1.pdf&#41;.  The Gravwell training PDF is the complete training manual which is paired with labs and exercises. The exercises are built from the open source [DatalaiQ Training]&#40;https://github.com/gravwell/training&#41; repository.)
 
 [//]: # (Note: Community Edition users will need to obtain their own license from [https://www.gravwell.io/download]&#40;https://www.gravwell.io/download&#41; before beginning installation. Paid users should already have received a license file via email.)
 
@@ -122,7 +122,7 @@ sudo bash gravwell_X.X.X.sh
 
 Follow the prompts and, after completion, you should have a running DatalaiQ instance.
 
-Note: If your distribution does not use systemd, you will have to start the DatalaiQ processes manually after installation. Please contact support@gravwell.io if you need help.
+Note: If your distribution does not use systemd, you will have to start the DatalaiQ processes manually after installation. Please contact support@pipelinesecurity.net if you need help.
 
 ## Configuring the License
 
@@ -144,27 +144,27 @@ The ingesters available in the Debian repository can be viewed by running `apt-c
 
 ```
 root@debian:~# apt-cache search gravwell
-gravwell - Gravwell data analytics platform (gravwell.io)
-gravwell-collectd - Gravwell collectd ingester
-gravwell-crash-reporter - Gravwell crash reporter service
-gravwell-datastore - Gravwell datastore service
-gravwell-federator - Gravwell ingest Federator
-gravwell-file-follow - Gravwell file follow ingester
-gravwell-http-ingester - Gravwell HTTP ingester
-gravwell-ipmi - Gravwell IPMI ingester
-gravwell-kafka - Gravwell Kafka ingester
-gravwell-kafka-federator - Gravwell Kafka federator
-gravwell-kinesis - Gravwell Kinesis ingester
-gravwell-loadbalancer - Gravwell load balancing service
-gravwell-netflow-capture - Gravwell netflow ingester
-gravwell-network-capture - Gravwell packet ingester
-gravwell-o365 - Gravwell Office 365 log ingester
-gravwell-offline-replication - Gravwell offline replication service
-gravwell-packet-fleet - Gravwell Packet Fleet ingester
-gravwell-pubsub - Gravwell ingester for Google Pub/Sub streams
-gravwell-shodan - Gravwell Shodan ingester
-gravwell-simple-relay - Gravwell simple relay ingester
-gravwell-sqs - Gravwell SQS ingester
+gravwell - DatalaiQ data analytics platform (datalaiq.io)
+gravwell-collectd - DatalaiQ collectd ingester
+gravwell-crash-reporter - DatalaiQ crash reporter service
+gravwell-datastore - DatalaiQ datastore service
+gravwell-federator - DatalaiQ ingest Federator
+gravwell-file-follow - DatalaiQ file follow ingester
+gravwell-http-ingester - DatalaiQ HTTP ingester
+gravwell-ipmi - DatalaiQ IPMI ingester
+gravwell-kafka - DatalaiQ Kafka ingester
+gravwell-kafka-federator - DatalaiQ Kafka federator
+gravwell-kinesis - DatalaiQ Kinesis ingester
+gravwell-loadbalancer - DatalaiQ load balancing service
+gravwell-netflow-capture - DatalaiQ netflow ingester
+gravwell-network-capture - DatalaiQ packet ingester
+gravwell-o365 - DatalaiQ Office 365 log ingester
+gravwell-offline-replication - DatalaiQ offline replication service
+gravwell-packet-fleet - DatalaiQ Packet Fleet ingester
+gravwell-pubsub - DatalaiQ ingester for Google Pub/Sub streams
+gravwell-shodan - DatalaiQ Shodan ingester
+gravwell-simple-relay - DatalaiQ simple relay ingester
+gravwell-sqs - DatalaiQ SQS ingester
 ```
 
 If you install them on the same node as the main DatalaiQ instance, they should be automatically configured to connect to the indexer, but you'll need to set up data sources for most. See the [ingester configuration documents](#!ingesters/ingesters.md) for instructions on that.

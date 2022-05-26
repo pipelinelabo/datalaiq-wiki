@@ -1,6 +1,6 @@
-# Scripting in Gravwell
+# Scripting in DatalaiQ
 
-Scripting is used in two ways within Gravwell: as part of a search pipeline, and as a method to automate search launching. The scripting language ([Anko](https://github.com/mattn/anko)) is the same in both cases, with some slight differences to account for the differing use cases. This article introduces both use cases and provides a high-level overview of the Anko language.
+Scripting is used in two ways within DatalaiQ: as part of a search pipeline, and as a method to automate search launching. The scripting language ([Anko](https://github.com/mattn/anko)) is the same in both cases, with some slight differences to account for the differing use cases. This article introduces both use cases and provides a high-level overview of the Anko language.
 
 * [`anko` module documentation](anko.md)
 * [`eval` module documentation](eval.md)
@@ -9,7 +9,7 @@ Scripting is used in two ways within Gravwell: as part of a search pipeline, and
 
 ## Scripting modules
 
-Gravwell includes two modules, `anko` and `eval`, which use the [Anko scripting language](https://github.com/mattn/anko) to provide Turing-complete scriptability in the search pipeline.  The anko module enables the full feature set of anko to provide a full [Turing-Complete](https://en.wikipedia.org/wiki/Turing_completeness) language and runtime.  Eval uses the anko runtime to execute a single statement entered directly in the search query.
+DatalaiQ includes two modules, `anko` and `eval`, which use the [Anko scripting language](https://github.com/mattn/anko) to provide Turing-complete scriptability in the search pipeline.  The anko module enables the full feature set of anko to provide a full [Turing-Complete](https://en.wikipedia.org/wiki/Turing_completeness) language and runtime.  Eval uses the anko runtime to execute a single statement entered directly in the search query.
 
 While anko can do anything, eval has several important restrictions:
 
@@ -25,7 +25,7 @@ This document describes the Anko programming language itself. Documentation for 
 
 ## Search Scripts
 
-Where the `anko` and `eval` modules run scripts *inside* search pipelines, Gravwell also supports scripts which *launch* searches of their own and operate on the results. This is useful for automated queries, e.g. a script which runs every morning at 6 a.m. to look for particular suspicious network behavior.
+Where the `anko` and `eval` modules run scripts *inside* search pipelines, DatalaiQ also supports scripts which *launch* searches of their own and operate on the results. This is useful for automated queries, e.g. a script which runs every morning at 6 a.m. to look for particular suspicious network behavior.
 
 These scripts can be either run on a schedule (see [automation scripts](#!scripting/scheduledsearch.md)) or run by hand using the [command line client](#!cli/cli.md). The scripting language is the same in both cases, although scripts run on a schedule cannot use `print` functions to display output.
 
@@ -68,7 +68,7 @@ for k in keys(m) {
 }
 ```
 
-The [Anko playground](http://play-anko.appspot.com/) is a convenient way to experiment with Anko code; we recommend playing with the example above and other examples in the documentation in order to get a feel for Anko. (Examples using Gravwell-specific functions, such as setEnum, will of course not work in the playground.)
+The [Anko playground](http://play-anko.appspot.com/) is a convenient way to experiment with Anko code; we recommend playing with the example above and other examples in the documentation in order to get a feel for Anko. (Examples using DatalaiQ-specific functions, such as setEnum, will of course not work in the playground.)
 
 ## Data types
 

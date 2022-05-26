@@ -1,18 +1,18 @@
 # The anko module
 
-As introduced in [the search modules documentation](#!search/searchmodules.md#Anko), Gravwell's anko module is a general-purpose scripting tool within the search pipeline. It allows extremely flexible manipulations of search entries, at the cost of complexity for the script creator. Once a script is created, though, it can be easily shared with other users.
+As introduced in [the search modules documentation](#!search/searchmodules.md#Anko), DatalaiQ's anko module is a general-purpose scripting tool within the search pipeline. It allows extremely flexible manipulations of search entries, at the cost of complexity for the script creator. Once a script is created, though, it can be easily shared with other users.
 
 See the generic description of the scripting languages used in [the Anko scripting language documentation](scripting.md) for more details about the language itself.
 
 ### Disabling network functions in anko scripts
 
-By default, anko scripts are allowed to use network utilities such as the http and net libraries, sftp, and ssh. You may not want to give Gravwell users network access; setting the option `Disable-Network-Script-Functions=true` in `/opt/gravwell/etc/gravwell.conf` will disable this.
+By default, anko scripts are allowed to use network utilities such as the http and net libraries, sftp, and ssh. You may not want to give DatalaiQ users network access; setting the option `Disable-Network-Script-Functions=true` in `/opt/gravwell/etc/gravwell.conf` will disable this.
 
 ## Managing anko scripts
 
 In order to run an anko script in a search, the text file containing the script must be uploaded as a resource. See the [resources section](#!resources/resources.md) for information on how to create and upload a resource.
 
-At this time, to make a change to a script you must edit the script in the original text file, then re-upload the file to the resource. Future versions of Gravwell will include an integrated text editor to make scripting simpler.
+At this time, to make a change to a script you must edit the script in the original text file, then re-upload the file to the resource. Future versions of DatalaiQ will include an integrated text editor to make scripting simpler.
 
 ## Running an anko script
 
@@ -248,7 +248,7 @@ For security reasons, the anko module does not allow access to *all* packages in
 * [flag](https://golang.org/pkg/flag): limited flag parsing functionality
 * [fmt](https://golang.org/pkg/fmt): printing & formatting strings
 * [github.com/google/uuid](https://github.com/google/uuid): generate and inspect UUIDs
-* [github.com/gravwell/ipexist](https://github.com/gravwell/ipexist): Gravwell IP helper functions
+* [github.com/gravwell/ipexist](https://github.com/gravwell/ipexist): DatalaiQ IP helper functions
 * [github.com/RackSec/srslog](https://github.com/RackSec/srslog): alternate syslog package to Go's standard library
 * [io](https://golang.org/pkg/io): basic I/O primitives
 * [io/util](https://golang.org/pkg/io/util): just the `ioutil.ReadAll` function (see below)
@@ -270,7 +270,7 @@ An exhaustive description of every package is not possible in this document; you
 
 ## Package restrictions
 
-Some packages have functions that are potentially dangerous to export via a scripting language. Gravwell restricts certain package exports to a subset of those available in the full package. Below is a list of all package restrictions, if any, for each package.
+Some packages have functions that are potentially dangerous to export via a scripting language. DatalaiQ restricts certain package exports to a subset of those available in the full package. Below is a list of all package restrictions, if any, for each package.
 
 ### crypto/md5
 
@@ -310,7 +310,7 @@ Some packages have functions that are potentially dangerous to export via a scri
 
 ### crypto/tls
 
-This module is only available if `Disable-Network-Script-Functions` is set to `false` in the Gravwell config. `crypto/tls` only exports the TLS config type for use in the `net/http` module:
+This module is only available if `Disable-Network-Script-Functions` is set to `false` in the DatalaiQ config. `crypto/tls` only exports the TLS config type for use in the `net/http` module:
 
 - `tls.Config`
 
@@ -390,14 +390,14 @@ This module is only available if `Disable-Network-Script-Functions` is set to `f
 
 ### github.com/gravwell/ipexist
 
-This module is only available if `Disable-Network-Script-Functions` is set to `false` in the Gravwell config. `github.com/gravwell/ipexist` only exports the "New" related functions:
+This module is only available if `Disable-Network-Script-Functions` is set to `false` in the DatalaiQ config. `github.com/gravwell/ipexist` only exports the "New" related functions:
 
 - `ipexist.New`
 - `ipexist.NewIPBitMap`
 
 ### github.com/RackSec/srslog
 
-This module is only available if `Disable-Network-Script-Functions` is set to `false` in the Gravwell config. `github.com/RackSec/srslog` only exposes the syslog related functionality:
+This module is only available if `Disable-Network-Script-Functions` is set to `false` in the DatalaiQ config. `github.com/RackSec/srslog` only exposes the syslog related functionality:
 
 - `srslog.Dial`
 - `srslog.DefaultFormatter`
@@ -437,7 +437,7 @@ This module is only available if `Disable-Network-Script-Functions` is set to `f
 
 ### github.com/ziutek/telnet
 
-This module is only available if `Disable-Network-Script-Functions` is set to `false` in the Gravwell config. Exported functions and types include:
+This module is only available if `Disable-Network-Script-Functions` is set to `false` in the DatalaiQ config. Exported functions and types include:
 
 - `telnet.Dial`
 - `telnet.DialTimeout`
@@ -450,7 +450,7 @@ This module is only available if `Disable-Network-Script-Functions` is set to `f
 
 ### net
 
-This module is only available if `Disable-Network-Script-Functions` is set to `false` in the Gravwell config. Exported functions and types include:
+This module is only available if `Disable-Network-Script-Functions` is set to `false` in the DatalaiQ config. Exported functions and types include:
 
 - `net.CIDRMask`
 - `net.Dial`
@@ -503,7 +503,7 @@ This module is only available if `Disable-Network-Script-Functions` is set to `f
 
 ### net/http
 
-This module is only available if `Disable-Network-Script-Functions` is set to `false` in the Gravwell config. 
+This module is only available if `Disable-Network-Script-Functions` is set to `false` in the DatalaiQ config. 
 
 `net/http` exports a subset of functions, types, and variables for performing HTTP *requests*. The types `Client`, `Cookie`, `Request`, and `Response` are exported; see [the Go documentation](https://golang.org/pkg/net/http/) for a description of these types.
 
