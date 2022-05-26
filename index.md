@@ -1,12 +1,10 @@
 # 
 
-# Gravwell Docs
+# DatalaiQ Docs
 
-This site contains documentation for Gravwell, plus other resources such as Changelogs.
+This site contains documentation for DatalaiQ, plus other resources such as Changelogs.
 
-If you're just starting out with Gravwell, we recommend reading the [Quickstart](quickstart/quickstart.md) first, then moving on to the [Search pipeline](search/search.md) documentation to learn more.
-
-Gravwell is pleased to announce our free [Community Edition](https://www.gravwell.io/download)!
+If you're just starting out with DatalaiQ, we recommend reading the [Quickstart](quickstart/quickstart.md) first, then moving on to the [Search pipeline](search/search.md) documentation to learn more.
 
 ## Quickstart and Downloads
 
@@ -30,9 +28,9 @@ Gravwell is pleased to announce our free [Community Edition](https://www.gravwel
 
 ## System Architecture
 
-  * [Gravwell System Architecture](architecture/architecture.md)
+  * [DatalaiQ System Architecture](architecture/architecture.md)
 
-    * [Network Ports Used by Gravwell](configuration/networking.md)
+    * [Network Ports Used by DatalaiQ](configuration/networking.md)
 
 
   * [The Resource System](resources/resources.md)
@@ -53,13 +51,13 @@ Gravwell is pleased to announce our free [Community Edition](https://www.gravwel
 
 ## Advanced Gravwell Installation and Configuration
 
-  * [Installing and Configuring Gravwell](configuration/configuration.md)
+  * [Installing and Configuring DatalaiQ](configuration/configuration.md)
 
   * [Docker Deployment](configuration/docker.md)
 
   * [Setting up TLS/HTTPS](configuration/certificates.md)
 
-  * [Building a Gravwell Cluster](distributed/cluster.md)
+  * [Building a DatalaiQ Cluster](distributed/cluster.md)
 
   * [Distributed Frontends](distributed/frontend.md)
 
@@ -72,7 +70,7 @@ Gravwell is pleased to announce our free [Community Edition](https://www.gravwel
 
   * [Single Sign-On](configuration/sso.md)
 
-  * [Hardening Gravwell](configuration/hardening.md)
+  * [Hardening DatalaiQ](configuration/hardening.md)
 
   * [Common Problems & Caveats](configuration/caveats.md)
 
@@ -109,7 +107,7 @@ Gravwell is pleased to announce our free [Community Edition](https://www.gravwel
 
 ## User Interfaces
 
-  * [Gravwell Web GUI](gui/gui.md)
+  * [DatalaiQ Web GUI](gui/gui.md)
 
     * [The Search Interface](gui/queries/queries.md)
 
@@ -135,7 +133,7 @@ Gravwell is pleased to announce our free [Community Edition](https://www.gravwel
 
   * [Changelogs](changelog/list.md)
 
-  * [Gravwell EULA](eula.md)
+  * [DatalaiQ EULA](eula.md)
 
   * [Open-source Licenses](open_source.md)
 
