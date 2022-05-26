@@ -2,15 +2,15 @@
 
 Attention: The Debian and RHEL repositories are more easily maintained than these standalone installers and are the recommended methods of installation. See the [quickstart instructions](#!quickstart/quickstart.md).
 
-## Gravwell Core
+## DatalaiQ Core
 
-The Gravwell core installer contains the indexer and webserver frontend. You'll need a license; either get a Community Edition free license, or contact info@gravwell.io for commercial options.
+The DatalaiQ core installer contains the indexer and webserver frontend. You'll need a license; either get a Community Edition free license, or contact info@gravwell.io for commercial options.
 
-[Download Gravwell Core Installer](https://update.gravwell.io/archive/5.0.2/installers/gravwell_5.0.2.sh) (SHA256: 44e3ba4b319358bfd4e2b419f0f00987457303ac46b6cf436706b0193ec177a1)
+[Download DatalaiQ Core Installer](https://update.gravwell.io/archive/5.0.2/installers/gravwell_5.0.2.sh) (SHA256: 44e3ba4b319358bfd4e2b419f0f00987457303ac46b6cf436706b0193ec177a1)
 
 ## Ingesters
 
-The core suite of ingesters are available for download as installable packages.  Ingesters designed to operate on Linux machines are typically self contained, statically linked executables that are agnostic to the hosts package management system (with the exception of the NetworkCapture ingester).  Windows based ingesters are distributed as executable MSI packages.  Source code for many ingesters can be found at the [Gravwell Github](https://github.com/gravwell/gravwell/tree/master/ingesters) repository.
+The core suite of ingesters are available for download as installable packages.  Ingesters designed to operate on Linux machines are typically self contained, statically linked executables that are agnostic to the hosts package management system (with the exception of the NetworkCapture ingester).  Windows based ingesters are distributed as executable MSI packages.  Source code for many ingesters can be found at the [DatalaiQ Github](https://github.com/gravwell/gravwell/tree/master/ingesters) repository.
 
 ### Current Ingester Releases
 | Ingester | SHA256 | More Info |
@@ -33,7 +33,7 @@ The core suite of ingesters are available for download as installable packages. 
 
 ## Other downloads
 
-Some Gravwell components are distributed as optional additional installers, such as the search agent and the datastore.
+Some DatalaiQ components are distributed as optional additional installers, such as the search agent and the datastore.
 
 | Component | SHA256 | More Info |
 |:---------:|:------:|----------:|
