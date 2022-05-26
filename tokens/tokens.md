@@ -1,6 +1,6 @@
 # API Tokens System
 
-The Gravwell API Token system is designed to allow users to create restricted tokens that can be used to access specific APIs in Gravwell without requiring a full login cycle.  This means that a user can generate a token and use it to access a restricted set of APIs in scripts, command line applications, and 3rd party programs that may not have direct Gravwell integration.  API tokens consist of a randomly generated authentication token, a set of access allowances, and an optional expiration.  All users have access to the tokens API; admins can disable access to tokens API for non-admin users using the Gravwell ABAC system.
+The DatalaiQ API Token system is designed to allow users to create restricted tokens that can be used to access specific APIs in DatalaiQ without requiring a full login cycle.  This means that a user can generate a token and use it to access a restricted set of APIs in scripts, command line applications, and 3rd party programs that may not have direct DatalaiQ integration.  API tokens consist of a randomly generated authentication token, a set of access allowances, and an optional expiration.  All users have access to the tokens API; admins can disable access to tokens API for non-admin users using the DatalaiQ ABAC system.
 
 The Tokens API interface is located in the "Tools & Resources" navigation section.
 
@@ -20,15 +20,15 @@ Permissions can be selected in groups or as fine controls.  For example, you can
 
 Once appropriate permissions are selected go to the bottom of the permissions page and select an optional expiration; you can pick a relative date or a specific timestamp.  After that timestamp the token will still be available in the API Tokens interface but it will not be usable.  This means you can optionally refresh the token and extend its expiration or delete it at your leisure.
 
-After populating your new token with a name, description, permissions, and an optional expiration it is time to actually make the token by clicking the `Generate` button.  At this point Gravwell will create the token and provide it to you.
+After populating your new token with a name, description, permissions, and an optional expiration it is time to actually make the token by clicking the `Generate` button.  At this point DatalaiQ will create the token and provide it to you.
 
 ![Generated Token](popup.png)
 
-NOTE: Make sure to record the token, Gravwell will never again provide that token to you, this is your one and only chance to record it.
+NOTE: Make sure to record the token, DatalaiQ will never again provide that token to you, this is your one and only chance to record it.
 
 ## Token Permissions
 
-Token permissions are defined using specific allowances, you select exactly which functionality a given token is allowed to perform.  The Gravwell user interface provides some nice features to let you select groups of permissions that might be logically related, but in the end each token must declare exactly what APIs and systems it is allowed to access.  Most permissions are divided into read/write components.  This means that you can create a token that can read resources but not write them, or a token that can read the state of automation scripts but not create, update, or schedule them.
+Token permissions are defined using specific allowances, you select exactly which functionality a given token is allowed to perform.  The DatalaiQ user interface provides some nice features to let you select groups of permissions that might be logically related, but in the end each token must declare exactly what APIs and systems it is allowed to access.  Most permissions are divided into read/write components.  This means that you can create a token that can read resources but not write them, or a token that can read the state of automation scripts but not create, update, or schedule them.
 
 Permissions on tokens are an overlay on the users existing permissions.  This means that if the current user cannot access an API or feature, then the token cannot either.  Tokens can only restrict access, they cannot grant access that a user does not currently have.
 
@@ -45,12 +45,12 @@ Tokens can only be restrictive, this means that a token cannot grant more privil
 The token system is leveraged by providing the token in the `Gravwell-Token` header for all HTTP API requests.  For example, if we had a token with the value `rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAcopy` we could use the [curl](https://curl.se/) tool to access APIs with the following snippet:
 
 ```
-curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAcopy" https://gravwell.system.com/api/notifications
+curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAcopy" https://datalaiq.system.com/api/notifications
 ```
 
 ### Examples
 
-This section is by no means exhaustive in the set of Gravwell APIs that can be accessed by tokens.  Executing queries requires a slightly more elaborate API interaction, for more information checkout the [Direct Query API](/search/directquery/directquery.md) section.
+This section is by no means exhaustive in the set of DatalaiQ APIs that can be accessed by tokens.  Executing queries requires a slightly more elaborate API interaction, for more information checkout the [Direct Query API](/search/directquery/directquery.md) section.
 
 #### Get Tags
 

@@ -15,7 +15,7 @@ Modifying the docker file to suite specific deployment requirements requires ver
 The base Dockerfile for a single instance:
 ```
 FROM busybox
-MAINTAINER support@gravwell.io
+MAINTAINER support@pipelinesecurity.net
 ARG INSTALLER=gravwell_installer.sh
 COPY $INSTALLER /tmp/installer.sh
 COPY start.sh /tmp/start.sh
@@ -58,7 +58,7 @@ Gravwell is continually releasing new ingesters and components, but may not alwa
 
 ```
 FROM busybox
-MAINTAINER support@gravwell.io
+MAINTAINER support@pipelinesecurity.net
 ARG INSTALLER=gravwell_installer.sh
 COPY $INSTALLER /tmp/installer.sh
 RUN /bin/sh /tmp/installer.sh --no-questions

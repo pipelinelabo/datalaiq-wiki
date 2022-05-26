@@ -104,4 +104,4 @@ The [search documentation](#!search/search.md) is the ultimate resource for buil
 
 Finally, the [DatalaiQ blog](https://www.gravwell.io/blog) has case studies and examples showing real-world applications of DatalaiQ that may serve as inspiration.
 
-For help, you can join our [open community on Keybase](https://keybase.io/team/gravwell.community) or email support@gravwell.io. We're excited to help others get value from their data with DatalaiQ!
+For help, you can join our [open community on Keybase](https://keybase.io/team/gravwell.community) or email support@pipelinesecurity.net. We're excited to help others get value from their data with DatalaiQ!

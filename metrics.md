@@ -78,13 +78,13 @@ If for any reason you decide you don't want to send crash reports, you have mult
 
 However, we'd really appreciate if you'd leave crash reporting enabled. Thanks to these crash reports, we can often identify and fix problems that users may not even notice! It's one of our best feedback mechanisms to improve our software.
 
-If you would like us to remove all past crash reports that your system has sent, please email support@gravwell.io and we will permanently delete them from our system.
+If you would like us to remove all past crash reports that your system has sent, please email support@pipelinesecurity.net and we will permanently delete them from our system.
 
 ## Metrics Reporting
 
 The DatalaiQ webserver component (*only* the webserver) will occasionally send an HTTPS POST request to the DatalaiQ corporate servers with generic usage statistics. This information helps us figure out which features get the most use and which can use more work. We can generate statistics about how much RAM is being consumed by DatalaiQ--do we need to optimize garbage collection, or be more conservative in our default configuration? It also allows us to make sure paid licenses aren't being deployed improperly.
 
-Our most important goal in gathering these metrics is to protect the anonymity of your data. These metrics reports will **never** include the actual contents of any data stored in Gravwell, nor will they ever send actual search queries or even a list of tags on the system.
+Our most important goal in gathering these metrics is to protect the anonymity of your data. These metrics reports will **never** include the actual contents of any data stored in DatalaiQ, nor will they ever send actual search queries or even a list of tags on the system.
 
 Note: Metrics reports are always sent via TLS-verified HTTPS to update.gravwell.io. If we are unable to fully validate the remote certificate, the report does *not* go out.
 
@@ -402,7 +402,7 @@ The structure is large, in part because this webserver is connected to 4 indexer
 * `WebserverUUID`: Every DatalaiQ webserver generates a UUID when installed; this field contains that UUID.
 * `WellCount`: The total number of wells across all indexers.
 
-We carefully considered the information we report, taking pains to make it impossible to glean any intelligence regarding the type or content of the data you've got in DatalaiQ. We are always happy to discuss the reasoning behind any of the information we gather; please email support@gravwell.io with any questions.
+We carefully considered the information we report, taking pains to make it impossible to glean any intelligence regarding the type or content of the data you've got in DatalaiQ. We are always happy to discuss the reasoning behind any of the information we gather; please email support@pipelinesecurity.net with any questions.
 
 ### Limiting Metric Reporting
 

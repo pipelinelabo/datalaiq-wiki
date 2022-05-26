@@ -132,7 +132,7 @@ Attention: Disabling TLS verification via `Insecure-Skip-TLS-Verify` opens up re
 Check firewall rules and/or routing ACLs to ensure that indexers are allowed to communicate with one another on the specified port.
 
 #### After a failure an indexer is refusing to start due to a failed tag merge
-If an indexer starts ingesting after a failure prior to restoring its tag mapping, it is possible to enter a state where the tag maps on replication nodes cannot be merged.  If you encounter an unmergeable tag error, contact <support@gravwell.io> for assistance in manually restoring the failed node.
+If an indexer starts ingesting after a failure prior to restoring its tag mapping, it is possible to enter a state where the tag maps on replication nodes cannot be merged.  If you encounter an unmergeable tag error, contact <support@pipelinesecurity.net> for assistance in manually restoring the failed node.
  
 #### After a failure an indexer did not restore all its data
 Replication peers may not have been able to keep up with an indexer due to poor storage performance, poor network performance, or storage failures on the replication node.  Ensure that replication peers have adequate bandwidth and storage capacity to keep up with ingestion.  If a storage node is ingesting at hundreds of megabytes per second, the replication peers must be able to compute, transfer, and store the data at the same rate.

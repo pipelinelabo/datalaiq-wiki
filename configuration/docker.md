@@ -2,7 +2,7 @@
 
 With pre-built Docker images available in the Docker Hub, it is very easy to deploy Gravwell in Docker for experimentation or long-term use. In this document, we show how to set up a Gravwell environment within Docker.
 
-If you are a paid Gravwell customer and wish to deploy Gravwell in Docker, contact support@gravwell.io for help. We also have some information about deploying a custom Docker instance [on this wiki](#!configuration/custom-docker.md) and [on our blog](https://www.gravwell.io/blog/gravwell-docker-deployment).
+If you are a paid Gravwell customer and wish to deploy Gravwell in Docker, contact support@pipelinesecurity.net for help. We also have some information about deploying a custom Docker instance [on this wiki](#!configuration/custom-docker.md) and [on our blog](https://www.gravwell.io/blog/gravwell-docker-deployment).
 
 Once you have set up Gravwell, check out the [quickstart](#!quickstart/quickstart.md) for some starting points on *using* Gravwell.
 
@@ -198,4 +198,4 @@ The Gravwell software has automated crash reporting & metrics reporting built in
 
 With Gravwell running, refer to [the rest of the documentation](#!index.md) for more information on how to use the system.
 
-If you are a paid Gravwell customer and wish to deploy Gravwell in Docker, contact support@gravwell.io for help. We also have some information about deploying a custom Docker instance [on this wiki](#!configuration/custom-docker.md) and [on our blog](https://www.gravwell.io/blog/gravwell-docker-deployment).
+If you are a paid Gravwell customer and wish to deploy Gravwell in Docker, contact support@pipelinesecurity.net for help. We also have some information about deploying a custom Docker instance [on this wiki](#!configuration/custom-docker.md) and [on our blog](https://www.gravwell.io/blog/gravwell-docker-deployment).
