@@ -1,10 +1,10 @@
 # Network Capture Ingester
 
-A primary strength of Gravwell is the ability to ingest binary data. The network ingester allows you to capture full packets from the network for later analysis; this provides much better flexibility than simply storing netflow or other condensed traffic information.
+A primary strength of DatalaiQ is the ability to ingest binary data. The network ingester allows you to capture full packets from the network for later analysis; this provides much better flexibility than simply storing netflow or other condensed traffic information.
 
 ## Basic Configuration
 
-The Network Capture ingester uses the unified global configuration block described in the [ingester section](#!ingesters/ingesters.md#Global_Configuration_Parameters).  Like most other Gravwell ingesters, the Network Capture ingester supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
+The Network Capture ingester uses the unified global configuration block described in the [ingester section](#!ingesters/ingesters.md#Global_Configuration_Parameters).  Like most other DatalaiQ ingesters, the Network Capture ingester supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
 
 ## Sniffer Examples
 
@@ -23,7 +23,7 @@ The Network Capture ingester uses the unified global configuration block describ
 
 ## Installation
 
-If you're using the Gravwell Debian repository, installation is just a single apt command:
+If you're using the DatalaiQ Debian repository, installation is just a single apt command:
 
 ```
 apt-get install libpcap0.8 gravwell-network-capture
@@ -39,7 +39,7 @@ Note: You must have libpcap installed for the ingester to work.
 
 It is highly advised to co-locate the network ingester with an indexer when possible and use a `pipe-conn` link to send data, rather than a `clear-conn` or `tls-conn` link.  If the network ingester is capturing from the same link it is using to push entries, a feedback loop can be created which will rapidly saturate the link (e.g. capturing from eth0 while also sending entries to the ingester via eth0). You can use the `BPF-Filter` option to alleviate this.
 
-If the ingester is on a machine with a Gravwell backend already installed, the installer should automatically pick up the correct `Ingest-Secrets` value and populate the config file with it. Otherwise, it will prompt for the indexer's IP address and the ingest secret. In any case, review the configuration file in `/opt/gravwell/etc/network_capture.conf` before running. An example which captures traffic from eth0 might look like this:
+If the ingester is on a machine with a DatalaiQ backend already installed, the installer should automatically pick up the correct `Ingest-Secrets` value and populate the config file with it. Otherwise, it will prompt for the indexer's IP address and the ingest secret. In any case, review the configuration file in `/opt/gravwell/etc/network_capture.conf` before running. An example which captures traffic from eth0 might look like this:
 
 ```
 [Global]

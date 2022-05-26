@@ -1,6 +1,6 @@
 # Persistent Searches
 
-Gravwell users may wish to [send long-running searches to the background or save search results](#!gui/queries/queries.md), or [schedule searches](#!scripting/scheduledsearch.md) to run periodically. To review the search results at a later time, use the *Persistent Searches* page, found in the Searches section of the main menu:
+DatalaiQ users may wish to [send long-running searches to the background or save search results](#!gui/queries/queries.md), or [schedule searches](#!scripting/scheduledsearch.md) to run periodically. To review the search results at a later time, use the *Persistent Searches* page, found in the Searches section of the main menu:
 
 ![](persistent-menu.png)
 
@@ -14,7 +14,7 @@ The second search was run by the search agent, as indicated by 'Agent' in the Ru
 
 ## Search States
 
-Every search within Gravwell has a *state*, but this state is not typically visible to users. However, knowing the state may be valuable when managing searches in the persistent searches page, so it is shown there. The following states are possible:
+Every search within DatalaiQ has a *state*, but this state is not typically visible to users. However, knowing the state may be valuable when managing searches in the persistent searches page, so it is shown there. The following states are possible:
 
 * ACTIVE: The search is either running or has just completed running, and there is still a client (typically a user's browser) attached to it.
 * DORMANT: The search has completed and has no clients attached. It can be opened again, but is not guaranteed to persist across webserver restarts. Backgrounded searches are marked DORMANT after completion.

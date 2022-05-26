@@ -4,7 +4,7 @@ Sometimes, ingested data needs some additional massaging before we send it to th
 
 ## Preprocessor Data Flow
 
-An ingester reads raw data from some source (a file, a network connection, an Amazon Kinesis stream, etc.) and splits that incoming data stream out into individual entries. Before those entries are sent to a Gravwell indexer, they may optionally be passed through an arbitrary number of preprocessors as shown in the diagram below.
+An ingester reads raw data from some source (a file, a network connection, an Amazon Kinesis stream, etc.) and splits that incoming data stream out into individual entries. Before those entries are sent to a DatalaiQ indexer, they may optionally be passed through an arbitrary number of preprocessors as shown in the diagram below.
 
 ![](arch.png)
 
@@ -415,7 +415,7 @@ The following is written to `/opt/gravwell/etc/syslog-routes`:
 
 ## Regex Timestamp Extraction Preprocessor
 
-Ingesters will typically attempt to extract a timestamp from an entry by looking for the first thing which appears to be a valid timestamp and parsing it. In combination with additional ingester configuration rules for parsing timestamps (specifying a specific timestamp format to look for, etc.) this is usually sufficient to properly extract the appropriate timestamp, but some data sources may defy these straightforward methods. Consider a situation where a network device may send CSV-formatted event logs wrapped in syslog--a situation we have seen at Gravwell!
+Ingesters will typically attempt to extract a timestamp from an entry by looking for the first thing which appears to be a valid timestamp and parsing it. In combination with additional ingester configuration rules for parsing timestamps (specifying a specific timestamp format to look for, etc.) this is usually sufficient to properly extract the appropriate timestamp, but some data sources may defy these straightforward methods. Consider a situation where a network device may send CSV-formatted event logs wrapped in syslog--a situation we have seen at DatalaiQ!
 
 The Regex Timestamp Extraction preprocessor Type is `regextimestamp`.
 
@@ -632,7 +632,7 @@ The `Regex` filters are used so that we only get event data from specific Channe
 
 ### Example: Forwarding logs to multiple hosts
 
-For this example we are using the Gravwell Federator to forward subsets of logs to different endpoints using different formats.  Because the forwarder preprocessor can be stacked the same way as any other preprocessor, we can specify multiple forwarding preprocessors with their own filters, endpoints, and formats.
+For this example we are using the DatalaiQ Federator to forward subsets of logs to different endpoints using different formats.  Because the forwarder preprocessor can be stacked the same way as any other preprocessor, we can specify multiple forwarding preprocessors with their own filters, endpoints, and formats.
 
 ```
 [IngestListener "enclaveB"]
@@ -656,15 +656,15 @@ For this example we are using the Gravwell Federator to forward subsets of logs 
 
 ```
 
-## Gravwell Forwarding Preprocessor
+## DatalaiQ Forwarding Preprocessor
 
-The Gravwell forwarding processor allows for creating a complete Gravwell muxer which can duplicate entries to multiple instances of Gravwell.  This preprocessor can be useful for testing or situations where a specific Gravwell data stream needs to be duplicated to an alternate set of indexers.  The Gravwell forwarding preprocessor utilizes the same configuration structure to specify indexers, ingest secrets, and even cache controls as the packaged ingesters.  The Gravwell forwarding preprocessor is a blocking preprocessor, this means that if you do not enable a local cache it can block the ingest pipeline if the preprocessor cannot forward entries to the specified indexers.
+The DatalaiQ forwarding processor allows for creating a complete DatalaiQ muxer which can duplicate entries to multiple instances of DatalaiQ.  This preprocessor can be useful for testing or situations where a specific DatalaiQ data stream needs to be duplicated to an alternate set of indexers.  The DatalaiQ forwarding preprocessor utilizes the same configuration structure to specify indexers, ingest secrets, and even cache controls as the packaged ingesters.  The DatalaiQ forwarding preprocessor is a blocking preprocessor, this means that if you do not enable a local cache it can block the ingest pipeline if the preprocessor cannot forward entries to the specified indexers.
 
-The Gravwell Forwarding preprocessor Type is `gravwellforwarder`.
+The DatalaiQ Forwarding preprocessor Type is `gravwellforwarder`.
 
 ### Supported Options
 
-See the [Global Configuration Parameters](#!ingesters/ingesters.md#Global_Configuration_Parameters) section for full details on all the Gravwell ingester options.  Most global ingester configuration options are supported by the Gravwell Forwarder preprocessor.
+See the [Global Configuration Parameters](#!ingesters/ingesters.md#Global_Configuration_Parameters) section for full details on all the DatalaiQ ingester options.  Most global ingester configuration options are supported by the DatalaiQ Forwarder preprocessor.
 
 ### Example: Duplicating Data In a Federator
 
@@ -699,7 +699,7 @@ Log-Level=INFO
 
 ### Example: Stacking Duplicate Forwarders
 
-For this example we are going to specify a complete Federator configuration and multiple Gravwell preprocessors so that we can duplicate our single stream of entries to multiple Gravwell clusters.
+For this example we are going to specify a complete Federator configuration and multiple DatalaiQ preprocessors so that we can duplicate our single stream of entries to multiple DatalaiQ clusters.
 
 NOTE: The preprocessor control logic does NOT check that you are not forwarding to the same cluster multiple times.
 
@@ -721,21 +721,21 @@ Log-Level=INFO
 	Preprocessor=dup3
 
 [Preprocessor "dup1"]
-	Type=GravwellForwarder
+	Type=DatalaiQForwarder
 	Ingest-Secret = IngestSecrets1
 	Cleartext-Backend-Target=172.19.0.101:4023
 	Ingest-Cache-Path=/opt/gravwell/cache/federator_dup1.cache
 	Max-Ingest-Cache=1024
 
 [Preprocessor "dup2"]
-	Type=GravwellForwarder
+	Type=DatalaiQForwarder
 	Ingest-Secret = IngestSecrets2
 	Cleartext-Backend-Target=172.19.0.102:4023
 	Ingest-Cache-Path=/opt/gravwell/cache/federator_dup2.cache
 	Max-Ingest-Cache=1024
 
 [Preprocessor "dup3"]
-	Type=GravwellForwarder
+	Type=DatalaiQForwarder
 	Ingest-Secret = IngestSecrets3
 	Cleartext-Backend-Target=172.19.0.103:4023
 	Ingest-Cache-Path=/opt/gravwell/cache/federator_dup3.cache
@@ -746,7 +746,7 @@ Log-Level=INFO
 
 The drop preprocessor does exactly what the name implies, it simple drops entries from the ingest pipeline, effectively throwing them away.
 
-This processor can be useful if an ingest stream is to be primarily handled by another set of preprocessors.  For example, if you want to send data to a remote system using the forwarder preprocessor but NOT ingest it upstream into a Gravwell indexer, you could add a final `drop` preprocessor which will simply discard all entries that it sees.
+This processor can be useful if an ingest stream is to be primarily handled by another set of preprocessors.  For example, if you want to send data to a remote system using the forwarder preprocessor but NOT ingest it upstream into a DatalaiQ indexer, you could add a final `drop` preprocessor which will simply discard all entries that it sees.
 
 ### Supported Options
 
@@ -798,17 +798,17 @@ This example forwards entries via a TCP forwarder then drops them.
 
 The Cisco ISE preprocessor is designed to parse and accommodate the format and transport of Cisco ISE logs.  See the [Cisco Introduction to ISE Syslogs](https://www.cisco.com/c/en/us/td/docs/security/ise/syslog/Cisco_ISE_Syslogs/m_IntrotoSyslogs.pdf) for more information.
 
-The Cisco ISE preprocessor is named `cisco_ise` and supports the ability to reassemble multipart messages, reformat the messages into a format more appropriate for Gravwell and modern syslog systems, filter unwanted message pairs, and remove redundant message headers.
+The Cisco ISE preprocessor is named `cisco_ise` and supports the ability to reassemble multipart messages, reformat the messages into a format more appropriate for DatalaiQ and modern syslog systems, filter unwanted message pairs, and remove redundant message headers.
 
 ### Attribute Filtering and Formatting
 
-The Cisco ISE logging system is designed to split a single message across multiple syslog messages.  Gravwell will accept messages that far exceed the maximum message size of syslog, however if you are supporting multiple targets for Cisco ISE messages it may be necessary to enable multipart messages.  Disabling multipart messages in your cisco device and letting Gravwell handle large payloads will be far more efficient.
+The Cisco ISE logging system is designed to split a single message across multiple syslog messages.  DatalaiQ will accept messages that far exceed the maximum message size of syslog, however if you are supporting multiple targets for Cisco ISE messages it may be necessary to enable multipart messages.  Disabling multipart messages in your cisco device and letting DatalaiQ handle large payloads will be far more efficient.
 
 ### Supported Options
 
 * `Passthrough-Misses` (boolean, optional): If set to true, the preprocessor will pass along entries for which it was unable to extract a valid ISE message. By default, these entries are dropped.
 * `Enable-Multipart-Reassembly` (boolean, optional): If set to true the preprocessor will attempt to reassemble messages that contain a Cisco remote message header.
-* `Max-Multipart-Buffer` (uint64, optional): Specifies a maximum in-memory buffer to use when reassembling multipart messages, when the buffer is exceeded the oldest partially reassembled message will be sent to Gravwell.  The default buffer size is 8MB.
+* `Max-Multipart-Buffer` (uint64, optional): Specifies a maximum in-memory buffer to use when reassembling multipart messages, when the buffer is exceeded the oldest partially reassembled message will be sent to DatalaiQ.  The default buffer size is 8MB.
 * `Max-Multipart-Latency` (string, optional): Specifies a maximum time duration that a partially reassembled multipart message will be held before it is sent.  Time spans should be specified in `ms` and `s` values.
 * `Output-Format` (string, optional): Specifies the output format for sending ISE messages, the default format is `raw`, other options are `json` and `cef`.
 * `Attribute-Drop-Filter` (string array, optional): Specifies globbing patterns that can be used to match against attributes within a message which will be removed from the output.  The arguments must be [Unix Glob patterns](https://en.wikipedia.org/wiki/Glob_(programming)), many patterns can be specified.  Attribute drop filters are not compatible with the `raw` output format.

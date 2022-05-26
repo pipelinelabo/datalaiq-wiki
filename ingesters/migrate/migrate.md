@@ -1,17 +1,17 @@
 # Migrating Data
 
-A common task when first standing up Gravwell is getting data from an old system or log archive into Gravwell.  Migration may involve pulling historical data out of an existing system, scraping a large database, or just ingesting 5 years of old syslog from flat files.  Gravwell provides a series of ingesters designed to stream data in from a variety of sources in near real-time, but when you need to get massive amounts of historical data in they are typically not the right choice.
+A common task when first standing up DatalaiQ is getting data from an old system or log archive into DatalaiQ.  Migration may involve pulling historical data out of an existing system, scraping a large database, or just ingesting 5 years of old syslog from flat files.  DatalaiQ provides a series of ingesters designed to stream data in from a variety of sources in near real-time, but when you need to get massive amounts of historical data in they are typically not the right choice.
 
-This section will explore the available tools to migrate existing data and give some tips on how to efficiently migrate potentially hundreds of TB of existing logs into a new Gravwell instance.  We will examine a few scenarios where using migration tools will provide much better migration performance and storage efficiency as opposed to just tossing something at a typical ingester.  Most of our migration tools are open source, so we can also provide links to source code and deep dive examinations of functionality.  Most data migrations are a one time occurrence which means a one off tool that is specialized for the task is almost always the right answer.  
+This section will explore the available tools to migrate existing data and give some tips on how to efficiently migrate potentially hundreds of TB of existing logs into a new DatalaiQ instance.  We will examine a few scenarios where using migration tools will provide much better migration performance and storage efficiency as opposed to just tossing something at a typical ingester.  Most of our migration tools are open source, so we can also provide links to source code and deep dive examinations of functionality.  Most data migrations are a one time occurrence which means a one off tool that is specialized for the task is almost always the right answer.  
 
 ### Migration Caveats
 
-Most Gravwell licenses are unlimited, meaning that when it is time to migrate massive quantities of data in you are only limited by the resources available to accept and index that data.  However, the one exception is the free Community Edition license which has hard ingest limits.  All other license types are either unlimited or allow for bursting to accommodate data migration.
+Most DatalaiQ licenses are unlimited, meaning that when it is time to migrate massive quantities of data in you are only limited by the resources available to accept and index that data.  However, the one exception is the free Community Edition license which has hard ingest limits.  All other license types are either unlimited or allow for bursting to accommodate data migration.
 
 
 ## One Shot File
 
-The [singleFile](https://github.com/gravwell/gravwell/tree/master/ingesters/singleFile) tool is one of the most simplistic ingesters in the Gravwell arsenal.  It is designed to very easily ingest a single line delimited file to a specific tag in one go.  It can transparently decompress files and has some limited parsing ability.  If you have a single large Apache access log or just need to script up some one off file ingestion, [singleFile](https://github.com/gravwell/gravwell/tree/master/ingesters/singleFile) has your back.
+The [singleFile](https://github.com/gravwell/gravwell/tree/master/ingesters/singleFile) tool is one of the most simplistic ingesters in the DatalaiQ arsenal.  It is designed to very easily ingest a single line delimited file to a specific tag in one go.  It can transparently decompress files and has some limited parsing ability.  If you have a single large Apache access log or just need to script up some one off file ingestion, [singleFile](https://github.com/gravwell/gravwell/tree/master/ingesters/singleFile) has your back.
 
 The [singleFile](https://github.com/gravwell/gravwell/tree/master/ingesters/singleFile) ingester is a standalone ingester that is designed to operate using flags rather than a config file.  This means that it lacks some of the additional functionality of other ingesters such as custom timestamp definitions and preprocessor support.  The following flags are supported:
 
@@ -39,7 +39,7 @@ The [singleFile](https://github.com/gravwell/gravwell/tree/master/ingesters/sing
 | -quotable-lines | | Lines may be quotable, meaning a newlines encapsulated in quotes do not delimit entries |
 | -ignore-prefix | | Specify a string that when found at the start of a line causes the line to be ignored, useful for ignoring headers on CSV files | -ignore-prefix="#" |
 
-[singleFile](https://github.com/gravwell/gravwell/tree/master/ingesters/singleFile) is part of the Gravwell monorepo and is licensed using the BSD 2-Clause license.  Clone it, fork it, modify it, it's yours.  If you have the [Go](https://go.dev/dl/) tool-chain and git installed, you can build and install the singleFile binary using the following commands:
+[singleFile](https://github.com/gravwell/gravwell/tree/master/ingesters/singleFile) is part of the DatalaiQ monorepo and is licensed using the BSD 2-Clause license.  Clone it, fork it, modify it, it's yours.  If you have the [Go](https://go.dev/dl/) tool-chain and git installed, you can build and install the singleFile binary using the following commands:
 
 ```
 git clone https://github.com/gravwell/gravwell.git
@@ -52,7 +52,7 @@ Notice the `CGO_ENABLED=0` environment variable passed to `go build`, this cause
 
 ## Ingesting Many Flat Files
 
-Migrating flat files is the common case when Gravwell first enters an organization that has no log monitoring at all or is transitioning off of a product where there was significant data that needed to be kept but could not be ingested into their current product.  Common data sources here are Apache access logs, Linux system logs, application logs, and any other application that can drop logs to a file.  These flat files are typically very numerous and potentially compressed, while the file follower ingester *CAN* hand many of these scenarios, its not optimized to do so.  Enter the [migrate](https://github.com/gravwell/gravwell/tree/master/ingesters/migrate) tool.
+Migrating flat files is the common case when DatalaiQ first enters an organization that has no log monitoring at all or is transitioning off of a product where there was significant data that needed to be kept but could not be ingested into their current product.  Common data sources here are Apache access logs, Linux system logs, application logs, and any other application that can drop logs to a file.  These flat files are typically very numerous and potentially compressed, while the file follower ingester *CAN* hand many of these scenarios, its not optimized to do so.  Enter the [migrate](https://github.com/gravwell/gravwell/tree/master/ingesters/migrate) tool.
 
 The migrate tool is designed to allow for defining multiple sources of data and then in a single shot consume from all of them linearly, while keeping track of progress.  This tool is every useful when migrating extremely large sets of data where it the actual migration process may take hours, days, weeks.  Migrate uses a configuration file so that it can support some of the more sophisticated configuration options like custom timestamp formats, recursive file scanning, and selective filename matching.  Migrate can also consume from compressed files, this means that if you have lots of Apache access logs and many of them are compressed using gzip, migrate can consume them without manually decompressing first.  If you have a few large directories of significant log files, migrate is the appropriate tool.
 
@@ -139,4 +139,4 @@ The migrate tool contains the following flags:
 | -config-file | X | Specify the full path to a configuration file that drives the `migrate` tool. | `-config-file=/tmp/migrate.conf` |
 
 
-The `migrate` tool is an excellent way to rapidly ingest huge quantities of old data into a new Gravwell system, it is designed to optimize ingest speed as well as query and compression performance.  When you are first standing up Gravwell and preparing to bring in old data, the migrate tool should be your primary tool.
+The `migrate` tool is an excellent way to rapidly ingest huge quantities of old data into a new DatalaiQ system, it is designed to optimize ingest speed as well as query and compression performance.  When you are first standing up DatalaiQ and preparing to bring in old data, the migrate tool should be your primary tool.

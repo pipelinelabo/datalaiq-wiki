@@ -1,10 +1,10 @@
 # Kafka Federator
 
-Gravwell also provides a Kafka Federator, that behaves exactly like the Federator, except that it uses Kafka as an upstream transport. Ingesters can connect to it just as with Federator, and ingested entries will be put into Kafka Topics as messages. 
+DatalaiQ also provides a Kafka Federator, that behaves exactly like the Federator, except that it uses Kafka as an upstream transport. Ingesters can connect to it just as with Federator, and ingested entries will be put into Kafka Topics as messages. 
 
 ![](kafkaFederatorDiagram.png)
 
-The Kafka Federator can be paired with the [Kafka Consumer](#!ingesters/kafka.md) to read messages from a topic and ingest them into a Gravwell indexer.
+The Kafka Federator can be paired with the [Kafka Consumer](#!ingesters/kafka.md) to read messages from a topic and ingest them into a DatalaiQ indexer.
 
 ## Configuration
 

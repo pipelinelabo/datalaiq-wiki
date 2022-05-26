@@ -1,12 +1,12 @@
 # Dashboards
 
-Dashboards are Gravwell's way of showing the results from multiple searches at the same time. A dashboard contains many *tiles*, each associated with a Gravwell query. If you see something interesting on a dashboard, it is extremely easy to pivot off from the dashboard into a series of exploratory searches.
+Dashboards are DatalaiQ's way of showing the results from multiple searches at the same time. A dashboard contains many *tiles*, each associated with a DatalaiQ query. If you see something interesting on a dashboard, it is extremely easy to pivot off from the dashboard into a series of exploratory searches.
 
 ![](coredns-dash.png)
 
 ## Creating Dashboards & Basic Options
 
-Creating a new dashboard is easy: simply click the "Add" button in the upper right corner of the Dashboards page (found in the main menu). Gravwell will prompt for basic information about the dashboard before creating it:
+Creating a new dashboard is easy: simply click the "Add" button in the upper right corner of the Dashboards page (found in the main menu). DatalaiQ will prompt for basic information about the dashboard before creating it:
 
 ![](new-dashboard.png)
 
@@ -26,7 +26,7 @@ After we click "Save", we are taken back to the Dashboards overview page, now sh
 
 ## Populating Searches
 
-Once a dashboard has been created, we need to add tiles to it. There are two ways to add a tile: from a completed Gravwell search, or from the dashboard itself. We'll show how to add a tile from a completed search first, being simpler, then describe all the options available when adding a tile through the dashboard interface
+Once a dashboard has been created, we need to add tiles to it. There are two ways to add a tile: from a completed DatalaiQ search, or from the dashboard itself. We'll show how to add a tile from a completed search first, being simpler, then describe all the options available when adding a tile through the dashboard interface
 
 ### Adding a tile from a completed search
 
@@ -124,7 +124,7 @@ After clicking "Save" and "Back to tiles", the dashboard should now begin automa
 
 ## Investigative Dashboards
 
-Gravwell supports a particular kind of saved query called a [*template*](/gui/templates/templates.md), which defines variables in the query string itself. If you use a template query in a dashboard tile, the dashboard will prompt you for values for each variable when you load it. A dashboard containing templates is called an *investigative dashboard*, because it can investigate a particular IP address, hostname, UUID, etc.
+DatalaiQ supports a particular kind of saved query called a [*template*](/gui/templates/templates.md), which defines variables in the query string itself. If you use a template query in a dashboard tile, the dashboard will prompt you for values for each variable when you load it. A dashboard containing templates is called an *investigative dashboard*, because it can investigate a particular IP address, hostname, UUID, etc.
 
 Below, observe the highlighted variables in the queries when viewing a list of templates:
 

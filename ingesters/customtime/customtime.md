@@ -1,6 +1,6 @@
 # Ingester Custom Time Formats
 
-Many ingesters can support the inclusion of custom time formats that can extend the capability of the Gravwell TimeGrinder time resolution system.  The [TimeGrinder](https://pkg.go.dev/github.com/gravwell/gravwell/v3/timegrinder) has a wide array of timestamp formats that it can automatically identify and resolve.  However, in the real world with real developers there is no telling what time format a system may decide to use.  That is why we enable users to specify custom time formats for inclusion in the TimeGrinder system.
+Many ingesters can support the inclusion of custom time formats that can extend the capability of the DatalaiQ TimeGrinder time resolution system.  The [TimeGrinder](https://pkg.go.dev/github.com/gravwell/gravwell/v3/timegrinder) has a wide array of timestamp formats that it can automatically identify and resolve.  However, in the real world with real developers there is no telling what time format a system may decide to use.  That is why we enable users to specify custom time formats for inclusion in the TimeGrinder system.
 
 ## Supported Ingesters
 

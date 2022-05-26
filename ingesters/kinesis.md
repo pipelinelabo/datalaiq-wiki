@@ -1,16 +1,16 @@
 # Kinesis Ingester
 
-Gravwell provides an ingester capable of fetching entries from Amazon's [Kinesis Data Streams](https://aws.amazon.com/kinesis/data-streams/) service. The ingester can process multiple Kinesis streams at a time, with each stream composed of many individual shards. The process of setting up a Kinesis stream is outside the scope of this document, but in order to configure the Kinesis ingester for an existing stream you will need:
+DatalaiQ provides an ingester capable of fetching entries from Amazon's [Kinesis Data Streams](https://aws.amazon.com/kinesis/data-streams/) service. The ingester can process multiple Kinesis streams at a time, with each stream composed of many individual shards. The process of setting up a Kinesis stream is outside the scope of this document, but in order to configure the Kinesis ingester for an existing stream you will need:
 
 * An AWS access key (ID number & secret key)
 * The region in which your stream resides
 * The name of the stream itself
 
-Once the stream is configured, each record in the Kinesis stream will be stored as a single entry in Gravwell.
+Once the stream is configured, each record in the Kinesis stream will be stored as a single entry in DatalaiQ.
 
 ## Basic Configuration
 
-The Kinesis ingester uses the unified global configuration block described in the [ingester section](#!ingesters/ingesters.md#Global_Configuration_Parameters).  Like most other Gravwell ingesters, the Kinesis ingester supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
+The Kinesis ingester uses the unified global configuration block described in the [ingester section](#!ingesters/ingesters.md#Global_Configuration_Parameters).  Like most other DatalaiQ ingesters, the Kinesis ingester supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
 
 ## KinesisStream Examples
 
@@ -40,7 +40,7 @@ First, download the installer from the [Downloads page](#!quickstart/downloads.m
 root@gravserver ~# bash gravwell_kinesis_ingest_installer.sh
 ```
 
-If the Gravwell services are present on the same machine, the installation script should automatically extract and configure the `Ingest-Auth` parameter and set it appropriately. You will now need to open the `/opt/gravwell/etc/kinesis_ingest.conf` configuration file and set it up for your Kinesis stream. Once you have modified the configuration as described below, start the service with the command `systemctl start gravwell_kinesis_ingest.service`
+If the DatalaiQ services are present on the same machine, the installation script should automatically extract and configure the `Ingest-Auth` parameter and set it appropriately. You will now need to open the `/opt/gravwell/etc/kinesis_ingest.conf` configuration file and set it up for your Kinesis stream. Once you have modified the configuration as described below, start the service with the command `systemctl start gravwell_kinesis_ingest.service`
 
 The example below shows a sample configuration which connects to an indexer on the local machine (note the `Pipe-Backend-target` setting) and feeds it from a single Kinesis stream named "MyKinesisStreamName" in the us-west-1 region.
 
@@ -84,4 +84,4 @@ You can test the config by running `/opt/gravwell/bin/gravwell_kinesis_ingester 
 
 Most of the fields are self-explanatory, but the `Iterator-Type` setting deserves a note. This setting selects where the ingester starts reading data **if it does not have a state file entry** for the stream/shard. The default is "LATEST", which means the ingester will ignore all existing records and only read records created after the ingester starts. By setting it to TRIM_HORIZON, the ingester will start reading records from the oldest available. In most situations we recommend setting it to TRIM_HORIZON so you can fetch older data; on further runs of the ingester, the state file will maintain the sequence number and prevent duplicate ingestion.
 
-The Kinesis ingester does not provide the `Ignore-Timestamps` option found in many other ingesters. Kinesis messages include an arrival timestamp; by default, the ingester will use that as the Gravwell timestamp. If `Parse-Time=true` is specified in the data consumer definition, the ingester will instead attempt to extract a timestamp from the message body.
+The Kinesis ingester does not provide the `Ignore-Timestamps` option found in many other ingesters. Kinesis messages include an arrival timestamp; by default, the ingester will use that as the DatalaiQ timestamp. If `Parse-Time=true` is specified in the data consumer definition, the ingester will instead attempt to extract a timestamp from the message body.

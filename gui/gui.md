@@ -1,6 +1,6 @@
-# The Gravwell GUI
+# The DatalaiQ GUI
 
-Most users will interact with Gravwell through the web GUI. This page describes a few high-level menus and interface concepts; the pages linked below go into detail on other topics.
+Most users will interact with DatalaiQ through the web GUI. This page describes a few high-level menus and interface concepts; the pages linked below go into detail on other topics.
 
 * [The Search Interface](queries/queries.md)
 * [Dashboards](dashboards/dashboards.md)
@@ -21,7 +21,7 @@ After logging in, you will by default be directed to the search page, shown belo
 
 ![](searchpage.png)
 
-The icons along the top (labeled Main Menu, Help, Notifications, and User Profile) are visible at all times within the Gravwell GUI.
+The icons along the top (labeled Main Menu, Help, Notifications, and User Profile) are visible at all times within the DatalaiQ GUI.
 
 ## The Main Menu
 
@@ -29,7 +29,7 @@ Clicking the "hamburger" menu in the upper left will open the Main Menu:
 
 ![](menu.png)
 
-This menu is used to access all the primary functionalities of Gravwell, including dashboards, the query library, and playbooks. Note that several items within the menu are actually sub-menus, which can be expanded to show additional options:
+This menu is used to access all the primary functionalities of DatalaiQ, including dashboards, the query library, and playbooks. Note that several items within the menu are actually sub-menus, which can be expanded to show additional options:
 
 ![](menu-expanded.png)
 
@@ -65,19 +65,19 @@ Selecting "Account" will open your preferences page, shown below. Here, you can 
 
 ### Interface & Appearance 
 
-The second tab of the Preferences page, "Interface & Appearance", has options for customizing the Gravwell user interface. The "Interface theme" dropdown is of particular interest, as it selects a GUI-wide color scheme (including the ever-popular dark modes). 
+The second tab of the Preferences page, "Interface & Appearance", has options for customizing the DatalaiQ user interface. The "Interface theme" dropdown is of particular interest, as it selects a GUI-wide color scheme (including the ever-popular dark modes). 
 
-The "Chart theme" dropdown selects different color palettes which will be used when drawing charts. The editor theme & font size options control the appearance of Gravwell's built-in text editor, which is used to create automation scripts and in a few other places.
+The "Chart theme" dropdown selects different color palettes which will be used when drawing charts. The editor theme & font size options control the appearance of DatalaiQ's built-in text editor, which is used to create automation scripts and in a few other places.
 
 ![](interface-prefs.png)
 
 ### Preferences
 
-The third tab, "Preferences", allows you to change some default behaviors of Gravwell.
+The third tab, "Preferences", allows you to change some default behaviors of DatalaiQ.
 
 ![](general-prefs.png)
 
-The "Home Page" dropdown menu selects which page will be displayed after logging in or clicking the Gravwell icon next to the main menu. By default, the new search page is shown, but you can chose to be shown a list of dashboards, kits, or playbooks instead.
+The "Home Page" dropdown menu selects which page will be displayed after logging in or clicking the DatalaiQ icon next to the main menu. By default, the new search page is shown, but you can chose to be shown a list of dashboards, kits, or playbooks instead.
 
 The "Search Group Visibility" option allows you to share the results of all searches with a given group; this can be a convenient way to collaborate. In the screenshot, the user has selected the group named "foo"; all members of that group will have access to the searches this user runs in the future.
 

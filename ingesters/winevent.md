@@ -1,10 +1,10 @@
 # Windows Event Service
 
-The Gravwell Windows events ingester runs as a service on a Windows machine and sends Windows events to the Gravwell indexer.  The ingester consumes from the `System`, `Application`, `Setup`, and `Security` channels by default.  Each channel can be configured to consume from a specific set of events or providers.
+The DatalaiQ Windows events ingester runs as a service on a Windows machine and sends Windows events to the DatalaiQ indexer.  The ingester consumes from the `System`, `Application`, `Setup`, and `Security` channels by default.  Each channel can be configured to consume from a specific set of events or providers.
 
 ## Basic Configuration
 
-The Windows Event ingester uses the unified global configuration block described in the [ingester section](#!ingesters/ingesters.md#Global_Configuration_Parameters).  Like most other Gravwell ingesters, the Windows Evenet ingester supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
+The Windows Event ingester uses the unified global configuration block described in the [ingester section](#!ingesters/ingesters.md#Global_Configuration_Parameters).  Like most other DatalaiQ ingesters, the Windows Evenet ingester supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
 
 ## EventChannel Examples
 
@@ -44,13 +44,13 @@ The Windows Event ingester uses the unified global configuration block described
 
 ## Installation
 
-Download the Gravwell Windows ingester installer from the [Downloads page](#!quickstart/downloads.md).
+Download the DatalaiQ Windows ingester installer from the [Downloads page](#!quickstart/downloads.md).
 
-Run the .msi installation wizard to install the Gravwell events service.  On first installation the installation wizard will prompt to configure the indexer endpoint and ingest secret.  Subsequent installations and/or upgrades will identify a resident configuration file and will not prompt.
+Run the .msi installation wizard to install the DatalaiQ events service.  On first installation the installation wizard will prompt to configure the indexer endpoint and ingest secret.  Subsequent installations and/or upgrades will identify a resident configuration file and will not prompt.
 
-The ingester is configured with the `config.cfg` file located at `%PROGRAMDATA%\gravwell\eventlog\config.cfg`.  The configuration file follows the same form as other Gravwell ingesters with a `[Global]` section configuring the indexer connections and multiple `EventChannel` definitions.
+The ingester is configured with the `config.cfg` file located at `%PROGRAMDATA%\gravwell\eventlog\config.cfg`.  The configuration file follows the same form as other DatalaiQ ingesters with a `[Global]` section configuring the indexer connections and multiple `EventChannel` definitions.
 
-To modify the indexer connection or specify multiple indexers, change the connection IP address to the IP of your Gravwell server and set the Ingest-Secret value.  This example shows configuring an encrypted transport:
+To modify the indexer connection or specify multiple indexers, change the connection IP address to the IP of your DatalaiQ server and set the Ingest-Secret value.  This example shows configuring an encrypted transport:
 
 ```
 Ingest-Secret=YourSecretGoesHere
@@ -84,9 +84,9 @@ msiexec.exe /i gravwell_win_events_3.3.12.msi /quiet CONFIGFILE=\\share\gravwell
 
 ## Optional Sysmon Integration
 
-The Sysmon utility, part of the sysinternals suite, is an effective and popular tool for monitoring Windows systems. There are plenty of resources with examples of good sysmon configuration files. At Gravwell, we like to use the config created by infosec Twitter personality @InfosecTaylorSwift.
+The Sysmon utility, part of the sysinternals suite, is an effective and popular tool for monitoring Windows systems. There are plenty of resources with examples of good sysmon configuration files. At DatalaiQ, we like to use the config created by infosec Twitter personality @InfosecTaylorSwift.
 
-Edit the Gravwell Windows agent config file located at `%PROGRAMDATA%\gravwell\eventlog\config.cfg` and add the following lines:
+Edit the DatalaiQ Windows agent config file located at `%PROGRAMDATA%\gravwell\eventlog\config.cfg` and add the following lines:
 
 ```
 [EventChannel "Sysmon"]
@@ -105,7 +105,7 @@ Install `sysmon` with your configuration using an administrator shell (Powershel
 sysmon.exe -accepteula -i sysmonconfig-export.xml
 ```
 
-Restart the Gravwell service via standard windows service management.
+Restart the DatalaiQ service via standard windows service management.
 
 ### Example Configuration with Sysmon
 

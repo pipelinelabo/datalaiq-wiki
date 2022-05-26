@@ -2,11 +2,11 @@
 
 The Amazon SQS Ingester (sqsIngester) is a simple ingester that can subscribe to both standard and FIFO SQS queues for ingest. Amazon SQS is a high volume message queue service that supports message delivery guarantees, "soft" ordering of messages, and "at-least-once" delivery of messages. 
 
-For Gravwell, "at-least-once" delivery is an important caveat - The SQS ingester may receive duplicate messages with identical timestamps (depending on your configuration). It's also possible that the SQS ingester doesn't see some messages, depending on how your SQS workflow is deployed with other connected services. See [Amazon SQS](https://aws.amazon.com/sqs/) for more information.
+For DatalaiQ, "at-least-once" delivery is an important caveat - The SQS ingester may receive duplicate messages with identical timestamps (depending on your configuration). It's also possible that the SQS ingester doesn't see some messages, depending on how your SQS workflow is deployed with other connected services. See [Amazon SQS](https://aws.amazon.com/sqs/) for more information.
 
 ## Basic Configuration
 
-The SQS ingester uses the unified global configuration block described in the [ingester section](#!ingesters/ingesters.md#Global_Configuration_Parameters).  Like most other Gravwell ingesters, SQS supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
+The SQS ingester uses the unified global configuration block described in the [ingester section](#!ingesters/ingesters.md#Global_Configuration_Parameters).  Like most other DatalaiQ ingesters, SQS supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
 
 ## Queue Examples
 
@@ -29,7 +29,7 @@ The SQS ingester uses the unified global configuration block described in the [i
 ```
 
 ## Installation
-If you're using the Gravwell Debian repository, installation is just a single apt command:
+If you're using the DatalaiQ Debian repository, installation is just a single apt command:
 
 ```
 apt-get install gravwell-sqs
@@ -41,7 +41,7 @@ Otherwise, download the installer from the [Downloads page](#!quickstart/downloa
 root@gravserver ~ # bash gravwell_sqs.sh
 ```
 
-If there is no Gravwell indexer on the local machine, the installer will prompt for an Ingest-Secret value and an IP address for an indexer (or a Federator). Otherwise, it will pull the appropriate values from the existing Gravwell configuration. In any case, review the configuration file in `/opt/gravwell/etc/sqs.conf` after installation. A typical configuration will look like: 
+If there is no DatalaiQ indexer on the local machine, the installer will prompt for an Ingest-Secret value and an IP address for an indexer (or a Federator). Otherwise, it will pull the appropriate values from the existing DatalaiQ configuration. In any case, review the configuration file in `/opt/gravwell/etc/sqs.conf` after installation. A typical configuration will look like: 
 
 ```
 [Global]

@@ -1,6 +1,6 @@
 # Labels and Filtering
 
-Objects in Gravwell such as dashboards, resources, macros, etc. can be *labeled* for organizational purposes. Some objects distributed in kits may be pre-labeled for convenience. The following object types can be labeled:
+Objects in DatalaiQ such as dashboards, resources, macros, etc. can be *labeled* for organizational purposes. Some objects distributed in kits may be pre-labeled for convenience. The following object types can be labeled:
 
 * Extractors
 * Dashboards
@@ -60,7 +60,7 @@ Objects with the special label "hidden" are not displayed by default. This is a 
 
 ## Special Labels
 
-Gravwell defines a handful of special labels and label prefixes for particular operations.
+DatalaiQ defines a handful of special labels and label prefixes for particular operations.
 
 ### Hidden
 
@@ -68,10 +68,10 @@ The string "hidden" is a special label; applying it to an object will prevent th
 
 ### Kit Label Prefixes
 
-Three label *prefixes* are used to manage Gravwell-internal information about objects which were installed as part of a kit. You should **never** manually apply kit labels to objects; these labels are documented to prevent users from accidentally applying a conflicting label to an object. The following are considered reserved kit label prefixes:
+Three label *prefixes* are used to manage DatalaiQ-internal information about objects which were installed as part of a kit. You should **never** manually apply kit labels to objects; these labels are documented to prevent users from accidentally applying a conflicting label to an object. The following are considered reserved kit label prefixes:
 
 * `kit/`
 * `kit/dependency:`
 * `kit/configuration:`
 
-Users should not create labels beginning with these strings, e.g. "kit/foo" or "kit/dependency:bar". These labels are managed internally by Gravwell.
+Users should not create labels beginning with these strings, e.g. "kit/foo" or "kit/dependency:bar". These labels are managed internally by DatalaiQ.
