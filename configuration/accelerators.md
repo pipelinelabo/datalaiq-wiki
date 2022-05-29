@@ -1,22 +1,22 @@
-#Gravwell Accelerators
+#DatalaiQ Accelerators
 
-Gravwell can process entries as they are *ingested* in order to perform field extraction.  The extracted fields are then recorded in acceleration blocks which accompany each shard.  Using the accelerators can enable dramatic speedups in throughput with minimal storage overhead.  Accelerators are specified on a per-well basis and are designed to be as unobtrusive and flexible as possible.  If data enters a well that does not match the acceleration directive, or is missing the specified fields, Gravwell processes it just like any other entry.  Acceleration will engage when it can.
+DatalaiQ can process entries as they are *ingested* in order to perform field extraction.  The extracted fields are then recorded in acceleration blocks which accompany each shard.  Using the accelerators can enable dramatic speedups in throughput with minimal storage overhead.  Accelerators are specified on a per-well basis and are designed to be as unobtrusive and flexible as possible.  If data enters a well that does not match the acceleration directive, or is missing the specified fields, DatalaiQ processes it just like any other entry.  Acceleration will engage when it can.
 
-We refer to "accelerators" and "acceleration" rather than "indexers" and "indexing" for two reasons. First, Gravwell already has a very important component called an "indexer". Second, acceleration can be done by direct indexing **or** with a bloom filter, so describing about an "index" is not necessarily accurate.
+We refer to "accelerators" and "acceleration" rather than "indexers" and "indexing" for two reasons. First, DatalaiQ already has a very important component called an "indexer". Second, acceleration can be done by direct indexing **or** with a bloom filter, so describing about an "index" is not necessarily accurate.
 
 ## Acceleration Basics
 
-Gravwell accelerators use a filtering technique that works best when data is relatively unique.  If a field value is extremely common, or present in almost every entry, it doesn't make much sense to include it in the accelerator specification.  Specifying and filtering on multiple fields can also improve accuracy, which improves query speed.  Fields which make good candidates for acceleration are fields that users will query for directly.  Examples include process names, usernames, IP addresses, module names, or any other field that will be used in a needle-in-the-haystack type query.
+DatalaiQ accelerators use a filtering technique that works best when data is relatively unique.  If a field value is extremely common, or present in almost every entry, it doesn't make much sense to include it in the accelerator specification.  Specifying and filtering on multiple fields can also improve accuracy, which improves query speed.  Fields which make good candidates for acceleration are fields that users will query for directly.  Examples include process names, usernames, IP addresses, module names, or any other field that will be used in a needle-in-the-haystack type query.
 
 Tags are always included in the acceleration, regardless of the extraction module in use.  Even when the query does not specify inline filters, the acceleration system can help narrow down and accelerate queries when there are multiple tags in a single well.
 
-Most acceleration modules incur about a 1-1.5% storage overhead when using the bloom engine, but extremely low-throughput wells may consume more storage.  If a well typically sees about 1-10 entries per second, acceleration may incur a 5-10% storage penalty, where a well with 10-15 thousand entries per second may see as little as 0.5% storage overhead.  Gravwell accelerators also allow for user specified collision rate adjustments.  If you can spare the storage, a lower collision rate may increase accuracy and speed up queries while increasing storage overhead.  Reducing the accuracy reduces the storage penalty but decreases accuracy and reduces the effectiveness of the accelerator.  The index engine will consume significantly more space depending on the number of fields extracted and the variability of the extracted data.  For example, full text indexing may cause the accelerator files to consume as much space as the stored data files.
+Most acceleration modules incur about a 1-1.5% storage overhead when using the bloom engine, but extremely low-throughput wells may consume more storage.  If a well typically sees about 1-10 entries per second, acceleration may incur a 5-10% storage penalty, where a well with 10-15 thousand entries per second may see as little as 0.5% storage overhead.  DatalaiQ accelerators also allow for user specified collision rate adjustments.  If you can spare the storage, a lower collision rate may increase accuracy and speed up queries while increasing storage overhead.  Reducing the accuracy reduces the storage penalty but decreases accuracy and reduces the effectiveness of the accelerator.  The index engine will consume significantly more space depending on the number of fields extracted and the variability of the extracted data.  For example, full text indexing may cause the accelerator files to consume as much space as the stored data files.
 
 Accelerators must operate on the direct data portion of an entry (with the exception of the src accelerator which directly operates on the SRC field).
 
 ## Acceleration Engines
 
-The engine is the system that actually stores the extracted acceleration data.  Gravwell supports two acceleration engines. Each engine provide different benefits depending on desired ingest rates, disk overhead, search performance, and data volumes.  The acceleration engine is entirely independent from the accelerator extractor itself (as specified with the Accelerator-Name configuration option).
+The engine is the system that actually stores the extracted acceleration data.  DatalaiQ supports two acceleration engines. Each engine provide different benefits depending on desired ingest rates, disk overhead, search performance, and data volumes.  The acceleration engine is entirely independent from the accelerator extractor itself (as specified with the Accelerator-Name configuration option).
 
 The default engine is the "index" engine.  The "index" engine is a full indexing system designed to be fast across all query types.  The index engine typically consumes considerably more disk space than the bloom engine but is significantly faster when operating on very large data volumes or queries that may touch a significant portion of the total data.  It is not uncommon for the index engine to consume as much space as the compressed data in heavily-indexed systems.
 
@@ -194,7 +194,7 @@ The rules for matching tags are that a tag may not match multiple `soft` specifi
 	Tags=foo*
 ```
 
-Notice that the two accelerator definitions have both a `foobar*` and a `foo*` tag matching pattern, this means that if we established the tag `foobarbaz` it could match both specifications (two `soft` matches).  Gravwell will send a notification indicating that the tag matches overlap.
+Notice that the two accelerator definitions have both a `foobar*` and a `foo*` tag matching pattern, this means that if we established the tag `foobarbaz` it could match both specifications (two `soft` matches).  DatalaiQ will send a notification indicating that the tag matches overlap.
 
 Now lets look at a specification where there is an allowed overlap:
 
@@ -253,7 +253,7 @@ Note that the tag `zeekconn` can be matched against both accelerators, however t
 
 The fulltext accelerator is designed to index words within text logs and is considered the most flexible acceleration option.  Many of the other search modules support invoking the fulltext accelerator when executing queries.  However, the primary search module for engaging with the fulltext accelerator is the [grep](/search/grep/grep.md) module with the `-w` flag.  Much like the Unix grep utility, `grep -w` specifies that the provided filter is expected to a word, rather than a subset of bytes.  Running a search with `words foo bar baz` will look for the words foo, bar, and baz and engage the fulltext accelerator.
 
-While the fulltext accelerator may be the most flexible, it is also the most costly.  Using the fulltext accelerator can significantly reduce the ingest performance of Gravwell and can consume significant storage space, this is due to the fact that the fulltext accelerator is indexing on virtually every component of every entry.
+While the fulltext accelerator may be the most flexible, it is also the most costly.  Using the fulltext accelerator can significantly reduce the ingest performance of DatalaiQ and can consume significant storage space, this is due to the fact that the fulltext accelerator is indexing on virtually every component of every entry.
 
 ### Fulltext Arguments
 
@@ -373,7 +373,7 @@ Note: Remember to escape backslashes '\\' when specifying regular expressions in
 
 ## Winlog
 
-The winlog module is perhaps *the* slowest search module.  The complexity of XML data combined with the Windows log schema means that the module has to be extremely verbose, resulting in pretty poor performance.  This means that accelerating Windows log data may be your single most important performance optimization, as processing millions or billions of unaccelerated entries with the winlog module will be excruciatingly slow.  The accelerators help you narrow down the specific log entries you want without invoking the winlog search module on every piece of data.  However, accelerating winlog data simply shifts processing from search time to ingest time, meaning that ingest of Windows logs will be slower when acceleration is enabled, so don't expect Gravwell's typical ingest rate of hundreds of thousands of entries per second when ingesting into a winlog-accelerated well.
+The winlog module is perhaps *the* slowest search module.  The complexity of XML data combined with the Windows log schema means that the module has to be extremely verbose, resulting in pretty poor performance.  This means that accelerating Windows log data may be your single most important performance optimization, as processing millions or billions of unaccelerated entries with the winlog module will be excruciatingly slow.  The accelerators help you narrow down the specific log entries you want without invoking the winlog search module on every piece of data.  However, accelerating winlog data simply shifts processing from search time to ingest time, meaning that ingest of Windows logs will be slower when acceleration is enabled, so don't expect DatalaiQ's typical ingest rate of hundreds of thousands of entries per second when ingesting into a winlog-accelerated well.
 
 ### Example Well Configuration
 
@@ -527,7 +527,7 @@ Query, ingest, and storage performance characteristics will vary with each datas
 | Disk      | Samsung 960 EVO NVME |
 | Filesystem | BTRFS with zstd transparent compression |
 
-These tests were conducted using Gravwell version `3.1.5`
+These tests were conducted using DatalaiQ version `3.1.5`
 
 ### Ingest Performance
 

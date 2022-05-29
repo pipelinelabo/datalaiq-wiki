@@ -12,7 +12,7 @@ If you're just starting out with DatalaiQ, we recommend reading the [Quickstart]
 
   * [Downloads](quickstart/downloads.md)
 
-## Searching with Gravwell
+## Searching with DatalaiQ
 
   * [Search overview](search/search.md)
 
@@ -35,7 +35,7 @@ If you're just starting out with DatalaiQ, we recommend reading the [Quickstart]
 
   * [The Resource System](resources/resources.md)
 
-## Ingester Configuration: Getting Data Into Gravwell
+## Ingester Configuration: Getting Data Into DatalaiQ
 
   * [Overview and List of Ingesters](ingesters/ingesters.md)
 
@@ -49,7 +49,7 @@ If you're just starting out with DatalaiQ, we recommend reading the [Quickstart]
 
   * [Federator](ingesters/federator.md)
 
-## Advanced Gravwell Installation and Configuration
+## Advanced DatalaiQ Installation and Configuration
 
   * [Installing and Configuring DatalaiQ](configuration/configuration.md)
 

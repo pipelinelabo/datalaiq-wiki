@@ -1,18 +1,18 @@
 # Configuring TLS certificates
 
-Gravwell ships without TLS certificates by default, meaning all communications will be unencrypted until you set up certificates. We did this because using auto-generated self-signed certificates tends to both frighten users with the browser's warnings and provide a false sense of security. It is difficult to properly validate a self-signed certificate and there is a real risk of training users to simply accept potentially impersonated certificates.  This is compounded by the extremely fickle behavior of Chromium-based browsers, which timeout certificate exceptions in unpredictable ways (you are often forced to close EVERY Chromium/Chrome zygote process in order to re-accept the certificate).
+DatalaiQ ships without TLS certificates by default, meaning all communications will be unencrypted until you set up certificates. We did this because using auto-generated self-signed certificates tends to both frighten users with the browser's warnings and provide a false sense of security. It is difficult to properly validate a self-signed certificate and there is a real risk of training users to simply accept potentially impersonated certificates.  This is compounded by the extremely fickle behavior of Chromium-based browsers, which timeout certificate exceptions in unpredictable ways (you are often forced to close EVERY Chromium/Chrome zygote process in order to re-accept the certificate).
 
-We strongly recommend that you acquire fully validated certificates from a trusted provider if you plan to expose the Gravwell system to the Internet.  The folks at [LetsEncrypt](https://letsencrypt.org) are a great resource for learning about proper certificate validation, and they provide free certificates that are trusted by every major browser.
+We strongly recommend that you acquire fully validated certificates from a trusted provider if you plan to expose the DatalaiQ system to the Internet.  The folks at [LetsEncrypt](https://letsencrypt.org) are a great resource for learning about proper certificate validation, and they provide free certificates that are trusted by every major browser.
 
-The Gravwell administrator has three options for certificates:
+The DatalaiQ administrator has three options for certificates:
 
-* Continue to use unencrypted HTTP only. This is suitable for installations that will only be accessed on a trusted private network, or where Gravwell will be fronted by an HTTP proxy such as nginx.
-* Install a properly-signed TLS certificate. This is the ideal configuration, but typically requires the Gravwell instance to have a publicly-accessible hostname.
-* Install a self-signed certificate. This makes sense when you want to encrypt traffic to Gravwell but for one reason or another cannot get a properly signed certificate.
+* Continue to use unencrypted HTTP only. This is suitable for installations that will only be accessed on a trusted private network, or where DatalaiQ will be fronted by an HTTP proxy such as nginx.
+* Install a properly-signed TLS certificate. This is the ideal configuration, but typically requires the DatalaiQ instance to have a publicly-accessible hostname.
+* Install a self-signed certificate. This makes sense when you want to encrypt traffic to DatalaiQ but for one reason or another cannot get a properly signed certificate.
 
 ## Allowed TLS Ciphers
 
-A number of TLS ciphers are considered cryptographically insecure, so Gravwell only supports the following TLS ciphers:
+A number of TLS ciphers are considered cryptographically insecure, so DatalaiQ only supports the following TLS ciphers:
 
 - RSA-WITH-AES-256-CBC-SHA
 - ECDHE-ECDSA-WITH-AES-256-CBC-SHA
@@ -24,7 +24,7 @@ A number of TLS ciphers are considered cryptographically insecure, so Gravwell o
 
 ## Using HTTP only
 
-This is the default configuration for Gravwell, and no changes are needed to use it. It is suitable for someone experimenting with Gravwell on a home network, or evaluating it on an experimental network for work. It is also an acceptable configuration when the Gravwell webserver will be accessed through a load balancer/reverse proxy such as nginx; this allows the proxy to perform HTTPS encryption/decryption, taking load off the Gravwell system.
+This is the default configuration for DatalaiQ, and no changes are needed to use it. It is suitable for someone experimenting with DatalaiQ on a home network, or evaluating it on an experimental network for work. It is also an acceptable configuration when the DatalaiQ webserver will be accessed through a load balancer/reverse proxy such as nginx; this allows the proxy to perform HTTPS encryption/decryption, taking load off the DatalaiQ system.
 
 Please note that without a certificate, ingesters will be unable to encrypt their traffic to the indexer. If you wish to encrypt ingester traffic but leave the webserver in HTTP-only mode, you may install a certificate as described in either of the other sections, but only uncomment the `Certificate-File`, `Key-File`, and `TLS-Ingest-Port` options in gravwell.conf. This will enable TLS for the indexer but not the webserver.
 
@@ -32,11 +32,11 @@ Note: If you configure distributed webservers and a datastore with HTTPS disable
 
 ## Install a properly-signed TLS certificate
 
-A properly-signed TLS certificate is the most secure way to access Gravwell. Browsers will automatically accept the certificate without complaint.
+A properly-signed TLS certificate is the most secure way to access DatalaiQ. Browsers will automatically accept the certificate without complaint.
 
 Obtaining a certificate is outside the scope of this documentation; consider either purchasing a certificate through one of the traditional providers or using [LetsEncrypt](https://letsencrypt.org) to obtain a free one.
 
-To use the certificate, Gravwell must be told where the certificate and key files are. Assuming the files are at `/etc/certs/cert.pem` and `/etc/certs/key.pem`, edit gravwell.conf to uncomment and populate the `Certificate-File` and `Key-File` options:
+To use the certificate, DatalaiQ must be told where the certificate and key files are. Assuming the files are at `/etc/certs/cert.pem` and `/etc/certs/key.pem`, edit gravwell.conf to uncomment and populate the `Certificate-File` and `Key-File` options:
 
 ```
 Certificate-File=/etc/certs/cert.pem
@@ -63,7 +63,7 @@ Note: If using the datastore and multiple webservers, you must set the `Search-F
 
 ## Install a self-signed certificate
 
-Although it is not as secure as a proper TLS certificate, a self-signed certificate will ensure encrypted communication between users and Gravwell. By instructing browsers to trust the self-signed cert, it is also possible to avoid recurring warning screens.
+Although it is not as secure as a proper TLS certificate, a self-signed certificate will ensure encrypted communication between users and DatalaiQ. By instructing browsers to trust the self-signed cert, it is also possible to avoid recurring warning screens.
 
 First, we will generate a 1-year certificate in `/opt/gravwell/etc` using `gencert`, a program we ship with the Gravwell install:
 
@@ -72,7 +72,7 @@ cd /opt/gravwell/etc
 sudo -u gravwell ../bin/gencert -h HOSTNAME
 ```
 
-Make sure to replace HOSTNAME with either the hostname or the IP address of your Gravwell system. You can specify multiple hostnames or IPs by separating them with commas, e.g. `gencert -h gravwell.floren.lan,10.0.0.1,192.168.0.3`
+Make sure to replace HOSTNAME with either the hostname or the IP address of your DatalaiQ system. You can specify multiple hostnames or IPs by separating them with commas, e.g. `gencert -h gravwell.floren.lan,10.0.0.1,192.168.0.3`
 
 Now, open gravwell.conf and uncomment the `Certificate-File` and `Key-File` directives. The defaults should point correctly to the two files we just created.
 
@@ -96,7 +96,7 @@ Browsers will issue a warning if a certificate is not signed by a recognized roo
 
 #### Firefox
 
-Installing the certificate in Firefox is simple. First, navigate to your Gravwell instance via HTTPS. Firefox should display a screen similar to this:
+Installing the certificate in Firefox is simple. First, navigate to your DatalaiQ instance via HTTPS. Firefox should display a screen similar to this:
 
 ![](firefox-warning.png)
 
@@ -114,7 +114,7 @@ Firefox should now accept your self-signed certificate until the certificate exp
 
 #### Chrome
 
-Installing a certificate in a Chrome browser is slightly more complicated. First, navigate to your Gravwell instance via HTTPS. Chrome will display a warning screen:
+Installing a certificate in a Chrome browser is slightly more complicated. First, navigate to your DatalaiQ instance via HTTPS. Chrome will display a warning screen:
 
 ![](chrome-warning.png)
 
@@ -144,4 +144,4 @@ A file dialog will open; select the certificate file you saved earlier. Then, in
 
 ![](chrome-import.png)
 
-Now you should be able to refresh the Gravwell tab without further SSL warnings.
+Now you should be able to refresh the DatalaiQ tab without further SSL warnings.

@@ -1,6 +1,6 @@
-# Networking Considerations for Gravwell
+# Networking Considerations for DatalaiQ
 
-Gravwell uses several network ports for communication between distributed components. This article describes which ports are used for which purposes.
+DatalaiQ uses several network ports for communication between distributed components. This article describes which ports are used for which purposes.
 
 ## Indexer Control Port: TCP 9404
 
@@ -8,7 +8,7 @@ This port, set by the `Control-Port` option in gravwell.conf, is used by the web
 
 ## Webserver Port: TCP 80/443
 
-This port is how Gravwell users access the Gravwell webserver. The default configuration uses unencrypted HTTP on port 80, specified with the `Web-Port` option in gravwell.conf. This can be changed to another value, e.g. 8080 if desired. We recommend changing the port to 443 if you [install TLS certificates](#!configuration/certificates.md).
+This port is how DatalaiQ users access the DatalaiQ webserver. The default configuration uses unencrypted HTTP on port 80, specified with the `Web-Port` option in gravwell.conf. This can be changed to another value, e.g. 8080 if desired. We recommend changing the port to 443 if you [install TLS certificates](#!configuration/certificates.md).
 
 ## Cleartext Ingest Port: TCP 4023
 
@@ -24,7 +24,7 @@ This port is used by indexers to communicate with each other for [replication](#
 
 ## Datastore Port: TCP 9405
 
-This port is used when a Gravwell cluster has [multiple webservers](#!distributed/frontend.md) configured. The *datastore* component listens on this port (specified using the `Datastore-Port` option) for incoming connections from *webservers*.
+This port is used when a DatalaiQ cluster has [multiple webservers](#!distributed/frontend.md) configured. The *datastore* component listens on this port (specified using the `Datastore-Port` option) for incoming connections from *webservers*.
 
 ## RHEL (Redhat Enterprise Linux) and CentOS firewall commands
 

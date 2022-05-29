@@ -1,12 +1,12 @@
-# Advanced Gravwell Configuration
+# Advanced DatalaiQ Configuration
 
-This document describes some more advanced configuration options for Gravwell installations, including information on configuring storage wells, data ageout, and multi-node clusters.
+This document describes some more advanced configuration options for DatalaiQ installations, including information on configuring storage wells, data ageout, and multi-node clusters.
 
-Gravwell is optionally a distributed system, allowing for multiple indexers which comprise a Gravwell cluster.  The default installation will install both the webserver and indexer on the same machine, but with an appropriate license configuration, running a cluster is just as simple as running a single instance.
+DatalaiQ is optionally a distributed system, allowing for multiple indexers which comprise a DatalaiQ cluster.  The default installation will install both the webserver and indexer on the same machine, but with an appropriate license configuration, running a cluster is just as simple as running a single instance.
 
 ## Installer Options
 
-The Gravwell installer supports several flags to make automated installation or deployment easier.  The following flags are supported:
+The DatalaiQ installer supports several flags to make automated installation or deployment easier.  The following flags are supported:
 
 | Flag | Description |
 |------|-------------|
@@ -14,16 +14,16 @@ The Gravwell installer supports several flags to make automated installation or 
 | `--no-certs` | Installer will not generate self-signed certificates
 | `--no-questions` | Assume all defaults and automatically accept EULA
 | `--no-random-passwords` | Do not generate random ingest and control secrets
-| `--no-indexer` | Do not install Gravwell indexer component
-| `--no-webserver` | Do not install the Gravwell webserver component
-| `--no-searchagent` | Do not install the Gravwell search agent (typically used with `--no-webserver`)
+| `--no-indexer` | Do not install DatalaiQ indexer component
+| `--no-webserver` | Do not install the DatalaiQ webserver component
+| `--no-searchagent` | Do not install the DatalaiQ search agent (typically used with `--no-webserver`)
 | `--no-start` | Do not start the components after installation
 | `--no-crash-report` | Do not install the automated debug report component
 | `--use-config` | Use a specific config file
 
 ### Common use-cases for advanced installation requirements
 
-If you are deploying Gravwell to a cluster with multiple indexers, you would not want to install the webserver component on your indexer nodes.
+If you are deploying DatalaiQ to a cluster with multiple indexers, you would not want to install the webserver component on your indexer nodes.
 
 If you are using an automated deployment tool you don’t want the installer stopping and asking a questions.
 
@@ -39,19 +39,19 @@ If you choose to randomize passwords, you will need to go back through your inde
 
 ## General Configuration
 
-Configuration of a Gravwell cluster is designed to be simple and efficient right from the start.  However, there are knobs to twist that can allow the system to better take advantage of extremely large systems or smaller embedded and industrial devices with memory constraints.  The core configuration file is designed to be shared by both the webserver and indexer, and is located by default at `/opt/gravwell/etc/gravwell.conf`
+Configuration of a DatalaiQ cluster is designed to be simple and efficient right from the start.  However, there are knobs to twist that can allow the system to better take advantage of extremely large systems or smaller embedded and industrial devices with memory constraints.  The core configuration file is designed to be shared by both the webserver and indexer, and is located by default at `/opt/gravwell/etc/gravwell.conf`
 
 For a detailed listing of configuration options see [this page](parameters.md).
 
 For a complete example indexer configuration see our [example default config](indexer-default-config.md).
 
-The most important items in the configuration file are the `Ingest-Auth`, `Control-Auth`, and `Search-Agent-Auth` configuration parameters.  The `Control-Auth` parameter is the shared secret that the webserver and indexers use to authenticate each other. If an attacker can communicate with your indexers and has the `Control-Auth` token, he has total access to the data they store.  The `Ingest-Auth` token is used to validate ingesters, and restricts the ability to create tags and push data into Gravwell.  Gravwell prides itself on speed, which means an attacker with access to your `Ingest-Auth` token can push a tremendous amount of data into Gravwell in a very short amount of time.  The `Search-Agent-Auth` token allows Gravwell's Search Agent utility to automatically connect to the webserver and issue searches on the behalf of users. These tokens are important and you should protect them carefully.
+The most important items in the configuration file are the `Ingest-Auth`, `Control-Auth`, and `Search-Agent-Auth` configuration parameters.  The `Control-Auth` parameter is the shared secret that the webserver and indexers use to authenticate each other. If an attacker can communicate with your indexers and has the `Control-Auth` token, he has total access to the data they store.  The `Ingest-Auth` token is used to validate ingesters, and restricts the ability to create tags and push data into DatalaiQ.  DatalaiQ prides itself on speed, which means an attacker with access to your `Ingest-Auth` token can push a tremendous amount of data into DatalaiQ in a very short amount of time.  The `Search-Agent-Auth` token allows DatalaiQ's Search Agent utility to automatically connect to the webserver and issue searches on the behalf of users. These tokens are important and you should protect them carefully.
 
-Attention: In clustered Gravwell installations, it is essential that all nodes are configured with the same `Ingest-Auth` and `Control-Auth` values to enable proper intercommunication.
+Attention: In clustered DatalaiQ installations, it is essential that all nodes are configured with the same `Ingest-Auth` and `Control-Auth` values to enable proper intercommunication.
 
 ## Webserver Configuration
 
-The webserver acts as the focusing point for all searches, and provides an interactive interface into Gravwell.  While the webserver does not require significant storage, it can benefit from small pools of very fast storage so that even when a search hands back large amounts of data, users can quickly navigate their results.  The webserver also participates in the search pipeline and often performs some of the filtering, metadata extraction, and rendering of data.  When deploying a webserver, we recommend a reasonably sized solid state disk (NVME if possible), a memory pool of 16GB of RAM or more, and at least 4 physical cores.  Gravwell is built to be extremely concurrent, so more CPU cores and additional memory can yield significant performance benefits.  An Intel E5 or AMD Epyc chip with 32GB of memory or more is a good choice, and more is always better.
+The webserver acts as the focusing point for all searches, and provides an interactive interface into DatalaiQ.  While the webserver does not require significant storage, it can benefit from small pools of very fast storage so that even when a search hands back large amounts of data, users can quickly navigate their results.  The webserver also participates in the search pipeline and often performs some of the filtering, metadata extraction, and rendering of data.  When deploying a webserver, we recommend a reasonably sized solid state disk (NVME if possible), a memory pool of 16GB of RAM or more, and at least 4 physical cores.  DatalaiQ is built to be extremely concurrent, so more CPU cores and additional memory can yield significant performance benefits.  An Intel E5 or AMD Epyc chip with 32GB of memory or more is a good choice, and more is always better.
 
 Two configuration options tell the webserver how to communicate with indexers. The `Remote-Indexers` option specifies the IPs or hostnames of the indexers, and the `Control-Auth` option gives a shared key used by the webserver to authenticate to the indexers. A webserver connecting to three indexers might contain the following in its `gravwell.conf`:
 
@@ -62,11 +62,11 @@ Remote-Indexers=net:10.0.1.2:9404
 Remote-Indexers=net:10.0.1.3:9404
 ```
 
-Note: The indexers listed above are listening for control connections on port 9404, the default. This port is set by the `Control-Port` option in the indexer's gravwell.conf file.
+Note: The indexers listed above are listening for control connections on port 9404, the default. This port is set by the `Control-Port` option in the indexer's DatalaiQ.conf file.
 
 ### Webserver TLS
 
-By default, Gravwell does not generate TLS certificates. For instructions on setting up properly-signed TLS certificates or self-signed certificates on the webserver, refer to the [TLS/HTTP instructions](certificates.md). 
+By default, DatalaiQ does not generate TLS certificates. For instructions on setting up properly-signed TLS certificates or self-signed certificates on the webserver, refer to the [TLS/HTTP instructions](certificates.md). 
 
 ### Webserver Configuration Pitfalls
 
@@ -81,11 +81,11 @@ By default, Gravwell does not generate TLS certificates. For instructions on set
 
 ## Indexer Configuration
 
-Indexers are the storage centers of Gravwell and are responsible for storing, retrieving, and processing data.  Indexers perform the first heavy lifting when executing a query, first finding the data then pushing it into the search pipeline.  The search pipeline will perform as much work as possible in parallel on the indexers for efficiency.  Indexers benefit from high-speed low-latency storage and as much RAM as possible.  Gravwell can take advantage of file system caches, which means that as you are running multiple queries over the same data it won’t even have to go to the disks.  We have seen Gravwell operate at over 5GB/s per node on well-cached data.  The more memory, the more data can be cached.  When searching over large pools that exceed the memory capacity of even the largest machines, high speed RAID arrays can help increase throughput.
+Indexers are the storage centers of DatalaiQ and are responsible for storing, retrieving, and processing data.  Indexers perform the first heavy lifting when executing a query, first finding the data then pushing it into the search pipeline.  The search pipeline will perform as much work as possible in parallel on the indexers for efficiency.  Indexers benefit from high-speed low-latency storage and as much RAM as possible.  DatalaiQ can take advantage of file system caches, which means that as you are running multiple queries over the same data it won’t even have to go to the disks.  We have seen DatalaiQ operate at over 5GB/s per node on well-cached data.  The more memory, the more data can be cached.  When searching over large pools that exceed the memory capacity of even the largest machines, high speed RAID arrays can help increase throughput.
 
-We recommend indexers have at least 32GB of memory with 8 CPU cores.  If possible, Gravwell also recommends a very high speed NVME solid state disk that can act as a hot well, holding just a few days of of the most recent data and aging out to the slower spinning disk pools.  The hot well enables very fast access to the most recent data, while enabling Gravwell to organize and consolidate older data so that he can be searched as efficiently as possible.
+We recommend indexers have at least 32GB of memory with 8 CPU cores.  If possible, DatalaiQ also recommends a very high speed NVME solid state disk that can act as a hot well, holding just a few days of of the most recent data and aging out to the slower spinning disk pools.  The hot well enables very fast access to the most recent data, while enabling DatalaiQ to organize and consolidate older data so that he can be searched as efficiently as possible.
 
-There are a few key configuration options in an indexer's gravwell.conf which affect its general behavior:
+There are a few key configuration options in an indexer's DatalaiQ.conf which affect its general behavior:
 
 * `Control-Port` sets the port on which the indexer will listen for incoming connections from a webserver. Default 9404.
 * `Control-Auth` sets a shared secret which webservers use to authenticate. Defaults to a randomly-generated string.
@@ -98,7 +98,7 @@ Indexers store their data in _wells_. Each well stores some number of tags. If a
 
 **Tags** are used as a method to logically separate data of different types.  Tags are applied at ingest time by the ingesters (SimpleRelay, NetworkCapture, etc).  For example, it is useful to apply unique tags to syslog logs, Apache logs, network packets, video streams, audio streams, etc.  **Wells** are the storage groupings which actually organize and store the ingested data. Although users typically do not interact with them, the wells store data on-disk in **shards**, with each shard containing approximately 1.5 days of data.
 
-Tags can be assigned to wells so that data streams can be routed to faster or larger storage pools. For example, a raw pcap stream from a high bandwidth link may need to be assigned to a faster storage pool while relatively low-volume log entries from syslog or a webserver do not require fast storage. A tag-to-well mapping is a one-to-one mapping; a single tag cannot be assigned to multiple wells, although a well can contain multiple tags.  Logically and physically separating data streams allows different rules to be applied to different data.  For example, it may be desirable to expire or compress high bandwidth streams, like network traffic, every 15 days while keeping low bandwidth streams for much longer.  The logical separation also greatly increases search performance as the system intelligently queries the appropriate well based on tag (e.g. when searching syslog entries located in the well named default, Gravwell will not engage any other wells).
+Tags can be assigned to wells so that data streams can be routed to faster or larger storage pools. For example, a raw pcap stream from a high bandwidth link may need to be assigned to a faster storage pool while relatively low-volume log entries from syslog or a webserver do not require fast storage. A tag-to-well mapping is a one-to-one mapping; a single tag cannot be assigned to multiple wells, although a well can contain multiple tags.  Logically and physically separating data streams allows different rules to be applied to different data.  For example, it may be desirable to expire or compress high bandwidth streams, like network traffic, every 15 days while keeping low bandwidth streams for much longer.  The logical separation also greatly increases search performance as the system intelligently queries the appropriate well based on tag (e.g. when searching syslog entries located in the well named default, DatalaiQ will not engage any other wells).
 
 Tag-to-well mappings are defined in the `/opt/gravwell/etc/gravwell.conf` configuration file. By default, only a `Default-Well` will be configured, which accepts all tags. An example configuration snippet for an indexer with multiple wells associated tags might look like this:
 
@@ -124,19 +124,19 @@ When reassigning tags between wells, the system will NOT move the data.  If you 
 
 ## Data Ageout
 
-Gravwell supports an ageout system whereby data management policies can be applied to individual wells.  The ageout policies control data retention, storage well utilization, and compression.  For more information about configuration data ageout see the [Data Ageout](ageout.md). section
+DatalaiQ supports an ageout system whereby data management policies can be applied to individual wells.  The ageout policies control data retention, storage well utilization, and compression.  For more information about configuration data ageout see the [Data Ageout](ageout.md). section
 
 ## Well Replication
 
-A Gravwell cluster with multiple indexer nodes can be configured so that nodes replicate their data to one another in case of disk failure or accidental deletion. See the [replication documentation](replication.md) for information on configuring replication.
+A DatalaiQ cluster with multiple indexer nodes can be configured so that nodes replicate their data to one another in case of disk failure or accidental deletion. See the [replication documentation](replication.md) for information on configuring replication.
 
 ## Query Acceleration
 
-Gravwell supports the notion of "accelerators" for individual wells, which allow you apply parsers to data at ingest to generate optimization blocks.  Accelerators are just as flexible as query modules and are transparently engaged when performing queries.  Accelerators are extremely useful for needle-in-haystack style queries, where you need to zero in on data that has specific field values very quickly.  See the [Accelerators](accelerators.md) section for more information and configuration techniques.
+DatalaiQ supports the notion of "accelerators" for individual wells, which allow you apply parsers to data at ingest to generate optimization blocks.  Accelerators are just as flexible as query modules and are transparently engaged when performing queries.  Accelerators are extremely useful for needle-in-haystack style queries, where you need to zero in on data that has specific field values very quickly.  See the [Accelerators](accelerators.md) section for more information and configuration techniques.
 
 ## Password Complexity
 
-Gravwell supports the option to enforce password complexity on users when not in single sign on mode.  Enabling password complexity requirements is performed by adding the following structure to the `gravwell.conf` file:
+DatalaiQ supports the option to enforce password complexity on users when not in single sign on mode.  Enabling password complexity requirements is performed by adding the following structure to the `gravwell.conf` file:
 
 
 ```
@@ -148,7 +148,7 @@ Gravwell supports the option to enforce password complexity on users when not in
 	Require-Special=<bool>
 ```
 
-The default Gravwell deployment does not enforce any rules on password complexity, and because Gravwell uses a secure bcrypt password hashing system, we have no way to enforce these rules after the fact.  Once you enable password complexity requirements all future password changes will be required to abide by the requirements.
+The default DatalaiQ deployment does not enforce any rules on password complexity, and because DatalaiQ uses a secure bcrypt password hashing system, we have no way to enforce these rules after the fact.  Once you enable password complexity requirements all future password changes will be required to abide by the requirements.
 
 Here is an example configuration block that requires complex passwords that are at least 10 characters in length:
 
@@ -162,7 +162,7 @@ Here is an example configuration block that requires complex passwords that are 
 
 ```
 
-Note that Gravwell fully supports UTF-8 character sets and that many languages do not have the concept of case.  So while the password `パスワードを推測することはできません!#$@42` may look very complex, it doesn't meet the requirements above due to the lack of upper and lower case values.
+Note that DatalaiQ fully supports UTF-8 character sets and that many languages do not have the concept of case.  So while the password `パスワードを推測することはできません!#$@42` may look very complex, it doesn't meet the requirements above due to the lack of upper and lower case values.
 
 ## Version Compatibility 
 
