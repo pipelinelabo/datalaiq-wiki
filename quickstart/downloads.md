@@ -6,37 +6,37 @@ Attention: The Debian and RHEL repositories are more easily maintained than thes
 
 The DatalaiQ core installer contains the indexer and webserver frontend. You'll need a license; either get a Community Edition free license, or contact support@pipelinesecurity.net for commercial options.
 
-[Download DatalaiQ Core Installer](https://update.gravwell.io/archive/5.0.2/installers/gravwell_5.0.2.sh) (SHA256: 44e3ba4b319358bfd4e2b419f0f00987457303ac46b6cf436706b0193ec177a1)
+[Download DatalaiQ Core Installer](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_pipeline-5.0.2-1.sh) (SHA256: 1b0112b713d09155a39025487faf9bf341b134c82a7c7f9ad6b98ccf7293cc94)
 
 ## Ingesters
 
-The core suite of ingesters are available for download as installable packages.  Ingesters designed to operate on Linux machines are typically self contained, statically linked executables that are agnostic to the hosts package management system (with the exception of the NetworkCapture ingester).  Windows based ingesters are distributed as executable MSI packages.  Source code for many ingesters can be found at the [DatalaiQ Github](https://github.com/gravwell/gravwell/tree/master/ingesters) repository.
+The core suite of ingesters are available for download as installable packages.  Ingesters designed to operate on Linux machines are typically self contained, statically linked executables that are agnostic to the hosts package management system (with the exception of the NetworkCapture ingester).  Windows based ingesters are distributed as executable MSI packages.  Source code for many ingesters can be found at the [DatalaiQ Github](https://github.com/pipelinelabo/datalaiq-wiki) repository.
 
 ### Current Ingester Releases
 | Ingester | SHA256 | More Info |
 |:--------:|-------:|----------:|
-| [Simple Relay](https://update.gravwell.io/archive/5.0.2/installers/gravwell_simple_relay_installer_5.0.2.sh) | ``f1a1e95f680317ac58fbe6536763147257296edb23a02a4e892d203379105b15`` | [Documentation](#!ingesters/ingesters.md#Simple_Relay)|
-| [File Follower](https://update.gravwell.io/archive/5.0.2/installers/gravwell_file_follow_installer_5.0.2.sh) | ``1d3205b1ca3aa3de3ff3208f7beb0bc25870b9774199a79c9f15e41ea0a81c6d`` | [Documentation](#!ingesters/ingesters.md#File_Follower) |
-| [HTTP Ingester](https://update.gravwell.io/archive/5.0.2/installers/gravwell_http_ingester_installer_5.0.2.sh) | ``71e9c4c68bfad5810bacc3ec1e7a20758b1d2a5d04c3d27bd3ec2232cd44e04a`` | [Documentation](#!ingesters/ingesters.md#HTTP_POST) |
-| [IPMI Ingester](https://update.gravwell.io/archive/5.0.2/installers/gravwell_ipmi_installer_5.0.2.sh) | ``f9bfed78130234665eebee7f28eb0beccbd844811cc8c4e0abd81cc58158a8fd`` | [Documentation](#!ingesters/ingesters.md#IPMI_Ingester)|
-| [Netflow Capture](http://update.gravwell.io/archive/5.0.2/installers/gravwell_netflow_capture_installer_5.0.2.sh) | ``fceebaac0eb9c5e53a71e28243b0ebef20ab9e5b7ef4008bfc3c497496897314`` | [Documentation](#!ingesters/ingesters.md#Netflow_Ingester) |
-| [Network Capture](https://update.gravwell.io/archive/5.0.2/installers/gravwell_network_capture_installer_5.0.2.sh) | ``44f4649ad3454880d6c23d10ce765ac37d250cc9f88fa345b215330b8675a73c`` | [Documentation](#!ingesters/ingesters.md#Network_Ingester) |
-| [Collectd Collector](https://update.gravwell.io/archive/5.0.2/installers/gravwell_collectd_installer_5.0.2.sh) | ``1afacadfca7d9f382d51d86b022624dce6f399e7a8ae40c332028c905de00f8a`` | [Documentation](#!ingesters/ingesters.md#collectd) |
-| [Ingest Federator](https://update.gravwell.io/archive/5.0.2/installers/gravwell_federator_installer_5.0.2.sh) | ``b26aaf1456563111d48e0c7fffc98314e8ae18aadecd9348515d7ced6857ee78`` | [Documentation](#!ingesters/ingesters.md#Federator_Ingester) |
-| [Windows Events](https://update.gravwell.io/archive/5.0.2/installers/gravwell_win_events_5.0.2.msi) | ``57564845d010dd1756f5b706f31176bf12961375d0ea1d2c430411b6e74db3d4`` | [Documentation](#!ingesters/ingesters.md#Windows_Event_Service) |
-| [Windows File Follower](https://update.gravwell.io/archive/5.0.2/installers/gravwell_file_follow_5.0.2.msi) | ``691db21112893e223398935d0d27c31f6fc76805798aa99bb24da109c3b18272`` | [Documentation](#!ingesters/ingesters.md#File_Follower) |
-| [Apache Kafka](https://update.gravwell.io/archive/5.0.2/installers/gravwell_kafka_installer_5.0.2.sh) | ``22b08e225e58450856d7606878fd1afc7d3eb3972cfc66940589b6a5f8e1c352`` | [Documentation](#!ingesters/ingesters.md#Kafka)|
-| [Amazon Kinesis](https://update.gravwell.io/archive/5.0.2/installers/gravwell_kinesis_ingest_installer_5.0.2.sh) | ``540da644da5b79062c834c9b92bb56abd04b354a313484a2d6f6b8771db856f9`` | [Documentation](#!ingesters/ingesters.md#Kinesis_Ingester)|
-| [Google PubSub](https://update.gravwell.io/archive/5.0.2/installers/gravwell_pubsub_ingest_installer_5.0.2.sh) | ``84a560692db4ab591c6dd6a25ae85ca64f60bffa5bdd1a1e55bb7effffa27b20`` | [Documentation](#!ingesters/ingesters.md#GCP_PubSub)|
-| [Office 365 Logs](https://update.gravwell.io/archive/5.0.2/installers/gravwell_o365_installer_5.0.2.sh) | ``2f0e3570e79f672226a2d45e7dcf7e3450a42cbe2c0e17671fb829caf4582ec7`` | [Documentation](#!ingesters/ingesters.md#Office_365_Log_Ingester)|
-| [Microsoft Graph API](https://update.gravwell.io/archive/5.0.2/installers/gravwell_msgraph_installer_5.0.2.sh) | ``1c21d52c4ed5371682632d0d52bbac997457666fe77820bf5f63c7679b5d08be`` | [Documentation](#!ingesters/ingesters.md#Microsoft_Graph_API_Ingester)|
+| [Simple Relay](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_simple_relay_installer_5.0.2.sh) | ``329cc83d4798e7067794e82ec12fca67e05ced691457c6068578e49f36355ad2`` | [Documentation](#!ingesters/ingesters.md#Simple_Relay)|
+| [File Follower](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_file_follow_installer_5.0.2.sh) | ``f8688d2500a3205483f6f32819b5d3d719f536a74a5c0457e918757c422a9633`` | [Documentation](#!ingesters/ingesters.md#File_Follower) |
+| [HTTP Ingester](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_http_ingester_installer_5.0.2.sh) | ``1990b41b1a0d774682e856a609747a73947499a9c9e2e67e31fb17d6a3c1c28f`` | [Documentation](#!ingesters/ingesters.md#HTTP_POST) |
+| [IPMI Ingester](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_ipmi_installer_5.0.2.sh) | ``d348e282b0ed3dd3d4af86117478f6d409aad9bc607832046b1d1724a4154850`` | [Documentation](#!ingesters/ingesters.md#IPMI_Ingester)|
+| [Netflow Capture](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_netflow_capture_installer_5.0.2.sh) | ``2388ee6633f7f25b10a66de99261d9dd5386fb4165797e8a4373e31a41289421`` | [Documentation](#!ingesters/ingesters.md#Netflow_Ingester) |
+| [Network Capture](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_network_capture_installer_5.0.2.sh) | ``49d380a312bdc88da489dcbebaa68cc6a36f67dd821b08cb05a52941a7cd6e9f`` | [Documentation](#!ingesters/ingesters.md#Network_Ingester) |
+| [Collectd Collector](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_collectd_installer_5.0.2.sh) | ``fb1e31597323a3b612d94b45ba1d389d38778d9db8dfb2a23dc43c385cfb9c59`` | [Documentation](#!ingesters/ingesters.md#collectd) |
+| [Ingest Federator](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_federator_installer_5.0.2.sh) | ``a6f89ce16eaed8cc3210fa30a9aaf03d7fc5ff001945ee25592494636aa16853`` | [Documentation](#!ingesters/ingesters.md#Federator_Ingester) |
+| [Windows Events](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_win_events_5.0.2.msi) | ``57564845d010dd1756f5b706f31176bf12961375d0ea1d2c430411b6e74db3d4`` | [Documentation](#!ingesters/ingesters.md#Windows_Event_Service) |
+| [Windows File Follower](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_file_follow_5.0.2.msi) | ``691db21112893e223398935d0d27c31f6fc76805798aa99bb24da109c3b18272`` | [Documentation](#!ingesters/ingesters.md#File_Follower) |
+| [Apache Kafka](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_kafka_installer_5.0.2.sh) | ``a8c8f840a041223a378c0ca9931555f56b43a172257660f76b9357efa1dcb898`` | [Documentation](#!ingesters/ingesters.md#Kafka)|
+| [Amazon Kinesis](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_kinesis_ingest_installer_5.0.2.sh) | ``ea3b925a12d343b74ef22455950936144dc203ee313590e49c2cf3506e51ebbc`` | [Documentation](#!ingesters/ingesters.md#Kinesis_Ingester)|
+| [Google PubSub](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_pubsub_ingest_installer_5.0.2.sh) | ``248caac7a46fa822a61f2ff44030c2f6fe234f94810669e2118eed567b2a7e87`` | [Documentation](#!ingesters/ingesters.md#GCP_PubSub)|
+| [Office 365 Logs](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_o365_installer_5.0.2.sh) | ``c7476daf29242cb0fdcf6761609b5cdfbab8e4d92b65d24464c53e549297b4cb`` | [Documentation](#!ingesters/ingesters.md#Office_365_Log_Ingester)|
+| [Microsoft Graph API](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_msgraph_installer_5.0.2.sh) | ``2bc6476373284752e1fe58f24c8731d0722afaab863eca372436146479f67dd2`` | [Documentation](#!ingesters/ingesters.md#Microsoft_Graph_API_Ingester)|
 
-## Other downloads
+[//]: # (## Other downloads)
 
-Some DatalaiQ components are distributed as optional additional installers, such as the search agent and the datastore.
+[//]: # (Some DatalaiQ components are distributed as optional additional installers, such as the search agent and the datastore.)
 
-| Component | SHA256 | More Info |
-|:---------:|:------:|----------:|
-| [Datastore](https://update.gravwell.io/archive/5.0.2/installers/gravwell_datastore_installer_5.0.2.sh) | ``cfbf16f99df8f50eebe6d5f02df0ecd29ef30fb3e927a3b0ed413bf8e32ff3ef`` | [Documentation](#!distributed/frontend.md) |
-| [Offline Replicator](https://update.gravwell.io/archive/5.0.2/installers/gravwell_offline_replication_installer_5.0.2.sh) | ``17d36a3c559663262db2baf4e7fe21bd9a4d811df2c6e6edfad0bcac0d8916b9`` | [Documentation](#!configuration/replication.md) |
-| [Load Balancer](https://update.gravwell.io/archive/5.0.2/installers/gravwell_loadbalancer_installer_5.0.2.sh) | ``1edc316a7635e75e702dc734b5387b43700a45c353418d15f22d1f22f555781d`` | |
+[//]: # (| Component | SHA256 | More Info |)
+[//]: # (|:---------:|:------:|----------:|)
+[//]: # (| [Datastore]&#40;https://update.gravwell.io/archive/5.0.2/installers/gravwell_datastore_installer_5.0.2.sh&#41; | ``cfbf16f99df8f50eebe6d5f02df0ecd29ef30fb3e927a3b0ed413bf8e32ff3ef`` | [Documentation]&#40;#!distributed/frontend.md&#41; |)
+[//]: # (| [Offline Replicator]&#40;https://update.gravwell.io/archive/5.0.2/installers/gravwell_offline_replication_installer_5.0.2.sh&#41; | ``17d36a3c559663262db2baf4e7fe21bd9a4d811df2c6e6edfad0bcac0d8916b9`` | [Documentation]&#40;#!configuration/replication.md&#41; |)
+[//]: # (| [Load Balancer]&#40;https://update.gravwell.io/archive/5.0.2/installers/gravwell_loadbalancer_installer_5.0.2.sh&#41; | ``1edc316a7635e75e702dc734b5387b43700a45c353418d15f22d1f22f555781d`` | |)
