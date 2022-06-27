@@ -57,12 +57,12 @@ apt install apt-transport-https gnupg wget
 
 #### Get the DatalaiQ Repository Signing Key
 ```
-wget -O /usr/share/keyrings/gravwell.asc https://update.gravwell.io/debian/update.gravwell.io.gpg.key
+wget -O /usr/share/keyrings/datalaiq.asc https://repo.datalaiq.io/debian/repo.datalaiq.io.gpg.key
 ```
 
 #### Install the DatalaiQ Repository
 ```
-echo 'deb [ arch=amd64 signed-by=/usr/share/keyrings/gravwell.asc ] https://update.gravwell.io/debian community main' > /etc/apt/sources.list.d/gravwell.list
+echo 'deb [ arch=amd64 signed-by=/usr/share/keyrings/datalaiq.asc ] http://repo.datalaiq.io/debian datalaiq main' > /etc/apt/sources.list.d/datalaiq.list
 ```
 
 #### Update Apt and Install DatalaiQ
@@ -84,10 +84,10 @@ The installation process will prompt to set some shared secret values used by co
 DatalaiQ is available as a `yum` repository for both Redhat and CentOS Linux distributions. To use the DatalaiQ yum repository, add the following stanza to your `yum.conf` (located in `/etc/yum.conf`)
 
 ```
-[gravwell]
-name=gravwell
-baseurl=https://update.gravwell.io/rhel 
-gpgkey=https://update.gravwell.io/rhel/gpg.key
+[datalaiq]
+name=datalaiq
+baseurl=http://repo.datalaiq.io/rhel
+gpgkey=http://repo.datalaiq.io/rhel/repo.datalaiq.io.gpg.key
 ```
 
 Next perform the following:
@@ -117,7 +117,7 @@ For non-Debian systems, download the self-contained installer from our [download
 Then run the installer:
 
 ```
-sudo bash gravwell_X.X.X.sh
+sudo bash datalaiq_pipeline_X.X.X.sh
 ```
 
 Follow the prompts and, after completion, you should have a running DatalaiQ instance.
@@ -144,27 +144,27 @@ The ingesters available in the Debian repository can be viewed by running `apt-c
 
 ```
 root@debian:~# apt-cache search gravwell
-gravwell - DatalaiQ data analytics platform (datalaiq.io)
-gravwell-collectd - DatalaiQ collectd ingester
-gravwell-crash-reporter - DatalaiQ crash reporter service
-gravwell-datastore - DatalaiQ datastore service
-gravwell-federator - DatalaiQ ingest Federator
-gravwell-file-follow - DatalaiQ file follow ingester
-gravwell-http-ingester - DatalaiQ HTTP ingester
-gravwell-ipmi - DatalaiQ IPMI ingester
-gravwell-kafka - DatalaiQ Kafka ingester
-gravwell-kafka-federator - DatalaiQ Kafka federator
-gravwell-kinesis - DatalaiQ Kinesis ingester
-gravwell-loadbalancer - DatalaiQ load balancing service
-gravwell-netflow-capture - DatalaiQ netflow ingester
-gravwell-network-capture - DatalaiQ packet ingester
-gravwell-o365 - DatalaiQ Office 365 log ingester
-gravwell-offline-replication - DatalaiQ offline replication service
-gravwell-packet-fleet - DatalaiQ Packet Fleet ingester
-gravwell-pubsub - DatalaiQ ingester for Google Pub/Sub streams
-gravwell-shodan - DatalaiQ Shodan ingester
-gravwell-simple-relay - DatalaiQ simple relay ingester
-gravwell-sqs - DatalaiQ SQS ingester
+gravwell - Gravwell data analytics platform (gravwell.io)
+gravwell-collectd - Gravwell collectd ingester
+gravwell-crash-reporter - Gravwell crash reporter service
+gravwell-datastore - Gravwell datastore service
+gravwell-federator - Gravwell ingest Federator
+gravwell-file-follow - Gravwell file follow ingester
+gravwell-http-ingester - Gravwell HTTP ingester
+gravwell-ipmi - Gravwell IPMI ingester
+gravwell-kafka - Gravwell Kafka ingester
+gravwell-kafka-federator - Gravwell Kafka federator
+gravwell-kinesis - Gravwell Kinesis ingester
+gravwell-loadbalancer - Gravwell load balancing service
+gravwell-netflow-capture - Gravwell netflow ingester
+gravwell-network-capture - Gravwell packet ingester
+gravwell-o365 - Gravwell Office 365 log ingester
+gravwell-offline-replication - Gravwell offline replication service
+gravwell-packet-fleet - Gravwell Packet Fleet ingester
+gravwell-pubsub - Gravwell ingester for Google Pub/Sub streams
+gravwell-shodan - Gravwell Shodan ingester
+gravwell-simple-relay - Gravwell simple relay ingester
+gravwell-sqs - Gravwell SQS ingester
 ```
 
 If you install them on the same node as the main DatalaiQ instance, they should be automatically configured to connect to the indexer, but you'll need to set up data sources for most. See the [ingester configuration documents](#!ingesters/ingesters.md) for instructions on that.
@@ -186,7 +186,7 @@ apt-get install gravwell-file-follow
 Otherwise, download the installer from the [Downloads page](#!quickstart/downloads.md). Using a terminal on the DatalaiQ server, issue the following command as a superuser (e.g. via the `sudo` command) to install the ingester:
 
 ```
-root@gravserver ~ # bash gravwell_file_follow_installer.sh
+root@gravserver ~ # bash datalaiq_file_follow_installer.sh
 ```
 
 If the DatalaiQ services are present on the same machine, the installation script will automatically extract and configure the `Ingest-Auth` parameter and set it appropriately. However, if your ingester is not resident on the same machine as a pre-existing DatalaiQ backend, the installer will prompt for the authentication token and the IP address of the DatalaiQ indexer. You can set these values during installation or leave them blank and modify the configuration file in `/opt/gravwell/etc/file_follow.conf` manually. See the [ingesters documentation](#!ingesters/ingesters.md) for more information on configuring the ingester.
@@ -204,7 +204,7 @@ apt-get install gravwell-simple-relay
 Otherwise, download the installer from the [Downloads page](#!quickstart/downloads.md). Using a terminal on the DatalaiQ server, issue the following command as a superuser (e.g. via the `sudo` command) to install the ingester:
 
 ```
-root@gravserver ~ # bash gravwell_simple_relay_installer.sh
+root@gravserver ~ # bash datalaiq_simple_relay_installer.sh
 ```
 
 If the DatalaiQ services are present on the same machine, the installation script will automatically extract and configure the `Ingest-Auth` parameter and set it appropriately.  However, if your ingester is not resident on the same machine as a pre-existing DatalaiQ backend, the installer will prompt for the authentication token and the IP address of the DatalaiQ indexer. You can set these values during installation or leave them blank and modify the configuration file in `/opt/gravwell/etc/simple_relay.conf` manually. See the [ingesters documentation](#!ingesters/ingesters.md) for more information on configuring the ingester.
@@ -278,7 +278,7 @@ apt-get install libpcap0.8 gravwell-network-capture
 Otherwise, download the installer from the [Downloads page](#!quickstart/downloads.md). To install the network ingester, simply run the installer as root (the file name may differ slightly):
 
 ```
-root@gravserver ~ # bash gravwell_network_capture_installer.sh
+root@gravserver ~ # bash datalaiq_network_capture_installer.sh
 ```
 
 The network ingester requires the libpcap shared libraries. If using the standalone installer, you'll need to make sure you have also installed the libraries; the package is `libpcap0.8` on Debian.
@@ -481,13 +481,13 @@ For most use cases, a single webserver and multiple indexer nodes will be desira
 First, perform a single-node DatalaiQ installation as described above on the system which will be the head node. This will install the webserver and indexer and generate authentication secrets:
 
 ```
-root@headnode# bash gravwell_installer.sh
+root@headnode# bash datalaiq_pipeline-x.x.sh
 ```
 
 Next, make a copy of `/opt/gravwell/etc/gravwell.conf` somewhere else and remove any lines beginning with 'Indexer-UUID'. Copy this datalaiq.conf file and the installer to each of the indexer nodes. On the indexer nodes, we pass additional arguments to the installer to disable installation of the webserver and to specify that the existing datalaiq.conf file should be used rather than generating a new one:
 
 ```
-root@indexer0# bash gravwell_installer.sh --no-webserver --no-searchagent --use-config /root/gravwell.conf
+root@indexer0# bash datalaiq_pipeline-x.x.sh --no-webserver --no-searchagent --use-config /root/gravwell.conf
 ```
 
 Repeat this process for each indexer node.
