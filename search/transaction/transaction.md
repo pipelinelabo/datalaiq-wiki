@@ -69,7 +69,7 @@ When running, the `transaction` module keeps a table of records, with one record
 
 If a record is evicted, and later an entry with a key matching that of the evicted record is encountered, a new record is created. If you notice "fragmentation" in your output, check the `-maxsize` and `-maxstate` flags. 
 
-Because the `transaction` module can easily exhaust all available memory on your Gravwell system, follow these general guidelines when writing queries with `transaction`:
+Because the `transaction` module can easily exhaust all available memory on your DatalaiQ system, follow these general guidelines when writing queries with `transaction`:
 
 * Put the `transaction` module as late in the query as possible. 
 * Work on the smallest time window possible for your query. 

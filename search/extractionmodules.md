@@ -8,7 +8,7 @@ Search extraction modules extract fields from data which "ride along" with the r
 
 ## Query Accelerators
 
-Extraction modules can make use of [query accelerators](configuration/accelerators.md) (like full text indexing, JSON indexing, etc) when filtering is used with a given module. For example, using the module `netflow Src Dst Port==22` can use a properly configured accelerator to dramatically reduce search time because not all records need to be evaluated.
+Extraction modules can make use of [query accelerators](#!configuration/accelerators.md) (like full text indexing, JSON indexing, etc) when filtering is used with a given module. For example, using the module `netflow Src Dst Port==22` can use a properly configured accelerator to dramatically reduce search time because not all records need to be evaluated.
 
 Some processing modules (such as [words](words/words.md)) directly perform filtering against the accelerated indexes.
 
