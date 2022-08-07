@@ -13,7 +13,7 @@
 [Language]()
 
    * [English](index.md)
-   * [日本語]()
+   * [日本語](japanese/index.md)
 
 
 
