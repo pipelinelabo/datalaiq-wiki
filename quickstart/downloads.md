@@ -4,7 +4,7 @@ Attention: The Debian and RHEL repositories are more easily maintained than thes
 
 ## DatalaiQ Core
 
-The DatalaiQ core installer contains the indexer and webserver frontend. You'll need a license; either get a Community Edition free license, or contact support@pipelinesecurity.net for commercial options.
+The DatalaiQ core installer contains the indexer and webserver frontend. You'll need a license; either get a Community Edition free license, or contact support@ppln.co for commercial options.
 
 [Download DatalaiQ Core Installer](http://repo.datalaiq.io/archive/5.0.2-1/installers/datalaiq_pipeline-5.0.2-1.sh) (SHA256: 1b0112b713d09155a39025487faf9bf341b134c82a7c7f9ad6b98ccf7293cc94)
 

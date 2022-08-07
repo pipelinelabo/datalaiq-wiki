@@ -78,7 +78,7 @@ If for any reason you decide you don't want to send crash reports, you have mult
 
 However, we'd really appreciate if you'd leave crash reporting enabled. Thanks to these crash reports, we can often identify and fix problems that users may not even notice! It's one of our best feedback mechanisms to improve our software.
 
-If you would like us to remove all past crash reports that your system has sent, please email support@pipelinesecurity.net and we will permanently delete them from our system.
+If you would like us to remove all past crash reports that your system has sent, please email support@ppln.co and we will permanently delete them from our system.
 
 ## Metrics Reporting
 
@@ -402,7 +402,7 @@ The structure is large, in part because this webserver is connected to 4 indexer
 * `WebserverUUID`: Every DatalaiQ webserver generates a UUID when installed; this field contains that UUID.
 * `WellCount`: The total number of wells across all indexers.
 
-We carefully considered the information we report, taking pains to make it impossible to glean any intelligence regarding the type or content of the data you've got in DatalaiQ. We are always happy to discuss the reasoning behind any of the information we gather; please email support@pipelinesecurity.net with any questions.
+We carefully considered the information we report, taking pains to make it impossible to glean any intelligence regarding the type or content of the data you've got in DatalaiQ. We are always happy to discuss the reasoning behind any of the information we gather; please email support@ppln.co with any questions.
 
 ### Limiting Metric Reporting
 

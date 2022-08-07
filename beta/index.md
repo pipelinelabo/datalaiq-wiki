@@ -4,7 +4,7 @@ Greetings and salutations!
 
 You are reading this message because you are in the early access group for DatalaiQ Beta!  We sincerely thank you for your participation and look forward to feedback and bug reports.
 
-Please submit any bugs or feedback to [support@pipelinesecurity.net](mailto:support@pipelinesecurity.net)
+Please submit any bugs or feedback to [support@ppln.co](mailto:support@ppln.co)
 
 Thank you!
 

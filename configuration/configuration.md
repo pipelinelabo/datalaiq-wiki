@@ -120,7 +120,7 @@ Tag names can only contain alpha numeric values; dashes, underscores, special ch
 
 The Default well receives all entries with tags that have not been explicitly assigned to other wells.  For example, if you have one well named Syslog which has been assigned the tags "syslog" and "apache" then all other tags will go to the Default well.  Ingesters can still produce entries with tag names that are not explicitly defined in the gravwell.conf file; the entries will just be co-mingled with all other unassigned tags in the default well.
 
-When reassigning tags between wells, the system will NOT move the data.  If you ingest data under the tag "syslog" without pinning the tag to a non-default well, then change the config file to define a new well or assign the syslog tag to an existing well, all data that exists in the default well under the syslog tag is no longer searchable.  Contact support@pipelinesecurity.net for access to a standalone tool for well and tag migration that can recover the entries, or for help re-ingesting old wells into an optimized/alternate configuration.
+When reassigning tags between wells, the system will NOT move the data.  If you ingest data under the tag "syslog" without pinning the tag to a non-default well, then change the config file to define a new well or assign the syslog tag to an existing well, all data that exists in the default well under the syslog tag is no longer searchable.  Contact support@ppln.co for access to a standalone tool for well and tag migration that can recover the entries, or for help re-ingesting old wells into an optimized/alternate configuration.
 
 ## Data Ageout
 

@@ -122,7 +122,7 @@ sudo bash datalaiq_pipeline_X.X.X.sh
 
 Follow the prompts and, after completion, you should have a running DatalaiQ instance.
 
-Note: If your distribution does not use systemd, you will have to start the DatalaiQ processes manually after installation. Please contact support@pipelinesecurity.net if you need help.
+Note: If your distribution does not use systemd, you will have to start the DatalaiQ processes manually after installation. Please contact support@ppln.co if you need help.
 
 ## Configuring the License
 

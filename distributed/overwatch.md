@@ -17,7 +17,7 @@ We recommend the following when running multiple DatalaiQ clusters for external 
 
 ## Licensing Notes
 
-DatalaiQ overwatch requires a specific license that is unique to overwatch webservers, if you are interested in getting access to overwatch, email [sales](mailto:support@pipelinesecurity.net).
+DatalaiQ overwatch requires a specific license that is unique to overwatch webservers, if you are interested in getting access to overwatch, email [sales](mailto:support@ppln.co).
 
 Overwatch webservers will NOT distribute their license to client nodes.  This means that an overwatch webserver cannot be used for the initial setup of a DatalaiQ cluster as the indexers will not receive licenses during setup.  Overwatch licenses also cannot be used on indexers.
 
