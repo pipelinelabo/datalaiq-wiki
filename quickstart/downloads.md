@@ -10,7 +10,7 @@ The DatalaiQ core installer contains the indexer and webserver frontend. You'll 
 
 ## Ingesters
 
-The core suite of ingesters are available for download as installable packages.  Ingesters designed to operate on Linux machines are typically self contained, statically linked executables that are agnostic to the hosts package management system (with the exception of the NetworkCapture ingester).  Windows based ingesters are distributed as executable MSI packages.  Source code for many ingesters can be found at the [DatalaiQ Github](https://github.com/pipelinelabo/datalaiq-wiki) repository.
+The core suite of ingesters are available for download as installable packages.  Ingesters designed to operate on Linux machines are typically self contained, statically linked executables that are agnostic to the hosts package management system (with the exception of the NetworkCapture ingester).  Windows based ingesters are distributed as executable MSI packages.
 
 ### Current Ingester Releases
 | Ingester | SHA256 | More Info |
