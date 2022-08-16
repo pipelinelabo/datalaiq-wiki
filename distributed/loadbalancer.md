@@ -16,7 +16,10 @@ The load balancer component is distributed through all the same channels as the 
 
 * Self-extracting shell installer is available [on the downloads page](https://doc.datalaiq.io/#!quickstart/downloads.md)
 * In the Debian and RedHat repositories as a package named `gravwell-loadbalancer`.
-* On DockerHub as [datalaiq/loadbalancer](https://hub.docker.com/r/gravwell/loadbalancer)
+
+[//]: # (We need to prepare docker images than upload those images and replce the url;)
+[//]: # (* On DockerHub as [datalaiq/loadbalancer]&#40;https://hub.docker.com/r/gravwell/loadbalancer&#41;)
+
 
 The Debian installer will prompt for basic configuration options and should need no further setup after you've installed. For other installation methods, you will need to edit `/opt/gravwell/etc/loadbalancer.conf` as detailed below. If you are using Docker, you can also configure the container purely through environment variables, as described in the "Docker Environment Variables" section below.
 

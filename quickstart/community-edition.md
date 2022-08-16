@@ -35,9 +35,11 @@ The installation process will prompt to set some shared secret values used by co
 
 ![Generate secrets](secret-prompt.png)
 
-### Docker Container
+[//]: # (### Docker Container)
 
-DatalaiQ is available on Dockerhub as a single container including both the webserver and indexer. Refer to [the Docker installation instructions](#!configuration/docker.md) for detailed instructions on installing DatalaiQ in Docker.
+[//]: # (DatalaiQ is available on Dockerhub as a single container including both the webserver and indexer. )
+
+[//]: # (Refer to [the Docker installation instructions]&#40;#!configuration/docker.md&#41; for detailed instructions on installing DatalaiQ in Docker.)
 
 ### Self-contained Installer
 
