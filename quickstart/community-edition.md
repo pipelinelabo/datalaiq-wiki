@@ -104,6 +104,6 @@ We recommend starting out with the continued section of the [Standard version Qu
 
 The [search documentation](#!search/search.md) is the ultimate resource for building search queries; the [Search Modules](#!search/searchmodules.md) and [Render Modules](#!search/rendermodules.md) sections have lots of examples and exhaustive descriptions of the options for each module.
 
-Finally, the [DatalaiQ blog](https://www.gravwell.io/blog) has case studies and examples showing real-world applications of DatalaiQ that may serve as inspiration.
+[//]: # (Finally, the [DatalaiQ blog]&#40;https://www.gravwell.io/blog&#41; has case studies and examples showing real-world applications of DatalaiQ that may serve as inspiration.)
 
-For help, you can join our [open community on Keybase](https://keybase.io/team/gravwell.community) or email support@ppln.co. We're excited to help others get value from their data with DatalaiQ!
+[//]: # (For help, you can join our [open community on Keybase]&#40;https://keybase.io/team/gravwell.community&#41; or email support@ppln.co. We're excited to help others get value from their data with DatalaiQ!)
