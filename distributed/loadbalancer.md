@@ -14,7 +14,7 @@ Once installed and configured, users should access DatalaiQ through the load bal
 
 The load balancer component is distributed through all the same channels as the main DatalaiQ installer:
 
-* Self-extracting shell installer is available [on the downloads page](https://doc.datalaiq.io/#!quickstart/downloads.md)
+* Self-extracting shell installer is available [on the downloads page](#!quickstart/downloads.md)
 * In the Debian and RedHat repositories as a package named `gravwell-loadbalancer`.
 
 [//]: # (We need to prepare docker images than upload those images and replce the url;)
