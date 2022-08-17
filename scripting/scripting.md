@@ -20,8 +20,8 @@ While anko can do anything, eval has several important restrictions:
 
 This document describes the Anko programming language itself. Documentation for the two search modules is maintained on separate pages:
 
-* [`anko` documentation](anko.md) (anko is also briefly described in [the search modules documentation](#!search/searchmodules.md#Anko))
-* [`eval` documentation](eval.md) (eval is also briefly described in [the search modules documentation](#!search/searchmodules.md#Eval))
+* [`anko` documentation](anko.md)
+* [`eval` documentation](eval.md)
 
 ## Search Scripts
 
