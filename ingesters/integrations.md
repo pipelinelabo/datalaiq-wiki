@@ -4,13 +4,13 @@ The datalaiq ingest framework is open sourced via the BSD 2-clause license, whic
 
 ## CoreDNS
 
-CoreDNS is a highly configurable and plugin friendly DNS server meant to provide a base platform for DNS services.   The base functionality of CoreDNS provides a robust and performant DNS server that can act as a relay, proxy, or full blown DNS server.  CoreDNS is licensed under the Apache-2.0 and is available on [github](https://github.com/coredns/coredns).  To learn more about CoreDNS visit [https://coredns.io](https://coredns.io).
+CoreDNS is a highly configurable and plugin friendly DNS server meant to provide a base platform for DNS services.   The base functionality of CoreDNS provides a robust and performant DNS server that can act as a relay, proxy, or full blown DNS server. To learn more about CoreDNS visit [https://coredns.io](https://coredns.io).
 
 ### DatalaiQ CoreDNS Plugin
 
-A DatalaiQ plugin is available for CoreDNS which directly embeds the ingest framework into CoreDNS.  Using the plugin, a statically compiled and high performance DNS server can directly transmit DNS audit data to a DatalaiQ instance.  The plugin is licensed under BSD 2-Clause and available on [github](https://github.com/gravwell/coredns).
+A DatalaiQ plugin is available for CoreDNS which directly embeds the ingest framework into CoreDNS.  Using the plugin, a statically compiled and high performance DNS server can directly transmit DNS audit data to a DatalaiQ instance.
 
-The plugin provides a complete ingest system which supports all the usual features: local caching for high reliability, load balancing, failover, etc...  Additional information about the DatalaiQ plugin can be found on the CoreDNS [External Plugins](https://coredns.io/explugins/gravwell/) page.
+The plugin provides a complete ingest system which supports all the usual features: local caching for high reliability, load balancing, failover, etc...  Additional information about the DatalaiQ plugin can be found on the CoreDNS [External Plugins](https://coredns.io/explugins/) page.
 
 #### Building CoreDNS with DatalaiQ
 

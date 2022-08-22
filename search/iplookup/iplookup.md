@@ -76,6 +76,6 @@ The `controlsubnets` resource might be a CSV that looks like the following:
 CIDR,network
 10.0.0.0/24,secure
 10.10.10.0/24,insecure
-172.20.0.0/24,gravwell
+172.20.0.0/24,datalaiq
 192.168.0.0/16,dracnet
 ```
