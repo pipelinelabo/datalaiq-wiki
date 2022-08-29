@@ -136,6 +136,6 @@ If you're just starting out with DatalaiQ, we recommend reading the [Quickstart]
 
   * [DatalaiQ EULA](eula.md)
 
-  * [Open-source Licenses](open_source.md)
+[//]: # (  * [Open-source Licenses]&#40;open_source.md&#41;)
 
 Documentation version 2.0
