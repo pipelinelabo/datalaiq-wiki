@@ -65,7 +65,7 @@ Note: If using the datastore and multiple webservers, you must set the `Search-F
 
 Although it is not as secure as a proper TLS certificate, a self-signed certificate will ensure encrypted communication between users and DatalaiQ. By instructing browsers to trust the self-signed cert, it is also possible to avoid recurring warning screens.
 
-First, we will generate a 1-year certificate in `/opt/gravwell/etc` using `gencert`, a program we ship with the Gravwell install:
+First, we will generate a 1-year certificate in `/opt/gravwell/etc` using `gencert`, a program we ship with the DatalaiQ install:
 
 ```
 cd /opt/gravwell/etc

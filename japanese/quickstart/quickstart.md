@@ -106,13 +106,13 @@ sudo firewall-cmd --zone=public --add-service=https
 
 You should now be able to access the DatalaiQ web interface on the IP assigned to the CentOS/RHEL system.
 
-### Docker Container
+[//]: # (### Docker Container)
 
-DatalaiQ is available on DockerHub as a single container including both the webserver and indexer. Refer to [the Docker installation instructions](#!japanese/configuration/docker.md) for detailed instructions on installing DatalaiQ in Docker.
+[//]: # (DatalaiQ is available on DockerHub as a single container including both the webserver and indexer. Refer to [the Docker installation instructions]&#40;#!configuration/docker.md&#41; for detailed instructions on installing DatalaiQ in Docker.)
 
 ### Self-contained Installer
 
-For non-Debian systems, download the self-contained installer from our [downloads page](#!japanese/quickstart/downloads.md).
+For non-Debian systems, download the self-contained installer from our [downloads page](#!quickstart/downloads.md).
 
 Then run the installer:
 
@@ -183,7 +183,7 @@ If you're using the DatalaiQ Debian repository, installation is just a single ap
 apt-get install gravwell-file-follow
 ```
 
-Otherwise, download the installer from the [Downloads page](#!japanese/quickstart/downloads.md). Using a terminal on the DatalaiQ server, issue the following command as a superuser (e.g. via the `sudo` command) to install the ingester:
+Otherwise, download the installer from the [Downloads page](#!quickstart/downloads.md). Using a terminal on the DatalaiQ server, issue the following command as a superuser (e.g. via the `sudo` command) to install the ingester:
 
 ```
 root@gravserver ~ # bash datalaiq_file_follow_installer.sh
@@ -201,7 +201,7 @@ If you're using the DatalaiQ Debian repository, installation is just a single ap
 apt-get install gravwell-simple-relay
 ```
 
-Otherwise, download the installer from the [Downloads page](#!japanese/quickstart/downloads.md). Using a terminal on the DatalaiQ server, issue the following command as a superuser (e.g. via the `sudo` command) to install the ingester:
+Otherwise, download the installer from the [Downloads page](#!quickstart/downloads.md). Using a terminal on the DatalaiQ server, issue the following command as a superuser (e.g. via the `sudo` command) to install the ingester:
 
 ```
 root@gravserver ~ # bash datalaiq_simple_relay_installer.sh
@@ -217,7 +217,7 @@ You now have the File Follow and Simple Relay services running on the DatalaiQ s
 Simple Relay will ingest syslog entries sent to it on TCP port 601 or UDP port 514; these will be tagged with the "syslog" tag. The Simple Relay config file also contains an entry to listen for any line-delimited data on port 7777. This can be disabled if you only intend to use syslog; simply comment out the `[Listener "default"]` section in the config file and restart the simple relay service. The configuration file for this service is located at `/opt/gravwell/etc/simple_relay.conf`. See the Simple Relay section of the [Ingesters documentation](#!ingesters/ingesters.md) for advanced configuration options.
 
 ## Feeding Data into DatalaiQ
-This section provides basic instructions for sending data into DatalaiQ. Review the [ingesters](#!japanese/ingesters/ingesters.md) section for instructions for setting up other data ingesters.
+This section provides basic instructions for sending data into DatalaiQ. Review the [ingesters](#!ingesters/ingesters.md) section for instructions for setting up other data ingesters.
 
 The “System Stats” page in DatalaiQ can help you see if the DatalaiQ server is receiving any data. If no data is reported and you think that is an error, double-check that the ingesters are running (`ps aux | grep gravwell` should show `gravwell_webserver`, `gravwell_indexer`, `gravwell_simple_relay`, and `gravwell_file_follow`) and that their configuration files are correct.
 
@@ -275,7 +275,7 @@ If you're using the DatalaiQ Debian repository, installation is just a single ap
 apt-get install libpcap0.8 gravwell-network-capture
 ```
 
-Otherwise, download the installer from the [Downloads page](#!japanese/quickstart/downloads.md). To install the network ingester, simply run the installer as root (the file name may differ slightly):
+Otherwise, download the installer from the [Downloads page](#!quickstart/downloads.md). To install the network ingester, simply run the installer as root (the file name may differ slightly):
 
 ```
 root@gravserver ~ # bash datalaiq_network_capture_installer.sh
@@ -373,7 +373,7 @@ Results: We see two systems sending traffic to port 1119. The IP represented in 
 
 ![Game traffic](games.png)
 
-For more details on using the packet parsing search module, see the [packet search module documentation](#!japanese/search/packet/packet.md).
+For more details on using the packet parsing search module, see the [packet search module documentation](#!search/packet/packet.md).
 
 ## Dashboards
 Dashboards are aggregated views of searches that provide a view into multiple aspects of the data at once.
@@ -433,7 +433,7 @@ After a day or so, you'll have gathered enough data to see nice charts like this
 
 ![](weather.png)
 
-Refer to the [kits documentation](#!japanese/kits/kits.md) for more details on DatalaiQ Kits.
+Refer to the [kits documentation](#!kits/kits.md) for more details on DatalaiQ Kits.
 
 ## Updating DatalaiQ
 
@@ -470,7 +470,7 @@ After an upgrade it is always a good practice to check the state of DatalaiQ by 
 
 ### Crash Reporting and Metrics
 
-The DatalaiQ software has automated crash reporting & metrics reporting built in. For more information about what gets sent back to us at DatalaiQ, see the [crash reporting and metrics page](#!japanese/metrics.md).
+The DatalaiQ software has automated crash reporting & metrics reporting built in. For more information about what gets sent back to us at DatalaiQ, see the [crash reporting and metrics page](#!metrics.md).
 
 ### Clustered Configurations
 

@@ -35,9 +35,11 @@ The installation process will prompt to set some shared secret values used by co
 
 ![Generate secrets](secret-prompt.png)
 
-### Docker Container
+[//]: # (### Docker Container)
 
-DatalaiQ is available on Dockerhub as a single container including both the webserver and indexer. Refer to [the Docker installation instructions](#!configuration/docker.md) for detailed instructions on installing DatalaiQ in Docker.
+[//]: # (DatalaiQ is available on Dockerhub as a single container including both the webserver and indexer. )
+
+[//]: # (Refer to [the Docker installation instructions]&#40;#!configuration/docker.md&#41; for detailed instructions on installing DatalaiQ in Docker.)
 
 ### Self-contained Installer
 
@@ -100,8 +102,8 @@ DatalaiQ is a powerful and complex product. It will take time to build expertise
 
 We recommend starting out with the continued section of the [Standard version Quickstart document](quickstart.md#Feeding_Data), particularly the [Searching section](quickstart.md#Searching), for some ideas on how to get started. You may need to refer to the [ingester configuration documents](#!ingesters/ingesters.md) to get the data you want into the system.
 
-The [search documentation](#!search/search.md) is the ultimate resource for building search queries; the [Search Modules](#!search/searchmodules.md) and [Render Modules](#!search/rendermodules.md) sections have lots of examples and exhaustive descriptions of the options for each module.
+The [search documentation](#!search/search.md) is the ultimate resource for building search queries; the [Render Modules](#!search/rendermodules.md) sections have lots of examples and exhaustive descriptions of the options for each module.
 
-Finally, the [DatalaiQ blog](https://www.gravwell.io/blog) has case studies and examples showing real-world applications of DatalaiQ that may serve as inspiration.
+[//]: # (Finally, the [DatalaiQ blog]&#40;https://www.gravwell.io/blog&#41; has case studies and examples showing real-world applications of DatalaiQ that may serve as inspiration.)
 
-For help, you can join our [open community on Keybase](https://keybase.io/team/gravwell.community) or email support@ppln.co. We're excited to help others get value from their data with DatalaiQ!
+[//]: # (For help, you can join our [open community on Keybase]&#40;https://keybase.io/team/gravwell.community&#41; or email support@ppln.co. We're excited to help others get value from their data with DatalaiQ!)

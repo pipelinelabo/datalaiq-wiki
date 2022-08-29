@@ -1,6 +1,6 @@
 # The eval module
 
-As introduced in [the search modules documentation](#!search/searchmodules.md#Eval), DatalaiQ's eval module is a general tool for manipulating search entries when other modules may fall short. It uses the [Anko scripting language](scripting.md) to provide generic scriptability within the pipeline.
+DatalaiQ's eval module is a general tool for manipulating search entries when other modules may fall short. It uses the [Anko scripting language](scripting.md) to provide generic scriptability within the pipeline.
 
 The eval module has several important restrictions:
 

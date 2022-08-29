@@ -41,8 +41,8 @@ The individual configuration options available for the Search Agent configuratio
 The `Webserver-Address` option gives an IP address or hostname, plus a port, which the search agent should use to connect to a webserver. This option can be specified multiple times; if multiple webservers are defined (as shown below), the search agent will load-balance its searches across them.
 
 ```
-Webserver-Address=gravwell1.example.org:443
-Webserver-Address=gravwell2.example.org:443
+Webserver-Address=datalaiq1.example.org:443
+Webserver-Address=datalaiq2.example.org:443
 ```
 
 Attention: Do not specify multiple webservers unless they are all synchronized using the [datastore](#!distributed/frontend.md)
