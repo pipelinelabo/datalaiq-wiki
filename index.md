@@ -53,7 +53,8 @@ If you're just starting out with DatalaiQ, we recommend reading the [Quickstart]
 
   * [Installing and Configuring DatalaiQ](configuration/configuration.md)
 
-  * [Docker Deployment](configuration/docker.md)
+[//]: # (  We need to prepare docker images than update deployment procedure;)
+[//]: # (  * [Docker Deployment]&#40;configuration/docker.md&#41;)
 
   * [Setting up TLS/HTTPS](configuration/certificates.md)
 
@@ -135,6 +136,6 @@ If you're just starting out with DatalaiQ, we recommend reading the [Quickstart]
 
   * [DatalaiQ EULA](eula.md)
 
-  * [Open-source Licenses](open_source.md)
+[//]: # (  * [Open-source Licenses]&#40;open_source.md&#41;)
 
 Documentation version 2.0

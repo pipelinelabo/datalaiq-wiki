@@ -1,6 +1,6 @@
 # 
 
-# DatalaiQ Docs 1
+# DatalaiQ Docs
 
 This site contains documentation for DatalaiQ, plus other resources such as Changelogs.
 

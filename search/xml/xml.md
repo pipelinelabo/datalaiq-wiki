@@ -81,7 +81,7 @@ Simply saying `xml System.Data` will only extract the first result, "Windows 10"
 xml System.Data[Name]=="Username"
 ```
 
-This query results in a new enumerated value named `Data` containing the string "gravwell".
+This query results in a new enumerated value named `Data` containing the string "datalaiq".
 
 
 ### Supported Options

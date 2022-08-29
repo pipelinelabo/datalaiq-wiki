@@ -1,6 +1,6 @@
 # The anko module
 
-As introduced in [the search modules documentation](#!search/searchmodules.md#Anko), DatalaiQ's anko module is a general-purpose scripting tool within the search pipeline. It allows extremely flexible manipulations of search entries, at the cost of complexity for the script creator. Once a script is created, though, it can be easily shared with other users.
+DatalaiQ's anko module is a general-purpose scripting tool within the search pipeline. It allows extremely flexible manipulations of search entries, at the cost of complexity for the script creator. Once a script is created, though, it can be easily shared with other users.
 
 See the generic description of the scripting languages used in [the Anko scripting language documentation](scripting.md) for more details about the language itself.
 

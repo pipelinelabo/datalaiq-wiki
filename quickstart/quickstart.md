@@ -106,9 +106,9 @@ sudo firewall-cmd --zone=public --add-service=https
 
 You should now be able to access the DatalaiQ web interface on the IP assigned to the CentOS/RHEL system.
 
-### Docker Container
+[//]: # (### Docker Container)
 
-DatalaiQ is available on DockerHub as a single container including both the webserver and indexer. Refer to [the Docker installation instructions](#!configuration/docker.md) for detailed instructions on installing DatalaiQ in Docker.
+[//]: # (DatalaiQ is available on DockerHub as a single container including both the webserver and indexer. Refer to [the Docker installation instructions]&#40;#!configuration/docker.md&#41; for detailed instructions on installing DatalaiQ in Docker.)
 
 ### Self-contained Installer
 
