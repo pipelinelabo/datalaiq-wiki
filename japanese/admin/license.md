@@ -1,9 +1,9 @@
-# Updating Licenses
+# ライセンス更新
 
-DatalaiQ licenses are valid for a limited period of time. You will be notified in the DatalaiQ GUI when your license is about to expire. Customers should contact DatalaiQ support (support@ppln.co) to renew their contract.
+DatalaiQのライセンスは有効期限が制限されています。ライセンス期限が近づいてくるとGUI上に通知が行われます。ライセンス更新を行う場合は、DAtalaiQサポートに連絡し（support@ppln.co）、再契約が必要になります。
 
-Once you have your new license file, simply select the 'License' page from the Administrator section of the DatalaiQ menu and upload your new license:
+新しいライセンスファイルを取得後、メニューの管理者セクションから「ライセンス」を選択し、新しいライセンスをアップロードして適用します:
 
 ![](license.png)
 
-You can also deploy your new license by renaming the file to `/opt/gravwell/etc/license` on the webserver node and restarting your DatalaiQ processes. This will push the new license out to the indexers.
+また、ウェブサーバーノードに直接ライセンスファイルをアップロードし、`/opt/gravwell/etc/license`として配置することによってもライセンスを適用することができます。ライセンスファイルを配置したらサービスのコアプロセス（webserver、indexer、searchagent）の再起動が必要です。

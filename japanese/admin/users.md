@@ -1,75 +1,74 @@
-# Managing Users and Groups
+# ユーザー/グループ管理
 
-DatalaiQ implements a system of users and groups very similar to Unix's. Each user is assigned a unique user ID number (UID), and each group has a unique group ID number (GID). A given user may belong to zero or more groups.
+DatalaiQシステムにはUnixで実装されているユーザー/グループによく似たユーザー/グループのシステムが実装されています。それぞれのユーザーには一意のユーザーID（UID）、それぞれのグループには一意のグループID（GID）が割り当てられます。それぞれのユーザーは0または1つ以上のグループに属します。
 
-Resources, dashboards, search results, and other things within DatalaiQ are typically owned by a user and optionally shared with a list of groups. A resource, for instance, may be owned by UID 3 and shared with several groups, the members of which may read but not modify that resource. Administrator users can read, modify, or delete anything.
+DatalaiQ上の Resources やダッシュボード、検索（クエリ）結果などはユーザーに所有され、時にはグループに共有されます。例えば、UIDが3であるユーザーによって所有され、いくつかのグループに共有されたとしてもグループのメンバーは Resources を読み取ることはできても編集することはできません。管理者ユーザーは読み取り、編集、削除のいずれも可能です。
 
-The user and group management pages are located in the Administration section of the main menu, near the bottom:
+ユーザー/グループの管理ページは、管理者セクションの下の方にメニューボタンがあります:
 
 ![](usermenu.png)
 
-## Managing Users
+## ユーザー管理
 
-On a newly-installed system, selecting the Users page should show only one user: the administrator.
+新しくインストールされたシステムでは、ユーザーページには管理者ユーザーのみ表示されています。
 
 ![](users1.png)
 
-### Adding a User
+### ユーザー追加
 
-Clicking the 'Add' button brings up a dialog box containing fields to define the new user.
+"追加" ボタンをクリックすると、新しいユーザーを定義するためのフィールドを含むダイアログ ボックスが表示されます。
 
 ![](newuser.png)
 
-Note the "Permissions Groups" section at the bottom; this allows you to add the user to groups at creation time. Checking the 'Administrator' box will give the user permissions equivalent to the 'admin' user; take great care when making a user an administrator!
+ダイアログボックス下方にある "グループ権限" セクションをチェックすると、ユーザー作成時にチェックしたグループにユーザーを所属させることができます。"管理者" ボックスをチェックすると、ユーザーに管理者権限を与えることができますが、管理者権限ではユーザーに全ての操作を許可するため注意が必要です。
 
-### Locking/Unlocking a User Account
+### ユーザーアカウントのロック/アンロック
 
-Administrators can temporarily disable a user's account by selecting the lock icon on the user's card.
+管理者はそれぞれのユーザーメニューのロックアイコンを選択することで、一時的にユーザーをロックすることができます。
 
 ![](locked.png)
 
-The user will then be marked as "locked" and the lock icon will change to an unlock icon as shown above.
+ユーザーは「ロック済み」としてマークされ、上記のようにロック アイコンがアンロックアイコンに変わります。
 
-When a user account is locked, the user is immediately logged out of all sessions and cannot log in until the account is unlocked.
+ユーザーがロックされると、ユーザーは全てのセッションからログアウトされ、アンロックされるまでアカウントにログインすることができなくなります。
 
-### Editing a User Account
+### ユーザー編集
 
-Selecting the pencil icon for a user will open a dialog where the account attributes can be changed:
+それぞれのユーザーのペンシルアイコンをクリックすると、ユーザーのダイアログが表示され、それぞれのフィールドを編集することができます:
 
 ![](edituser.png)
 
-### Viewing a User's Search History
+### ユーザーの検索（クエリ）履歴を確認する
 
-Clicking on the clock icon for a user (in the lower-right corner of the user's tile) will display that user's search history:
+時計アイコンをクリックすると、ユーザーの検索履歴を表示することができます:
 
 ![](userhist.png)
 
-From this page the administrator can re-run a given query if necessary; this is useful when debugging problems with users.
+この検索履歴から、必要であれば管理者はクエリを際実行することができます。これはユーザー依存の問題をデバッグするのに役立ちます。
 
-### Deleting a User
+### ユーザー削除
 
-A user can be deleted by clicking the trash can icon on their user tile. The system will prompt for confirmation before deleting. Note that because deletion is permanent, you should consider locking user accounts as an alternative to deletion; locking the account preserves data associated with that account which may be useful.
+ゴミ箱アイコンをクリックするとそのユーザーを削除することができます。削除する前に、確認のダイアログが表示されます。一度削除すると復元はできないため、削除ではなく一時的にロックすることも必要に応じて検討する必要があります。アカウントをロックした場合には、アカウントに紐づくそれぞれのデータは保持されます。
 
-## Managing Groups
+## グループ管理
 
-Selecting the `Groups` page will list any existing groups; by default, DatalaiQ includes no groups. This screenshot shows a single group:
+"グループ" ページをクリックすると、システム上にある既存のグループが表示されます。デフォルトではDatalaiQでは何もグループが定義されていません。この画像では1つのグループのみ表示されています:
 
 ![](groups.png)
 
-### Adding a Group
+### グループ追加
 
-Add a group by clicking the 'Add' button and populating the fields:
+グループを追加するには "追加" ボタンを押してダイアログからフィールドを定義します:
 
 ![](newgroup.png)
+グループ作成時に、既存のユーザーをグループに追加することもできます。
 
-Note that you can add existing users to this group at creation time.
+### グループ編集
 
-### Editing a Group
-
-Clicking on the pencil icon for a group will open a dialog to edit the group. Note that the group name and description can always be changed; groups are internally referenced by GID only.
+ペンシルアイコンをクリックするとダイアログが表示され、グループを編集することができます。グループ名とグループの接s名を変更することができます。グループは内部的にGIDによってのみ識別されます。
 
 ![](editgroup.png)
 
-### Deleting a Group
+### グループ削除
 
-A group can be deleted by clicking the trash can icon. The system will prompt for confirmation before deletion. Note that after a group has been deleted, its GID will never be reused.
+ゴミ箱アイコンをクリックすることでグループを削除することができます。削除前には確認のダイアログが表示されます。一度削除すると、使用されていたGIDは再利用できなくなります。

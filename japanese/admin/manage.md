@@ -1,6 +1,6 @@
-# Managing User-Created Objects
+# ユーザー定義オブジェクトの管理
 
-Users can create a variety of objects within the DatalaiQ system:
+DatalaiQのユーザーは以下のようなオブジェクトを独自に作成することが可能です:
 
 * Resources
 * Saved/backgrounded searches
@@ -9,9 +9,9 @@ Users can create a variety of objects within the DatalaiQ system:
 * Templates
 * Userfiles
 
-At this time, there are no GUI utilities for managing these objects as the administrator. However, the [DatalaiQ command-line client](#!cli/cli.md) can list, delete, and modify all of these object types using options in the **admin** sub-menu.
+現時点では、これらのオブジェクトを管理者として管理するためのGUI機能はありません。しかし、[DatalaiQ コマンドラインクライアント](#!cli/cli.md)では、**admin** サブメニューからこれらのオブジェクトタイプをリスト、削除、編集することができます。
 
-To access these management options, run the client, log in as an administrator user, and enter the admin menu:
+これらの管理オプションにアクセスするためには、コマンドラインクライアントを実行し、管理者としてログイン後、管理者メニューに入る必要があります:
 
 ```
 $ ./client -s gravwell.example.org
@@ -65,23 +65,23 @@ kits                Manage and upload kits
 admin>
 ```
 
-The rest of this section will briefly describe management options for each object type.
+残りのセクションでは各オブジェクトタイプ毎の管理オプションについて簡単に説明します。
 
-## Managing Dashboards
+## ダッシュボード管理
 
-To list all dashboards on the system, from the **admin** menu run the `all_dashboards` command.
+全てのダッシュボードをリスト表示したい場合には、**admin** メニューから `all_dashboards` コマンドを実行します。
 
-To delete a dashboard, run the `del_dashboard` command from the **admin** menu.
+ダッシュボードを削除するには、**admin** メニューから `del_dashboard` コマンドを実行します。
 
-## Managing Searches
+## 検索（クエリ）管理
 
-To list all searches on the system (saved, backgrounded, or active), run the `list_queries` command from the **admin** menu.
+システム上にある検索（クエリ）を全てリスト表示したい場合には、**admin** メニューから `list_queries` コマンドを実行します。
 
-To delete a query, run the `delete_queries` command.
+クエリを削除するには、**admin** メニューから `delete_queries` コマンドを実行します。
 
-## Managing Resources
+## Resources管理
 
-The admin sub-menu contains its own sub-menu for managing resources with commands mirroring those available in the regular resource menu:
+admin サブメニューには、通常の resources メニューで使用できるコマンドを反映したコマンドで resources を管理するための独自のサブメニューが含まれています:
 
 ```
 admin>  resource
@@ -94,11 +94,11 @@ updatemeta          	Update resource metadata
 resource>  
 ```
 
-From this menu, the administrator can list *all* resources on the system, modify a resource's contents, change its name/description/ownership, or delete it.
+このメニューから管理者はシステム上にある**全ての** resources をリスト表示し、resources のコンテンツを編集、権限の変更、削除を行うことができます。
 
-## Managing Scheduled Searches
+## スケジュール検索管理
 
-The admin sub-menu contains its own sub-menu for managing scheduled searches:
+admin サブメニューにはスケジュール検索を管理するためのサブメニューが含まれています:
 
 ```
 admin>  scheduled_search
@@ -110,11 +110,11 @@ createscript        	Create a new scheduled search w/ script
 delete              	Delete a scheduled search
 ```
 
-From this menu, the administrator can manage *all* scheduled searches on the system, not just his/her own.
+このメニューから、管理者はシステム上にある**全ての**スケジュール検索を管理することができます。
 
-## Managing templates/actionables
+## テンプレート/アクショナブル管理
 
-Templates and actionables (called "pivots" here) each have a sub-menu within the admin menu (`templates` and `pivots`) with an identical set of commands for administrators:
+テンプレートとアクショナブル (ここでは「ピボット」と呼びます) には、管理者向けの同一のコマンド セットを含む admin メニュー内のサブメニュー (「テンプレート」と「ピボット」) があります:
 
 ```
 admin>  templates
@@ -137,11 +137,11 @@ updatemeta          	Update actionabl metadata
 pivot>
 ```
 
-These commands can be used to affect any template or actionable on the system.
+これらのコマンドは、システム上にある任意のテンプレートとアクショナブルに変更を加えることができます。
 
-## Managing User Files
+## ユーザーファイル管理
 
-As with templates, resources, etc., user files also have a sub-menu within the admin menu for admin management. Commands executed within the admin menu can operate on any user file in the whole system.
+テンプレート、リソースなどと同様に、ユーザーファイルにも、管理者管理用の admin メニュー内にサブメニューがあります。。コマンドを実行することで、システム上にある任意のユーザーファイルを操作することができます。
 
 ```
 admin>  userfiles
