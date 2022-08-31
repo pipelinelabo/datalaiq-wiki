@@ -11,7 +11,7 @@ There are many components which make up a kit. First, there are the *contents* o
 
 There are a few other things which help *identify* a kit that are useful to keep in mind:
 
-* ID: Identifies the kit. DatalaiQ uses namespaces similar to Android applications, e.g. "io.gravwell.netflowv5".
+* ID: Identifies the kit. DatalaiQ uses namespaces similar to Android applications, e.g. "io.datalaiq.netflowv5".
 * Version: Kits may be updated over time, and the version number tracks this so DatalaiQ can automatically notify of new kit versions.
 * Name: A user-friendly name for the kit, e.g. "Netflow v5".
 * Description: A detailed description of what the kit does.

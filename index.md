@@ -134,7 +134,7 @@ If you're just starting out with DatalaiQ, we recommend reading the [Quickstart]
 
   * [Changelogs](changelog/list.md)
 
-  * [DatalaiQ EULA](eula.md)
+[//]: # (  * [DatalaiQ EULA]&#40;eula.md&#41;)
 
 [//]: # (  * [Open-source Licenses]&#40;open_source.md&#41;)
 

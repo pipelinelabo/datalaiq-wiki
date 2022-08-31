@@ -82,7 +82,7 @@ Description:		Sets a unique identifier for a particular webserver. No two webser
 Applies to:        Indexer and Webserver
 Default Value:        `/opt/gravwell/etc/license`
 Example:        `License-Location=/opt/gravwell/etc/my_license`
-Description:        Sets the path to the datalaiq license file, the path must be readable by the gravwell user and group.
+Description:        Sets the path to the datalaiq license file, the path must be readable by the user and group.
 
 ####**Config-Location**
 Applies to:        Indexer and Webserver
@@ -226,7 +226,7 @@ Description:        The Disable-Access-Log parameter is used to disable the acce
 Applies to:			Webserver, Indexer
 Default Value:		false
 Example:			`Disable-Self-Ingest=true`
-Description:		The Disable-Self-Ingest parameter will prevent the webserver and indexer from ingesting their logs into the `gravwell` tag.
+Description:		The Disable-Self-Ingest parameter will prevent the webserver and indexer from ingesting their logs into the `datalaiq` tag.
 
 ####**Persist-Web-Logins**
 Applies to:        Webserver
@@ -560,11 +560,6 @@ Default Value:	`/opt/gravwell/libs`
 Example:		`Library-Dir=/scratch/libs`
 Description:	Scheduled scripts may import additional libraries using the `include` function. These libraries are fetched from an external repository and cached locally; this configuration option sets the directory in which the cached libraries are stored.
 
-####**Library-Repository**
-Applies to:		Webserver
-Default Value:	`https://github.com/gravwell/libs`
-Example:		`Library-Repository=https://github.com/example/gravwell-libs`
-Description:	Scheduled scripts may import additional libraries using the `include` function. These libraries are loaded from files found in the repository specified by this parameter. By default, it points to a Gravwell-maintained repository of convenient libraries. If you wish to provide your own set of libraries, set this parameter to point at a git repository you control.
 
 ####**Library-Commit**
 Applies to:		Webserver
@@ -580,8 +575,8 @@ Description:	Scheduled scripts may import additional libraries using the `includ
 
 ####**Gravwell-Kit-Server**
 Applies to:	Webserver
-Default Value:	https://kits.gravwell.io/kits
-Example:	`Gravwell-Kit-Server=http://internal.mycompany.io/gravwell/kits`
+Default Value:	https://kitsrv.datalaiq.io/kits
+Example:	`Gravwell-Kit-Server=https://kitsrv.datalaiq.io/kits`
 Description:	Allows for overriding the Gravwell kitserver host, this can be useful in airgapped or segmented deployments where you host a mirror of the DatalaiQ kitserver.  Set this value to an empty string to completely disable access to the remote kitserver.
 Example:
 ```
@@ -878,7 +873,7 @@ The `[SSO]` configuration section controls single sign-on options for the Datala
 ```
 [SSO]
 	Gravwell-Server-URL=https://10.10.254.1:8080
-	Provider-Metadata-URL=https://sso.gravwell.io/FederationMetadata/2007-06/FederationMetadata.xml
+	Provider-Metadata-URL=https://sso.datalaiq.io/FederationMetadata/2007-06/FederationMetadata.xml
 ```
 
 But it will more frequently require additional configuration:
@@ -886,7 +881,7 @@ But it will more frequently require additional configuration:
 ```
 [SSO]
 	Gravwell-Server-URL=https://10.10.254.1:8080
-	Provider-Metadata-URL=https://sso.gravwell.io/FederationMetadata/2007-06/FederationMetadata.xml
+	Provider-Metadata-URL=https://sso.datalaiq.io/FederationMetadata/2007-06/FederationMetadata.xml
 	Groups-Attribute=http://schemas.xmlsoap.org/claims/Group
 	Group-Mapping=Gravwell:gravwell-users
 	Group-Mapping=TestGroup:testgroup
@@ -901,7 +896,7 @@ Refer to the [SSO configuration documentation](sso.md) for more information.
 
 ####**Gravwell-Server-URL**
 Default Value:
-Example:		`Gravwell-Server-URL=https://gravwell.example.org/`
+Example:		`Gravwell-Server-URL=https://datalaiq.example.org/`
 Description:	Specifies the URL to which users will be redirected once the SSO server has authenticated them. This should be the user-facing hostname or IP address of your DatalaiQ server. This parameter is required.
 
 ####**Provider-Metadata-URL**

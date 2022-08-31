@@ -1,16 +1,16 @@
 # GCP PubSub Ingester
 
-Gravwell provides an ingester capable of fetching entries from Google Compute Platform's [PubSub stream](https://cloud.google.com/pubsub/) service. The ingester can process multiple PubSub streams within a single GCP project. The process of setting up a PubSub stream is outside the scope of this document, but in order to configure the PubSub ingester for an existing stream you will need:
+DatalaiQ provides an ingester capable of fetching entries from Google Compute Platform's [PubSub stream](https://cloud.google.com/pubsub/) service. The ingester can process multiple PubSub streams within a single GCP project. The process of setting up a PubSub stream is outside the scope of this document, but in order to configure the PubSub ingester for an existing stream you will need:
 
 * The Google Project ID
 * A file containing GCP service account credentials (see the [Creating a service account](https://cloud.google.comauthentication/getting-started) documentation)
 * The name of a PubSub topic
 
-Once the stream is configured, each record in the PubSub stream topic will be stored as a single entry in Gravwell.
+Once the stream is configured, each record in the PubSub stream topic will be stored as a single entry in DatalaiQ.
 
 ## Basic Configuration
 
-The PubSub ingester uses the unified global configuration block described in the [ingester section](#!ingesters/ingesters.md#Global_Configuration_Parameters).  Like most other Gravwell ingesters, PubSub supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
+The PubSub ingester uses the unified global configuration block described in the [ingester section](#!ingesters/ingesters.md#Global_Configuration_Parameters).  Like most other DatalaiQ ingesters, PubSub supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
 
 ## PubSub Examples
 
@@ -32,10 +32,10 @@ The PubSub ingester uses the unified global configuration block described in the
 First, download the installer from the [Downloads page](#!quickstart/downloads.md), then install the ingester:
 
 ```
-root@gravserver ~# bash gravwell_pubsub_ingest_installer.sh
+root@gravserver ~# bash datalaiq_pubsub_ingest_installer.sh
 ```
 
-If the Gravwell services are present on the same machine, the installation script should automatically extract and configure the `Ingest-Auth` parameter and set it appropriately. You will now need to open the `/opt/gravwell/etc/pubsub_ingest.conf` configuration file and set it up for your PubSub topic. Once you have modified the configuration as described below, start the service with the command `systemctl start gravwell_pubsub_ingest.service`
+If the DatalaiQ services are present on the same machine, the installation script should automatically extract and configure the `Ingest-Auth` parameter and set it appropriately. You will now need to open the `/opt/gravwell/etc/pubsub_ingest.conf` configuration file and set it up for your PubSub topic. Once you have modified the configuration as described below, start the service with the command `systemctl start gravwell_pubsub_ingest.service`
 
 The example below shows a sample configuration which connects to an indexer on the local machine (note the `Pipe-Backend-target` setting) and feeds it from a single PubSub topic named "mytopic", which is part of the "myproject-127400" GCP project.
 

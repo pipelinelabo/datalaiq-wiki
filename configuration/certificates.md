@@ -72,7 +72,7 @@ cd /opt/gravwell/etc
 sudo -u gravwell ../bin/gencert -h HOSTNAME
 ```
 
-Make sure to replace HOSTNAME with either the hostname or the IP address of your DatalaiQ system. You can specify multiple hostnames or IPs by separating them with commas, e.g. `gencert -h gravwell.floren.lan,10.0.0.1,192.168.0.3`
+Make sure to replace HOSTNAME with either the hostname or the IP address of your DatalaiQ system. You can specify multiple hostnames or IPs by separating them with commas, e.g. `gencert -h datalaiq.floren.lan,10.0.0.1,192.168.0.3`
 
 Now, open gravwell.conf and uncomment the `Certificate-File` and `Key-File` directives. The defaults should point correctly to the two files we just created.
 

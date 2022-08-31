@@ -1,6 +1,6 @@
 # IPFIX and Netflow V9
 
-The ipfix processor is designed to extract and filter raw IPFIX and Netflow V9 data frames, allowing you to quickly identify network flows, filter on ports, or generally monitor the behavior of aggregate flows.  DatalaiQ has a native IPFIX + Netflow ingester which is open source and available at https://github.com/gravwell/ingesters or as an installer in the [quickstart section](/#!quickstart/downloads.md).
+The ipfix processor is designed to extract and filter raw IPFIX and Netflow V9 data frames, allowing you to quickly identify network flows, filter on ports, or generally monitor the behavior of aggregate flows.  DatalaiQ has a native IPFIX + Netflow ingester which is  available in the [quickstart section](/#!quickstart/downloads.md).
 
 ## A Note About Templates
 
