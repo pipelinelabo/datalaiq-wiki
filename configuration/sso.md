@@ -73,7 +73,7 @@ You must now select one of two ways to get metadata information about your Datal
 
 ![](sso-trust2.png)
 
-If, however, DatalaiQ is using self-signed certificates, you must manually download the metadata first. Open the web browser and go to `https://gravwell.example.org/saml/metadata`. Save the file when prompted, then go back to the wizard and set the appropriate path in the second option:
+If, however, DatalaiQ is using self-signed certificates, you must manually download the metadata first. Open the web browser and go to `https://datalaiq.example.org/saml/metadata`. Save the file when prompted, then go back to the wizard and set the appropriate path in the second option:
 
 ![](sso-trust3.png)
 

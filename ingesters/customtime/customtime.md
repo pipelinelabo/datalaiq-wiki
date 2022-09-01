@@ -1,10 +1,10 @@
 # Ingester Custom Time Formats
 
-Many ingesters can support the inclusion of custom time formats that can extend the capability of the DatalaiQ TimeGrinder time resolution system.  The [TimeGrinder](https://pkg.go.dev/github.com/gravwell/gravwell/v3/timegrinder) has a wide array of timestamp formats that it can automatically identify and resolve.  However, in the real world with real developers there is no telling what time format a system may decide to use.  That is why we enable users to specify custom time formats for inclusion in the TimeGrinder system.
+Many ingesters can support the inclusion of custom time formats that can extend the capability of the DatalaiQ TimeGrinder time resolution system.  The TimeGrinder has a wide array of timestamp formats that it can automatically identify and resolve.  However, in the real world with real developers there is no telling what time format a system may decide to use.  That is why we enable users to specify custom time formats for inclusion in the TimeGrinder system.
 
 ## Supported Ingesters
 
-Not all ingesters support custom time formats.  One-off or standalone ingesters such as [singlefile](https://github.com/gravwell/gravwell/blob/v3.7.0/ingesters/singleFile/main.go) are applications meant to be invoked by hand and do not have a configuration file.  Dedicated ingesters like [netflow](#!ingesters/ingesters.md#Netflow_Ingester) don't need to resolve timestamps, so there is no need for custom formats.
+Not all ingesters support custom time formats.  One-off or standalone ingesters such as singlefile are applications meant to be invoked by hand and do not have a configuration file.  Dedicated ingesters like [netflow](#!ingesters/ingesters.md#Netflow_Ingester) don't need to resolve timestamps, so there is no need for custom formats.
 
 The following ingesters support the inclusion of custom time formats:
 
@@ -24,7 +24,7 @@ A custom format requires three items to function:
 * Regular Expression
 * Format
 
-The given name for a custom time format must be unique across other custom time formats and the included timegrinder formats.  For a complete up-to-date listing of included time formats and their names, check out our [timegrinder documentation)[https://pkg.go.dev/github.com/gravwell/gravwell/v3/timegrinder#pkg-constants].
+The given name for a custom time format must be unique across other custom time formats and the included timegrinder formats.
 
 Custom time formats are declared in the configuration files for supported ingesters by specifying a named `TimeFormat` INI block.  Here is an example format named "foo" which handles timestamps that are delimited using underscores:
 
