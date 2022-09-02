@@ -1,58 +1,58 @@
 # API
 
-This section documents the web API used between the GUI and the "frontend" webserver.
+このセクションではGUIとフロントエンドのWebサーバー間で使用されるAPIについて記載します。
 
-The bulk of the API is RESTful. The exception to this rule is the searching API which uses websockets due to the nature of data exchange and transfer involved in launching and observing data from a search.
+APIの大部分はRESTfulです。例外は、検索からのデータの起動と監視に関連するデータ交換と転送の性質上、websocket を使用する検索 API です。
 
-## Basic APIs
+## 基本APIs
 
-* [Login](login.md)
-* [User Preferences](userprefs.md)
-* [User account controls](account.md)
-* [User group controls](groups.md)
-* [Notifications](notifications.md)
-* [Search Controls](searchctrl.md)
-* [Downloading Search Results](download.md)
-* [Search History](searchhistory.md)
-* [Logging](loglevel.md)
-* [Ingesting Entries](ingest.md)
-* [Miscellaneous APIs](misc.md)
-* [System Management](management.md)
+* [ログイン](login.md)
+* [ユーザー情報](userprefs.md)
+* [ユーザーアカウント操作](account.md)
+* [ユーザーグループ操作](groups.md)
+* [通知](notifications.md)
+* [検索（クエリ）操作](searchctrl.md)
+* [検索（クエリ）結果のダウンロード](download.md)
+* [検索（クエリ）履歴](searchhistory.md)
+* [ログ](loglevel.md)
+* [データインジェスト](ingest.md)
+* [その他のAPI](misc.md)
+* [システム管理](management.md)
 
-## Objects within DatalaiQ
+## DatalaiQ内のオブジェクト
 
-There are a variety of "things" which users may create and modify. Their APIs are listed in this section.
+DatalaiQにはユーザーが自由に作成可能なオブジェクトがあります。それらのAPIについて以下に記載します。
 
-* [Auto-extractors](extractors.md)
-* [Dashboards](dashboards.md)
-* [Kits](kits.md)
-* [Macros](macros.md)
-* [Playbooks](playbooks.md)
-* [Resources](resources.md)
-* [Scheduled Searches](scheduledsearches.md)
-* [Search Library](searchlibrary.md)
-* [Templates](templates.md)
-* [Actionables](actionables.md)
-* [User Files](userfiles.md)
+* [自動抽出](extractors.md)
+* [ダッシュボード](dashboards.md)
+* [キット](kits.md)
+* [マクロ](macros.md)
+* [プレイブック](playbooks.md)
+* [リソース](resources.md)
+* [スケジュール検索](scheduledsearches.md)
+* [検索（クエリ）ライブラリ](searchlibrary.md)
+* [テンプレート](templates.md)
+* [アクショナブル](actionables.md)
+* [ユーザーファイル](userfiles.md)
 
-## Searching and Search Stats
+## 検索（クエリ）と統計
 
-[Search Websocket](websocket-search.md)
+[Webソケット検索（クエリ）](websocket-search.md)
 
-[Reattaching to Searches](websocket-search-attach.md)
+[検索（クエリ）への再接続](websocket-search-attach.md)
 
-[Interacting with Renderers](websocket-render.md)
+[Rendererとの接続](websocket-render.md)
 
-## System Stats
+## System統計情報
 
-The system stats also use a websocket for communication. This contains all information necessary for monitoring general cluster health.
+システム統計情報も接続にWebソケットを使用します。システム統計情報には一般的なクラスターの状態を監視するのに必要な情報が全て含まれています。
 
-[System Stats Websocket](websocket-stats.md)
+[システム統計情報Websocket](websocket-stats.md)
 
-Some other stats may be accessed via REST calls.
+その他の統計情報はRESTAPIにより取得できます。
 
-[REST Stats API](stats-json.md)
+[システム統計情報（REST API）](stats-json.md)
 
-## Test API
+## テストAPI
 
-The System contains a test API located at _/api/test_ which can be used to test if the webserver is alive and functioning.  The test API is entirely unauthenticated and always responds with a StatusOK 200 and an empty body.
+システムにはWebサーバーが正常に起動し、動作しているかを確認するためのテストAPIを `/api/test` に備えています。テストAPIに認証は必要なく、ステータス200と空のbodyを返します。

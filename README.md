@@ -1,12 +1,13 @@
 ### DatalaiQ Wiki
-Current version of DatalaiQ documentation can always be found at http://doc.datalaiq.io
+現在のDatalaiQドキュメントのバージョンは http://doc.datalaiq.io
+より確認できます。
+このリポジトリはその URL で提供され、オフラインで使用するために複製できます。
 
-This repo is served up at that url and can be cloned for offline use.
 
-To view docs, you can issue the go command "go run serve.go" and then open a webrowser to http://localhost:3001.
+ドキュメントを見るには、 "go run serv.go" を実行し http://localhost:3001 にアクセスします。
 
-Or
+または
 
-To run, open a webserver that hosts this directory and navigate to the index.html.
+このディレクトリをホストするウェブサーバーを動作させ、index.htmlにディレクトリを向けます。
 
 Using mdwiki: http://dynalon.github.io/mdwiki/

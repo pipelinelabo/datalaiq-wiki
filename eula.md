@@ -1,97 +1,92 @@
-# END USER LICENSE AGREEMENT
+# ライセンス同意事項
 
-IMPORTANT– READ CAREFULLY: This End-User License Agreement ("EULA") is
-between You (either an individual, a legal entity or any affiliated companies or
-other entities) and Gravwell Inc, ("Gravwell"). The EULA authorizes
-You to use the Licensed Software, specified in Clause 1 below, under the terms
-and conditions set forth below. Read this EULA carefully before installing or using
-the Licensed Software. By installing, copying, and/or using the Licensed Software,
-You acknowledge that You: (1) have read and understood the EULA as well as each
-of the third party licenses, Open Source Software licenses and additional terms set
-forth in the Additional Terms Addendum below (“Additional Terms”). (2) agree to
-be bound by all of the terms and conditions for this EULA and such Additional
-Terms. You further agree that if Gravwell or any licensor of Gravwell is required to
-engage in any proceeding, legal or otherwise, to enforce their rights under this
-EULA, Gravwell and/or its licensor shall be entitled to recover from You, in addition
-to any other sums due, reasonable attorney’s fees, costs and disbursements if ordered
-to do so by the Court. If You do not agree to all of the terms and conditions of this
-EULA, Gravwell is unwilling to license the Licensed Software to you. In such an event,
-you should not install the Licensed Software and promptly contact Gravwell for 
-instructions on return or destruction of the Licensed Software.
+重要 - 注意してお読みください: このエンドユーザー ライセンス契約 (「EULA」) は、お客様 (個人、法人、関連会社またはその他の団体) と Gravwell Inc (「Gravwell」) との間で締結されます。
 
-This EULA governs any Updates, releases, revisions, or enhancements to the
-Licensed Software.
+EULA は、下記の条項 1 で指定されたライセンス ソフトウェアを、以下に定める条件の下で使用することをお客様に許可します。
+ライセンス ソフトウェアをインストールまたは使用する前に、この EULA をよくお読みください。ライセンス ソフトウェアをインストール、コピー、および/または使用することにより、お客様は次のことを認めるものとします。
 
-1.  LICENSED SOFTWARE. As used in this EULA, the term "Licensed Software"
-means (i) the software offered by Gravwell under the brand "GravWell" in
-any release and (ii) any related electronic or written documentation for the
-Licensed Software.
+(1) EULA および各サード パーティ ライセンス、オープン ソース ソフトウェア ライセンス、および以下の追加条件補遺に規定されている追加条件 (以下「追加条件」) を読み、理解した。
 
-2.  INTELLECTUAL PROPERTY RIGHTS NOTICE. The Licensed Software and all
-rights, without limitation including proprietary rights therein, are owned by
-Gravwell, their licensors or affiliates and are protected by international treaty
-provisions and all applicable national laws. The structure, organization, and
-code of the Licensed Software are the valuable trade secrets and confidential
-information of Gravwell, their licensors or affiliates. Except as expressly and
-unambiguously provided herein, You do not possess, and Gravwell does not
-grant to You, any express or implied rights (whether by implication, estoppels
-or other legal theory) in or to any such intellectual property rights and all such
-rights are retained by Gravwell, its licensors or affiliates. You must reproduce
-and include the copyright notices with any permitted copies You make of the
-Licensed Software.
+(2) この EULA およびそのような追加条件のすべての条件に拘束されることに同意します。
+さらに、Gravwell または Gravwell のライセンサーが、本 EULA に基づく権利を行使するために、法的またはその他の手続きに関与する必要がある場合、Gravwell および/またはそのライセンサーは、その他の条件に加えて、お客様から回収する権利を有することに同意するものとします。裁判所がそうするように命じた場合、支払われるべき金額、合理的な弁護士費用、費用および支払い。
+お客様が本 EULA のすべての条件に同意しない場合、Gravwell はライセンス ソフトウェアをお客様にライセンス供与することを拒否します。
+そのような場合、ライセンス ソフトウェアをインストールせず、直ちに Gravwell に連絡して、ライセンス ソフトウェアの返却または破棄の指示を受けてください。
 
-3.  LICENSE GRANT AND USE RESTRICTIONS.  The Licensed Software is not sold to
-You. Gravwell only grants to You a non-exclusive, non-transferable license to
-use the Licensed Software solely for your own use. The
-configuration and execution of the Licensed Software is supervised by a
-cryptographic license key or a machine-bound copy protection, supplied
-separately for the Licensed Software. The EULA permits use of the Licensed
-Software, only within the boundaries established by the license key.
+この EULA は、ライセンス ソフトウェアの更新、リリース、改訂、または機能強化に適用されます。
 
-4.  LIMITATIONS ON LICENSE. You may not copy, distribute, or make derivative works of the Licensed Software except as follows:
-(a)  You may make one copy of the Licensed Software, excluding the documentation, as an archival backup copy of the original.Any other copies You make of the Licensed Software are in violation of this EULA.
-(b)  You may not use, modify, or transfer the right to use the Licensed Software or copy the Licensed Software except as expressly provided in this EULA.
-(c)  You may not sublicense, rent or lease the Licensed Software.
-(d)  You may not or direct any third party to reverse engineer, de-compile, or disassemble those Licensed Software programs except and only to the extent that such activity is expressly permitted by applicable law notwithstanding this limitation.
-(e) This EULA does not grant You any rights whatsoever in relation to the trademarks or service marks of Gravwell or Gravwell affiliates.
-(f)  Parts of the Licensed Software may be supplied by third parties and may be subject to separate license terms such as those set forth within the Additional Terms below. In the event that you receive the terms and conditions stipulated by the relevant third party licensor together with the Licensed Software, such terms and conditions shall apply with respect to the third party licensor’s liability towards you. Gravwell's own liability to you is governed by this EULA.  
-(g)  The Licensed Software may contain Open Source Software (hereinafter referred to as “OSS”) that is listed within the Additional Terms below. As set forth in these Additional Terms, You are entitled to use the OSS in accordance with the respective license conditions of the OSS. The license conditions of the respective OSS shall prevail over this EULA with respect to the OSS. If the license conditions of the OSS require the distribution of the source code of such OSS, Gravwell shall provide such source code upon request against payment of the shipping and handling charges.
+1.ライセンス ソフトウェア。 本 EULA で使用されている「ライセンス ソフトウェア」という用語は、(i) あらゆるリリースにおいて「Gravwell」のブランド名で Gravwell が提供するソフトウェア、および (ii) ライセンス ソフトウェアに関連する電子的または書面による文書を意味します。
 
-5.  MISUSE OF THE LICENSED SOFTWARE OR DATA GENERATED BY THE LICENSED SOFTWARE IS STRICTLY PROHIBITED BY LICENSOR, MAY VIOLATE U.S. AND OTHER LAWS AND MAY SUBJECT YOU TO SUBSTANTIAL LIABILITY.
-You are solely responsible for any misuse of the Licensed Software under this EULA and for any liability or damage related in any way to your use of the Licensed
-Software in violation of this EULA. You are also responsible for using the Licensed Software in accordance with the limitations of this EULA.
+2.知的財産権に関する通知。 ライセンス ソフトウェアおよびすべての権利 (所有権を含むがこれに限定されない) は、Gravwell、そのライセンサーまたは関連会社が所有し、国際条約の条項および適用されるすべての国内法によって保護されています。 ライセンス ソフトウェアの構造、構成、およびコードは、Gravwell、そのライセンサーまたは関連会社の貴重な企業秘密および機密情報です。
 
-6.   TERMINATION. This EULA is effective from the first date You install, copy or otherwise use the Licensed Software. You may terminate this license at any time by deleting or destroying the Licensed Software, all back up copies and all related materials provided to You by Gravwell. Your license rights terminate automatically and immediately without notice if You fail to comply with any provision of this EULA.
+本契約に明示的かつ明確に規定されている場合を除き、お客様はかかる知的財産権における、またはそれに対する明示的または黙示的な権利 (黙示、禁反言、またはその他の法理論によるものであるかにかかわらず) を所有しておらず、Gravwell がお客様に付与することはありません。 Gravwell、そのライセンサーまたは関連会社が保持します。
 
-7.  WARRANTY DISCLAIMER. YOU ACKNOWLEDGE THE LICENSED SOFTWARE IS PROVIDED "AS IS" AND NEITHER Gravwell NOR ANY OF THEIR LICENSORS MAKE ANY REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE OR THAT THE LICENSED SOFTWARE WILL NOT INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS. THERE IS NO WARRANTY BY Gravwell OR THEIR LICENSORS OR BY ANY OTHER PARTY THAT THE FUNCTIONS CONTAINED IN THE LICENSED SOFTWARE WILL MEET YOUR REQUIREMENTS OR THAT THE OPERATION OF THE SOFTWARE WILL BE UNINTERRUPTED OR ERROR-FREE. NO ORAL OR WRITTEN INFORMATION OR ADVICE GIVEN BY A Gravwell REPRESENTATIVE SHALL CREATE A WARRANTY OR IN ANY WAY AFFECT THIS DISCLAIMER. YOU ASSUME ALL RESPONSIBILITY TO ACHIEVE YOUR INTENDED RESULTS AND FOR THE INSTALLATION, USE, AND RESULTS OBTAINED FROM IT.
+ライセンス ソフトウェアの許可されたコピーを作成する場合は、複製し、著作権表示を含める必要があります。
 
-8.  NO OTHER OBLIGATIONS; RESERVATION OF RIGHTS. This EULA creates no obligations on the part of Gravwell other than as specifically set forth herein. Gravwell reserves all rights not expressly granted to You in this EULA.
+3.ライセンスの付与および使用制限。 ライセンス ソフトウェアは、お客様に販売されるものではありません。
 
-9.  LIMITATION OF LIABILITY. IN NO EVENT SHALL Gravwell, ITS EMPLOYEES, LICENSORS, AFFILIATES OR AGENTS BE LIABLE FOR ANY LOST PROFITS OR COSTS OF PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, PROPERTY DAMAGE, LOSS OF PROFITS, INTERRUPTION OF BUSINESS OR FOR ANY SPECIAL, INDIRECT, INCIDENTAL, ECONOMIC, PUNITIVE OR CONSEQUENTIAL DAMAGES, HOWEVER CAUSED, AND WHETHER ARISING UNDER CONTRACT, TORT, NEGLIGENCE, OR OTHER THEORY OF LIABILITY, OR ARISING OUT OF THE USE OF OR INABILITY TO USE THE LICENSED SOFTWARE, EVEN IF Gravwell IS ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. THE LIMITATION OF LIABILITY SHALL NOT APPLY IF AND TO THE EXTENT Gravwell's LIABILITY IS MANDATORY UNDER THE APPLICABLE LAW E.G. PRODUCT LIABILITY LAW OR INTENTIONAL MISCONDUCT.
+Gravwell は、ライセンス ソフトウェアをお客様自身の使用のみに使用するための非独占的、譲渡不可のライセンスのみをお客様に付与します。
 
-10. TECHNICAL SUPPORT AND AUDIT Gravwell and its affiliates have no obligation to furnish You with technical support unless separately agreed in writing between You and Gravwell. Gravwell and where applicable their licensors in the Licensed Software shall be free to use any feedback and/or technical data including audit data received from You resulting from your access to and use of the Licensed Software for any purpose including (without limitation) the manufacture, marketing and maintenance or support of products and services. Insofar as permissible under the relevant laws You permit Gravwell and its affiliates to audit the use of the Licensed Software and will give assistance and access to the necessary information.
+ライセンス ソフトウェアの構成と実行は、ライセンス ソフトウェアとは別に提供される暗号化ライセンス キーまたはマシンにバインドされたコピー保護によって監視されます。
 
-11. EXPORT CONTROL. The Software, including technical data / cryptographic software, may be subject to U.S. export controls and may be subject to import or export controls in other countries. You agree to strictly comply with all applicable import and export regulations. Specifically, You agree, to the extent required by U.S. Export Administration Regulations, that You shall not disclose or otherwise export or re-export the Licensed Software or any part thereof delivered under this EULA to any country (including a national or resident of such country) to which the U.S. has restricted or prohibited the export of goods or services. You represent and warrant that You are not (i) located in any country that is subject to a U.S. Government embargo, or that has been designated by the U.S. Government as a "terrorist sponsoring" country, or (ii) listed on any U.S. Government list of prohibited or restricted parties including the Treasury Department's list of Specially Designated Nationals or the U.S. Department of Commerce Denied Person's List or Entity List.
+EULA は、ライセンス キーによって確立された範囲内でのみ、ライセンス ソフトウェアの使用を許可します。
 
-12.  DATA PROTECTION: You acknowledge that Gravwell uses a software based solution for administration of data and license information. You agree that Gravwell stores and uses all data and information required for the business relationship between You and Gravwell or resulting from said relationships, especially but not limited to contractual documents and papers as well as data and information of and about You and Your auxiliary persons necessary for the performance of the contract. Such information may be stored and used in and outside The United States. Furthermore, all this data and information may be disclosed to Gravwell as well as to their associated companies for corresponding processing, especially for providing services, fulfillment of legal requirements or for Gravwell internal audit and/or supervisory requirements; this always in compliance with respectively applicable data protection laws.
+4.ライセンスの制限。次の場合を除き、ライセンス ソフトウェアのコピー、配布、または派生物を作成することはできません。
 
-13. FOR U.S. GOVERNMENT END USERS:  The Licensed Software was developed at private expense and each component thereof is a “commercial item” as that term is defined at 48 C.F.R. 2.101, consisting of “commercial computer software” and “commercial computer software documentation” as such terms are used in 48 C.F.R. 12.212 and FAR 52.227-19 Commercial Computer Software License. The Uniform Computer Information Transactions Act is excluded.   Consistent with 48 C.F.R. 12.212 and 48 C.F.R. 227.7202-1 through 227.7202-4, all U.S. Government end users acquire the Licensed Software with only those limited rights set forth therein.Publisher is Gravwell Inc, A Delaware Corporation. 
+(a) お客様は、オリジナルのアーカイブ バックアップ コピーとして、ドキュメントを除くライセンス ソフトウェアのコピーを 1 つ作成することができます。
+お客様が作成するライセンス ソフトウェアのその他のコピーは、この EULA に違反しています。
 
-14. APPLICABLE LAW AND FORUM. 
-These Terms and Conditions and your relationship with GravWell under this EULA will be governed by the laws of the State of California without regard to its conflict of laws provisions. You, GravWell agree to submit to the exclusive jurisdiction of the courts located within California to resolve any legal matter arising from this EULA or these Terms and Conditions, and you hereby submit to the personal jurisdiction of such courts and waive any objection based upon improper venue or inconvenient forum. You hereby waive any right to a jury trial in any proceeding arising out of or related to this EULA. Notwithstanding this, you agree that GravWell will still be allowed to apply for injunctive remedies (or an equivalent type of urgent legal relief) in any jurisdiction.
-15. MISCELLANEOUS. Unless Gravwell has given separate individual contract conditions in writing this EULA represents the entire agreement between You and Gravwell relating to the Licensed Software and (i) supersedes all prior or contemporaneous oral or written communications, proposals, and representations with respect to its subject matter; and (ii) prevails over any conflicting or additional terms of any acknowledgement or similar communication between the parties during the term of this License.
-Notwithstanding the foregoing, some products of Gravwell may require You to agree to additional terms through an on-line license, and such terms shall supplement this EULA. If any provision of this EULA is held invalid, all other provisions shall remain valid unless such validity would frustrate the purpose of this EULA, and this EULA shall be enforced to the full extent allowable under applicable law. No modification to this EULA is binding, unless in writing and signed by a duly authorized representative of each party. This EULA shall be binding on and shall inure to the benefit of the heirs, successors, and assigns of the parties hereto. The failure of either party to enforce any right resulting from the breach of any provision of this EULA by the other party will not be deemed a waiver of any right related to a subsequent breach of such provision or any other right hereunder.
+(b) 本 EULA に明示的に規定されている場合を除き、ライセンス ソフトウェアを使用する権利、またはライセンス ソフトウェアをコピーする権利を使用、変更、または譲渡することはできません。
+
+(c) ライセンス ソフトウェアをサブライセンス、レンタル、またはリースすることはできません。
+
+(d) お客様は、この制限にかかわらず、かかる行為が適用法によって明示的に許可されている場合を除き、これらのライセンス ソフトウェア プログラムをリバース エンジニアリング、逆コンパイル、または逆アセンブルすることを第三者に指示することはできません。
+
+(e) この EULA は、Gravwell または Gravwell の関連会社の商標またはサービス マークに関連するいかなる権利もお客様に付与しません。
+
+(f) ライセンス ソフトウェアの一部は、第三者によって提供される場合があり、以下の追加条件に規定されているような個別のライセンス条件の対象となる場合があります。関連する第三者のライセンサーが規定する契約条件をライセンス ソフトウェアと共に受け取った場合、かかる契約条件は、第三者のライセンサーのお客様に対する責任に関して適用されるものとします。お客様に対する Gravwell 自身の責任は、この EULA に準拠します。
+
+(g) ライセンス ソフトウェアには、以下の追加条項に記載されているオープン ソース ソフトウェア (以下、「OSS」という) が含まれている場合があります。これらの追加条件に規定されているように、お客様は、OSS のそれぞれのライセンス条件に従って OSS を使用する権利を有します。 OSS に関しては、それぞれの OSS のライセンス条件が本 EULA に優先するものとします。 OSS のライセンス条件がそのような OSS のソース コードの配布を必要とする場合、Gravwell は、配送料および手数料の支払いに対して要求に応じてそのようなソース コードを提供するものとします。
+
+5.ライセンス ソフトウェアまたはライセンス ソフトウェアによって生成されたデータの誤用は、ライセンサーによって固く禁じられており、米国およびその他の法律に違反する可能性があり、実質的な責任を負う可能性があります。
+本 EULA に基づくライセンス ソフトウェアの誤用、および本 EULA に違反したライセンス ソフトウェアの使用に何らかの形で関連する責任または損害については、お客様が単独で責任を負うものとします。 また、お客様は、この EULA の制限に従ってライセンス ソフトウェアを使用する責任があります。
+
+6.終了。 この EULA は、お客様がライセンス ソフトウェアをインストール、コピー、またはその他の方法で使用した最初の日から有効になります。 Gravwell から提供されたライセンス ソフトウェア、すべてのバックアップ コピー、およびすべての関連資料を削除または破棄することにより、いつでもこのライセンスを終了することができます。 お客様が本 EULA のいずれかの条項に従わなかった場合、お客様のライセンス権は予告なしに自動的かつ即時に終了します。
+
+7.保証の否認。 お客様は、ライセンス ソフトウェアが「現状のまま」提供され、Gravwell およびそのライセンサーのいずれも、明示または黙示を問わず、商品性または特定の目的への適合性の保証を含むがこれらに限定されない、いかなる表明または保証も行わないことを認めるものとします。 第三者の特許、著作権、商標、またはその他の権利を侵害しないでください。 Gravwell、そのライセンサー、またはその他の当事者は、ライセンスされたソフトウェアに含まれる機能がお客様の要件を満たすこと、またはソフトウェアの動作が中断されないこと、またはエラーがないことを保証しません。 Gravwell の代表者による口頭または書面による情報または助言は、保証を作成するものではなく、いかなる形であれ、この免責事項に影響を与えるものではありません。 お客様は、意図した結果を達成するため、およびインストール、使用、およびそれから得られる結果について、すべての責任を負うものとします。
+
+8.その他の義務はありません。 権利の留保。 この EULA は、本書に具体的に記載されている場合を除き、Gravwell 側に義務を課すものではありません。 Gravwell は、この EULA で明示的に付与されていないすべての権利を留保します。
+
+9.責任の制限。 いかなる場合も、Gravwell、その従業員、ライセンサー、関連会社、または代理人は、利益の損失または代替商品またはサービスの調達費用、物的損害、利益の損失、事業の中断、または特別、間接的、偶発的、経済的損害について責任を負わないものとします。 、懲罰的または結果的損害、原因の如何を問わず、また、契約、不法行為、過失、またはその他の責任理論に基づいて発生したか、またはライセンスされたソフトウェアの使用または使用不能に起因して発生したかにかかわらず、Gravwell がそのような可能性について知らされていたとしても、 損害賠償。 責任の制限は、適用法の下で Gravwell の責任が義務付けられている場合、適用されないものとします。 製造物責任法または意図的な違法行為。
+
+10.技術サポートと監査 Gravwell とその関連会社は、お客様と Gravwell の間で別途書面による合意がない限り、お客様に技術サポートを提供する義務を負いません。 Gravwell および該当する場合、ライセンス ソフトウェアのライセンサーは、お客様がライセンス ソフトウェアにアクセスして使用した結果、お客様から受け取った監査データを含むフィードバックおよび/または技術データを自由に使用できるものとします。 製品およびサービスのマーケティングおよび保守またはサポート。 関連する法律で許可される限り、お客様は、Gravwell およびその関連会社がライセンス ソフトウェアの使用を監査することを許可し、必要な情報へのアクセスと支援を提供します。
+
+11.輸出管理。技術データ/暗号化ソフトウェアを含む本ソフトウェアは、米国の輸出規制の対象となる場合があり、他の国での輸入または輸出規制の対象となる場合があります。お客様は、該当するすべての輸出入規制を厳守することに同意するものとします。具体的には、お客様は、米国輸出管理規則で要求される範囲で、本 EULA に基づいて提供されたライセンス ソフトウェアまたはその一部をいかなる国 (当該国の国民または居住者を含む) に対しても開示、またはその他の方法で輸出または再輸出してはならないことに同意するものとします。 ) 米国が商品またはサービスの輸出を制限または禁止している国。お客様は、(i) 米国政府の禁輸措置の対象となる国、または米国政府によって「テロ支援国」として指定された国に居住していないこと、または (ii) 米国政府のリストに記載されていないことを表明し、保証するものとします。財務省の特別指定国民のリスト、または米国商務省の拒否された人物のリストまたはエンティティのリストを含む、禁止または制限された当事者のリスト。
+
+12.データ保護: お客様は、Gravwell がデータおよびライセンス情報の管理にソフトウェア ベースのソリューションを使用していることを認めます。 お客様は、Gravwell が、お客様と Gravwell の間のビジネス関係に必要な、またはその関係から生じるすべてのデータおよび情報を保存および使用することに同意するものとします。特に、契約文書および書類、ならびにお客様およびお客様の必要な補助者に関するデータおよび情報が含まれますが、これらに限定されません。 契約の履行のため。 このような情報は、米国内外で保存および使用される場合があります。 さらに、このすべてのデータと情報は、対応する処理、特にサービスの提供、法的要件の履行、または Gravwell の内部監査および/または監督要件のために、Gravwell およびその関連会社に開示される場合があります。 これは、それぞれ適用されるデータ保護法に常に準拠しています。
+
+13.米国政府のエンド ユーザー向け: ライセンス ソフトウェアは私費で開発されたものであり、その各コンポーネントは、48 C.F.R. で定義されている「商用アイテム」です。 48 C.F.R. 2.101 で使用されている「商用コンピュータ ソフトウェア」および「商用コンピュータ ソフトウェア ドキュメント」で構成されます。 12.212 および FAR 52.227-19 商用コンピュータ ソフトウェア ライセンス。 統一コンピュータ情報取引法は除外されます。 48 C.F.R と一致 12.212 および 48 C.F.R. 227.7202-1 から 227.7202-4 まで、すべての米国政府のエンド ユーザーは、そこに規定されている限定された権利のみと共にライセンス ソフトウェアを取得します。
+発行元はデラウェア州の Gravwell Inc. です。
+
+14.適用法および法廷地。
+本利用規約および本 EULA に基づくお客様と GravWell との関係は、抵触法の規定に関係なく、カリフォルニア州法に準拠します。 お客様、GravWell は、本 EULA または本利用規約から生じる法的問題を解決するために、カリフォルニア州内にある裁判所の専属管轄権に服することに同意し、お客様はここにかかる裁判所の人的管轄権に服し、不適切な裁判地に基づく異議を放棄します。 または不便なフォーラム。 お客様は、本 EULA から生じる、または本 EULA に関連する訴訟において、陪審裁判を受ける権利を放棄するものとします。 これにもかかわらず、お客様は、GravWell がいかなる法域においても差し止めによる救済 (または同等の種類の緊急の法的救済) を申請できることに同意するものとします。
+
+15.その他。 Gravwell が個別の個別の契約条件を書面で提示しない限り、この EULA はライセンス ソフトウェアに関するお客様と Gravwell 間の完全な合意を表し、(i) その主題に関する以前または同時期の口頭または書面によるコミュニケーション、提案、および表明のすべてに優先します。 (ii) 本ライセンスの期間中の両当事者間の承認または同様の通信の相反する条件または追加の条件に優先する。
+
+上記にかかわらず、Gravwell の一部の製品では、オンライン ライセンスを通じて追加の条件に同意する必要があり、かかる条件は本 EULA を補足するものとします。 本 EULA のいずれかの条項が無効とされた場合、そのような有効性が本 EULA の目的を妨げる場合を除き、他のすべての条項は引き続き有効であり、本 EULA は適用法の下で許容される最大限の範囲で施行されるものとします。 各当事者の正式に権限を与えられた代表者によって書面で署名されない限り、この EULA の変更は拘束力を持ちません。 この EULA は、当事者の相続人、承継人、および譲受人を拘束し、その利益のために効力を生じるものとします。 いずれかの当事者が、相手方当事者による本 EULA の条項の違反に起因する権利を行使できなかったとしても、その後のかかる条項の違反に関連する権利または本契約に基づくその他の権利の放棄とはみなされません。
 
 © Gravwell Inc 2017. All rights reserved.
 
-ADDITIONAL TERMS ADDENDUM
-Embedded in, or bundled with, this product are open source software (OSS)  components and other third party components. 
-You may receive a copy of,distribute and/or modify any open source code for the OSS component under the terms of their respective licenses, which may be Apache License Version 2.0, the modified BSD license and the MIT license.  In the event of conflicts between Gravwell license conditions and the Open Source Software license conditions, the Open Source Software conditions shall prevail with respect to the Open Source Software portions of the software.
-On written request within three years from the date of product purchase and against payment of our expenses, Gravwell will supply source code for any OSS component identified below inline with the terms of the applicable license. For this, please contact us at:
+追加条項補遺
+
+この製品に組み込まれている、またはバンドルされているのは、オープン ソース ソフトウェア (OSS) コンポーネントおよびその他のサード パーティ コンポーネントです。
+
+OSS コンポーネントのオープン ソース コードのコピーを受け取ったり、配布したり、変更したりする場合は、それぞれのライセンス (Apache ライセンス バージョン 2.0、変更された BSD ライセンス、および MIT ライセンスなど) の条件に基づいて行うことができます。 Gravwell のライセンス条件とオープン ソース ソフトウェアのライセンス条件との間に矛盾が生じた場合、ソフトウェアのオープン ソース ソフトウェア部分に関しては、オープン ソース ソフトウェアの条件が優先されるものとします。
+
+Gravwell は、製品購入日から 3 年以内の書面による要求に応じて、費用の支払いに応じて、該当するライセンスの条件に従って、以下に示す OSS コンポーネントのソース コードを提供します。 これについては、次の連絡先までお問い合わせください:
 
 Gravwell Inc
 OSS Component Division
 P.O. box 2819
 Coeur d’Alene, ID  83814-2819
 
-Generally, the identified OSS components are distributed in the hope that they will be useful, but WITHOUT ANY WARRANTY, without even implied warranty such as for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE,and without liability for any Gravwell entity other than as explicitely documented in your purchase contract.
+一般に、識別された OSS コンポーネントは、それらが有用であることを期待して配布されますが、いかなる保証もなく、商品性や特定目的への適合性などの黙示の保証さえなく、Gravwell エンティティに対して明示的に文書化されている場合を除き、責任を負いません。 あなたの購入契約。
