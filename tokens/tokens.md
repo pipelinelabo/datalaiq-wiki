@@ -55,7 +55,7 @@ This section is by no means exhaustive in the set of DatalaiQ APIs that can be a
 #### Get Tags
 
 ```
-curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAcopy" https://gravwell.system.com/api/tags
+curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAcopy" https://datalaiq.system.com/api/tags
 ```
 
 ```
@@ -65,7 +65,7 @@ curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAc
 #### Get Search History
 
 ```
-curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAcopy" https://gravwell.system.com/api/searchhistory
+curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAcopy" https://datalaiq.system.com/api/searchhistory
 ```
 
 ```
@@ -92,7 +92,7 @@ curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAc
 #### List Search States
 
 ```
-curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAcopy" https://gravwell.system.com/api/searchctrl
+curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAcopy" https://datalaiq.system.com/api/searchctrl
 ```
 
 ```
@@ -127,7 +127,7 @@ curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAc
 #### Get Indexer Up/Down Status
 
 ```
-curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAcopy" https://gravwell.system.com/api/stats/ping
+curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAcopy" https://datalaiq.system.com/api/stats/ping
 ```
 
 ```
@@ -142,7 +142,7 @@ curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAc
 #### Get System Descriptions
 
 ```
-curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAcopy" https://gravwell.system.com/api/stats/sysDesc
+curl --header "Gravwell-Token: rQ_e-7I8xRgeFYJpWzqMdEu391HCTC0QYvvJl_fp9YNXNquAcopy" https://datalaiq.system.com/api/stats/sysDesc
 ```
 
 ```
