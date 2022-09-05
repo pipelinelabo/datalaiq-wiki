@@ -1,7 +1,7 @@
 # DatalaiQ Docs
 
-[ホーム](index.md)
-[バージョン履歴](changelog/list.md)
+[Home](index.md)
+[Changelogs](changelog/list.md)
 
 <li class="search-form-container">
 <form id="search" class="form-inline" onsubmit="goToSearch(this);return false">
@@ -10,10 +10,10 @@
 </form>
 </li>
 
-[言語]()
+[Language]()
 
    * [English](index.md)
-   * [日本語](japanese/index.md)
+   * [Japanese](japanese/index.md)
 
 
 

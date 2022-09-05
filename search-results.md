@@ -1,8 +1,7 @@
-# 検索結果
+# SEARCH RESULTS
 
 <div id="search-results"></div>
 
 <script>
     search();
 </script>
-

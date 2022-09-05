@@ -1,141 +1,141 @@
 # 
 
-# DatalaiQドキュメント
+# DatalaiQ Docs
 
-このページにはDatalaiQドキュメントの他、バージョン履歴などが含まれています。
+This site contains documentation for DatalaiQ, plus other resources such as Changelogs.
 
-初めてDatalaiQを開始する場合は、最初に[クイックスタート](quickstart/quickstart.md) を呼んだ後、より深く知るために[検索（クエリパイプライン）](search/search.md) を読むことをお勧めします。
+If you're just starting out with DatalaiQ, we recommend reading the [Quickstart](quickstart/quickstart.md) first, then moving on to the [Search pipeline](search/search.md) documentation to learn more.
 
-## クイックスタート/ダウンロード
+## Quickstart and Downloads
 
-  * [クイックスタート](quickstart/quickstart.md)
+  * [Quickstart](quickstart/quickstart.md)
 
-  * [ダウンロード](quickstart/downloads.md)
+  * [Downloads](quickstart/downloads.md)
 
-## 検索（クエリ）
+## Searching with DatalaiQ
 
-  * [検索（クエリ）概要](search/search.md)
+  * [Search overview](search/search.md)
 
-  * [抽出（Extraction）モジュール](search/extractionmodules.md)
+  * [Search Extraction modules](search/extractionmodules.md)
 
-  * [処理（Processing）モジュール](search/processingmodules.md)
+  * [Search Processing modules](search/processingmodules.md)
 
-  * [表示（Rendering）モジュール](search/rendermodules.md)
+  * [Search Render modules](search/rendermodules.md)
 
-  * [全てのモジュールリスト（アルファベット順）](search/complete-module-list.md)
+  * [Alphabetical List of All Pipeline Modules](search/complete-module-list.md)
 
-  * [ダイレクト検索（クエリ）REST API](search/directquery/directquery.md)
+  * [Direct Query REST API](search/directquery/directquery.md)
 
-## システムアーキテクチャ
+## System Architecture
 
-  * [DatalaiQシステムアーキテクチャ](architecture/architecture.md)
+  * [DatalaiQ System Architecture](architecture/architecture.md)
 
-    * [DatalaiQで使用される使用されるネットワークポート](configuration/networking.md)
+    * [Network Ports Used by DatalaiQ](configuration/networking.md)
 
 
-  * [リソースシステム](resources/resources.md)
+  * [The Resource System](resources/resources.md)
 
-## インジェスター設定: DatalaiQへのデータ取り込み
+## Ingester Configuration: Getting Data Into DatalaiQ
 
-  * [概要とインジェスターリスト](ingesters/ingesters.md)
+  * [Overview and List of Ingesters](ingesters/ingesters.md)
 
-  * [インジェスタープリプロセッサ（Preprocessor）](ingesters/preprocessors/preprocessors.md)
+  * [Ingester Preprocessors](ingesters/preprocessors/preprocessors.md)
 
-  * [カスタムタイムフォーマット](ingesters/customtime/customtime.md)
+  * [Custom Time Formats](ingesters/customtime/customtime.md)
 
-  * [サービス統合](ingesters/integrations.md)
+  * [Service Integrations](ingesters/integrations.md)
 
-  * [データ移行](ingesters/migrate/migrate.md)
+  * [Data Migration](ingesters/migrate/migrate.md)
 
-  * [フェデレーター](ingesters/federator.md)
+  * [Federator](ingesters/federator.md)
 
-## 高度なDatalaiQの設定と構成
+## Advanced DatalaiQ Installation and Configuration
 
-  * [DatalaiQのインストールと設定](configuration/configuration.md)
+  * [Installing and Configuring DatalaiQ](configuration/configuration.md)
 
 [//]: # (  We need to prepare docker images than update deployment procedure;)
 [//]: # (  * [Docker Deployment]&#40;configuration/docker.md&#41;)
 
-  * [TLS/HTTPSの設定](configuration/certificates.md)
+  * [Setting up TLS/HTTPS](configuration/certificates.md)
 
-  * [DtalaiQクラスターの構成](distributed/cluster.md)
+  * [Building a DatalaiQ Cluster](distributed/cluster.md)
 
-  * [分散フロントエンド](distributed/frontend.md)
+  * [Distributed Frontends](distributed/frontend.md)
 
-    * [全体概要](distributed/overwatch.md)
+    * [Overwatch](distributed/overwatch.md)
 
 
-  * [環境変数](configuration/environment-variables.md)
+  * [Environment Variables](configuration/environment-variables.md)
 
-  * [詳細な設定パラーメーター](configuration/parameters.md)
+  * [Detailed Configuration Parameters](configuration/parameters.md)
 
-  * [シングルサインオン](configuration/sso.md)
+  * [Single Sign-On](configuration/sso.md)
 
-  * [DatalaiQ構成の強化](configuration/hardening.md)
+  * [Hardening DatalaiQ](configuration/hardening.md)
 
-  * [一般的な問題と注意事項](configuration/caveats.md)
+  * [Common Problems & Caveats](configuration/caveats.md)
 
-  * [パフォーマンスチューニング](tuning/tuning.md)
+  * [Performance Tuning](tuning/tuning.md)
 
-## クエリ高速化, 自動抽出, and データ操作
+## Query Acceleration, Auto-Extraction, and Data Management
   
-  * [自動中抽出設定](configuration/autoextractors.md)
+  * [Setting up Auto-extractors](configuration/autoextractors.md)
   
-  * [クエリ高速化 (インデックスとbloomフィルタ)](configuration/accelerators.md)
+  * [Query Acceleration (indexing and bloom filters)](configuration/accelerators.md)
 
-  * [データレプリケーション](configuration/replication.md)
+  * [Data Replication](configuration/replication.md)
 
-  * [データ保存管理（Ageout）](configuration/ageout.md)
+  * [Data Ageout](configuration/ageout.md)
 
-  * [データ圧縮](configuration/compression.md)
+  * [Data Compression](configuration/compression.md)
 
-  * [データアーカイブ](configuration/archive.md)
+  * [Data Archiving](configuration/archive.md)
 
-## 自動化
+## Automation
 
-  * [フロー](flows/flows.md)
+  * [Flows](flows/flows.md)
 
-  * [スケジュール検索/スクリプト](scripting/scheduledsearch.md)
+  * [Scheduled Searches & Scripts](scripting/scheduledsearch.md)
 
-    * [自動スクリプトAPiと例](scripting/scriptingsearch.md)
+    * [Automation Script APIs & Examples](scripting/scriptingsearch.md)
 
 
-  * [スクリプト概要](scripting/scripting.md)
+  * [Scripting Overview](scripting/scripting.md)
 
-	* [Ankoモジュール](scripting/anko.md)
+	* [The Anko Module](scripting/anko.md)
 
-	* [Evalモジュール](scripting/eval.md)
+	* [The Eval Module](scripting/eval.md)
 
-## ユーザーインタフェース
+## User Interfaces
 
   * [DatalaiQ Web GUI](gui/gui.md)
 
-    * [検索（クエリ）インタフェース](gui/queries/queries.md)
+    * [The Search Interface](gui/queries/queries.md)
 
-    * [ラベルとフィルタリング](gui/labels/labels.md)
+    * [Labels and Filtering](gui/labels/labels.md)
 
-    * [キット](kits/kits.md)
+    * [Kits](kits/kits.md)
     
-    * [トークン](tokens/tokens.md)
+    * [Tokens](tokens/tokens.md)
 
-  * [コマンドラインクライアント](cli/cli.md)
+  * [Command-Line Client](cli/cli.md)
 
 ## API
 
   * [API](api/api.md)
 
-  * [検索（クエリ）API](search/directquery/directquery.md)
+  * [REST Query API](search/directquery/directquery.md)
 
-## その他
+## Misc
 
   * [Licensing](license/license.md)
 
-  * [メトリクスとクラッシュレポート](metrics.md)
+  * [Metrics & Crash Reporting](metrics.md)
 
-  * [バージョン履歴](changelog/list.md)
+  * [Changelogs](changelog/list.md)
 
-  * [DatalaiQ EULA](eula.md)
+[//]: # (  * [DatalaiQ EULA]&#40;eula.md&#41;)
 
 [//]: # (  * [Open-source Licenses]&#40;open_source.md&#41;)
 
-ドキュメントバージョン:  2.0
+Documentation version 2.0
