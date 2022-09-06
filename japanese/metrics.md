@@ -1,14 +1,15 @@
-# DatalaiQ Metrics and Crash Reporting
+# DatalaiQメトリクスとクラッシュレポート
 
-DatalaiQ users care about what's going on in their networks--it's a big reason people check us out in the first place. We want to make sure all users are aware of and comfortable with the automated crash reporting & metrics systems built into DatalaiQ. This document will cover both systems, with complete examples of exactly what we send back to the DatalaiQ servers.
+DatalaiQ ユーザーは、自分のネットワークで何が起こっているかを気にかけています。それが、人々が最初に私たちをチェックする大きな理由です。 すべてのユーザーが、DatalaiQ に組み込まれている自動クラッシュレポートとメトリックシステムを認識し、快適に使用できるようにしたいと考えています。 このドキュメントでは、両方のシステムについて説明し、DatalaiQ サーバーに送り返す内容の例を示します。
 
-## Crash Reporting
+## クラッシュレポート
 
-When a DatalaiQ component crashes, an automated crash report is sent to DatalaiQ. This consists of the console output from the component in question, which typically includes some brief information about the license (in order to determine whose system just crashed) and a stack trace. **Every** DatalaiQ component--the webserver, the indexer, the ingesters, the search agent--is set up to send crash reports.
- 
-Note: Crash reports are always sent via TLS-verified HTTPS to update.gravwell.io. If we are unable to fully validate the remote certificate, the report does *not* go out.
+DatalaiQ コンポーネントがクラッシュすると、自動クラッシュレポートがDatalaiQに送信されます。 これは、問題のコンポーネントからのコンソール出力で構成され、通常、ライセンスに関する簡単な情報 (クラッシュしたシステムを特定するため) とスタックトレースが含まれます。 **すべて**のDatalaiQコンポーネント (ウェブサーバー、インデクサー、インジェスター、検索エージェント) は、クラッシュレポートを送信するように設定されています。
 
-Here's an example of a crash report from a DatalaiQ employee's test system:
+備考: クラッシュレポートは常にupdate.gravwell.ioにHTTPS通信を使用して送信されます。リモート証明書を完全に検証できない場合、レポートは送信されません。
+
+DatalaiQのテストシステムからのクラッシュレポートの例を次に示します:
+
 
 ```
 Component:      webserver
@@ -56,41 +57,42 @@ created by gravwell/pkg/search.(*SearchManager).GetSystemStats.func1
         gravwell@/pkg/search/manager_handlers.go:301 +0x65
 ```
 
-The message starts with the particular component that crashed, in this case the webserver. It then lists the DatalaiQ version, the IP and hostname of the system that crashed, and a path where DatalaiQ staff can find a full copy of the crash log--if a backtrace is particularly long, we receive an email with only the first 100 lines or so.
+メッセージはクラッシュした特定のコンポーネントから始まります、この例ではWebサーバーです。次に、DatalaiQのバージョン、クラッシュしたシステムのIPとホスト名、およびDatalaiQ管理者が確認可能なクラッシュログのパスを一覧表示します。
 
-The remainder of the message is the console output from the crashed program. The crash reporter pulls this directly from the component's output file in `/dev/shm`; you can see what your system might send by looking at e.g. `/dev/shm/gravwell_webserver`. You can also view any past crash reports in `/opt/gravwell/log/crash`, but be aware that if you *disable* the crash reporter, crash logs will no longer be stored in that directory.
+上記以外のメッセージはは、クラッシュしたプログラムからのコンソール出力です。クラッシュレポーターは、これを `/dev/shm` にあるコンポーネントの出力ファイルから直接取得します。 システムが何を送信するかを見ることができます。 `/dev/shm/gravwell_webserver`. `/opt/gravwell/log/crash` で過去のクラッシュレポートを表示することもできますが、クラッシュレポーターを「無効化」すると、クラッシュログがそのディレクトリに保存されなくなることに注意してください。
 
-The first few lines (Version, API Version, Build Date, and Build ID) help us determine exactly what version of DatalaiQ was running. "Cmdline", "Executing user", "Parent PID", "Parent cmdline", and "Parent user" all help us figure out how the DatalaiQ process is being run and identify potential issues there--in this example, because the parent process as PID 1 and named "manager", we can infer that DatalaiQ is being run in a Docker container. Sometimes issues can crop up in one environment (e.g. in Docker being launched by "manager") but not in others (Ubuntu, launching via systemd), and this helps us chase that down.
+最初の数行は（バージョン、APIバージョン、ビルド日時とビルドID）はどのバージョンのDatalaiQで動作しているのかを確認するのに役立ちます。「Cmdline」、「Executing user」、「Parent PID」、「Parent cmdline」、および「Parent user」はすべて、DatalaiQプロセスがどのように実行されているかを把握し、潜在的な問題を特定するのに役立ちます。 PID 1としてプロセスを実行し、「manager」という名前を付けた場合、DatalaiQ が Docker コンテナーで実行されていると推測できます。1 つの環境 (「manager」によって起動される Docker など) で問題が発生することがありますが、他の環境 (Ubuntu、systemd 経由で起動される) では問題が発生しない場合もあります。
 
-We also include information about the amount of memory on the system and the rlimits set because this can help us track down certain classes of crashes--for instance, an out-of-memory error on a system with 512MB of RAM wouldn't be particularly surprising! Note that the "Host hash" field is a unique identifier for the host running the process, but because it is a hash we can only use it to say "This is the same machine as that other crash report"; no other information is included.
+また、システムのメモリ量と設定された rlimits に関する情報も含めます。これは、特定のクラスのクラッシュを追跡するのに役立つためです。たとえば、512MBのRAMを搭載したシステムのメモリ不足エラーは 、「ホストハッシュ」フィールドは、プロセスを実行しているホストの一意の識別子ですが、これはハッシュであるため、「これは他のクラッシュレポートと同じマシンです」と言うためにしか使用できないことに注意してください。 他の情報は含まれていません。
 
-The "SKU", "Customer NUM", and "Customer GUID" fields describe the license in use. The SKU describes the capabilities allowed by the user's license; in this case, the DatalaiQ employee is using an unlimited ("UX") license. The customer number and customer GUID fields allow us to refer to our customer database and see who is having the problem.
+「SKU」、「Customer NUM」、および「Customer GUID」フィールドは、使用中のライセンスを記述します。 SKUは、ユーザーのライセンスによって許可される機能を記述します。 この場合、DatalaiQ の従業員は無制限 (「UX」) ライセンスを使用しています。 顧客番号と顧客GUIDフィールドを使用すると、顧客データベースを参照して、誰が問題を抱えているかを確認できます。
 
-Below all this information is the backtrace from the DatalaiQ process. In this case, we see that a bug in an alpha build caused a crash in the routine that the webserver uses to check CPU/memory information of the indexers for use on the GUI's hardware stats page. We want to make it very clear that these stacktraces will never contain user data, only line numbers from our source code: just enough so we can figure out where in the program it's crashing.
+このすべての情報の下には、DatalaiQ プロセスからのバックトレースがあります。 この場合、アルファビルドのバグにより、WebサーバーがGUIのハードウェア統計ページで使用するインデクサーのCPU/メモリ情報をチェックするために使用するルーチンでクラッシュが発生したことがわかります。 これらのスタックトレースにはユーザーデータは含まれず、ソースコードの行番号のみが含まれることを明確にしたいと思います。
 
-### Disabling Crash Reporting
+### クラッシュレポートの無効化
 
-If for any reason you decide you don't want to send crash reports, you have multiple options for disabling the report system.
+何らかの理由でクラッシュレポートを送信しない場合は、レポートシステムをいくつかのオプションをオプションを使用して無効化することができます。
 
-* If using the standalone shell installer, you can disable it at install time with the `--no-crash-report` flag.
-* If you installed DatalaiQ from the Debian repositories, you can disable it with `systemctl disable gravwell_crash_report`.
-* If you're using the DatalaiQ Docker image, you can disable the crash reporter by passing `-e DISABLE_ERROR_HANDLING=true` in the Docker command.
+* シェルスクリプトのインストーラを使用している場合は、`--no-crash-report` フラグを使用することにより無効化できます。
+* Debianレポジトリからインストールした場合は、`systemctl disable gravwell_crash_report` を使用して無効化できます。
+* Dockerイメージを使用している場合は、`-e DISABLE_ERROR_HANDLING=true` をdockerコマンドで使用することにより無効化できます。
 
-However, we'd really appreciate if you'd leave crash reporting enabled. Thanks to these crash reports, we can often identify and fix problems that users may not even notice! It's one of our best feedback mechanisms to improve our software.
+ただし、クラッシュレポートを有効にしていただけると幸いです。 これらのクラッシュレポートのおかげで、ユーザーが気付かない問題を特定して修正できることがよくあります。 これは、ソフトウェアを改善するための最良のフィードバックメカニズムの1つです。
 
-If you would like us to remove all past crash reports that your system has sent, please email support@ppln.co and we will permanently delete them from our system.
+お使いのシステムが送信した過去のクラッシュレポートをすべて削除することをご希望の場合は、support@ppln.coにメールしてください。システムから完全に削除します。
 
-## Metrics Reporting
+## メトリクスレポート
 
-The DatalaiQ webserver component (*only* the webserver) will occasionally send an HTTPS POST request to the DatalaiQ corporate servers with generic usage statistics. This information helps us figure out which features get the most use and which can use more work. We can generate statistics about how much RAM is being consumed by DatalaiQ--do we need to optimize garbage collection, or be more conservative in our default configuration? It also allows us to make sure paid licenses aren't being deployed improperly.
+DatalaiQ ウェブサーバーコンポーネント (ウェブサーバーのみ) は、HTTPS POSTリクエストを一般的な使用統計とともにDatalaiQ企業サーバーに送信することがあります。 この情報は、どの機能が最も使用され、どの機能がより多くの作業を必要とするかを判断するのに役立ちます。 DatalaiQが消費しているRAMの量に関する統計を生成できます。ガベージコレクションを最適化する必要がありますか、それともデフォルト構成をより保守的にする必要がありますか? また、有料ライセンスが不適切に展開されていないことを確認することもできます。
 
-Our most important goal in gathering these metrics is to protect the anonymity of your data. These metrics reports will **never** include the actual contents of any data stored in DatalaiQ, nor will they ever send actual search queries or even a list of tags on the system.
+これらの指標を収集する際の最も重要な目標は、データの匿名性を保護することです。 これらのメトリクスレポートには、DatalaiQに保存されているデータの実際の内容が含まれることはありません。また、システム上の実際の検索クエリやタグのリストを送信することもありません。
 
-Note: Metrics reports are always sent via TLS-verified HTTPS to update.gravwell.io. If we are unable to fully validate the remote certificate, the report does *not* go out.
+備考: クラッシュレポートは常にupdate.gravwell.ioにHTTPS通信を使用して送信されます。リモート証明書を完全に検証できない場合、レポートは送信されません。
 
-We use this same system to notify users of new DatalaiQ releases: when the metrics report is sent, the server will respond with the latest version of DatalaiQ. This lets us display a notification in the DatalaiQ UI when a new version is available (these notifications can be disabled with the `Disable-Update-Notification` parameter in DatalaiQ.conf).
+これと同じシステムを使用して、DatalaiQ の新しいリリースをユーザーに通知します。メトリクス レポートが送信されると、サーバーはDatalaiQの最新バージョンで応答します。 これにより、新しいバージョンが利用可能になったときにDatalaiQ UIに通知を表示できます (これらの通知は、DatalaiQ.conf の「Disable-Update-Notification」パラメーターで無効にできます)。
 
 Here's an example that was sent by a DatalaiQ employee's home system:
+以下が実際に送信されたメトリクスレポートの例です:
 
 ```
 {
