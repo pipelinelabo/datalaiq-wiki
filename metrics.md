@@ -6,7 +6,7 @@ DatalaiQ users care about what's going on in their networks--it's a big reason p
 
 When a DatalaiQ component crashes, an automated crash report is sent to DatalaiQ. This consists of the console output from the component in question, which typically includes some brief information about the license (in order to determine whose system just crashed) and a stack trace. **Every** DatalaiQ component--the webserver, the indexer, the ingesters, the search agent--is set up to send crash reports.
  
-Note: Crash reports are always sent via TLS-verified HTTPS to update.datalaiq.io. If we are unable to fully validate the remote certificate, the report does *not* go out.
+Note: Crash reports are always sent via TLS-verified HTTPS. If we are unable to fully validate the remote certificate, the report does *not* go out.
 
 Here's an example of a crash report from a DatalaiQ employee's test system:
 
