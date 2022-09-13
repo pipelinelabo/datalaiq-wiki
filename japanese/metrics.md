@@ -347,67 +347,67 @@ Here's an example that was sent by a DatalaiQ employee's home system:
 }
 ```
 
-The structure is large, in part because this webserver is connected to 4 indexers which each get their own set of information. Here's a breakdown of the fields in detail:
+このウェブサーバーは4つのインデクサーに接続されており、それぞれが独自の情報セットを取得していることもあり比較的大きいシステム構成です。以下は、フィールドの詳細です:
 
-* `ApiVer`: An internal DatalaiQ API versioning number.
-* `AutomatedSearchCount`: The number of searches which have been executed "automatically" (by the search agent, or by loading a dashboard).
-* `BuildVer`: A structure describing the particular build of DatalaiQ on this system.
-* `CustomerNumber`: The customer number associated with the license on this system.
-* `CustomerUUID`: The UUID of the license on this system.
-* `DashboardCount`: The number of dashboards that exist.
-* `DashboardLoadCount`: The number of types any dashboard has been opened by any user.
-* `DistributedFrontends`: Set to true if [distributed webservers](#!distributed/frontend.md) are enabled.
-* `ForeignDashboardLoadCount`: The number of times users have viewed dashboards owned by another user (helps us determine if our dashboard sharing options are sufficiently flexible)
-* `ForeignSearchLoadCount`: The number of times users have viewed searches owned by another user (helps us determine if our search sharing options are sufficiently flexible)
-* `Groups`: The number of user groups on the system.
-* `IndexerCount`: The number of indexers to which this webserver is connected.
-* `IndexerNodeInfo`: An array of structures, one per indexer, briefly describing the statistics of each indexer:
-	- `CPUCount`: The number of CPU cores on the indexer.
-	- `HostHash`: A non-reversible hash (see [github.com/denisbrodbeck/machineid](https://github.com/denisbrodbeck/machineid)) that uniquely identifies the host machine running the indexer. Note that in this example, the indexers are all running on a single Docker host, so they all have the same HostHash.
-	- `ProcessHeapAllocation`: The amount of heap memory allocated by the indexer process.
-	- `ProcessSysReserved`: The total amount of memory the indexer process has reserved from the OS.
-	- `TotalMemory`: The size of the system's main memory.
-	- `VirtRole`: "host" or "guest", depending on if the indexer is running in a virtual machine or not.
-	- `VirtSystem`: The virtualization system, if any, e.g. "xen", "kvm", "vbox", "vmware", "docker", "openvz", "lxc".
-* `IndexerStats`: An array of statistics structures for each indexer:
-	* `WellStats`: An array of anonymized information about each well on the indexer:
-		* `Cold`: Whether or not this is a "cold" well.
-		* `Data`: The number of bytes of data in this well.
-		* `Entries`: The number of entries in this well.
-* `IngesterCount`: The number of unique ingesters attached to the system.
-* `LicenseHash`: The MD5 sum of the license in use.
-* `LicenseTimeLeft`: The number of seconds remaining in the license.
-* `ManualSearchCount`: The number of searches executed manually.
-* `ResourceUpdates`: The number of times any resource has been modified.
-* `ResourcesCount`: The number of resources on the system.
-* `SKU`: The SKU of the license in use.
-* `ScheduledSearchCount`: The number of scheduled searches installed on the system.
-* `SearchCount`: a deprecated field, the total of `ManualSearchCount` + `AutomatedSearchCount`.
-* `Source`: The IP from which this report originated.
-* `SystemMemory`: How many bytes of memory are installed on the webserver's host system.
-* `SystemProcs`: The number of processes running on the host system.
-* `SystemUptime`: Number of seconds the host system has been running.
-* `TimeStamp`: The time at which this report was generated.
-* `TotalData`: The number of bytes across all wells on all indexers.
-* `TotalEntries`: The number of entries across all wells on all indexers.
-* `Uptime`: The number of seconds since the webserver process started.
-* `UserLoginCount`: The number of times users have logged in.
-* `Users`: The number of users on the system.
-* `WebserverNodeInfo`: A brief description of the system running the webserver process:
-	- `CPUCount`: The number of CPU cores on the webserver.
-	- `HostHash`: A non-reversible hash (see [github.com/denisbrodbeck/machineid](https://github.com/denisbrodbeck/machineid)) that uniquely identifies the host machine running the webserver.
-	- `ProcessHeapAllocation`: The amount of heap memory allocated by the webserver process.
-	- `ProcessSysReserved`: The total amount of memory the webserver process has reserved from the OS.
-	- `TotalMemory`: The size of the system's main memory.
-	- `VirtRole`: "host" or "guest", depending on if the webserver is running in a virtual machine or not.
-	- `VirtSystem`: The virtualization system, if any, e.g. "xen", "kvm", "vbox", "vmware", "docker", "openvz", "lxc".
-* `WebserverUUID`: Every DatalaiQ webserver generates a UUID when installed; this field contains that UUID.
-* `WellCount`: The total number of wells across all indexers.
+* `ApiVer`: DatalaiQのAPIバージョン
+* `AutomatedSearchCount`: 自動的に（サーチエージェント、またはダッシュボードの読み込みによって）実行された検索の数
+* `BuildVer`: このシステムにおけるDatalaiQの特定のビルドを説明する構造体
+* `CustomerNumber`: このシステムのライセンスに紐づく顧客番号
+* `CustomerUUID`: ライセンスのUUID
+* `DashboardCount`: 存在するダッシュボードの数
+* `DashboardLoadCount`: ユーザーが開いたダッシュボードの種類数
+* `DistributedFrontends`: [分散ウェブサーバー](#!distributed/frontend.md) が有効であればtrueになる
+* `ForeignDashboardLoadCount`: 他のユーザーが所有するダッシュボードをユーザーが閲覧した回数（ダッシュボードの共有オプションが十分に柔軟であるかどうかを判断するのに役立ちます。）
+* `ForeignSearchLoadCount`: 他のユーザーが所有する検索をユーザーが閲覧した回数（検索共有オプションが十分に柔軟であるかどうかを判断するのに役立ちます。）
+* `Groups`: システム上に定義されたグループの数
+* `IndexerCount`: ウェブサーバーが接続しているインでクサーの数
+* `IndexerNodeInfo`: 各インデクサーの統計情報を簡潔に記述した、インデックスごとに1つずつある構造体の配列:
+	- `CPUCount`: インでクサーのCPUコア数
+	- `HostHash`: インでクサーが動作しているサーバーを特定するための不可逆なハッシュ値([github.com/denisbrodbeck/machineid](https://github.com/denisbrodbeck/machineid)を参照) 。 この例では、インデクサはすべて1つのDockerホスト上で動作しているので、すべて同じHostHashを持っていることに注意してください。
+	- `ProcessHeapAllocation`: インデクサープロセスに割り当てられたヒープメモリの数
+	- `ProcessSysReserved`: OSからインデクサーに割り当てられたメモリの数
+	- `TotalMemory`: システム上にあるメモリの合計
+	- `VirtRole`: "host "または "guest "で、インデクサが仮想マシン内で動作しているかどうかによって異なる
+	- `VirtSystem`: 仮想化システムがある場合は、"xen", "kvm", "vbox", "vmware", "docker", "openvz", "lxc "など。
+* `IndexerStats`: インデクサーの統計情報:
+	* `WellStats`: インデックスに登録された各Wellに関する匿名化された情報の配列:
+		* `Cold`: コールドウェルかどうか
+		* `Data`: ウェルに格納されているデータサイズ（バイト）
+		* `Entries`: ウェルに格納されているエントリの数
+* `IngesterCount`: システムに接続しているインジェスターの数
+* `LicenseHash`: 使用されているライセンスのハッシュ値（MD5）
+* `LicenseTimeLeft`: ライセンス有効期限の残り秒数
+* `ManualSearchCount`: 手動で実行されたクエリの総数
+* `ResourceUpdates`: リソースが変更された数
+* `ResourcesCount`: システム上にあるリソースの数
+* `SKU`: 使用されているライセンスのSKU
+* `ScheduledSearchCount`: システム上に定義されているスケジュール検索の数
+* `SearchCount`: 非推奨のフィールドの場合は、`ManualSearchCount` + `AutomatedSearchCount` の合計値となります。
+* `Source`: この結果が作成されたマシンのIPアドレス
+* `SystemMemory`: ウェブサーバーのホストに割り当てられているメモリのサイズ
+* `SystemProcs`: システム上で動作しているプロセスの数
+* `SystemUptime`: サーバーが起動している時間
+* `TimeStamp`: この結果が作成された時間
+* `TotalData`: 全てのインデクサーのウェル上にあるデータサイズの合計
+* `TotalEntries`: 全てのインデクサーのウェル上にあるエントリの合計
+* `Uptime`: ウェブサーバーが起動してからの時間
+* `UserLoginCount`: ユーザーがログインした数
+* `Users`: システム上に定義されているユーザーの数
+* `WebserverNodeInfo`: ウェブサーバーが動作しているサーバーの簡易的な統計情報:
+	- `CPUCount`: ウェブサーバーに割り当てられてCPUのコア数
+	- `HostHash`: ウェブサーバーが動作しているマシンの不可逆的なハッシュ値([github.com/denisbrodbeck/machineid](https://github.com/denisbrodbeck/machineid)参照)
+	- `ProcessHeapAllocation`: ウェブサーバーに割り当てられたヒープメモリのサイズ
+	- `ProcessSysReserved`: OSからウェブサーバーに割り当てられたメモリサイズの合計
+	- `TotalMemory`: システム上にあるメモリサイズの合計
+	- `VirtRole`: ウェブサーバーが仮想マシンで実行されているかどうかによって、「ホスト」または「ゲスト」。
+	- `VirtSystem`: 仮想化システムがある場合は、"xen", "kvm", "vbox", "vmware", "docker", "openvz", "lxc "など。
+* `WebserverUUID`: ウェブサーバーインストール時に生成されるUUID
+* `WellCount`: 各インデクサーに含まれるウェルの合計
 
-We carefully considered the information we report, taking pains to make it impossible to glean any intelligence regarding the type or content of the data you've got in DatalaiQ. We are always happy to discuss the reasoning behind any of the information we gather; please email support@ppln.co with any questions.
+私たちは、報告する情報を慎重に検討し、あなたがDatalaiQで入手したデータの種類や内容に関する情報を得ることができないように苦心しました。私たちが収集した情報の根拠について、いつでもご相談に応じます。ご質問は、support@ppln.co までお寄せください。
 
-### Limiting Metric Reporting
+### メトリクスレポートの制限
 
-Customers may set `Disable-Stats-Report=true` in gravwell.conf, which will strip down the metrics report to a bare minimum containing the CustomerUUID, CustomerNumber, BuildVer, ApiVer, LicenseTimeLeft, and LicenseHash fields--just enough information to verify that the correct license is installed and the system is running.
+gravwell.conf で `Disable-Stats-Report=true` を設定すると、メトリックレポートは、CustomerUUID、CustomerNumber、BuildVer、ApiVer、LicenseTimeLeft、および LicenseHash フィールドから最小限の情報（正しいライセンスがインストールされているか、システムが稼働しているかを確認するのに十分）に絞り込まれます。
 
-We'd really appreciate if you'd leave full stats reports enabled, though. As we said above, these stats reports help us figure out which features are getting used the most, what kind of systems DatalaiQ is running on, how much RAM it's using--information that, in aggregate, can help us decide where to prioritize future improvements.
+しかし、完全な統計レポートを有効にしておいていただけると本当に助かります。上記で述べたように、これらの統計レポートは、どの機能が最も使用されているか、DatalaiQ がどのようなシステムで動作しているか、どの程度の RAM を使用しているか、といった情報を把握するのに役立つものです。
