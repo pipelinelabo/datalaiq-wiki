@@ -1,28 +1,28 @@
 # キットAPI
 
-This API implements the creation, installation, and deletion of DatalaiQ kits. Kits contain other components which are installed on the local system to provide a ready-to-go solution to a particular problem. Kits can contain:
+このAPIは、DatalaiQキットの作成、インストール、および削除を実装しています。キットには、特定の問題に対してすぐに実行可能なソリューションを提供するために、ローカルシステムにインストールされる他のコンポーネントが含まれています。キットには以下を含めることができます:
 
-* Resources
-* Scheduled searches
-* Dashboards
-* Auto-extractor definitions
-* Templates
-* Actionables
-* User files
-* Macros
-* Search library entries
+* Resources（リソース）
+* Scheduled searches（スケジュール検索）
+* Dashboards（ダッシュボード）
+* Auto-extractor definitions（自動抽出定義）
+* Templates（テンプレート）
+* Actionables（アクショナブル）
+* User files（ユーザーファイル）
+* Macros（マクロ）
+* Search library entries（クエリライブラリ）
 
-A given kit will also have the following attributes, specified at build time:
+あるキットは、ビルド時に指定された以下の属性も持っています:
 
-* ID: A unique identifier for this kit. We recommend following Android naming practice, e.g. "com.example.my-kit".
-* Name: A human-friendly name for the kit, e.g. "My Kit".
-* Description: A short, plain-text description of the kit, e.g. "This kit processes JSON logs from Product XYZ".
-* Readme: A longer, Markdown-formatted description of exactly what is in the kit and what it can do.
-* Version: An integer version of the kit.
+* ID: このキットに固有の識別子。Androidの命名規則に従うことをお勧めします。例："com.example.my-kit"
+* Name: My Kit "のようなキットの名前
+* Description: キットのより詳細な説明
+* Readme: キットに何が入っていて、何ができるのか、Markdown形式の長い説明
+* Version: キットのバージョン
 
-## Building a kit
+## キットを作成する
 
-Kits are built by sending a POST request to `/api/kits/build` containing a KitBuildRequest structure, as defined below:
+キットのビルドは、以下のように定義されたKitBuildRequest構造を含むPOSTリクエストを `/api/kits/build` に送信することで行われます:
 
 ```
 type KitBuildRequest struct {
@@ -53,7 +53,7 @@ type KitBuildRequest struct {
 }
 ```
 
-Note that while the ID, Name, Description, and Version fields are required, the arrays of templates/actionables/dashboards etc. are optional. For example, here is a request to build a kit containing two dashboards, an actionable, a resource, and a scheduled search:
+ID、Name、Description、Version フィールドは必須ですが、テンプレート/Actionable/Dashboards などの配列は任意であることに注意してください。例えば、2つのダッシュボード、アクション可能なもの、リソース、およびスケジュール検索を含むキットを構築するリクエストは次のとおりです:
 
 ```
 {
@@ -108,11 +108,11 @@ Note that while the ID, Name, Description, and Version fields are required, the 
 }
 ```
 
-Attention: The UUIDs specified for templates, actionables, and userfiles should be the *GUIDs* associated with those structures, not the *ThingUUID* field which is also reported in a listing of items.
+注意: テンプレート、アクショナブルファイル、ユーザーファイルに指定されるUUIDは、アイテムのリストでも報告される*ThingUUID*フィールドではなく、それらの構造に関連付けられた*GUID*であるべきです
 
-Attention: The UUIDs specified for Banner, Cover, and Icon must be included in the list of Files for the build request.  If the build request contains references to file UUIDs that are NOT included in the main file request the API server will reject the request.
+注意: バナー、カバー、アイコンに指定されたUUIDは、ビルドリクエストのファイルリストに含まれている必要があります。 ビルドリクエストに、メインファイルリクエストに含まれていないファイルUUIDへの参照が含まれている場合、APIサーバーはそのリクエストを拒否します
 
-The system will respond with a structure describing the newly-built kit:
+システムは、新しく構築されたキットを説明する構造で応答します:
 
 ```
 {
@@ -122,11 +122,11 @@ The system will respond with a structure describing the newly-built kit:
 }
 ```
 
-This kit can be downloaded by doing a GET on `/api/kits/build/<uuid>`; given the above response, one would fetch the kit from `/api/kits/build/2f5e485a-2739-475b-810d-de4f80ae5f52`
+このキットは `/api/kits/build/<uuid>` を GET してダウンロードすることができます。上記のレスポンスがあれば、 `/api/kits/build/2f5e485a-2739-475b-810d-de4f80ae5f52` からキットを取得することができるでしょう。
 
-### Dependencies
+### 依存関係
 
-A kit may depend on other kits. List these dependencies in the Dependencies array using the following structure:
+あるキットは、他のキットに依存している場合があります。これらの依存関係を、以下の構造で Dependencies 配列にリストアップします:
 
 ```
 {
@@ -135,11 +135,11 @@ A kit may depend on other kits. List these dependencies in the Dependencies arra
 }
 ```
 
-The ID field specifies the dependency's ID, e.g. io.datalaiq.testresource. The MinVersion field specifies the minimum version of that kit which must be installed, e.g. 3.
+IDフィールドは依存関係のIDを指定します（例：io.datalaiq.testresource）。MinVersionフィールドは、インストールする必要があるそのキットの最小バージョンを指定します (例: 3)。
 
-### Config Macros
+### マクロ設定
 
-A kit may define "config macros", which are special macros which will be created by DatalaiQ when the kit is installed. A config macro looks like this:
+キットのインストール時にDatalaiQが作成する特殊なマクロである "コンフィグマクロ "を定義することができます。コンフィグマクロは次のようなものです。:
 
 ```
 {
@@ -151,18 +151,18 @@ A kit may define "config macros", which are special macros which will be created
 }
 ```
 
-The UI should prompt for the desired value of the macro at installation time and include the user's response in the KitConfig structure.
+UI は、インストール時にマクロの希望する値の入力を促し、ユーザーの応答を KitConfig 構造に含める必要があります。
 
-Config macro definitions can include a Type field, which give a hint about the sort of value that the macro expects. The following options are currently defined:
+コンフィグマクロの定義には、マクロが期待する値の種類を示すヒントとなるタイプフィールドを含めることができます。現在、以下のオプションが定義されています:
 
-	* "TAG": the value should be a valid tag. This tag does not necessarily have to exist on the current system, but it may be useful to check and alert the user if they enter a non-existent tag.
-	* "STRING": the value can be a free-form string.
+	* "TAG": 値は有効なタグでなければなりません。このタグは必ずしも現在のシステム上に存在する必要はありませんが、存在しないタグを入力した場合にチェックして警告を出すと便利でしょう。
+	* "STRING": 自由形式の文字列を指定することができます。
 
-If no Type is specified, assume "STRING" (free-form entry).
+Type が指定されない場合は、"STRING"（自由形式入力）となります。
 
-### Script Deploy Configs
+### スクリプト実装設定
 
-By default, scripts included in a kit will be set enabled at installation. This behavior can be controlled through the script deploy config structures:
+デフォルトでは、キットに含まれるスクリプトは、インストール時に有効に設定されます。この動作は、スクリプトのデプロイ設定構造で制御することができます:
 
 ```
 {
@@ -171,21 +171,21 @@ By default, scripts included in a kit will be set enabled at installation. This 
 }
 ```
 
-The structure contains two fields, "Disabled" and "RunImmediately". If Disabled is set to true, the script will be installed in a disabled state. If RunImmediately is set to true, the script will be executed as soon as possible after installation, *even if the script is otherwise disabled*.
+この構造は、"Disabled "と "RunImmediately "という2つのフィールドを含んでいます。Disabledをtrueに設定すると、スクリプトは無効な状態でインストールされます。RunImmediately を true に設定すると、スクリプトはインストール後できるだけ早く実行されます（無効に設定されている場合でも）。
 
-Script deploy options can be set at *kit build time*, or at *kit deploy time* to override the kit's built-in options. 
+スクリプトのデプロイオプションは、*キットのビルド時*に設定するか、*キットのデプロイ時*に設定して、キットの組み込みオプションを上書きすることが可能です。
 
-When building a kit, the `ScriptDeployRules` field should contain mappings from scheduled script ID numbers (as listed in the `ScheduledSearches` field) to script deploy config structures.
+キットをビルドするとき、`ScriptDeployRules`フィールドには、スケジュールされたスクリプトID番号（`ScheduledSearches`フィールドにリストされている）からスクリプトデプロイ設定構造へのマッピングが含まれているはずです。
 
-When installing a kit, the `ScriptDeployRules` field should contain mappings from scheduled script *names* to configurations. Note that deployment options only need to be specified at installation time if you wish to override the defaults.
+キットをインストールするとき、`ScriptDeployRules`フィールドには、スケジュールされたスクリプトの *名前* から設定へのマッピングが含まれている必要があります。デプロイオプションは、デフォルトを上書きしたい場合にのみ、インストール時に指定する必要があることに注意してください。
 
-## Uploading a Kit
+## キットをアップロードする
 
-Before a kit can be installed, it must first be uploaded to the webserver. Kits are uploaded by a POST request to `/api/kits`. The request should contain a multipart form. To upload a file from the local system, add a file field to the form named `file` containing the kit file. To upload a file from a remote system such as an HTTP server, add a field named `remote` containing the URL of the kit.
+キットをインストールする前に、まずウェブサーバにキットをアップロードする必要があります。キットは `/api/kits` への POST リクエストによってアップロードされます。リクエストにはマルチパートフォームが含まれていなければなりません。ローカルシステムからファイルをアップロードするには、フォームに `file` という名前のファイルフィールドを追加し、そこにキットのファイルを記述します。HTTPサーバのようなリモートシステムからファイルをアップロードするには、キットのURLを含む `remote` という名前のフィールドを追加してください。
 
-You can also add a field named `metadata` to the request. The contents of this field are not parsed by the server; instead, it adds the contents to the Metadata field on the uploaded kit. This allows you to keep track of e.g. the URL from which the kit originated, the date on which the kit was uploaded, etc.
+また、`metadata`というフィールドをリクエストに追加することができます。このフィールドの内容はサーバによって解析されません。その代わりに、アップロードされたキットのメタデータフィールドに内容が追加されます。これにより、例えばキットの発信元URLやキットがアップロードされた日付などを追跡することができます。
 
-The server will respond with a description of the kit which has been uploaded, e.g.:
+サーバーは、アップロードされたキットの説明を応答します（例）:
 
 ```
 {
@@ -330,19 +330,19 @@ The server will respond with a description of the kit which has been uploaded, e
 }
 ```
 
-Note the "ModifiedItems" field. If an earlier version of this kit is already installed, this field will contain a list of items which *the user has modified*. Installing the staged kit will overwrite these items, so users should be notified and given a chance to save their changes.
+ModifiedItems "フィールドに注意してください。このキットの以前のバージョンが既にインストールされている場合、このフィールドには *ユーザが変更した* 項目のリストが含まれます。ステージングされたキットをインストールすると、これらの項目が上書きされるため、ユーザーに通知し、変更を保存する機会を与える必要があります。
 
-"ConflictingItems" lists items which appear to conflict with user-created objects. In this example, it appears that the user has previously created their own resource named "maxmind_asn". If an installation request is sent with `OverwriteExisting` set to true, that resource will be overwritten with the version in the kit; if set to false, the installation process will return an error.
+"ConflictingItems"は、ユーザが作成したオブジェクトと衝突するように見えるアイテムをリストアップします。この例では、ユーザは以前に "maxmind_asn" という名前の独自のリソースを作成したようです。`OverwriteExisting` を true に設定してインストール要求を送信すると、そのリソースはキットに含まれるバージョンで上書きされ、false に設定すると、インストール処理はエラーを返します
 
-The "RequiredDependencies" field contains a list of metadata structures for any currently-uninstalled dependencies of this kit, including an Items set which may contain licenses which should be displayed.
+RequiredDependencies" フィールドには、このキットの現在インストールされていない依存関係のメタデータ構造のリストが含まれ、表示すべきライセンスが含まれる可能性のあるアイテムセットを含みます。
 
-The ConfigMacros field contains a list of configuration macros (see previous section) which will be installed by this kit. If a previous version of this kit (or another kit altogether) has already installed a macro with the same name, the webserver will pre-populate the "Value" field with the current value in the macro. If a *user* has previously installed a macro with the same name, the webserver will return an error.
+「ConfigMacros」フィールドには、このキットでインストールされるコンフィギュレーション・マクロ (前項参照) のリストが含まれます。このキットの以前のバージョン(または別のキット)が同じ名前のマクロを既にインストールしている場合、ウェブサーバは「Value」フィールドにマクロの現在の値を事前に入力します。ユーザー*が以前に同じ名前のマクロをインストールしたことがある場合、ウェブサーバーはエラーを返します。
 
-Take note of the scheduled search named "myScript", particularly the `DefaultDeploymentRules` field. This describes how the script will be installed: it will be marked enabled, and it will run as soon as possible.
+"myScript" という名前のスケジュール検索、特に `DefaultDeploymentRules` フィールドに注目 してください。これはスクリプトがどのようにインストールされるかを記述しています：有効であるとマークされ、できるだけ早く実行されます。
 
-## Listing Kits
+## キットをリスト表示する
 
-A GET request on `/api/kits` will return a list of all known kits. Here is an example showing the result when the system has one kit uploaded but not yet installed:
+GET で `/api/kits` にリクエストすると、すべての既知のキットのリストが返されます。以下は、システムにアップロードされたがまだインストールされていないキットがある場合の結果を示す例です:
 
 ```
 [
@@ -406,13 +406,13 @@ A GET request on `/api/kits` will return a list of all known kits. Here is an ex
 ]
 ```
 
-See the listing at the end of this page for a list of what "AdditionalInfo" fields are available for each type of kit item.
+各タイプのキットアイテムで利用可能な "AdditionalInfo "フィールドについては、このページの最後にあるリストを参照してください。
 
-## Kit Info
+## キットの情報を取得する
 
-A GET request on `/api/kits/<GUID>` where `<GUID>` is a GUID of a specifically installed or staged kit will provide info about that specific kit.
+GETリクエストは `/api/kits/<GUID>` で、`<GUID>` はインストールまたはステージングされたキットの GUID で、その特定のキットに関する情報を提供します。
 
-For example, a GET request on `/api/kits/549c0805-a693-40bd-abb5-bfb29fc98ef1` will yield:
+例えば、`/api/kits/549c0805-a693-40bd-abb5-bfb29fc98ef1`にGETリクエストすると、次のような結果が得られます:
 
 ```
 {
@@ -475,15 +475,15 @@ For example, a GET request on `/api/kits/549c0805-a693-40bd-abb5-bfb29fc98ef1` w
 
 ```
 
-If the kit does not exist a 404 is returned, if the user does not have access to the specific kit requested a 400 is returned.
+キットが存在しない場合は404が返され、ユーザーが要求された特定のキットへのアクセス権を持っていない場合は400が返されます。
 
-## Installing a Kit
+## キットをインストールする
 
-To install a kit once it has been uploaded, send a PUT request to `/api/kits/<uuid>`, where the UUID is the UUID field from the list of kits. The server will perform some preliminary checks and return an integer, which can be used to query the progress of the installation using the installation status API (see below).
+アップロードされたキットをインストールするには、`/api/kits/<uuid>` に PUT リクエストを送信します。UUIDはキットのリストにあるUUIDフィールドです。サーバーはいくつかの予備チェックを行い、整数を返します。この整数は、インストールステータス API (下記参照) を使ってインストールの進捗を問い合わせるために使うことができます。
 
-During installation, all required dependencies (as listed in the RequiredDepdencies field of the staging response) will be staged and installed automatically before the final installation of the kit itself.
+インストール中、すべての必要な依存関係 (ステージング応答の RequiredDepdencies フィールドに記載) は、キット自体の最終インストールの前にステージングされ、自動的にインストールされます。
 
-Additional kit installation options may be specified by passing a configuration structure in the body of the request, e.g.:
+追加のキットのインストールオプションは、リクエストのボディで設定構造を渡すことで指定することができます:
 
 ```
 {
@@ -512,25 +512,25 @@ Additional kit installation options may be specified by passing a configuration 
 }
 ```
 
-Note: All of the following are optional. Any or all of them may be omitted; to take the default options, simply omit the body from the request.
+備考: 以下はすべてオプションです。デフォルトのオプションを使用するには、リクエストからボディを省略するだけです。
 
-If set, `OverwriteExisting` tells the installer to simply replace any existing items which have the name unique identifier as the kit's version.
+`OverwriteExisting` がセットされていると、インストーラは、キットのバージョンと同じ名前の一意な識別子を持つ既存のアイテムを単純に置き換えるようになります。
 
-The `Global` flag may only be set by the administrator. If set, all items will be marked as Global, meaning all users will have access.
+`Global` フラグは管理者のみが設定することができます。設定された場合、すべてのアイテムはグローバルとしてマークされ、すべてのユーザがアクセスできるようになります。
 
-Regular users can only install properly-signed kits from DatalaiQ. If `AllowUnsigned` is set, *administrators* can install unsigned kits.
+一般ユーザは、DatalaiQから適切に署名されたキットのみをインストールすることができます。AllowUnsigned` が設定されている場合、*管理者* は署名されていないキットをインストールすることができます。
 
-`InstallationGroup` allows the installing user to share the contents of the kit with one of the groups to which he belongs.
+`InstallationGroup` は、インストールするユーザーが所属するグループの1つに、キットの内容を共有することを可能にします。
 
-`Labels` is a list of additional labels which should be applied to all label-able items in the kit upon installation. Note that DatalaiQ automatically labels kit-installed items with "kit" and the ID of the kit (e.g. "io.datalaiq.coredns").
+`Labels` は、インストール時にキット内のラベル付け可能な全てのアイテムに適用されるべき追加ラベルのリストです。DatalaiQは、キットにインストールされたアイテムに、自動的に "kit "とキットのID（例えば、"io.datalaiq.coredns"）をラベル付けすることに注意してください。
 
-`ConfigMacros` is the list of ConfigMacros found in the kit information structure, with the "Value" fields optionally set to whatever the user wishes. If the "Value" field is blank, the webserver will use the "DefaultValue".
+`ConfigMacros`は、キット情報構造体にあるConfigMacrosのリストで、Valueフィールドにはユーザーが望むものを任意に設定することができます。Value" フィールドが空白の場合、ウェブサーバーは "DefaultValue" を使用します。
 
-`ScriptDeployRules` should contain overrides for any scheduled scripts in the kit whose deployment rules you wish to override. In this example, a script named "myScript" will be installed in a disabled state. If the default deployment options are acceptable, this field can be left empty.
+`ScriptDeployRule`には、デプロイメントルールを上書きしたいキットのスケジュールされたスクリプトのオーバーライドが含まれている必要があります。この例では、"myScript" という名前のスクリプトが無効な状態でインストールされます。デフォルトのデプロイメント オプションで問題ない場合は、このフィールドを空にすることができます。
 
-### Installation Status API
+### インストールステータスAPI
 
-When an installation request is sent, the server places the request into a queue for processing, since installation of a large package with many dependencies may take some time. The server responds to the installation request with an integer, e.g. `2019727887`. This can be used with the installation status API to query the progress of the installation by sending a GET request to `/api/kits/status/<id>`, e.g. `/api/kits/status/2019727887` might return this:
+インストール要求が送信されると、サーバはその要求を処理するためにキューに入れます。多くの依存関係を持つ大きなパッケージのインストールには、ある程度の時間がかかることがあるからです。サーバーはインストールリクエストに対して、例えば `2019727887` のような整数値で応答します。これをインストールステータス API と共に使用して、インストールの進捗を問い合わせるために `/api/kits/status/<id>` に GET リクエストを送ります。例えば、 `/api/kits/status/2019727887` は次のように返します。:
 
 ```
 {
@@ -545,13 +545,13 @@ When an installation request is sent, the server places the request into a queue
 }
 ```
 
-"Owner" is the UID of the user who submitted the installation request. "Done" is set to true when the kit is fully installed. "Percentage" is a value between 0 and 1 which indicates how much of the installation has been completed. "CurrentStep" is the current status of the installation, while "Log" maintains a complete record of statuses from the entire installation. "Error" will be empty unless something has gone wrong with the installation process. "Updated" is the time at which the status was last modified.
+"Owner "は、インストール要求を送信したユーザーのUIDです。"Done "は、キットが完全にインストールされるとtrueに設定されます。"Percentage "は0から1の値で、インストールがどの程度完了したかを示します。"CurrentStep "はインストールの現在のステータスで、"Log "はインストール全体のステータスの完全な記録を保持しています。"Error "は、インストールプロセスで何か問題が発生しない限り、空白になります。"Updated "は、ステータスが最後に変更された時間です。
 
-One may also request a list of *all* kit installation statuses by doing a GET on `/api/kits/status`, which returns an array of the sort of objects seen above. Note that by default this will only return statuses for the current user; administrators may append `?admin=true` to the URL to get *all* statuses on the system.
+GET で `/api/kits/status` を実行すれば、すべてのキットのインストール状況の一覧を取得することもできます。管理者はURLに `?admin=true` を追加することで、システム上のすべてのステータスを取得することができます。
 
-## Uninstalling a kit
+## キットをアンインストールする
 
-To remove a kit, issue a DELETE request on `/api/kits/<uuid>`. If any of the items in the kit have been modified by the user since installation, the response will have a 400 status code and contain a structure detailing what has changed:
+キットを削除するには、`/api/kits/<uuid>` に対して DELETE リクエストを発行します。キットのアイテムがインストール後にユーザーによって変更された場合、レスポンスは400のステータスコードを持ち、何が変更されたかの詳細を示す構造が含まれます:
 
 ```
 {
@@ -575,13 +575,13 @@ To remove a kit, issue a DELETE request on `/api/kits/<uuid>`. If any of the ite
 }
 ```
 
-The UI should prompt the user at this point; to force removal of the kit, add the `?force=true` parameter to the request.
+UIはこの時点でユーザーにプロンプトを表示します。キットの削除を強制するには、`?force=true`パラメータをリクエストに追加します。
 
-## Querying Remote Kit Server
+## リモートキットサーバーにクエリする
 
-To get a list of remote kits from the DatalaiQ Kit Server, issue a GET on `/api/kits/remote/list`.  This will return a JSON encoded list of kit metadata structures that represents the latest versions for all available kits.  The API path `/api/kits/remote/list/all` will provide all kits for all versions.
+DatalaiQ Kit Server からリモートキットのリストを取得するには、 `/api/kits/remote/list` に対して GET を実行します。 これは、利用可能なすべてのキットの最新バージョンを表す、キットのメタデータ構造をJSONでエンコードしたリストを返します。 APIパスの `/api/kits/remote/list/all` は、すべてのバージョンのすべてのキットを提供します。
 
-The Metadata structure is as follows:
+メタデータの構造は以下の通りです:
 
 ```
 type KitMetadata struct {
@@ -615,7 +615,7 @@ type CanonicalVersion struct {
 }
 ```
 
-Here is an example:
+例は以下の通りです:
 
 ```
 WEB GET http://172.19.0.2:80/api/kits/remote/list:
@@ -672,11 +672,11 @@ WEB GET http://172.19.0.2:80/api/kits/remote/list:
 ]
 ```
 
-## Pull Single Kit Information
+## 特定のキットの情報を取得する
 
-The Remote kit API also supports pulling back information about a specific kit by issuing a `GET` on `/api/kits/remote/<guid>`, which will return a single `KitMetadata` structure.
+リモートキットAPIは、 `/api/kits/remote/<guid>` に対して `GET` を発行して、特定のキットに関する情報を取得することもサポートしており、その場合は単一の `KitMetadata` 構造を返します。
 
-For example if we issue a `GET` on `/api/kits/remote/c2870b48-ff31-4550-bd58-7b2c1c10eeb3` the webserver will return:
+例えば、`/api/kits/remote/c2870b48-ff31-4550-bd58-7b2c1c10eeb3` に対して `GET` を実行すると、ウェブサーバーは次のような結果を返します:
 
 ```
 {
@@ -730,14 +730,14 @@ For example if we issue a `GET` on `/api/kits/remote/c2870b48-ff31-4550-bd58-7b2
 }
 ```
 
-### Pulling kit assets from the remote kitserver
+### リモートキットサーバーからキットのアセットを取得する
 
-Kits also contain assets that can be used to display images, markdown, licenses, and additional files that help explore the purpose of the kit prior to actually downloading/installing a kit.  These assets can be retrieved from the remote system by executing GET requests on `api/kits/remote/<guid>/<asset>`.  For example, if we wanted to pull back the asset of Type "image" and Legend "TEAM RAMROD!" for the kit with the GUID `c2870b48-ff31-4550-bd58-7b2c1c10eeb3` you would issue a GET on `/api/kits/remote/c2870b48-ff31-4550-bd58-7b2c1c10eeb3/cover.jpg`.
+キットはまた、画像、マークダウン、ライセンス、および実際にキットをダウンロード/インストールする前にキットの目的を探るのに役立つ追加ファイルを表示するために使用できるアセットを含んでいます。 これらのアセットは `api/kits/remote/<guid>/<asset>` で GET リクエストを実行することでリモートシステムから取得することができます。 例えば、GUID `c2870b48-ff31-4550-bd58-7b2c1c10eeb3` のキットの Type "image" と Legend "TEAM RAMROD!" のアセットを取得したい場合は、`/api/kits/remote/c2870b48-ff31-4550-bd58-7b2c1c10eeb3/cover.jpg`に対して GET を実行することになります。
 
 
-## Kit item "Additional Info" fields
+## キットに関する追加のフィールド
 
-When listing kits (GET on `/api/kits`), each kit will include a list of items, which contain AddditionalInfo fields. These fields give more information about the items within the kit; the contents vary based on the item type and are enumerated below:
+キットをリストアップするとき（`/api/kits`でGET）、各キットはAddditionalInfoフィールドを含むアイテムのリストを含んでいます。これらのフィールドは、キット内のアイテムに関する詳細な情報を提供します。内容はアイテムの種類によって異なり、以下のように列挙されます:
 
 ```
 Resources:
@@ -801,14 +801,14 @@ License:
 		(contents of license file itself)
 ```
 
-## Kit Build Request History
+## キットビルドリクエストの履歴を確認する
 
-Successful kit build requests are stored by the webserver. You can get a list of build requests for the current user by sending a GET request to `/api/kits/build/history`. The response will be an array of build requests:
+成功したキットのビルドリクエストはウェブサーバによって保存されます。GET リクエストを `/api/kits/build/history` に送ると、現在のユーザーに対するビルドリクエストの一覧を取得できます。レスポンスとして、ビルドリクエストの配列が返されます:
 
 ```
 [{"ID":"io.datalaiq.test","Name":"test","Description":"","Version":1,"MinVersion":{"Major":0,"Minor":0,"Point":0},"MaxVersion":{"Major":0,"Minor":0,"Point":0},"Macros":[4,41],"ConfigMacros":null}]
 ```
 
-Note: This store is keyed on UID + kit ID; if I build a kit named "io.datalaiq.test" again, it will overwrite the version in the store.
+備考: このストアはUID + キットIDをキーにしています。"io.datalaiq.test "というキットを再度ビルドすると、ストア内のバージョンは上書きされます。
 
-You can delete a particular item by sending a DELETE request to `/api/kits/build/history/<id>`, e.g. `/api/kits/build/history/io.datalaiq.test`.
+特定の項目を削除するには、`/api/kits/build/history/<id>` に DELETE リクエストを送ります。例えば `/api/kits/build/history/io.datalaiq.test` などです。

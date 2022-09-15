@@ -1,8 +1,8 @@
-# Login subsystem
+# ログインサブシステム
 
-## Login
+## ログイン
 
-To login, POST JSON to `/api/login` with the following structure:
+ログインするには、JSONを `/api/login` に以下のような構造でPOSTしてください:
 
 ```
 {
@@ -11,7 +11,7 @@ To login, POST JSON to `/api/login` with the following structure:
 }
 ```
 
-and the server will respond with the following to indicate whether login was successful:
+と表示され、サーバーはログインが成功したかどうかを示すために次のように応答します:
 
 ```
 {
@@ -21,7 +21,7 @@ and the server will respond with the following to indicate whether login was suc
 
 ```
 
-If the login failed, the server will return a structure with a "reason" property:
+ログインに失敗した場合、サーバーは "reason "プロパティを持つ構造を返します:
 ```
 {
   "LoginStatus":false,
@@ -29,24 +29,24 @@ If the login failed, the server will return a structure with a "reason" property
 }
 ```
 
-Instead of sending JSON, you may also set form fields "User" and "Pass" in the login POST request.
+JSONを送信する代わりに、ログインPOSTリクエストにフォームフィールド「User」「Pass」を設定することも可能です
 
-## Logout
+## ログアウト
 
-* PUT /api/logout - logs your current instance out
-* DELETE /api/logout - logs out ALL your user's instances
+* PUT /api/logout - 現在のインスタンスをログアウト
+* DELETE /api/logout - 全ユーザーのインスタンスをログアウト
 
-## JWT protections are enforced on all requests that are not used for file download operations.
-The JWT received from the login API must be included as an Authorization Bearer header on all other API requests.
+## JWT保護は、ファイルダウンロード操作に使用されないすべてのリクエストに対して実施されます。
+ログインAPIから受け取ったJWTは、他のすべてのAPIリクエストのAuthorization Bearerヘッダとして含める必要があります。
 
 ```Authorization: Bearer reallylongjsonwebtokenstringishere```
 
-### Websocket Authentication
+###  ウェブソケット認証
 
-As a convenience, the websocket API endpoints will also look for the JWT token in the `Sec-Websocket-Protocol` header value.  Many websocket implementations do not properly support passing header values, so we overload the websocket subprotocol negotiation header.  The API endpoints will still look for the standard `Authentication` header values as well.
+便宜上、ウェブソケット API のエンドポイントは `Sec-Websocket-Protocol` ヘッダの値でJWTトークンも探します。 多くのウェブソケット実装はヘッダ値の受け渡しを適切にサポートしていないので、ウェブソケットサブプロトコルのネゴシエーションヘッダをオーバーロードしています。 API のエンドポイントでは、標準の `Authentication` ヘッダーの値も同様に探します。
 
-## View active sessions
-Send a GET to `/api/users/{id}/sessions` and it will return a chunk of JSON.  Admins can request any users sessions, users can ONLY request their own sessions.
+## アクティブなセッションを取得する
+`api/users/{id}/sessions` に GET を送ると、JSON のチャンクが返されます。 管理者はすべてのユーザのセッションをリクエストできますが、ユーザは自分のセッションのみをリクエストすることができます。
 
 ```
 {
