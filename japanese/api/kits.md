@@ -1,4 +1,4 @@
-# Kits Web API
+# キットAPI
 
 This API implements the creation, installation, and deletion of DatalaiQ kits. Kits contain other components which are installed on the local system to provide a ready-to-go solution to a particular problem. Kits can contain:
 

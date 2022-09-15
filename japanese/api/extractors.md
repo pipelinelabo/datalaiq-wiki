@@ -1,25 +1,25 @@
-# Autoextractor API
+# 自動抽出API
 
-The extractor web API provides methods for accessing, modifying, adding, and deleting autoextractor definitions. For more information about autoextractors and their configuration, see the [Auto-Extractors](/#!configuration/autoextractors.md) section.
+抽出WebAPIは、自動抽出定義へのアクセス、変更、追加、および削除のためのメソッドを提供します。より詳細な情報と設定については [自動抽出](/#!configuration/autoextractors.md) セクションを見てください。
 
-## Data Structure
+## データ構造
 
-Autoextractors contain the following fields:
+自動抽出は以下のフィールドを含んでいます:
 
-* Tag: The tag which is being extracted.
-* Name: A user-friendly name for the extractor.
-* Desc: A more detailed description of the extractor.
-* Module: The module to use ("csv", "fields", "regex", or "slice").
-* Params: Extraction module parameters.
-* Args: Extraction module arguments.
-* Labels: An array of strings containing [labels](#!gui/labels/labels.md).
-* UID: The numeric ID of the dashboard's owner.
-* GIDs: An array of numeric group IDs with which this dashboard is shared.
-* Global: A boolean, set to true if dashboard should be visible to all users (admin only).
-* UUID: A unique ID for this particular extractor.
-* LastUpdated: The time at which this extractor was most recently modified.
+* Tag: 自動抽出を適用するタグ
+* Name: 自動抽出定義の名前
+* Desc: 自動抽出定義の詳細な説明
+* Module: 抽出に使用するモジュール
+* Params: 抽出に使用するモジュールに渡すパラメーター
+* Args: 抽出モジュールの引数
+* Labels: [ラベル](#!gui/labels/labels.md) のリスト
+* UID: ダッシュボードの所有者のUID
+* GIDs: ダッシュボードが共有されているグループのGID
+* Global: 真偽値。全てのユーザーが閲覧可能にしたい場合はtrueに設定する（管理者のみ）。
+* UUID: 自動抽出定義の一意なUID
+* LastUpdated: 自動抽出定義が最後にアップデートされた日時
 
-This is a Typescript description of the structure:
+これは、構造に関するTypescriptの記述です:
 
 ```
 type RawAutoExtractorModule = 'csv' | 'fields' | 'regex' | 'slice';
@@ -44,9 +44,9 @@ interface RawAutoExtractor {
 }
 ```
 
-## Listing
+## 自動抽出定義をリスト表示する
 
-Issuing a GET on `/api/autoextractors` will return a list of JSON structures that represent the set of extractors to which the current user has access.  An example response is:
+api/autoextractors` に対して GET を実行すると、現在のユーザーがアクセスできる抽出定義のセットを表す JSON 構造体のリストが返されます。レスポンスの例は以下の通りです:
 
 ```
 [
@@ -82,15 +82,15 @@ Issuing a GET on `/api/autoextractors` will return a list of JSON structures tha
 ]
 ```
 
-Performing a GET request with the admin flag set (`/api/autoextractors?admin=true`) will return a list of *all* extractors on the system.
+adminフラグをセットしてGETリクエストを実行すると(`/api/autoextractors?admin=true`)、システム上の*すべての*抽出定義のリストが返されます。
 
-## Finding Extractor for Tag
+## タグで抽出設定をフィルタリングする
 
-To see which extractor the system would use for a given tag, issue a GET request on `/api/autoextractors/find/{tag}`, where "{tag}" is replaced by the tag in question. For example, to check for the tag "syslog", issue a GET on `/api/autoextractors/find/syslog`. The server will respond with a single autoextractor definition for that tag, or a 404 if no matching definition exists.
+与えられたタグに対してシステムがどの抽出定義を使用するかを確認するには、 `/api/autoextractors/find/{tag}` に対してGETリクエストを発行します。"tag}" の部分は問題のタグに置き換えられます。例えば、"syslog "というタグをチェックするには、`/api/autoextractors/find/syslog`にGETを発行します。サーバーは、そのタグのための1つの自動抽出定義で応答し、一致する定義が存在しない場合は404で応答します。
 
-## Adding
+## 自動抽出定義を追加する
 
-Adding an autoextractor is performed by issuing a POST to `/api/autoextractors` with a valid definition in the request body.  The structure must be valid and the user cannot have an existing autoextractor defined for the same tag.  An example POST JSON structure that adds a new auto-extractor:
+自動抽出定義の追加は、リクエストボディに有効な定義を記述して `/api/autoextractors` へ POST を発行することで行われます。 構造体は有効である必要があり、ユーザーは同じタグに対して既存の自動抽出を定義することはできません。 新しい自動抽出ツールを追加する POST JSON 構造体の例は以下になります:
 
 ```
 {
@@ -107,33 +107,33 @@ Adding an autoextractor is performed by issuing a POST to `/api/autoextractors` 
 }
 ```
 
-If an error occurs when adding an auto-extractor the webserver will return a list of errors. If successful, the server will respond with the UUID of the new extractor.
+自動抽出定義の追加時にエラーが発生した場合、ウェブサーバはエラーのリストを返します。成功した場合、サーバーは新しい抽出定義の UUID で応答します。
 
-Note: There is no need to set the `UUID`, `UID`, `GIDs`, or `LastUpdated` fields when creating an extractor--these are automatically filled in. Only an admin user may set the `Global` flag to true.
+備考: 抽出定義を作成する際に、 `UUID`、`UID`、`GIDs`、`LastUpdated` フィールドを設定する必要はありません。これらは自動的に入力されます。管理者だけが `Global` フラグを true に設定することができます。
 
-## Updating
+## 抽出定義を更新する
 
-Updating an autoextractor is performed by issuing a PUT request to `/api/autoextractors` with a valid definition JSON structure in the request body.  The structure must be valid and there must be an existing auto-extractor with the same UUID.  All non-modified fields should be included as originally returned by the server.  If the definition is invalid a non-200 response with an error message in the body is returned.  If the structure is valid but an error occurs in distributing the updated definition a list of errors is returned in the body.
+自動抽出定義の更新は、リクエストボディに有効な定義JSON構造を持つ `/api/autoextractors` にPUTリクエストを発行することで行われます。 この構造体は有効でなければならず、同じ UUID を持つ既存の自動抽出定義がなければなりません。 修正されていないすべてのフィールドは、サーバーから最初に返されたとおりに含まれている必要があります。定義が無効な場合、ボディにエラーメッセージを含む非200応答が返されます。構造は有効だが、更新された定義を配布する際にエラーが発生した場合、エラーのリストがボディで返されます。
 
-## Testing Extractor Syntax
+## 抽出定義のシンタックスをテストする
 
-Before adding or updating an autoextractor, it may be useful to validate the syntax. Doing a POST request to `/api/autoextractors/test` will validate the request.If there is a problem with the definition, an error will be returned:
+自動抽出定義を追加したり更新したりする前に、構文を検証しておくと便利でしょう。api/autoextractors/test` への POST リクエストを実行すると、リクエストの検証が行われます:
 
 ```
 {"Error":"asdf is not a supported engine"}
 ```
 
-When adding a new auto-extractor, it is important that the new extractor does not conflict with an existing extraction on the same tag. When updating an existing extraction, this is not a concern. If an extraction already exists for the specified tag, the test API will set the 'TagExists' field in the returned structure:
+新しい自動抽出定義を追加するときは、その抽出機能が同じタグ上の既存の抽出定義と衝突しないことが重要です。既存の抽出定義を更新する場合、これは問題ではありません。指定したタグに抽出定義がすでに存在する場合、テストAPIは返された構造体に 'TagExists' フィールドを設定します:
 
 ```
 {"TagExists":true,"Error":""}
 ```
 
-If `TagExists` is true, it should be treated as an error if you intend to create a new extractor, and ignored if updating an existing extractor.
+TagExists` が true の場合、新しい抽出定義を作成する場合はエラーとして扱われ、既存の抽出定義を更新する場合は無視されます。
 
-## Uploading Files
+## 抽出定義ファイルをアップロードする
 
-Autoextractor definitions can be represented in a TOML format. This format is human-readable and can be a convenient way to distribute extractor definitions. An example is shown below:
+自動抽出の定義は TOML 形式で表現することができます。このフォーマットは人間が読むことができ、抽出定義を配布するのに便利な方法です。以下に例を示します:
 
 ```
 [[extraction]]
@@ -145,21 +145,21 @@ Autoextractor definitions can be represented in a TOML format. This format is hu
 	params="ts, uid, orig, orig_port, resp, resp_port, proto, service, duration, orig_bytes, dest_bytes, conn_state, local_orig, local_resp, missed_bytes, history, orig_pkts, orig_ip_pkts, resp_pkts, resp_ip_bytes, tunnel_parents"
 ```
 
-Rather than parsing out this file to populate a JSON structure, this type of definition can be uploaded directly to the webserver via a multipart form sent in a POST request to `/api/autoextractors/upload`. The form should contain a file field named `extraction` which holds the contents of the extractor definition. The server will respond with a 200 response if the definition is valid and was successfully installed.
+このファイルをパースしてJSON構造を生成するのではなく、このタイプの定義は `/api/autoextractors/upload` へのPOSTリクエストで送られるマルチパートフォームを介してウェブサーバーに直接アップロードすることができます。このフォームには `extraction` という名前のファイルフィールドが含まれていて、そこに抽出定義の内容が格納されている必要があります。定義が有効であり、インストールに成功した場合、サーバーは 200 レスポンスで応答します。
 
-## Downloading Files
+## 抽出定義ファイルをダウンロードする
 
-You can download autoextractor definitions in TOML format by issuing a GET request to `/api/autoextractors/download`. For each definition you wish to download, add its UUID as a parameter to the URL; thus if you wish to download two extractors with UUIDs ad782c81-7a60-4d5f-acbf-83f70e68ecb0 and c7389f9b-ba52-4cbe-b883-621d577c6bcc, you would send a GET request to `/api/autoextractors/download?id=ad782c81-7a60-4d5f-acbf-83f70e68ecb0&id=c7389f9b-ba52-4cbe-b883-621d577c6bcc`.
+`api/autoextractors/download` に GET リクエストを発行すると、TOML 形式の自動抽出定義をダウンロードすることができます。ダウンロードしたい各定義について、その UUID をURLのパラメータとして追加します。UUID が ad782c81-7a60-4d5f-acbf-83f70e68ecb0 と c7389f9b-ba52-4cbe-b883-621d577c6bcc である2つの抽出定義をダウンロードしたい場合は、GET リクエストを `/api/autoextractors/download? id=ad782c81-7a60-4d5f-acbf-83f70e68ecb0&id=c7389f9b-ba52-4cbe-b883-621d577c6bcc`にします。
 
-If the current user has access to all the specified extractors, the server will respond with a downloadable file containing the definitions in TOML format. This file can be uploaded to another DatalaiQ system using the file upload API described above.
+現在のユーザーが指定されたすべての抽出定義にアクセスできる場合、サーバーは、TOML形式の定義を含むダウンロード可能なファイルを応答します。このファイルは、前述のファイル・アップロードAPIを使用して、別のDatalaiQシステムにアップロードすることができます。
 
-## Deleting
+## 抽出定義を削除する
 
-Deleting an existing auto-extractor is performed by issuing a DELETE request to `/api/autoextractors/{uuid}` where `uuid` is the UUID associated with the auto-extractor. If the auto-extractor does not exist or there is an error removing it, the webserver will respond with a non-200 response and error in the response body.
+既存の自動抽出定義を削除するには、`/api/autoextractors/{uuid}` に DELETE リクエストを発行する。ここで `uuid` は自動抽出定義に関連付けられた UUID である。自動抽出定義が存在しないか、削除に失敗した場合、ウェブサーバはレスポンスボディに200以外のレスポンスとエラーを格納して応答します。
 
-## Listing Modules
+## 自動抽出に使用できるモジュールをリスト表示する
 
-Auto-extractor definitions must specify a valid module.  The API to get a list of supported modules is performed by issuing a GET request to `/api/autoextractors/engines`.  The resulting set is a list of strings:
+自動抽出定義には、有効なモジュールを指定する必要があります。サポートされているモジュールのリストを取得するためのAPIは、 `/api/autoextractors/engines` に対して GET リクエストを発行することで実行されます。 結果として得られるのは、以下のような文字列のリストです。:
 
 ```
 [

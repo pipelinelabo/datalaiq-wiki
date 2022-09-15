@@ -1,20 +1,20 @@
-# Data Explorer API
+# データエクスプローラーAPI
 
-The data explorer system provides a automatic extraction & filtering of data in query, rather than requiring users to write their own queries. It is largely accessed via messages on the websocket API, but there is also a REST endpoint.
+データエクスプローラーはユーザーにクエリを書かせることなく自動的にデータを抽出・フィルタリングする機能を提供します。主にwebsocket APIのメッセージでアクセスしますが、RESTのエンドポイントも存在します。
 
-The data explorer system uses [autoextractor](extractors.md) definitions to determine how data in a given tag should be parsed. If no definition exists for a tag, the extraction generation REST API can be used to create candidate autoextractor definitions; the user should then select and install one of these candidates. Once a definition is in place, clients can request "enriched" entries from the raw search renderer using special commands on the search websocket.
+データエクスプローラーは [自動抽出](extractors.md) の定義を使用してタグに対してどのようにデータを抽出するのかを定義します。タグの定義が存在しない場合、抽出生成 REST API を使用して自動抽出定義の候補を作成することができ、ユーザーはこれらの候補の 1 つを選択してインストールする必要があります。定義が作成されると、クライアントは検索用 Web ソケットで特別なコマンドを使用して、生の検索レンダラーから「強化」エントリを要求できるようになります。
 
-## Data Structures
+## データ構造
 
-### Element
+### 要素
 
-Data extracted from entries is represented as an array of Element structures. Each Element represents a single "field" from the data, for instance the source address of a Netflow record. Note that some modules may emit *nested* Elements--see the SubElement field.
+エントリから抽出されたデータは、エレメント構造体の配列として表現される。各要素はデータからの単一の「フィールド」、例えばネットフローレコードの送信元アドレスを表す。モジュールによっては、SubElementsフィールドを参照し、Elementを入れ子にして出力することがあることに注意。
 
-* Name: A user-friendly name for the Element.
-* Path: A complete path specification for the Element, e.g. `foo.bar.[0]` for the json module.
-* Value: The value of whatever was extracted from the data--a string, a number, an IP address, etc.
-* SubElements: An (optional) array of Elements which fall "below" this one, for data types which have a natural tree-like structure.
-* Filters: A list of potential filters which could be applied to the Element, e.g. "!=", "~", ">".
+* Name: Elementの名前
+* Path: Elementの完全なパス指定。例えば、jsonモジュールの場合は `foo.bar.[0]` となります。
+* Value: 文字列、数値、IPアドレスなど、データから抽出されたあらゆるものの値。
+* SubElements: 自然なツリー構造を持つデータ型のために、この要素より "下" に位置する要素の (オプションの) 配列。
+* Filters: 要素に適用可能なフィルタのリスト (例: "!=", "~", ">")。
 
 ```
 interface Element {
@@ -26,9 +26,9 @@ interface Element {
 }
 ```
 
-### ExploreResult
+### Explore結果
 
-The ExploreResult type is used to return a set of Elements pulled out of a particular entry. It also includes the name of the module which generated the extraction (e.g. "json") and the string name of the entry's tag (e.g. "syslog").
+ExploreResult 型は、特定のエントリから抽出された要素のセットを返すために使用されます。また、抽出を行ったモジュールの名前 (例: "json") や、エントリのタグの文字列名 (例: "syslog") も含まれます。
 
 ```
 interface ExploreResult {
@@ -39,8 +39,8 @@ interface ExploreResult {
 ```
 
 
-### REST Endpoint Request/Response
-The following structures are used for the REST endpoint:
+### リクエスト/レスポンスのRESTエンドポイント
+RESTエンドポイントでは、以下の構造体を使用します:
 
 ```
 interface GenerateAXRequest {
@@ -56,20 +56,19 @@ interface GenerateAXResponse {
 	Explore:	Array<ExploreResult>;
 }
 ```
+AXタイプについては [自動抽出](autoextractors.md) のドキュメントに記載しています。
 
-Refer to the [autoextractors](autoextractors.md) documentation for a description of the AXDefinition type.
+### フィルターリクエスト
 
-### FilterRequest
+FilterRequest 型は、検索クエリにフィルタを追加するために使用します。フィルタの配列を ParseSearchRequest や StartSearchRequest オブジェクトにアタッチすると、 クエリにフィルタが自動的に挿入されます。
 
-The FilterRequest type is used to add filters to a search query. An array of Filters can be attached to a ParseSearchRequest or StartSearchRequest object; the filters will be automatically inserted into the query.
+* Tag: フィルタリングしたいタグ名(典型的にはExploreResultオブジェクトから取得されます)。
+* Module: フィルタリングするモジュール名 (通常、ExploreResult オブジェクトから取得します)。
+* Path: フィルタリングするElementのパス（ElementオブジェクトのPathフィールドにある）。
+* Op: 使用するオプションのフィルタ操作 (Element オブジェクトの Filters 配列で指定します)。
+* Value: フィルタリングするためのオプションの値（ElementオブジェクトのValueフィールドにある）。
 
-* Tag: The tag name we wish to filter (typically taken from an ExploreResult object).
-* Module: The module name to filter with (typically taken from an ExploreResult object).
-* Path: The path of the element to filter (found in an Element object's Path field).
-* Op: An optional filter operation to use (found in an Element object's Filters array).
-* Value: An optional value to filter against (found in an Element object's Value field).
-
-Note that if Op and Value are not specified, the "filter" simply extracts the specified Element explicitly, rather than filtering on it.
+OpとValueが指定されない場合、「フィルタ」は指定されたElementにフィルタをかけるのではなく、単に明示的にElementを抽出することに注意してください。
 
 ```
 interface FilterRequest {
@@ -81,13 +80,13 @@ interface FilterRequest {
 }
 ```
 
-## Extraction Generation REST Endpoint
+## 抽出生成RESTエンドポイント
 
-Before entries can be parsed with the data explorer, they need to have an autoextractor definition installed for their tag. The extraction generation endpoint takes a tag name and one or more entries, and returns a collection of possible extractions. It will return one possible extraction for each data exploration module; the user should select the most appropriate extraction and [install the corresponding autoextractor definition](autoextractors.md).
+データエクスプローラーでエントリーを解析する前に、そのタグに自動抽出定義をインストールする必要があります。抽出物生成エンドポイントは、タグ名と1つ以上のエントリーを受け取り、抽出可能なエントリーのコレクションを返します。これは、データエクスプローラーのモジュールごとに、可能な抽出物を 1 つずつ返します。ユーザーは最も適した抽出定義を選択するべきです（[対応する自動抽出定義をインストールする](autoextractors.md)）。
 
-The endpoint is at `/api/explore/generate`; execute a POST request with the body containing a GenerateAXRequest. The server will respond with a mapping of (string) module names to GenerateAXResponse objects, each representing the extraction generated by that particular module. Each GenerateAXResponse object contains one ExploreResult object in the Explore array per SearchEntry in the Entries array.
+エンドポイントは `/api/explore/generate` で、GenerateAXRequest を含むボディで POST リクエストを実行する。サーバーは、(文字列)モジュール名とGenerateAXResponseオブジェクトのマッピングで応答し、それぞれがその特定のモジュールによって生成された抽出を表します。各 GenerateAXResponse オブジェクトは、Entries 配列の SearchEntry に対して Explore 配列に1つの ExploreResult オブジェクトを含む。
 
-The following request contains a single entry:
+次のリクエストには、1つのエントリーが含まれています:
 
 ```
 {
@@ -105,7 +104,7 @@ The following request contains a single entry:
 
 ```
 
-Below is a sample response to the request above. For brevity, only the result from one module ("json") is included, and the Elements array has been shortened.
+以下は、上記のリクエストに対するレスポンスの例です。簡潔にするため、1つのモジュール（"json"）の結果のみを掲載し、Elementsの配列は短くしています:
 
 ```
 {
@@ -203,13 +202,13 @@ Below is a sample response to the request above. For brevity, only the result fr
 }
 ```
 
-Note the `SubElements` field of the "Question" Element for an example of nesting.
+ネストの例として、"Question" 要素の `SubElements` フィールドに注目してください。
 
-## Search Socket Commands
+## クエリソケットコマンド
 
-The `raw` and `text` renderers implement two additional websocket commands, `REQ_GET_EXPLORE_ENTRIES` and `REQ_EXPLORE_TS_RANGE`. These commands mirror the REQ_GET_ENTRIES and REQ_TS_RANGE commands, respectively, but the responses to the data explorer commands will include a field named `Explore`, containing an array of ExploreResult objects (defined above), one per entry.
+raw` と `text` のレンダラーには、さらに 2 つのウェブソケットコマンド `REQ_GET_EXPLORE_ENTRIES` と `REQ_EXPLORE_TS_RANGE` が実装されています。これらのコマンドはそれぞれ REQ_GET_ENTRIES と REQ_TS_RANGE コマンドを反映していますが、データエクスプローラのコマンドに対する応答には `Explore` という名前のフィールドが含まれ、そこには ExploreResult オブジェクト (上で定義) の配列がエントリごとに 1 つずつ格納されます。
 
-For example, this command requests the first 10 entries:
+例えば、次のコマンドは、最初の 10 個のエントリーを要求します:
 
 ```
 {
@@ -221,7 +220,7 @@ For example, this command requests the first 10 entries:
 }
 ```
 
-Here is an example response for a search which returned only one entry:
+以下は、検索で1件しかヒットしなかった場合の応答例です:
 
 ```
 {
@@ -306,9 +305,9 @@ Here is an example response for a search which returned only one entry:
 
 ```
 
-## Adding Filters to Queries
+## クエリにフィルターを追加する
 
-The information returned from data explorer renderer commands can be used to construct *filter requests*. Filter requests narrow down the results of a query based on values within the data. For instance, in the example response shown above, we may wish to exclude all entries whose "Proto" field is "udp"; the following FilterRequest implements that filter:
+データエクスプローラーレンダラーコマンドから返される情報は、フィルターリクエストを作成するために使用できます。フィルタ要求は、データ内の値に基づいてクエリの結果を絞り込みます。たとえば、上記の応答例では、「Proto」フィールドが「udp」であるすべてのエントリーを除外したい場合があります:
 
 ```
 {
@@ -320,7 +319,7 @@ The information returned from data explorer renderer commands can be used to con
 }
 ```
 
-Below is a StartSearchRequest which includes the filter:
+以下は、フィルタを含むStartSearchRequestです:
 
 ```
 {
@@ -340,7 +339,7 @@ Below is a StartSearchRequest which includes the filter:
 
 ```
 
-The server's response will include a re-written SearchString field, suitable for saving in the search library if desired:
+サーバーの応答には、書き直されたSearchStringフィールドが含まれ、必要に応じて検索ライブラリに保存するのに適しています:
 
 ```
 {
@@ -357,4 +356,4 @@ The server's response will include a re-written SearchString field, suitable for
 }
 ```
 
-Filter requests may also be attached to ParseSearchRequest messages to validate the filters.
+サーバーのレスポンスには、書き直された SearchString フィールドが含まれ、必要に応じて検索ライブラリに保存することができます。

@@ -1,21 +1,22 @@
-# Downloading search results
+# 検索結果のダウンロード
 
-Each renderer supports downloading search results in a variety of formats.  For example, if a query is rendered via a table we can directly download the results as csv, json, or the native lookup format.  Performing a download may require an extra step if the download request is coming from a browser.  Clients must be authenticated against the webserver with a valid JWT and the user must have access to the search in order to download it.  Download links are guarded using the standard JWT token scheme as all other api URLs.
+各レンダラーは、様々なフォーマットでの検索結果のダウンロードをサポートしています。 たとえば、クエリがテーブルを介してレンダリングされる場合、結果を csv、json、またはネイティブのルックアップ形式として直接ダウンロードすることができます。 ブラウザからのダウンロード要求があった場合、ダウンロードの実行に余分な手順が必要になることがあります。 クライアントは有効なJWTでウェブサーバーに対して認証されなければならず、ユーザーはダウンロードするために検索へのアクセス権を持っていなければなりません。 ダウンロードリンクは、他のすべてのAPI URLと同様に、標準のJWTトークン・スキームを使用して保護されています。
 
-## Downloading Search Results
-Downloading the search with id 150460229 in the form of a CSV
+
+## 検索結果をダウンロードする
+ID 150460229で検索したものをCSV形式でダウンロードする。
 
 ```
 GET /api/searchctrl/150460229/download/csv
 ```
-## Accessing a download via temporary JWT token
+## 一時的なJWTトークンを使ったダウンロードへアクセスする
 
-Because web browsers cannot perform file downloads via Javascript (and therefor cannot deliver the JWT via a request header) search result downloads can also authenticate using a temporary JWT stored in a cookie named "token".  Clients **SHOULD NOT** store the normal JWT token in a cookie, instead clients should ask for a temporary JWT that can **ONLY** be used to download search results.  These temporary JWT tokens only grant access to download API URLs and cannot be used on any other APIs (as a header or cookie).  Temporary JWT tokens are valid for 3 seconds.
+ウェブブラウザはJavascript経由でファイルのダウンロードを実行できないため（そしてそれゆえにリクエストヘッダ経由でJWTを配信できない）、検索結果のダウンロードは「token」という名前のクッキーに格納された一時的なJWTを使用して認証することもできます。 クライアントは、通常のJWTトークンをクッキーに保存するべきではありません。その代わりに、クライアントは検索結果のダウンロードにのみ使用できる一時的なJWTを要求する必要があります。 これらの一時的なJWTトークンは、ダウンロードAPI URLへのアクセスのみを許可し、他のAPIで（ヘッダーまたはクッキーとして）使用することはできません。 一時的なJWTトークンの有効期限は3秒です。
 
-Non-browser based clients that can deliver additional headers as part of a download request can ignore the temporary JWT token and cookie business and just send the normal JWT token in the appropriate request header.  If the server sees a valid JWT token in the standard header it will use that for authentication.
+ダウンロード・リクエストの一部として追加のヘッダーを配信できる非ブラウザベースのクライアントは、一時的なJWTトークンとクッキー・ビジネスを無視し、適切なリクエスト・ヘッダーに通常のJWTトークンを送信するだけでよいのです。 サーバーが標準ヘッダーの有効なJWTトークンを見た場合、それを認証に使用します。
 
 
-### Acquiring JWT temporary token
+### JWTの一時的なトークンを取得する
 
 ```
 GET /api/login/tmptoken:
@@ -26,4 +27,4 @@ GET /api/login/tmptoken:
 
 ```
 
-Browsers should issue the GET request the JWT value in a cookie named "token" with an expiration of 3 seconds.  The cookie is not respected for any APIs but downloading search results.
+ブラウザはGETリクエストの際、JWTの値を有効期限3秒の "token "という名のクッキーに格納して発行する必要があります。 このクッキーは、検索結果をダウンロードする以外のAPIでは尊重されません。
