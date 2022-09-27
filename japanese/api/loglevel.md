@@ -1,13 +1,13 @@
-# Logging APIs
+# ロギングAPI
 
-The API provides utilities for admin users to manage logging and inject log entries into DatalaiQ's on-disk log files.
+このAPIは、管理者ユーザーがログを管理し、DatalaiQのディスク上のログ・ファイルにログ・エントリーを注入するためのユーティリティを提供します。
 
-## Show/set webserver logging level
+## ウェブサーバーのログレベルを設定/表示する
 
-This API allows admins to show current logging level as well as available logging levels.
-An admin can change the logging level at will via this API.
+この API を使用すると、管理者は現在のログレベルと使用可能なログレベルを表示することができます。
+管理者は、この API を使って自由にロギングレベルを変更することができます。
 
-To get the current logging level as well as available logging levels perform a GET request to `/api/logging`. The request will return a structure like this:
+現在のログレベルと利用可能なログレベルを取得するには、 `/api/logging` への GET リクエストを実行してください。このリクエストは次のような構造体を返します:
 
 ```
 {
@@ -16,7 +16,7 @@ To get the current logging level as well as available logging levels perform a G
 }
 ```
 
-To set the log level perform a PUT to `/api/logging` setting the "Level" field:
+ログレベルを設定するには、`/api/logging` に PUT して、"Level" フィールドを設定します:
 
 ```
 {
@@ -24,11 +24,11 @@ To set the log level perform a PUT to `/api/logging` setting the "Level" field:
 }
 ```
 
-## Inject logs
+## ログを挿入する
 
-Admin users can insert log entries by sending POST requests to the appropriate URLs. These logs will be written out to the DatalaiQ webserver's on-disk log files.
+管理者ユーザーは、適切なURLにPOSTリクエストを送信することでログエントリーを挿入することができます。これらのログは、DatalaiQウェブサーバーのディスク上のログファイルに書き出されます。
 
-The URLs are:
+URLはこれらです:
 
 ```
 /api/logging/access
@@ -37,7 +37,7 @@ The URLs are:
 /api/logging/error
 ```
 
-The POST request body should contain a JSON structure with a field named 'Body' containing the desired log message:
+POSTリクエストボディには、希望するログメッセージを含む'Body'というフィールドを持つJSON構造を含める必要があります:
 
 ```
 {
@@ -45,4 +45,4 @@ The POST request body should contain a JSON structure with a field named 'Body' 
 }
 ```
 
-The server will return boolean 'true' on success.
+成功した場合、サーバーは'true'を返します。

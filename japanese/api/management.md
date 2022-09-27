@@ -1,24 +1,24 @@
-# System Management
+# システム管理
 
-This page documents admin-only APIs for managing the DatalaiQ processes and configuration.
+このページでは、DatalaiQのプロセスや設定を管理するための管理者専用のAPIについて説明します。
 
-## Restarting DatalaiQ
+## DatalaiQを再起動する
 
-Two APIs are provided to restart DatalaiQ processes; one to restart the webserver, and one to restart the indexers. In both cases, "restarting" is accomplished by shutting down the process and allowing systemd (or whatever init system is in use) to restart it.
+DatalaiQプロセスを再起動するために、2つのAPIが提供されています。1つはWebサーバを再起動するためのもので、もう1つはインデクサを再起動するためのものです。どちらの場合も、"再起動 "はプロセスをシャットダウンし、systemd（または使用している init システム）がそれを再起動することによって達成されます。
 
-### Restarting the webserver
+### ウェブサーバーを再起動する
 
-To restart the webserver, send a POST request with an empty body to `/api/restart/webserver`. This should trigger the webserver to shut down and restart immediately.
+ウェブサーバーを再起動するには、`/api/restart/webserver` に空のボディを持つ POST リクエストを送信してください。これにより、ウェブサーバーがシャットダウンし、すぐに再起動するはずです。
 
-### Restarting the indexers
+### インデクサを再起動する
 
-To restart all indexers to which the webserver is currently connected, send a POST request with an empty body to `/api/restart/indexers`. The webserver will signal to each indexer that it should shut itself down and restart. As the individual indexers come back up, the webserver will reconnect automatically.
+ウェブサーバーが現在接続しているすべてのインデックスを再起動するには、 `/api/restart/indexers` に空のボディを持つ POST リクエストを送信してください。ウェブサーバーは各インデクサーに対して、自身をシャットダウンして再起動するようにシグナルを送ります。個々のインデックスが立ち上がる際に、ウェブサーバーは自動的に再接続します。
 
-### Checking for a Distributed Frontend and deployment info
+### 分散フロントエンドのデプロイ情報を確認する
 
-To check whether the DatalaiQ cluster is operating in a distributed frontend mode, perform a GET on `/api/deployment`.  The webserver will respond with a JSON object indicating whether the frontend is configured in a distributed mode.
+DatalaiQクラスタが分散型フロントエンドモードで動作しているかどうかを確認するには、`/api/deployment`に対してGETを実行してみてください。 ウェブサーバーは、フロントエンドが分散モードで設定されているかどうかを示すJSONオブジェクトで応答します。
 
-An example response when not in distributed mode:
+分散モードでない場合の応答例:
 
 ```
 {
@@ -28,30 +28,30 @@ An example response when not in distributed mode:
 ```
 
 
-### Performing a system backup
+### システムのバックアップを行う
 
-Admin users may request a system backup which will provide a backup file containing all content related to the state of DatalaiQ.
+管理者は、DatalaiQの状態に関連するすべてのコンテンツを含むバックアップファイルを提供するシステムのバックアップを要求することができます。
 
-A system backup can be used to save user and group accounts, dashboards, kits, query libraries, and even saved searches.  This is essentially everything but data and system configuration.
+システムバックアップは、ユーザーとグループのアカウント、ダッシュボード、キット、クエリーライブラリー、さらには保存された検索を保存するために使用することができます。 これは、基本的にデータとシステム構成以外のすべてです。
 
-A backup is obtained by performing a `GET` request on `/api/backup` as an admin user, the API will then return a file download with the backup file.
+バックアップは、管理者ユーザで `/api/backup` に対して `GET` リクエストを実行することで取得でき、API はバックアップファイルのダウンロードファイルを返します。
 
-By default a backup does not contain any saved searches; to include saved searches in the backup append the `savedsearch=true` URL parameter on the GET request.
+デフォルトでは、バックアップは保存された検索を含みません。バックアップに保存された検索を含めるには、GETリクエストに `savedsearch=true` URLパラメータを追加してください。
 
-The `/api/backup` API may be authenticated using either the JWT authorization token or a cookie.
+`api/backup` API は、JWT 認証トークンまたはクッキーを使って認証することができます。
 
-NOTE: Only a single backup and/or restore may take place at any given time.
+備考: バックアップおよび/またはリストアは、任意の時点で1回のみ行うことができます。
 
-### Restoring from a system backup
+### システムバックアップから復旧する
 
-Admin users may restore the system from a backup archive by performing a `POST` to the `/api/backup` API and uploading a backup file using a multipart form.
+管理者ユーザは `/api/backup` API への `POST` を実行し、マルチパートフォームを使用してバックアップファイルをアップロードすることで、バックアップアーカイブからシステムを復元することができます。
 
-The API expects that the backup file be located in the `backup` form field and be uploaded using a multipart form.
+APIは、バックアップファイルが`backup`フォームフィールドにあり、マルチパートフォームを使用してアップロードされることを想定しています。
 
-The `/api/backup` API may be authenticated using either the JWT authorization token or a cookie.
+`api/backup` API は、JWT 認証トークンまたはクッキーを使って認証することができます。
 
-NOTE: A restoration is a complete restoration, any changes to users, content, or saved searches will after the restoration point will be lost.
+備考: 復元は完全な復元であり、復元ポイント以降に行われたユーザー、コンテンツ、保存された検索などの変更は失われます。
 
-NOTE: Only a single backup and/or restore may take place at any given time.
+備考: バックアップおよび/またはリストアは、任意の時点で1回のみ行うことができます。
 
-NOTE: Once the restoration begins, all sessions will be terminated.  Upon successful completion of a restore, all users will need to log back in.
+備考: 復元が開始されると、すべてのセッションが終了します。 復元が正常に終了すると、すべてのユーザーが再ログインする必要があります。

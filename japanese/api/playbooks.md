@@ -1,35 +1,35 @@
-# Playbooks Web API
+# プレイブックWebAPI
 
-This API is used to manipulate playbooks withing DatalaiQ. A playbook is a user-friendly way to bring together notes and search queries into a user-formatted document.
+このAPIは、DatalaiQ内のプレイブックを操作するために使用されます。プレイブックは、メモと検索クエリをまとめて、ユーザがフォーマットしたドキュメントにするための、ユーザフレンドリーな方法です。
 
-The playbook structure contains the following components:
+プレイブックの構造には、以下のコンポーネントが含まれます:
 
-* `UUID`: The unique identifier of the playbook, set at installation time.
-* `GUID`: The global name of the playbook; this is set by the original creator of the playbook and will remain the same even if the playbook is bundled into a kit and installed on another system. Each user may only have one playbook with a given GUID, but multiple users could each have a copy of a playbook with the same GUID.
-* `UID`: The user ID of the playbook owner.
-* `GIDs`: A list of group IDs which are allowed to access this playbook.
-* `Global`: A boolean flag; if set, all users on the system may view the playbook.
-* `Name`: The user-friendly name of the playbook.
-* `Desc`: A description of the playbook.
-* `Body`: A byte array which stores the playbook contents.
-* `Metadata`: A byte array which stores playbook metadata, for use by the client.
-* `Labels`: An array of strings containing optional labels to apply to the playbook.
-* `LastUpdated`: A timestamp indicating when the playbook was last modified.
-* `Author`: A structure containing information about the author of the playbook (see below).
-* `Synced`: Used internally by DatalaiQ.
+* `UUID`: インストール時に設定される、playbookの一意の識別子。
+* `GUID`: プレイブックのグローバル名です。これはプレイブックのオリジナル作成者によって設定され、プレイブックがキットにバンドルされて別のシステムにインストールされても同じままです。各ユーザーは与えられたGUIDを持つ1つのプレイブックしか持つことができませんが、複数のユーザーが同じGUIDを持つプレイブックのコピーをそれぞれ持つことができます。
+* `UID`: プレイブック所有者のユーザーID。
+* `GIDs`: このプレイブックへのアクセスが許可されているグループIDのリストです。
+* `Global`: このフラグが設定されている場合、システム上のすべてのユーザーがプレイブックを閲覧することができます。
+* `Name`: プレイブックの名前。
+* `Desc`: プレイブックの詳細説明。
+* `Body`: プレイブックの内容を格納するバイト配列です。
+* `Metadata`: クライアントが使用するための、プレイブックのメタデータを格納するバイト配列です。
+* `Labels`: プレイブックに適用するオプションのラベルを含む文字列の配列。
+* `LastUpdated`: プレイブックが最後に修正された日時を示すタイムスタンプです。
+* `Author`: プレイブックの作者に関する情報を含む構造体（下記参照）。
+* `Synced`: DatalaiQの内部で使用されています。
 
-Note that the UUID and GUID fields may be used interchangeably in all API calls. This is so playbooks included in kits may link to each other, by using links containing GUIDs which will persist across kit installation.
+UUIDとGUIDフィールドは、すべてのAPIコールで互換的に使用することができることに注意してください。これは、キットに含まれるプレイブックが、キットのインストールを越えて持続するGUIDを含むリンクを使用して、互いにリンクすることができるようにするためです。
 
-The author information structure contains the following fields, any of which may be left blank:
+著者情報構造には以下のフィールドがあり、いずれも空白にしておくことができる:
 
-* `Name`: The author's name.
-* `Email`: The author's email address.
-* `Company`: The author's company.
-* `URL`: A web address for more information about the author.
+* `Name`: 著者名
+* `Email`: 著者のメールアドレス
+* `Company`: 著者の会社
+* `URL`: 著者についてのサイトURL
 
-## Listing Playbooks
+## プレイブックをリスト表示する
 
-To list playbooks, send a GET request to `/api/playbooks`. The server will respond with an array of playbook structures which the user has permission to view:
+プレイブックを一覧表示するには、`/api/playbooks`にGETリクエストを送信してください。サーバーは、ユーザーが閲覧する権限を持つプレイブックの構造体の配列で応答します:
 
 ```
 [
@@ -86,21 +86,21 @@ To list playbooks, send a GET request to `/api/playbooks`. The server will respo
 ]
 ```
 
-Note that the Body parameter is empty; because playbooks can be quite large, the body is left out when listing all playbooks.
+プレイブックは非常に大きいため、すべてのプレイブックを一覧表示する際にはボディは省略されます。
 
-Appending the `?admin=true` parameter to the URL will return a list of *all* playbooks on the system, provided the user is an Administrator.
+URLに `?admin=true` パラメータを追加すると、ユーザーが管理者である場合に限り、システム上の *すべての* プレイブックのリストが返されます。
 
-## Fetching a Playbook
+## プレイブックを取得する
 
-To get a specific playbook, including the Body, send a GET request to `/api/playbooks/<uuid>`. The web server will attempt to find a playbook with a matching UUID field; if that is not successful, it will look for a playbook that the user can read with the following precedence:
+Bodyを含む特定のプレイブックを取得するには、`/api/playbooks/<uuid>`にGETリクエストを送信してください。WebサーバーはUUIDフィールドが一致するplaybookを探そうとします。それが成功しない場合、以下の優先順位でユーザーが読むことができるplaybookを探します:
 
-* Top precedence: playbooks owned by the user.
-* Next: playbooks shared with one of the user's groups.
-* Finally: playbooks with the Global flag set.
+* Top precedence: ユーザーが所有しているプレイブック
+* Next: グループに共有されているプレイブック
+* Finally: グローバルフラグが設定されているプレイブック
 
-## Creating a Playbook
+## プレイブックを作成する
 
-Playbooks are created by sending a POST request to `/api/playbooks`. The body of the request should contain those fields the user wishes to set; note that the server will ignore the UUID, UID, LastUpdated, and Synced fields if set.
+プレイブックは `/api/playbooks` に POST リクエストを送信することで作成されます。リクエストの本文には、ユーザーが設定したいフィールドを含める必要があります。UUID、UID、LastUpdated、Syncedフィールドが設定されている場合、サーバーはそれを無視することに注意してください。
 
 ```
 {
@@ -119,14 +119,14 @@ Playbooks are created by sending a POST request to `/api/playbooks`. The body of
 }
 ```
 
-The server will respond with the UUID of the newly-created playbook. If the `GUID` field is set in the request, the server will use it, otherwise it will generate a new one.
+サーバーは新しく作成されたプレイブックのUUIDで応答します。もし `GUID` フィールドがリクエストに設定されていれば、サーバーはそれを使用し、そうでなければ新しいものを生成します。
 
-## Modifying a Playbook
+## プレイブックを編集する
 
-To update the contents of a playbook, send a PUT request to `/api/playbooks/<uuid>`, where the UUID matches the desired playbook. The body of the request should contain the playbook structure to be updated. Note that changes to the UUID, GUID, LastUpdated, and Synced fields will be ignored. Administrators are allowed to modify the UID field, but regular users cannot.
+プレイブックの内容を更新するには、`/api/playbooks/<uuid>` に PUT リクエストを送信してください。リクエストの本文には、更新するプレイブックの構造を含める必要があります。UUID、GUID、LastUpdated、およびSyncedフィールドへの変更は無視されることに注意してください。管理者はUIDフィールドを変更することができますが、一般ユーザーは変更することができません。
 
-Note: If you do not intend to update the contents of a field, you should send the original value in the request. The server has no way to know if e.g. an un-set "Desc" field means you wish to preserve the original value, or you wish to clear the field.
+備考: フィールドの内容を更新するつもりがない場合は、リクエストで元の値を送信すべきです。サーバーは、例えば設定されていない "Desc" フィールドが、元の値を保持したいのか、それともそのフィールドを消去したいのかを知る術がないのです。
 
-## Deleting a Playbook
+## プレイブックを削除する
 
-To delete a playbook, send a DELETE request to `/api/playbooks/<uuid>`, where the UUID matches the desired playbook.
+プレイブックを削除するには、`/api/playbooks/<uuid>` に DELETE リクエストを送信します（UUID は希望のプレイブックと一致します）。
