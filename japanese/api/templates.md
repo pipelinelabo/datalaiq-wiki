@@ -1,29 +1,29 @@
-# Templates API
+# テンプレートAPI
 
-Templates are special objects which define a DatalaiQ query containing *variables*. Multiple templates using the same variable(s) can be included in a dashboard to create a powerful investigative tool--for instance, templates which expect an IP address as their variable can be used to create an IP address investigation dashboard.
+テンプレートは、*変数*を含むDatalaiQクエリーを定義する特別なオブジェクトです。例えば、IPアドレスを変数とするテンプレートは、IPアドレス調査ダッシュボードを作成するために使用することができます。
 
-## Data Structure
+## データ構造
 
-The template structure contains the following fields:
+テンプレート構造には、以下のフィールドが含まれます:
 
-* GUID: A global reference for the template. Persists across kit installation. (see next section)
-* ThingUUID: A unique ID for this particular template instance. (see next section)
-* UID: The numeric ID of the template's owner.
-* GIDs: An array of numeric group IDs with which this template is shared.
-* Global: A boolean, set to true if template should be visible to all users (admin only).
-* Name: The template's name.
-* Description: A more detailed description of the template.
-* Updated: A timestamp representing the last update time for the template.
-* Labels: An array of strings containing [labels](#!gui/labels/labels.md).
-* Contents: The actual definition of the template itself (see below).
-  * Contents.query: The template query.
-  * Contents.variable: Variable name in query.
-  * Contents.variableLabel: Label displayed to the user.
-  * Contents.variableDescription: Hint or additional information displayed to the user.
-  * Contents.required: True if it's required a value from the user when running the template.
-  * Contents.testValue: Default value for preview and validation.
+* GUID: テンプレートのグローバルリファレンス。キットのインストールをまたいで永続化します。(次のセクションを参照)
+* ThingUUID: この特定のテンプレートインスタンスに固有のID。(次のセクションを参照)
+* UID: テンプレート所有者のUID
+* GIDs: テンプレートを共有されているグループのGIDリスト
+* Global: 真偽値で、テンプレートがすべてのユーザに見えるようにする場合はtrueに設定します（管理者のみ）。
+* Name: テンプレート名。
+* Description: テンプレートの詳細。
+* Updated: テンプレートが最後に更新されたタイムスタンプ
+* Labels: [ラベル](#!gui/labels/labels.md)を含む配列リスト。
+* Contents: テンプレート自体の実際の定義（下記参照）。
+  * Contents.query: テンプレートのクエリ
+  * Contents.variable: クエリ中に含まれる変数名
+  * Contents.variableLabel: ユーザーに表示されるラベル
+  * Contents.variableDescription: テンプレートを識別するヒント/追加の説明
+  * Contents.required: テンプレート実行時にユーザーから値を要求された場合は真。
+  * Contents.testValue: プレビューとバリデーションのためのデフォルト値。
 
-Although the webserver does not care what goes into the `Contents` field (except that it must be valid JSON), there is a particular format which the **GUI** uses. The Contents field should conform to this structure in order to be usable for the GUI:
+ウェブサーバは `Contents` フィールドに何が入るかを気にしませんが (有効な JSON でなければならないことを除いて)、 **GUI** が使用する特定のフォーマットがあります。GUIで使用するためには、Contentsフィールドはこの構造に従わなければなりません:
 
 ```
 Contents: {
@@ -36,7 +36,7 @@ Contents: {
 };
 ```
 
-The following is a complete Typescript definition of the template data type:
+以下は、Typescript によるテンプレートデータ型の完全な定義です:
 
 ```
 interface RawTemplate {
@@ -60,29 +60,29 @@ interface RawTemplate {
 }
 ```
 
-## Naming: GUIDs and ThingUUIDs
+## GUIDsとThingUUIDs
 
-Templates have two different IDs attached to them: a GUID, and a ThingUUID. They are both UUIDs, which can be confusing--why have two identifiers for one object? We will attempt to clarify in this section.
+テンプレートには、GUIDとThingUUIDという2つの異なるIDが付与されています。これらは両方ともUUIDで、混乱することがあります。なぜ1つのオブジェクトに2つの識別子があるのでしょうか？このセクションでは、その理由を明らかにします。
 
-In DatalaiQ, a dashboard may refer to a particular template. This dashboard & corresponding template may also be packed into a kit for distribution to other users. The dashboard needs a way to refer to the template that will **persist** when packed in a kit and installed elsewhere, so we introduce the GUID as a "global" name for the template: wherever the kit gets installed, that template will have the same GUID. However, multiple users are allowed to install the same kit, so we also need a different identifier for *for each individual instantiation* of the template. This role is filled by the ThingUUID field.
+DatalaiQでは、ダッシュボードは特定のテンプレートを指す場合があります。このダッシュボードと対応するテンプレートは、他のユーザーに配布するためにキットにパックされることもあります。そのため、テンプレートの「グローバル」な名前としてGUIDを導入しました。しかし、複数のユーザーが同じキットをインストールすることが許可されているので、テンプレートの個々のインスタンス*のための異なる識別子も必要です。この役割を果たすのがThingUUIDフィールドです。
 
-Consider an example: I build a kit which includes a dashboard and a template. I create the template from scratch, so it gets assigned a random GUID, `e80293f0-5732-4c7e-a3d1-2fb779b91bf7`, and a random ThingUUID, `c3b24e1e-5186-4828-82ee-82724a1d4c45`. I then create a tile in the dashboard which refers to the template by its GUID (`e80293f0-5732-4c7e-a3d1-2fb779b91bf7`) and bundle both template & dashboard into a kit. Another user on the same system then installs this kit for themselves, which instantiates a template with the **same** GUID (`e80293f0-5732-4c7e-a3d1-2fb779b91bf7`) but a **random** ThingUUID (`f07373a8-ea85-415f-8dfd-61f7b9204ae0`). When the user opens the dashboard, the dashboard will ask for a template with GUID == `e80293f0-5732-4c7e-a3d1-2fb779b91bf7`. The webserver will return that user's instance of the template, with ThingUUID == `f07373a8-ea85-415f-8dfd-61f7b9204ae0`.
+例を考えてみましょう。私はダッシュボードとテンプレートを含むキットを作成します。テンプレートはゼロから作成するので、ランダムなGUIDである `e80293f0-5732-4c7e-a3d1-2fb779b91bf7` とランダムなThingUUIDである `c3b24e1e-5186-4828-82ee-82724a1d4c45` が割り当てられます。そして、ダッシュボードにGUID (`e80293f0-5732-4c7e-a3d1-2fb779b91bf7`) でテンプレートを参照するタイルを作り、テンプレートとダッシュボード両方をキットにバンドルします。同じシステムの別のユーザーがこのキットを自分用にインストールすると、**同じ** GUID (`e80293f0-5732-4c7e-a3d1-2fb779b91bf7`) で **random** ThingUUID (`f07373a8-ea85-415f-8dfd-61f7b9204ae0`) のテンプレートにインスタンス化されるようになりました。ユーザーがダッシュボードを開くと、ダッシュボードは GUID == `e80293f0-5732-4c7e-a3d1-2fb779b91bf7` を持つテンプレートを要求します。ウェブサーバーは、ThingUUID == `f07373a8-ea85-415f-8dfd-61f7b9204ae0` のテンプレートのそのユーザーのインスタンスを返します。
 
-Note that if a user installs a template with the same GUID as a global template, theirs will transparently override the global one, but only for themselves. If multiple templates exist with the same GUID, they are prioritized in the following order:
+ユーザーがグローバルテンプレートと同じGUIDを持つテンプレートをインストールした場合、そのテンプレートは透過的にグローバルテンプレートを上書きしますが、自分自身のためだけであることに注意してください。同じGUIDを持つテンプレートが複数存在する場合、以下の順序で優先されます:
 
-* Owned by the user
-* Shared with a group the user is a member of
-* Global
+* ユーザーに所有されているテンプレート
+* ユーザーが所属しているグループに共有されているテンプレート
+* グローバルのテンプレート
 
-This means that if a user is accessing a global dashboard, they can override a particular template referred to by the dashboard by creating their own copy of the template with the same GUID. In practice, this should be rare.
+これは、ユーザーがグローバルダッシュボードにアクセスしている場合、同じGUIDを持つテンプレートの独自のコピーを作成することによって、ダッシュボードによって参照される特定のテンプレートをオーバーライドできることを意味します。実際には、このようなことはほとんどないはずです。
 
-### Accessing Templates via GUID vs ThingUUID
+### GUIDとThingUUID経由でのテンプレートアクセス
 
-Regular users must always access templates by GUID. Admin users may refer to a template by ThingUUID instead, but the `?admin=true` parameter must be set in the request URL.
+一般ユーザは常にGUIDでテンプレートにアクセスしなければなりません。管理者ユーザーは代わりにThingUUIDでテンプレートを参照することができますが、`?admin=true`パラメータをリクエストURLに設定する必要があります。
 
-## Create a template
+## テンプレートを作成する
 
-To create a template, issue a POST to `/api/templates`. The body should be a JSON structure with a 'Contents' field containing any valid JSON, and optionally a GUID, Labels, Name, and Description. The following are all valid:
+テンプレートを作成するには、`/api/templates`にPOSTを送信してください。ボディはJSON構造で、'Contents'フィールドに任意の有効なJSON、オプションでGUID、Labels、Name、Descriptionを指定します。以下はすべて有効です:
 
 ```
 {
@@ -158,13 +158,13 @@ To create a template, issue a POST to `/api/templates`. The body should be a JSO
 }
 ```
 
-The API will respond with the GUID of the newly-created template. If a GUID is specified in the request, that GUID will be used. If no GUID is specified, a random GUID will be generated.
+API は新しく作成されたテンプレートの GUID で応答します。リクエストでGUIDが指定された場合は、そのGUIDが使用されます。GUIDが指定されない場合は、ランダムなGUIDが生成されます。
 
-Note: At this time, the `UID`, `GIDs`, and `Global` fields cannot be set during template creation. They must instead be set via an update call (see below).
+備考: 現時点では、`UID`、`GIDs`、`Global` フィールドをテンプレート作成時に設定することはできません。代わりに、updateコールで設定する必要があります(下記参照)。
 
-## List templates
+## テンプレートをリスト表示する
 
-To list all templates available to a user, do a GET on `/api/templates`. The result will be an array of templates:
+ユーザーが利用できるすべてのテンプレートをリストアップするには、`/api/templates`をGETしてください。結果はテンプレートの配列になります:
 
 ```
 [
@@ -196,9 +196,9 @@ To list all templates available to a user, do a GET on `/api/templates`. The res
 
 ```
 
-## Fetch a single template
+## 特定のテンプレートを取得する
 
-To fetch a single template, issue a GET request to `/api/templates/<guid>`. The server will respond with the contents of that template, for instance a GET on `/api/templates/780b1d31-e46b-4460-ad83-2fc11c34a162` might return:
+一つのテンプレートを取得するには、 `/api/templates/<guid>` に GET リクエストを発行してください。例えば、 `/api/templates/780b1d31-e46b-4460-ad83-2fc11c34a162` に GET すると、次のような結果が返されます:
 
 ```
 {
@@ -227,31 +227,31 @@ To fetch a single template, issue a GET request to `/api/templates/<guid>`. The 
 }
 ```
 
-Note that an administrator can fetch this particular template explicitly by using the ThingUUID and the admin parameter, e.g. `/api/templates/1b36a1d7-a5ac-11ea-b07e-7085c2d881ce?admin=true`.
+管理者は、ThingUUIDとadminパラメータを使用して、明示的にこの特定のテンプレートを取得できることに注意してください、例えば `/api/templates/1b36a1d7-a5ac-11ea-b07e-7085c2d881ce?admin=true` です。
 
-## Update a template
+## テンプレートを更新する
 
-To update a template, issue a PUT request to `/api/templates/<guid>`. The request body should be identical to that returned by a GET on the same path, with any desired elements changed. Note that the GUID and ThingUUID cannot be changed; only the following fields may be modified:
+テンプレートを更新するには、 `/api/templates/<guid>` に PUT リクエストを発行してください。リクエストのボディは、同じパスのGETによって返されるものと同じでなければならず、必要な要素は変更されます。GUIDとThingUUIDは変更できないことに注意してください; 以下のフィールドのみが変更可能です:
 
-* Contents: The actual body/contents of the template
-* Name: Change the name of the template
-* Description: Change the template's description
-* GIDs: May be set to an array of 32-bit integer group IDs, e.g. `"GIDs":[1,4]`
-* UID: (Admin only) Set to a 32-bit integer
-* Global: (Admin only) Set to a boolean true or false; Global templates are visible to all users.
+* Contents: テンプレートの実際のコンテンツ
+* Name: テンプレート名を変更する
+* Description: テンプレートの詳細を変更する
+* GIDs: 32ビット整数のグループIDの配列（例：`"GIDs":[1,4]`）を設定することができる
+* UID: (管理者のみ) 32ビット整数に設定
+* Global: (管理者のみ) 真偽を設定します。グローバルテンプレートは、すべてのユーザーに表示されます
 
-Note: Leaving any of these field blank will result in the template being updated with a null value for that field!
+備考: これらのフィールドのいずれかを空白にすると、そのフィールドのNULL値でテンプレートが更新されます!
 
-## Delete a template
+## テンプレートを削除する
 
-To delete a template, issue a DELETE request to `/api/templates/<guid>`.
+テンプレートを削除するには、`/api/templates/<guid>` に DELETE リクエストを発行してください。
 
-## Admin actions
+## 管理者操作
 
-Admin users may occasionally need to view all templates on the system, modify them, or delete them. Because GUIDs are not necessarily unique, the admin API must refer instead to the unique UUID DatalaiQ uses internally to store the items. Note that the example template listings above include a field named "ThingUUID". This is the internal, unique identifier for that template.
+管理者ユーザーは、システム上のすべてのテンプレートを表示したり、変更したり、削除したりする必要がある場合があります。GUIDは必ずしも一意ではないため、管理者APIは代わりにDatalaiQがアイテムの保存に内部的に使用する一意のUUIDを参照する必要があります。上記のテンプレート・リストの例では、"ThingUUID "という名前のフィールドが含まれていることに注意してください。これは、そのテンプレートに対する内部的な一意の識別子です。
 
-An administrator user may obtain a global listing of all templates in the system with a GET request on `/api/templates?admin=true`.
+管理者ユーザーは `/api/templates?admin=true` の GET リクエストでシステム内のすべてのテンプレートのグローバルリストを取得することができます。
 
-The administrator may then update a particular template with a PUT to `/api/templates/<ThingUUID>?admin=true`, substituting in the ThingUUID value for the desired template. The same pattern applies to deletion.
+管理者は、`/api/templates/<ThingUUID>?admin=true`へのPUTで、希望するテンプレートのThingUUID値を代入して、特定のテンプレートを更新することができます。同じパターンが削除にも適用されます。
 
-An administrator may access or delete a particular template with a GET or DELETE request (respectively) on `/api/templates/<ThingUUID>?admin=true`.
+管理者は `/api/templates/<ThingUUID>?admin=true` の GET と DELETE リクエストで、それぞれ特定のテンプレートにアクセスしたり削除したりすることができます。

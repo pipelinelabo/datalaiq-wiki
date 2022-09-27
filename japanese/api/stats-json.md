@@ -1,22 +1,22 @@
-# REST Stats API
+# 統計API
 
 ## Ping
 
-The ping stats API returns the status of the webserver and indexers. This is retrieved via a GET to `/api/stats/ping`. If all systems are up, they will be reported as "OK":
+ping stats APIはウェブサーバとインデクサーの状態を返します。これは `/api/stats/ping` への GET によって取得される。すべてのシステムが稼働している場合、それらは "OK" と報告される:
 
 ```
 {"192.168.2.60:9404":"OK","webserver":"OK"}
 ```
 
-If an indexer is down, it will be marked "Disconnected":
+インデクサが停止している場合、"Disconnected "と表示されます:
 
 ```
 {"192.168.2.60:9404":"Disconnected","webserver":"OK"}
 ```
 
-## Index Stats
+## インデックス統計
 
-The indexer stats API provides information about the indexes on each indexer. It is accessed via a GET to `/api/stats/idxStats`.
+indexer stats API は、各インデクサーのインデックスに関する情報を提供します。これは `/api/stats/idxStats` への GET でアクセスできます。
 
 ```
 {
@@ -72,9 +72,9 @@ The indexer stats API provides information about the indexes on each indexer. It
 
 ```
 
-## Ingester Stats
+## インジェスター統計
 
-Sending a GET request to `/api/stats/igstStats` will return a structure describing the ingesters attached to each indexer. The example below shows a single indexer (192.168.2.60) with two attached ingesters: the Simple Relay ingester and the Network Capture ingester.
+GETリクエストを`/api/stats/igstStats`に送ると、各インデクサに接続されているインジェスターを説明する構造体が返されます。以下の例では、単一のインデクサ (192.168.2.60) に2つのインジェスタ (Simple Relay インジェスタと Network Capture インジェスタ) が接続されている様子を示しています。
 
 ```
 {
@@ -109,13 +109,13 @@ Sending a GET request to `/api/stats/igstStats` will return a structure describi
 }
 ```
 
-In each ingester description, the "Count" field gives the number of entries ingested and the "Size" field gives the number of bytes ingested. "Uptime" is how long, in nanoseconds, the ingester has been connected.
+各インジェスターの説明の中で、"Count" フィールドは取り込んだエントリーの数、"Size" フィールドは取り込んだバイト数です。「Uptime" はインジェスターが接続された時間（ナノ秒単位）です。
 
-Note the "QuotaMax" and "QuotaUsed" fields. Community licenses can only ingest a certain amount each day. "QuotaMax" specifies how many bytes the given indexer is allowed to ingest per day. "QuotaUsed" shows how many bytes have been ingested so far today.
+"QuotaMax "と "QuotaUsed "フィールドに注目してください。Communityライセンスは、1日に一定量しか取り込むことができません。「QuotaMax" は、指定されたインデクサが一日に摂取することを許されるバイト数を指定します。"QuotaUsed "は、今日これまでに摂取されたバイト数を示しています。
 
-## System Stats
+## システム統計
 
-Sending a GET request to `/api/stats/sysStats` will return a structure containing information about the indexer and webserver systems, such as number of CPUs, CPU utilization, memory and network utilization, and more.
+GETリクエストを `/api/stats/sysStats` に送ると、CPU数、CPU利用率、メモリやネットワーク利用率など、インデクサとウェブサーバのシステムに関する情報を含む構造体が返されます。
 
 ```
 {
@@ -216,11 +216,11 @@ Sending a GET request to `/api/stats/sysStats` will return a structure containin
 }
 ```
 
-Most of the fields are self-explanatory. Note that the "IO" array gives information about disks, with "Read" and "Write" fields specifying read and write *rates* in bytes per second. Similarly, the "Net" component describes network utilization in bytes per second.
+ほとんどのフィールドは自明である。IO" 配列はディスクに関する情報を提供し、"Read" と "Write" フィールドは読み取りと書き込みの *レート* をバイト/秒で指定することに注意してください。同様に、"Net "コンポーネントには、ネットワークの使用率が1秒あたりのバイト数で記述されています。
 
-## System Description
+## システム詳細
 
-Sending a GET request to `/api/stats/sysDesc` will return a structure giving additional information about the webserver and indexer host systems:
+GETリクエストを `/api/stats/sysDesc` に送ると、ウェブサーバーとインデクサーのホストシステムに関する追加情報を与える構造体が返されます:
 
 ```
 {
@@ -244,16 +244,16 @@ Sending a GET request to `/api/stats/sysDesc` will return a structure giving add
 ```
 
 
-## Shard Storage and Replication Stats
+## シャードとレプリケーション
 
-Indexers maintain a list of all shards and wells and can produce a shard level view into the total stored data within DatalaiQ.  This view can provide a very quick order of magnitude observation of wells and data volumes over long periods of time.
+インデクサは、すべてのシャードとウェルのリストを保持し、DatalaiQに保存されている全データに対するシャード・レベルのビューを作成することができます。 このビューは、長期間にわたるウェルとデータ量について、非常に迅速なオーダーでの観察を可能にします。
 
-When in high availability mode, the indexers also maintain a mapping of replicated data and can resolve where data is replicated too, enabling a quick overview of which indexers are replicating for other indexers.
+高可用性（HA）モードでは、インデクサは複製されたデータのマッピングも保持し、データが複製された場所を解決することができるため、どのインデクサが他のインデクサのために複製しているかを素早く把握することができます。
 
-The shard level view is accessed via a `GET` request to `/api/indexers/info` and will return a JSON map of each indexer. The returned data set has extensive information about the configuration of the well, what tags have been assigned to it, and the shards populated within the well.
+シャードレベルのビューは `/api/indexers/info` への `GET` リクエストでアクセスでき、各インデクサーの JSON マップが返されます。返されたデータセットには、ウェルの構成、どのタグが割り当てられているか、ウェル内に配置されたシャードに関する広範な情報が含まれています。
 
-### Example JSON Response
-Here is an example response from a cluster of 4 DatalaiQ indexers with 2 wells each and replication enabled.  Only a single shard is populated in the syslog well.
+### JSONレスポンス例
+以下は、それぞれ2つのウェルを持つ4台のDatalaiQインデクサーのクラスターで、レプリケーションを有効にした場合の応答例です。 syslogウェルには1つのシャードのみが投入されます。
 
 <details><summary>Expand JSON Response</summary>
 <pre>

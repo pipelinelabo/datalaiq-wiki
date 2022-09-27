@@ -1,44 +1,44 @@
-# Scheduled Searches API
+# スケジュール検索API
 
-This API allows for the creation and management of scheduled searches. Searches are referred to by a randomly-generated ID.
+本APIは、スケジュール検索の作成と管理を可能にします。検索はランダムに生成されるIDで参照されます。
 
-## Scheduled search structure
+## スケジュール検索構造
 
-A scheduled search contains the following fields of interest:
+スケジュール検索には、以下の項目が含まれます:
 
-* ID: the ID of the scheduled search
-* GUID: a unique ID for this particular search. If left blank at creation, a random GUID will be assigned (this should be the standard use case)
-* Owner: the UID of the search's owner
-* Groups: a list of groups which are allowed to see the results of this search
-* Global: a boolean indicating that the results of the search should be visible to all users (only admins may set this field)
-* Name: the name of this scheduled search
-* Description: a textual description of the scheduled search
-* Schedule: a cron-compatible string specifying when to run
-* Permissions: a 64-bit integer used to store permission bits
-* Disabled: a boolean which, if set to true, will prevent the scheduled search from running.
-* OneShot: a boolean which, if set to true, will cause the scheduled search to run once as soon as possible, unless disabled.
-* LastRun: the time at which this scheduled search last ran
-* LastRunDuration: how long the last run took
-* LastSearchIDs: an array of strings containing the search IDs of the most recently performed searches from this scheduled search
-* LastError: any error resulting from the last run of this search
+* ID: スケジュール検索のID
+* GUID: この特定の検索のための一意のID。作成時に空白のままだと、ランダムなGUIDが割り当てられる（これが標準的な使用例となるはずである）。
+* Owner: 検索の所有者ID
+* Groups: 検索結果の閲覧を許可されているグループのGID
+* Global: 検索結果をすべてのユーザに見せることを示す boolean (このフィールドを設定できるのは管理者のみです)
+* Name: スケジュール検索の名前
+* Description: スケジュール検索の詳細
+* Schedule: 実行するタイミングを指定する cronベースの文字列
+* Permissions: パーミッションを格納するために使用される64ビット整数
+* Disabled: trueに設定すると、スケジュール検索の実行を無効にするブール値
+* OneShot: trueに設定すると、無効にしない限り、スケジュールされた検索をできるだけ早く1回実行するようになります
+* LastRun: スケジュール検索が最後に行われた日付
+* LastRunDuration: 最後に実行した際にかかった時間
+* LastSearchIDs: このスケジュール検索で最も最近実行された検索の検索IDを含む文字列の配列
+* LastError: この検索の最後の実行に起因するすべてのエラー
 
-If the search is a 'standard' scheduled search, it will also set these fields:
+検索が「標準的な」スケジュール検索である場合、以下のフィールドも設定されます:
 
-* SearchString: the DatalaiQ query to execute
-* Duration: a value in seconds specifying how far back to run the search. This must be a negative value.
-* SearchSinceLastRun: a boolean. If set, the Duration field will be ignored and the search will instead run from the LastRun time to the present.
+* SearchString: 実行されるクエリ文字列
+* Duration: どの程度遡って検索を行うかを指定する，秒単位の値。これは負の値でなければならない。
+* SearchSinceLastRun: 設定された場合、Durationフィールドは無視され、代わりにLastRun時間から現在までの検索が実行されます。
 
-If the search is on the other hand a script, it will set the following field:
+一方、検索対象がスクリプトの場合、以下のフィールドが設定されます:
 
-* Script: a string containing an anko script
+* Script: ankoスクリプトを含むスクリプト名
 
-## User commands
+## ユーザーコマンド
 
-The API commands in this section can be executed by any user.
+このセクションのAPIコマンドは、どのユーザーでも実行することができます。
 
-### Listing scheduled searches
+### スケジュール検索をリスト表示する
 
-To get a list of all scheduled searches visible to the user (either owned by the user or marked accessible to one of the user's groups), perform a GET on `/api/scheduledsearches`. The result will look like this:
+ユーザーが見ることのできるすべてのスケジュール検索のリストを取得するには、`/api/scheduledsearches`に対してGETを実行してください（ユーザーが所有しているか、ユーザーのグループのいずれかがアクセス可能であるとマークされています）。結果はこのようになります:
 
 ```
 [
@@ -72,11 +72,11 @@ To get a list of all scheduled searches visible to the user (either owned by the
 
 ```
 
-This example shows a single scheduled search named "count", owned by UID 1 (admin). It runs every minute and executes the search `tag=* count` over the last hour hours.
+この例では、UID 1 (admin)が所有する "count"という名前の一つのスケジュール検索を示します。これは1分ごとに実行され、過去1時間に渡って `tag=* count` という検索を実行します。
 
-### Creating a scheduled search
+### スケジュール検索を作成する
 
-To create a new scheduled search, perform a POST request on `/api/scheduledsearches` with a JSON structure containing information about the scheduled search. To create a standard search, be sure to populate the SearchString and Duration fields, as in this example which runs a search over the last 24 hours every day at 8 a.m.:
+新しいスケジュール検索を作成するには、スケジュール検索に関する情報を含むJSON構造体で `/api/scheduledsearches` に対してPOSTリクエストを実行します。標準的な検索を作成するには、毎日午前8時に過去24時間の検索を実行するこの例のように、SearchStringとDurationフィールドに必ず値を入力してください:
 
 ```
 {
@@ -94,17 +94,17 @@ To create a new scheduled search, perform a POST request on `/api/scheduledsearc
 
 ```
 
-Alternately, if the SearchSinceLastRun field is set to true, the search agent will ignore the Duration (except for the first run of this new search) and instead perform the search over the time of the last run to the present time.
+また、SearchSinceLastRunフィールドがtrueに設定されている場合、検索エージェントはDurationを無視し（この新しい検索の最初の実行を除く）、代わりに最後の実行の時間から現在の時間まで検索を実行します。
 
-To create a scheduled search using a script, populate the "Script" field instead of the "SearchString" and "Duration" fields. If both are populated, the script will take precedence.
+スクリプトを使用してスケジュール検索を作成するには、「SearchString」と「Duration」フィールドではなく、「Script」フィールドに入力します。両方が入力されている場合は、スクリプトが優先されます。
 
-A scheduled search may be created with the Disabled flag set to true to prevent it from running until the user is ready. It can also be created with the OneShot flag set to true, which will cause the search to run as soon as possible after creation.
+スケジュール検索は、Disabledフラグをtrueに設定して作成すると、ユーザーの準備が整うまで実行されないようにすることができます。また、OneShotフラグをtrueに設定して作成すると、作成後すぐに検索が実行されるようになります。
 
-The server will respond with the ID of the new scheduled search.
+サーバーは、新しいスケジュール検索のIDを応答します。
 
-### Fetching a specific scheduled search
+### 特定のスケジュール検索を取得する
 
-Information about a single scheduled search may be accessed with a GET on `/api/scheduledsearches/{id}`. For example, given a scheduled search ID of 1439174790, we would query `/api/scheduledsearches/1439174790` and receive the following:
+一つのスケジュール検索に関する情報は `/api/scheduledsearches/{id}` のGETでアクセスすることができます。例えば、スケジュール検索のIDが1439174790の場合、`/api/scheduledsearches/1439174790`に問い合わせると、次のようなものが得られます:
 
 ```
 {
@@ -135,13 +135,13 @@ Information about a single scheduled search may be accessed with a GET on `/api/
 }
 ```
 
-A scheduled search can also be fetched by GUID. Note that this requires more work for the webserver and should only be used when necessary. To fetch the scheduled search shown above, do a GET on `/api/scheduledsearches/cdf011ae-7e60-46ec-827e-9d9fcb0ae66d`.
+スケジュール検索は、GUIDで取得することも可能です。これはウェブサーバーにとってより多くの作業を必要とするので、必要な場合にのみ使用されるべきであることに注意してください。上記のスケジュール検索を取得するには、`/api/scheduledsearches/cdf011ae-7e60-46ec-827e-9d9fcb0ae66d`にGETしてください。
 
-### Updating an existing search
+### 既存のスケジュール検索を更新する
 
-To modify a scheduled search, do an HTTP PUT to `/api/scheduledsearches/{id}` containing an updated structure with the desired changes. Take care to push the unchanged fields too, or they will be overwritten with empty values.
+スケジュール検索を修正するには、 `/api/scheduledsearches/{id}` にHTTP PUTを行い、希望する変更点を含む更新された構造体を送信してください。変更されていないフィールドもプッシュしないと、空の値で上書きされてしまうので注意してください。
 
-The following fields can be updated:
+以下のフィールドを更新できます:
 
 * Name
 * Description
@@ -155,43 +155,43 @@ The following fields can be updated:
 * Disabled
 * OneShot
 
-A script scheduled search can be changed to a standard scheduled search by pushing a SearchString and a Duration with the Script field empty. Likewise, a standard scheduled search can be converted to a script scheduled search by pushing a Script field and setting the SearchString empty.
+スクリプトスケジュール検索は、Scriptフィールドを空にしてSearchStringとDurationをプッシュすることにより、標準のスケジュール検索に変更することができます。同様に、標準のスケジュール検索は、Scriptフィールドをプッシュし、SearchStringを空に設定することによって、スクリプトスケジュール検索に変換することができる。
 
-### Clearing a scheduled search error
+### スケジュール検索をクリアする
 
-The LastError field in the scheduled search structure will be set if an error is encountered and will not be cleared by subsequent successful executions. It can be cleared manually by a DELETE on `/api/scheduledsearches/{id}/error`
+スケジュール検索構造体のLastErrorフィールドは、エラーが発生した場合に設定され、その後の実行が成功してもクリアされません。これは `/api/scheduledsearches/{id}/error` の DELETE によって手動でクリアすることができます。
 
-### Clearing a scheduled search's persistent state
+### スケジュール検索のパーシステント状態をクリアする
 
-A DELETE on `/api/scheduledsearches/{id}/state` will clear both the LastError field and the persistent maps for the scheduled search. This allows you to reset a scheduled search if the state becomes corrupt due to a bad script.
+`api/scheduledsearches/{id}/state`をDELETEすると、スケジュール検索のLastErrorフィールドと永続マップの両方がクリアされます。これにより、不正なスクリプトのために状態が破損した場合、スケジュール検索をリセットすることができます。
 
-### Deleting a scheduled search
+### スケジュール検索を削除する
 
-An existing scheduled search can be removed by performing a DELETE on `/api/scheduledsearches/{id}`.
+既存のスケジュール検索は `/api/scheduledsearches/{id}` に対して DELETE を実行することで削除することができます。
 
-## Admin commands
+## 管理者操作
 
-The following commands are only available to admin users.
+以下のコマンドは、管理者のみ使用可能です。
 
-### Listing all searches
+### 全てのスケジュール検索を表示する
 
-Admin users may occasionally need to view all scheduled searches on the system. An administrator user may obtain a global listing of all scheduled searches in the system with a GET request on `/api/scheduledsearches?admin=true`.
+管理者ユーザーは、システム上のすべてのスケジュールされた検索を表示する必要がある場合があります。管理者ユーザーは `/api/scheduledsearches?admin=true` のGETリクエストで、システム内のすべてのスケジュール検索のグローバルリストを取得することができます。
 
-Because scheduled search IDs are unique across the system, the administrator may then modify/delete/retrieve any search without the need to specify `?admin=true`, although adding the parameter unnecessarily will not cause an error.
+スケジュール検索IDはシステム全体で一意であるため、管理者は`?admin=true`を指定しなくても、検索の修正/削除/検索を行うことができます（ただし、不必要にパラメータを追加してもエラーにはなりません）。
 
-### Fetching a specific user's searches
+### 特定ユーザーのスケジュール検索を取得する
 
-Performing a GET on `/api/scheduledsearches/user/{uid}`, where `uid` is a numeric user ID, will fetch an array of all searches belonging to that user.
+`api/scheduledsearches/user/{uid}` (`uid` は数値のユーザー ID) に対して GET を実行すると、そのユーザーに属するすべての検索の配列を取得することができます。
 
-### Deleting all of a specific user's searches
+### 特定ユーザーの全てのスケジュール検索を取得する
 
-Performing a DELETE on `/api/scheduledsearches/user/{uid}` will delete all scheduled searches belonging to the specified user.
+`api/scheduledsearches/user/{uid}` に対して DELETE を実行すると、指定したユーザーに属するすべてのスケジュール検索が削除されます。
 
-### Running a test parse of a scheduled search
+### スケジュール検索のテストパースを実施する
 
-The scheduledsearches API provides an API to test scheduled searches before saving them.  The Parse API is located at `/api/scheduledsearches/parse` and is accessed via a PUT request.  An authenticated user can send a scheduled script to be parsed and checked without saving or modifying an existing scheduled script.
+scheduledsearches APIは、スケジュールされた検索を保存する前にテストするためのAPIを提供します。 ParseAPIは `/api/scheduledsearches/parse` にあり、PUTリクエストでアクセスする。 認証されたユーザーは、既存のスケジュールスクリプトを保存したり修正したりすることなく、パースされチェックされるスケジュールスクリプトを送信することができます。
 
-To Perform a parse, send the following JSON structure in the body of a PUT request `/api/scheduledsearches/parse`:
+パースを実行するには、PUTリクエストのボディに以下のJSON構造を `/api/scheduledsearches/parse` として送信してください:
 
 ```
 {
@@ -199,7 +199,8 @@ To Perform a parse, send the following JSON structure in the body of a PUT reque
 }
 ```
 
-The API will respond with the following JSON structure:
+APIは以下のようなJSON構造で応答します:
+
 ```
 {
 	OK bool
@@ -209,13 +210,13 @@ The API will respond with the following JSON structure:
 }
 ```
 
-If the script passes the parsing test, the response will contain `true` in the OK field.  The Error field will be omitted and the ErrorLine and ErrorColumn fields will both be `-1`.  If the provided script failed to parse correctly, the OK field will be `false` with the Error field indicating the failure reason and the ErrorLine and ErrorColumn indicating where in the script the error occurred.
+スクリプトがパーステストに成功すると、レスポンスのOKフィールドに `true` が含まれます。 Errorフィールドは省略され、ErrorLineとErrorColumnフィールドはともに `-1` となる。 もし、提供されたスクリプトが正しくパースできなかった場合は、OKフィールドは `false` となり、Errorフィールドは失敗の理由を、ErrorLineとErrorColumnはスクリプトのどこでエラーが発生したかを表します。
 
-The ErrorLine and ErrorColumn fields may not always be populated.  Values of -1 indicate that the script parsing system did not know where in the script the errors are located.
+ErrorLineとErrorColumnフィールドは、常に入力されるとは限りません。 値 -1 は、スクリプト解析システムがスクリプトのどこにエラーがあるかを知らないことを示す。
 
-Here is an example request and response:
+以下は、リクエストとレスポンスの例です:
 
-#### Valid Script
+#### 有効なスクリプト
 Request
 ```
 {
@@ -232,7 +233,7 @@ Response
 }
 ```
 
-#### Invalid Script
+#### 無効なスクリプト
 Request
 ```
 {

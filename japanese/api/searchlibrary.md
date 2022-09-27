@@ -1,22 +1,22 @@
-# Search Library
+# 検索ライブラリ
 
 REST API located at /api/library
 
-The search library API is used to store and retrieve saved search queries.  The search library is a useful system to build up valuable queries with names, notes, tags, and anything else that might be valuable in day-to-day operations.
+検索ライブラリAPIは、保存された検索クエリを保存・取得するために使用されます。 検索ライブラリーは、名前、メモ、タグなど、日々の業務で価値のあるクエリーを構築するのに便利なシステムです。
 
-The search library is a permissioned API, which means each user owns their search library and can optionally share them with groups.  Each library entry also has a global flag, which means any user can read the library entry.  ONLY admins can set the global flag.
+検索ライブラリはパーミッション制のAPIで、各ユーザーが自分の検索ライブラリを所有し、オプションでグループと共有することができます。 各ライブラリエントリはグローバルフラグを持ち、どのユーザもそのライブラリエントリを読むことができます。 グローバルフラグの設定は、管理者のみ可能です。
 
-Only owners can delete library entries, even if another user has access to a library entry through group membership, they cannot delete the entry.
+ライブラリーのエントリーを削除できるのはオーナーだけで、他のユーザーがグループメンバーシップによってライブラリーのエントリーにアクセスできる場合でも、エントリーを削除することはできません。
 
-## Admin Operations
+## 管理者操作
 
-Administrators interact with the search library in the same way as all other users.  If an admin wants administrative access to the library API, whether to list, delete, or modify library entries outside of their ownership they must append the `admin` flag to requests.
+管理者は他のすべてのユーザーと同じように検索ライブラリを操作します。 もし管理者が自分の所有外のライブラリエントリの一覧表示、削除、修正など、ライブラリAPIへの管理アクセスが必要な場合は、リクエストに `admin` フラグを付加する必要があります。
 
-For example, performing a GET request on `/api/library` will return only the calling users library entries (admin or not).  Performing the same GET request on `/api/library?admin=true` will return all library entries for all users.  The admin flag is ignored for non-admin users.
+例えば、`/api/library`に対してGETリクエストを行うと、呼び出したユーザーのライブラリエントリのみが返されます（管理者かどうかは関係ありません）。 同じGETリクエストを `/api/library?admin=true` に実行すると、すべてのユーザーのすべてのライブラリエントリが返されます。 adminフラグは、adminでないユーザーには無視されます。
 
-## Basic API Overview
+## 基本API概要
 
-The Library API is rooted at `/api/library` and responds to the following request methods:
+ライブラリAPIは `/api/library` にルートがあり、以下のリクエストメソッドに応答する:
 
 | method | description | Supports Admin Calls |
 | ------ | ----------- | -------------------- |
@@ -25,13 +25,13 @@ The Library API is rooted at `/api/library` and responds to the following reques
 | PUT    | Update an existing library entry | TRUE |
 | DELETE | Delete an existing library entry | TRUE |
 
-Every search library entry has both a "ThingUUID" and a "GUID" associated with it. The "ThingUUID" is always unique: there will only ever be one search library entry with a given ThingUUID on the system. The "GUID", on the other hand, is an ID which is used to refer to a search library entry from other things like dashboards or actionables; when you install a kit, all the search library entries will have the same GUID as on the kit creator's system, allowing cross-linking. Each user could potentially have a search library entry with the same GUID, but each of those entries will have a unique ThingUUID.
+すべての検索ライブラリ・エントリには、"ThingUUID "と "GUID "の両方が関連付けられています。ThingUUID」は常に一意であり、システム上に与えられたThingUUIDを持つ検索ライブラリ・エントリは1つしか存在しません。一方、"GUID "は、ダッシュボードやactionableなどの他のものから検索ライブラリ・エントリを参照するために使用されるIDです。キットをインストールすると、すべての検索ライブラリ・エントリは、キット作成者のシステム上と同じGUIDを持ち、クロスリンクが可能になります。各ユーザーは同じGUIDを持つ検索ライブラリ・エントリを持つ可能性がありますが、それらのエントリはそれぞれ固有のThingUUIDを持つことになります。
 
-The `DELETE` and `PUT` method require that the "ThingUUID" or "GUID" of a specific library entry be appended to the URL. The ThingUUID and the GUID can be used interchangeably in the API, but be aware that in "admin mode" there may be multiple accessible items with the same GUID. For example, to update the entry with the GUID of `5f72d51e-d641-11e9-9f54-efea47f6014a` a `PUT` request would be issued against `/api/library/5f72d51e-d641-11e9-9f54-efea47f6014a` with a complete entry structure encoded into the body of the request.
+`DELETE` と `PUT` メソッドでは、特定のライブラリエントリの "ThingUUID" または "GUID" を URL に付加することが必要です。APIではThingUUIDとGUIDを同じように使うことができますが、"admin mode "では同じGUIDでアクセスできるアイテムが複数存在する可能性があることに注意してください。例えば、`5f72d51e-d641-11e9-9f54-efea47f6014a`というGUIDのエントリーを更新するには、 `/api/library/5f72d51e-d641-11e9-9f54-efea47f6014a` に対して、リクエスト本文にエンコードした完全なエントリー構造で `PUT` リクエストが発行されるだろう。
 
-The `GET` method can optionally append a GUID to request a specific library entry, if not GUID is present the GET method returns a list of all available entries.  If a users does not have access to a specific entry specified by the GUID the webserver will return a response of 403.
+GUIDが存在しない場合、`GET`メソッドは利用可能なすべてのエントリのリストを返します。 もしユーザーがGUIDで指定された特定のエントリにアクセスできない場合、ウェブサーバーは403のレスポンスを返します。
 
-The structure of a library entry is as follows:
+ライブラリエントリの構造は次のとおりです:
 
 ```
 struct {
@@ -48,22 +48,22 @@ struct {
 }
 ```
 
-The structure members are:
+構造体のフィールドは以下の通りです:
 
 | Member      | Description                     | Omitted if Empty |
 | ----------- | ------------------------------- | ---------------- |
-| ThingUUID   | Unique identifier *on the local system* |                  |
-| GUID        | Global "name"; persists across kit installation. Multiple users may have search library entries with the same GUID. | |
-| UID         | Owners system user id           |                  |
-| GIDs        | List of group ids the entry is shared with | X |
-| Global      | Boolean indicating whether the entry is globally readable | |
-| Name        | A human readable name for the query | |
-| Description | A human readable description of the query | |
-| Query       | The query string | |
-| Labels      | A list of human readable labels used for categorizing queries | X |
-| Metadata    | An opaque JSON blob used for arbitrary parameter storage, just be valid JSON but does not have any particular structure | X |
+| ThingUUID   | 一位な識別子 |                  |
+| GUID        | グローバルな "名前 "で、キットのインストールを越えて永続化します。複数のユーザーが同じGUIDを持つ検索ライブラリ・エントリを持つことができます。 | |
+| UID         | 所有者ID           |                  |
+| GIDs        | エントリが共有されているグループのGID | X |
+| Global      | エントリーがグローバルに読み取り可能かどうかを示すブール値 | |
+| Name        | クエリの名前 | |
+| Description | クエリの詳細説明 | |
+| Query       | クエリ文字列 | |
+| Labels      | ラベル名 | X |
+| Metadata    | 任意のパラメータを格納するために使用される不透明なJSONブロブで、有効なJSONであればよく、特定の構造を持つことはありません。 | X |
 
-Here is an example entry that is owned by the user with UID 1 and shared with 3 groups.  The UID and GID values must be mapped back to user and group names using the user API:
+ここでは、UID 1のユーザーが所有し、3つのグループと共有しているエントリーの例を示します。 UIDとGIDの値は、ユーザーAPIを使用してユーザー名とグループ名にマップバックする必要があります:
 
 ```
 {
@@ -86,11 +86,11 @@ Here is an example entry that is owned by the user with UID 1 and shared with 3 
 ```
 
 
-## Examples API Interaction
+## API連携
 
-This section contains example interactions with the search library API endpoint.  These examples were generated using the DatalaiQ CLI using the `-debug` flag.
+このセクションは、検索ライブラリAPIエンドポイントとのインタラクションの例を含んでいます。 これらの例は、DatalaiQ CLI で `-debug` フラグを使用して生成されました。
 
-### Creating a New Entry
+### 新しいエントリを作成する
 
 Request:
 ```
@@ -109,7 +109,7 @@ POST /api/library
 }
 ```
 
-Note: Because the "GUID" field is not set here, the system will assign one. You may also include the GUID in the request.
+備考: ここでは「GUID」フィールドが設定されていないため、システムで割り当てられます。また、リクエストにGUIDを含めることもできます。
 
 Response:
 ```
@@ -130,7 +130,7 @@ Response:
 }
 
 ```
-### Retrieving Entries
+### エントリの取得
 
 Request:
 
@@ -176,7 +176,7 @@ Response:
 ]
 ```
 
-### Requesting Specific Entry
+### 特定のエントリを取得する
 
 Request:
 
@@ -208,7 +208,7 @@ Response:
 
 Note that you would get the same response from `api/library/0b5a66cb-d642-11e9-931c-0242ac130005` too.
 
-### Updating an Entry
+### エントリを更新する
 
 Request:
 ```
@@ -247,18 +247,18 @@ Response:
 }
 ```
 
-### Deleting an Entry
+### エントリを削除する
 
 Request:
 ```
 DELETE /api/library/69755a85-d5b1-11e9-89c2-0242ac130005
 ```
 
-### Admin Deleting an Entry
+### エントリの管理者権限削除
 
-If an non-admin appends the admin flag the webserver will ignore the flag, if the non-admin is the owner of the specified entry the action (DELETE in this case) still works.  If the non-admin user does NOT own the entry the webserver responds with a 403 StatusForbidden.
+非管理者が管理者フラグを付加した場合、ウェブサーバはそのフラグを無視します。非管理者が指定されたエントリの所有者である場合、アクション (この場合は DELETE) はそのまま機能します。 非管理者がそのエントリを所有していない場合、ウェブサーバは 403 StatusForbidden で応答します。
 
-When performing an admin deletion, always use the ThingUUID in the URL parameter or else the wrong item may be deleted.
+管理者削除を行う場合、URLパラメータに必ずThingUUIDを使用しないと、間違ったアイテムが削除される可能性があります。
 
 Request:
 ```
