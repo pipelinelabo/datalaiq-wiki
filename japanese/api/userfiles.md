@@ -1,36 +1,36 @@
-# User Files API
+# ユーザーファイルAPI
 
-The user files API is designed so kits can store small files for use as e.g. icons.
+ユーザーファイルAPIは、キットがアイコンなどに使用する小さなファイルを保存できるように設計されています。
 
-User files are referred to by GUID. GUIDs are not necessarily unique across a system; this allows users to have e.g. a dashboard referring to a particular file by GUID, but with each user installing their own preferred file. If multiple files exist with the same GUID, they are prioritized in the following order:
+ユーザーファイルはGUIDで参照されます。GUIDはシステム全体で必ずしも一意ではありません。これにより、例えばダッシュボードではGUIDで特定のファイルを参照しながら、各ユーザーは自分の好みのファイルをインストールすることができます。同じGUIDで複数のファイルが存在する場合、以下の順序で優先されます:
 
-* Owned by the user
-* Shared with a group the user is a member of
-* Global
+* ユーザーに所有されているユーザーファイル
+* グループのメンバーに共有されているユーザーファイル
+* グローバルに公開されているユーザーファイル
 
- Each file *does* have a unique UUID used by DatalaiQ for storage; the admin API, documented below, allows administrators to manage user files by referring to their "ThingUUID".
+ 各ファイルは、DatalaiQが保管のために使用するユニークなUUIDを持っています。以下に説明する管理者APIにより、管理者はその「ThingUUID」を参照しながらユーザーファイルを管理することができます。
 
-## Create a user file
+## ユーザーファイルを作成する
 
-User files can be created by POST request to `/api/files`. The request should be a multipart request in one of two formats.
+ユーザーファイルは `/api/files` への POST リクエストで作成することができます。リクエストは2つのフォーマットのうちの1つであるマルチパートリクエストでなければならない。
 
-### Simple file creation request format
+### 簡易ファイル作成リクエストフォーマット
 
-Submit a POST request to `/api/files` with the following fields:
+以下のフィールドを指定して、`/api/files` に POST リクエストを送信します:
 
-* `file`: the body of the file
-* `name`: the name of the file
-* `desc`: the description of the file
-* `guid`: (optional) the desired GUID for this file. If not set, one will be generated.
+* `file`: ファイル本文
+* `name`: ファイル名
+* `desc`: ファイル詳細
+* `guid`: (任意) このファイルに必要なGUIDを指定します。設定されていない場合は、1つのGUIDが生成されます。
 
-### Detailed file creation request format
+### 詳細ファイル作成リクエストフォーマット
 
-Submit a POST request to `/api/files` with the following fields:
+以下のフィールドを指定して、`/api/files` に POST リクエストを送信します:
 
-* `file`: the body of the file
-* `meta`: a JSON-encoded structure describing desired ownership / sharing details as shown below.
+* `file`: ファイル本文
+* `meta`: 以下のような、希望する所有権と共有の詳細を記述するJSONエンコードされた構造体です。
 
-The "meta" field should be a JSON-encoded string describing sharing and ownership:
+meta "フィールドは、共有と所有権を記述するJSONエンコードされた文字列である必要があります:
 
 ```
 {
@@ -43,12 +43,12 @@ The "meta" field should be a JSON-encoded string describing sharing and ownershi
 }
 ```
 
-Note: only administrators can set the UID field to another user's UID, or set the Global field to true.
+備考: 管理者のみがUIDフィールドを他のユーザーのUIDに設定したり、Globalフィールドをtrueに設定したりすることができます。
 
 
-## Listing files
+## ファイルズファイルをリスト表示する
 
-User files may be listed by a GET on `/api/files`. The result is an array of structures containing file information:
+ユーザーファイルは `/api/files` に対する GET でリストアップすることができる。結果は、ファイル情報を含む構造体の配列となります:
 
 ```
 [
@@ -68,17 +68,17 @@ User files may be listed by a GET on `/api/files`. The result is an array of str
 ]
 ```
 
-## Reading a file's contents
+## ファイル本文を読み出す
 
-The contents of a file may be read by a GET request on `/api/files/<uuid>`, e.g. to read the file in the listing above `/api/files/1945c39e-0bd1-40cf-b069-6da64d3f8afe`.
+ファイルの内容は `/api/files/<uuid>` へのGETリクエストで読み取ることができます。例えば、上記のリストにある `/api/files/1945c39e-0bd1-40cf-b069-6da64d3f8afe` のファイルを読み取るには、このようにします。
 
-## Updating a file
+## ファイルを更新する
 
-A file's contents can be changed via a POST request to `/api/files/<uuid>`. The request should be identical to one used to create a new file, but only the `file` field will be honored. To change other fields, see below.
+ファイルの内容は `/api/files/<uuid>` への POST リクエストで変更することができます。このリクエストは新しいファイルを作成する場合と同じですが、`file` フィールドだけが尊重されます。他のフィールドを変更するには、以下を参照してください。
 
-## Updating file metadata
+## ファイルのメタデータを更新する
 
-The various fields of a file (Name, Desc, Global, GIDs, Labels) can be updated with a PATCH request to `/api/files/<uuid>`. The body of the request should contain the same structure as was returned in a list (GET `/api/files`), e.g.:
+ファイルの様々なフィールド(Name, Desc, Global, GID, Labels)は `/api/files/<uuid>` への PATCH リクエストで更新することができます。リクエストのボディは、リスト (GET `/api/files`) で返されたものと同じ構造である必要があります:
 
 ```
 {
@@ -91,18 +91,18 @@ The various fields of a file (Name, Desc, Global, GIDs, Labels) can be updated w
 }
 ```
 
-Note that any fields beyond those show above may be present but will be ignored.
+上記以外のフィールドが存在しても無視されることに注意。
 
-Attention: The UID of a file may be changed, but only by an administrator and only when the `?admin=true` parameter has been set.
+注意: ファイルのUIDは変更することができますが、それは管理者のみで、`?admin=true`パラメータが設定されているときだけです。
 
-## Deleting a file
+## ファイルを削除する
 
-User files may be removed via a DELETE on `/api/files/<uuid>`
+ユーザーファイルは `/api/files/<uuid>` の DELETE で削除することができます。
 
-## Admin actions
+## 管理者操作
 
-Admin users may occasionally need to view all user files on the system, modify them, or delete them. Because GUIDs are not necessarily unique, the admin API must refer instead to the unique UUID DatalaiQ uses internally to store the items. Note that the example file listings above include a field named "ThingUUID". This is the internal, unique identifier for that user file.
+管理者ユーザーは、システム上のすべてのユーザー・ファイルを表示したり、変更したり、削除したりする必要がある場合があります。GUIDは必ずしも一意ではないため、管理者APIは代わりにDatalaiQがアイテムの保存に内部的に使用している一意のUUIDを参照する必要があります。上記のサンプル・ファイルのリストには、"ThingUUID "という名前のフィールドが含まれていることに注意してください。これは、そのユーザー・ファイルに対する内部的で一意な識別子です。
 
-An administrator user may obtain a global listing of all user files in the system with a GET request on `/api/files?admin=true`.
+管理者ユーザーは、`/api/files?admin=true`のGETリクエストで、システム内のすべてのユーザーファイルのグローバルリストを取得することができます。
 
-The administrator may then delete a particular file with a DELETE message to `/api/files/<ThingUUID>?admin=true`, substituting in the ThingUUID value for the desired file. The same pattern applies to updating.
+管理者は、`/api/files/<ThingUUID>?admin=true`へのDELETEメッセージで、希望するファイルのThingUUID値を代入して、特定のファイルを削除することができます。同じパターンが更新にも適用されます。

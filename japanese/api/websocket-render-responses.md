@@ -1,30 +1,30 @@
-# Response formats
+# リクエストフォーマット
 
-Although all modules respond to the same commands, the format in which they return entries differs due to the differing nature of the data types involved. The responses described here are common to RESP_GET_ENTRIES, RESP_STREAMING, and RESP_TS_RANGE; we use these request/response IDs through the examples in this section.
+すべてのモジュールは同じコマンドに応答しますが、関連するデータ型の性質が異なるため、エントリを返す形式は異なります。ここで説明する応答は、RESP_GET_ENTRIES、RESP_STREAMING、RESP_TS_RANGE に共通です。このセクションの例では、これらのリクエスト/レスポンス ID を使用します。
 
-## Render Store Limits
+## レンダー保存制限
 
-Note that DatalaiQ has limits in place to prevent users from consuming too much disk space with query results. By default, searches can generate a maximum 1GB of output; this is configurable through the `Render-Store-Limit` parameter in `gravwell.conf`. Once the limit is exceeded, the renderer will stop storing results, but will otherwise allow the search to complete.
+DatalaiQは、ユーザがクエリ結果のために大量のディスクスペースを消費することを防ぐために制限を設けていることに注意してください。デフォルトでは、検索は最大1GBの出力を生成します。これは `gravwell.conf` の `Render-Store-Limit` パラメータで設定することができます。この制限を超えると、レンダラーは結果の保存を停止しますが、それ以外の場合は検索を完了させることができます。
 
-All search socket response messages may contain the fields `OverLimit` and `LimitDroppedRange`. OverLimit is a boolean, set to true if the search results exceeded the limits. LimitDroppedRange indicates what, if any, time range of results has been dropped.
+すべての検索ソケットの応答メッセージは、フィールド `OverLimit` と `LimitDroppedRange` を含むことができる。OverLimit はブール値で、検索結果が制限を超えた場合に true に設定されます。LimitDroppedRange は、どの時間帯の結果がドロップされたかを示します。
 
-Here is an example from a search which exceeded the limits:
+以下は、制限を超えた検索結果の例です:
 
 ```
 "OverLimit":true,
 "LimitDroppedRange":{"StartTS":"2021-03-11T09:10:54.199-08:00","EndTS":"2021-03-11T09:36:00-08:00"},
 ```
 
-Here is an example of what you might see for a search which does *not* exceed the limits:
+以下は、制限を超えない範囲での検索結果の例です:
 
 ```
 "OverLimit":false,
 "LimitDroppedRange":{"StartTS":"0000-12-31T16:07:02-07:52","EndTS":"0000-12-31T16:07:02-07:52"},
 ```
 
-## Text & raw module responses
+## Text&rawモジュールレスポンス
 
-The 'text' and 'raw' render modules return their entries as an array in a field labeled "Entries":
+'text' と 'raw' レンダーモジュールは、"Entries" というラベルのついたフィールドにエントリーを配列として返します:
 
 ```
 {
@@ -59,9 +59,9 @@ The 'text' and 'raw' render modules return their entries as an array in a field 
 }
 ```
 
-## Table module responses
+## テーブルモジュールレスポンス
 
-The table module returns the entries in a field called "Entries", containing a structure defining Rows and Columns:
+tableモジュールは、行と列を定義した構造を含む "Entries "というフィールドのエントリーを返します:
 
 ```
 {
@@ -97,9 +97,9 @@ The table module returns the entries in a field called "Entries", containing a s
 }
 ```
 
-## Gauge module responses
+## ゲージモジュールレスポンス
 
-The gauge module returns entries as an array of structures containing the gauge's name, the magnitude, and (optionally) the minimum and maximum values defined for this gauge:
+ゲージモジュールは、ゲージの名前、大きさ、そして（オプションで）このゲージに定義された最小値と最大値を含む構造体の配列としてエントリを返します:
 
 ```
 {
@@ -120,17 +120,17 @@ The gauge module returns entries as an array of structures containing the gauge'
 }
 ```
 
-## Point-to-Point module responses
+## Point-to-Pointモジュールレスポンス
 
-The point2point module returns an array of entries containing DstLocation, SrcLocation, and Magnitude fields. Optionally, the entries may also contain a 'Values' array, containing additional enumerated values specified as arguments to the renderer. The names for these enumerated values are given in the 'ValueNames' array.
+point2point モジュールは、DstLocation, SrcLocation, Magnitude フィールドを含むエントリの配列を返します。オプションで、エントリには 'Values' 配列を含めることができます。これは、 renderer への引数として指定した追加の列挙された値を含みます。これらの列挙された値の名前は 'ValueNames' 配列で表されます。
 
-This query:
+以下はクエリ例です:
 
 ```
 tag=pcap packet tcp.Port ipv4.SrcIP ipv4.DstIP ipv4.Length | geoip SrcIP.Location as srcloc DstIP.Location as dstloc | sum Length by srcloc dstloc | point2point -srcloc srcloc -dstloc dstloc -mag sum SrcIP DstIP
 ```
 
-should produce a result like this:
+以下のような結果が返されます:
 
 ```
 {
@@ -189,11 +189,11 @@ should produce a result like this:
 }
 ```
 
-Note that the "Values" arrays on each entry correspond to the titles in the "ValueNames" array, e.g. the first entry has a "SrcIP" of 151.11.24.133.
+各エントリの "Value" 配列は "ValueNames" 配列のタイトルに対応していることに注意してください。たとえば、最初のエントリの "SrcIP" は 151.11.24.133 となります。
 
-## Chart module responses
+## チャートモジュールレスポンス
 
-The chart module returns entries in a field called "Entries", containing a structure which defines "Names" and "Values". The "Names" component is an array of names for the lines being plotted; in the case of this example, it contains IP addresses. The "Values" component contains a timestamp and a "Data" array; the elements in the Data array are the values corresponding to the names in the "Names" array at the given timestamp.
+チャートモジュールは、"Entries "というフィールドに、"Names" と "Values" を定義した構造体を含むエントリーを返す。Names "コンポーネントは、プロットされる線の名前の配列であり、この例ではIPアドレスを含んでいる。Value "コンポーネントには、タイムスタンプと "Data "配列が含まれ、Data配列の要素は、与えられたタイムスタンプにおける "Names "配列の名前に対応する値である。
 
 ```
 {
@@ -256,13 +256,13 @@ The chart module returns entries in a field called "Entries", containing a struc
 }
 ```
 
-## Force Directed Graph responses
+## Force Directed Graphレスポンス
 
-The fdg module's responses are the most complex. There are three sections to the data returned: groups, links, and nodes.
+fdg モジュールの応答は最も複雑である。返されるデータには、グループ、リンク、ノードの3つのセクションがあります。
 
-The nodes and links represent the graph. Each node has a name and a group to which it belongs. Links are directional, so they specify a source node and a target node as indexes into the array of nodes, plus a 'value', which represents how "weighty" the link is (in this example, the value is always 1, but it will often be larger).
+ノードとリンクはグラフを表す。各ノードには名前と所属するグループがある。リンクは方向性を持っており、ノードの配列のインデックスとしてソースノードとターゲットノードを指定し、さらにリンクの「重み」を表す「値」を指定する（この例では値は常に1だが、もっと大きくなることも多い）。
 
-Groups are defined in the search and are used to color nodes in the fdg display. In this example there are three groups: "operations", "IT", and an unnamed group. Each node belongs to one of the groups, referenced by their index in the groups array.
+グループは検索で定義され、fdg表示でノードに色をつけるのに使われます。この例では、3つのグループがあります。"operations"、"IT"、そして無名のグループです。各ノードはグループのいずれかに属しており、groups 配列のインデックスで参照されます。
 
 ```
 {

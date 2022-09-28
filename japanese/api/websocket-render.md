@@ -1,65 +1,65 @@
-# The render module API
+# レンダーモジュールAPI
 
-The render modules provide an API for retrieving information about a search, the actual entries of the search, and statistics about the search. API commands are sent as JSON over the websocket subprotocol established when the search is launched; see the [search API documentation](#!api/websocket-search.md) for information on subprotocols and launching searches.
+レンダーモジュールは、検索に関する情報、検索の実際のエントリー、検索に関する統計情報を取得するためのAPIを提供します。APIコマンドは、検索が開始されたときに確立されたwebsocketサブプロトコル上でJSONとして送信されます。サブプロトコルや検索の開始に関する情報は、[クエリAPIドキュメント](#!api/websocket-search.md)をご覧ください。
 
-Beyond the contents of these articles, the easiest way to see how the render module commands work is via a web browser's console (F12 in Chrome). Find the section which shows Websocket traffic and browse the messages sent/received:
+これらの記事の内容を超えて、レンダーモジュールのコマンドがどのように動作するかを確認する最も簡単な方法は、ウェブブラウザのコンソール（Chrome では F12）を使用する方法です。Websocket トラフィックを表示するセクションを探し、送受信されるメッセージを閲覧します:
 
 ![](webconsole.png)
 
-Another way to observe websocket traffic is by running the [DatalaiQ CLI client](#!cli/cli.md) with the `-debug` flag. The flag takes a filename as an argument; JSON messages sent to and read from the websocket will be written to that file.
+ウェブソケットのトラフィックを観察するもう一つの方法は、[DatalaiQ CLI](#!cli/cli.md)を `-debug` フラグ付きで実行する方法です。このフラグは引数としてファイル名を取ります。ウェブソケットに送信されたJSONメッセージやウェブソケットから読み込まれたJSONメッセージは、そのファイルに書き込まれます。
 
-## Operation IDs universal to all render modules
+## すべてのレンダーモジュールに共通するオペレーションID
 
-All render modules will respond to the following requests:
+すべてのレンダーモジュールは、以下のリクエストに応答します:
 
 | Request name | Hex value | Decimal value | Description |
 |--------------|-----------|---------------|-------------|
-| REQ_CLOSE				| 0x1			| 1			| Close the channel |
-| REQ_ENTRY_COUNT		| 0x3			| 3			| Get the number of entries seen|
-| REQ_SEARCH_DETAILS	| 0x4			| 4			| Get detailed info about the search |
-| REQ_SEARCH_TAGS		| 0x5			| 5			| Get the tag map used in the search |
-| REQ_GET_ENTRIES		| 0x10			| 16		| Request a block of search entries by index |
-| REQ_STREAMING			| 0x11			| 17		| Request that search entries be sent as they come in |
-| REQ_TS_RANGE			| 0x12			| 18		| Request a block of entries by time range |
-| REQ_GET_EXPLORE_ENTRIES	| 0xf010	| 61456		| Request a block of entries by index, with [data exploration](explore.md) applied |
-| REQ_EXPLORE_TS_RANGE		| 0xf012	| 61458		| Request a block of entries by time range, with [data exploration](explore.md) applied |
-| REQ_STATS_SIZE		| 0x7F000001	| 2130706433| Request the size of the statistics data |
-| REQ_STATS_RANGE		| 0x7F000002	| 2130706434| Request the time range of available stats |
-| REQ_STATS_GET			| 0x7F000003	| 2130706435| Request stats |
-| REQ_STATS_GET_RANGE	| 0x7F000004	| 2130706436| Request stats from a particular time range |
-| REQ_STATS_GET_SUMMARY	| 0x7F000005	| 2130706437| Request a summary of statistics |
-| REQ_SEARCH_METADATA   | 0x10001 | 65537 | Requests the enumerated value metadata stats for a query |
+| REQ_CLOSE				| 0x1			| 1			| チャンネルを閉じる |
+| REQ_ENTRY_COUNT		| 0x3			| 3			| 見たことのあるエントリー数を取得する|
+| REQ_SEARCH_DETAILS	| 0x4			| 4			| 検索に関する詳細情報を取得する |
+| REQ_SEARCH_TAGS		| 0x5			| 5			| 検索に使用したタグマップを取得する |
+| REQ_GET_ENTRIES		| 0x10			| 16		| インデックスによる検索エントリーのブロックを要求する |
+| REQ_STREAMING			| 0x11			| 17		| 検索エントリーを順次送信するよう依頼する |
+| REQ_TS_RANGE			| 0x12			| 18		| 時間帯別のブロック単位で要求する |
+| REQ_GET_EXPLORE_ENTRIES	| 0xf010	| 61456		| [データエクスプローラー](explorer.md)を適用し、インデックスによるエントリーのブロックを要求する。 |
+| REQ_EXPLORE_TS_RANGE		| 0xf012	| 61458		| [データエクスプローラー](explorer.md)を適用して、時間範囲ごとにブロック化したエントリーをリクエストする。 |
+| REQ_STATS_SIZE		| 0x7F000001	| 2130706433| 統計データのサイズを要求する |
+| REQ_STATS_RANGE		| 0x7F000002	| 2130706434| 利用可能な統計情報の時間範囲を要求する |
+| REQ_STATS_GET			| 0x7F000003	| 2130706435| 統計情報を要求する |
+| REQ_STATS_GET_RANGE	| 0x7F000004	| 2130706436| 特定の時間範囲から統計情報を要求する |
+| REQ_STATS_GET_SUMMARY	| 0x7F000005	| 2130706437| 統計の要約を請求する |
+| REQ_SEARCH_METADATA   | 0x10001 | 65537 | クエリの列挙値メタデータの統計情報を要求します |
 
-Response values are the same as the request, with the addition of the special response code `RESP_ERROR` (0xFFFFFFFF)
+レスポンス値はリクエストと同じであるが、特別なレスポンスコード `RESP_ERROR` (0xFFFFFF) が追加されます。
 
 | Response name | Hex value | Decimal value | Description |
 |--------------|-----------|---------------|-------------|
 | RESP_ERROR				| 0xFFFFFFFF	| 4294967295| (error) |
-| RESP_CLOSE				| 0x1			| 1			| Socket will be closed |
-| RESP_ENTRY_COUNT			| 0x3			| 3			| Returning # of entries |
-| RESP_SEARCH_DETAILS		| 0x4			| 4			| Returning info about search |
-| RESP_SEARCH_TAGS			| 0x5			| 5			| Returning tag map for search |
-| RESP_GET_ENTRIES			| 0x10			| 16		| Returning search entries|
-| RESP_STREAMING			| 0x11			| 17		| Search entries will be streamed|
-| RESP_TS_RANGE				| 0x12			| 18		| Returning a block of entries for a time range |
-| RESP_GET_EXPLORE_ENTRIES	| 0xf010	| 61456		| Returning a block of entries by index, with [data exploration](explore.md) applied |
-| RESP_EXPLORE_TS_RANGE		| 0xf012	| 61458		| Returning a block of entries by time range, with [data exploration](explore.md) applied |
-| RESP_STATS_SIZE			| 0x7F000001	| 2130706433| Returning size of stats data |
-| RESP_STATS_RANGE			| 0x7F000002	| 2130706434| Returning the time range for stats |
-| RESP_STATS_GET			| 0x7F000003	| 2130706435| Returning stats |
-| RESP_STATS_GET_RANGE		| 0x7F000004	| 2130706436| Returning stats for a time range |
-| RESP_STATS_GET_SUMMARY	| 0x7F000005	| 2130706437| Returning stats summary |
-| RESP_SEARCH_METADATA           | 0x10001 | 65537 | Returning the enumerated value metadata stats for a query |
+| RESP_CLOSE				| 0x1			| 1			| ソケットが閉じられます |
+| RESP_ENTRY_COUNT			| 0x3			| 3			| エントリー数表示 |
+| RESP_SEARCH_DETAILS		| 0x4			| 4			| 検索に関する情報を返す |
+| RESP_SEARCH_TAGS			| 0x5			| 5			| 検索用タグマップの返送 |
+| RESP_GET_ENTRIES			| 0x10			| 16		| 検索項目を返す|
+| RESP_STREAMING			| 0x11			| 17		| サーチエントリーをストリーミング配信します|
+| RESP_TS_RANGE				| 0x12			| 18		| 時間範囲内のエントリーのブロックを返す |
+| RESP_GET_EXPLORE_ENTRIES	| 0xf010	| 61456		| [データエクスプローラ-](explorer.md)を適用し、インデックスによるエントリーのブロックを返す。 |
+| RESP_EXPLORE_TS_RANGE		| 0xf012	| 61458		| [データエクスプローラー](explorer.md)を適用して、時間範囲ごとにブロック化したエントリーを返す。 |
+| RESP_STATS_SIZE			| 0x7F000001	| 2130706433| 統計データのサイズを返す |
+| RESP_STATS_RANGE			| 0x7F000002	| 2130706434| 統計情報の時間範囲を返す |
+| RESP_STATS_GET			| 0x7F000003	| 2130706435| 統計情報を返す |
+| RESP_STATS_GET_RANGE		| 0x7F000004	| 2130706436| 時間範囲内の統計情報を返す |
+| RESP_STATS_GET_SUMMARY	| 0x7F000005	| 2130706437| 統計情報の概要を返す |
+| RESP_SEARCH_METADATA           | 0x10001 | 65537 | クエリの列挙値メタデータの統計情報を返す |
 
-API requests should be sent as JSON over the search subprotocol established during search creation.
+APIリクエストは、検索作成時に確立された検索サブプロトコル上でJSONとして送信する必要があります。
 
-## Response formats
+## レスポンスフォーマット
 
-Although all modules respond to the same commands, the format in which they return entries differs due to the differing nature of the data types involved. The [Renderer API Response Formats document](websocket-render-responses.md) describes the response formats used by each render module. Examples shown in the rest of this article show responses from the text and table renderers.
+すべてのモジュールは同じコマンドに応答しますが、関係するデータ型の性質が異なるため、エントリーを返す形式は異なります。[レンダーAPIレスポンスフォーマット](websocket-render-responses.md) には、各レンダー モジュールが使用する応答形式が記載されています。この記事の残りの部分で示す例は、テキスト レンダラーとテーブル レンダラーからの応答です。
 
-## Closing the channel (request 0x1)
+## チャンネルを閉じる
 
-To close the current connection to a search, send the following structure to the websocket:
+検索への現在の接続を閉じるには、次の構造体をウェブソケットに送信します:
 
 ```
 {
@@ -67,7 +67,7 @@ To close the current connection to a search, send the following structure to the
 }
 ```
 
-The socket should respond:
+以下のようなレスポンスになるでしょう:
 
 ```
 {
@@ -79,9 +79,9 @@ The socket should respond:
 }
 ```
 
-## Get entry count (request 0x3)
+## エントリ数を取得する
 
-The REQ_ENTRY_COUNT command requests the total number of entries that reached the render module:
+REQ_ENTRY_COUNTコマンドは、レンダーモジュールに到達したエントリーの総数を要求します:
 
 ```
 {
@@ -89,7 +89,7 @@ The REQ_ENTRY_COUNT command requests the total number of entries that reached th
 }
 ```
 
-In this example, the module responded that it had 41 entries:
+この例では、モジュールは41のエントリーがあると回答している:
 
 ```
 {
@@ -100,11 +100,11 @@ In this example, the module responded that it had 41 entries:
 }
 ```
 
-Attention: The number reported here is the **total number of entries the renderer has received**. When using other commands such as REQ_GET_ENTRIES, fewer entries may be returned; this is because some renderers (such as table and chart) are *condensing* renderers.
+注意: ここで報告される数は、**レンダラーが受信したエントリーの総数です**。REQ_GET_ENTRIESなどの他のコマンドを使用すると、返されるエントリが少なくなることがあります。これは、一部のレンダラー（表やグラフなど）が*凝縮*レンダラーであるためです。
 
-## Get search details (request 0x4)
+## 検索の詳細を取得する
 
-The REQ_SEARCH_DETAILS command (0x4) requests information about the search itself:
+REQ_SEARCH_DETAILSコマンド（0x4）は、検索そのものに関する情報を要求するコマンドである:
 
 ```
 {
@@ -112,7 +112,7 @@ The REQ_SEARCH_DETAILS command (0x4) requests information about the search itsel
 }
 ```
 
-The response contains stats information and information about the search itself:
+レスポンスには、統計情報と検索そのものに関する情報が含まれる:
 
 ```
 {
@@ -211,9 +211,9 @@ The response contains stats information and information about the search itself:
 }
 ```
 
-## Getting the tag map (request 0x5)
+## タグマッピングを取得する
 
-To ask for the tag map, send request ID 0x5 down the standard websocket subprotocol:
+タグマップを取得するには、標準的なウェブソケットサブプロトコルでリクエストID 0x5を送信します:
 
 ```
 {
@@ -221,7 +221,7 @@ To ask for the tag map, send request ID 0x5 down the standard websocket subproto
 }
 ```
 
-The response should look like this, showing a map of tag names to numeric tag indexes:
+タグの名前とタグのインデックスの数値の対応表は以下のようになります:
 
 ```
 {
@@ -236,11 +236,11 @@ The response should look like this, showing a map of tag names to numeric tag in
 }
 ```
 
-## Fetching entries (request 0x10)
+## エントリを取得する
 
-Request 0x10 (decimal 16) requests a block of entries from the renderer. Use the `First` and `Last` fields to specify which entries are desired. The renderer will report how many entries there are in response to a REQ_ENTRY_COUNT (0x3) request.
+リクエスト0x10(10進数16)はレンダラーにエントリーのブロックを要求します。`First` と `Last` フィールドを使用して、希望するエントリーを指定します。レンダラーは、REQ_ENTRY_COUNT (0x3) リクエストに応答して、エントリーの数を報告します。
 
-This command requests the first 1024 entries (`First` defaults to 0 if not specified):
+このコマンドは、最初の1024個のエントリーを要求する（`First`は指定されない場合、デフォルトで0になる）:
 
 ```
 {
@@ -251,7 +251,7 @@ This command requests the first 1024 entries (`First` defaults to 0 if not speci
 }
 ```
 
-The server responds with an array of entries and additional information.
+サーバーは、エントリーの配列と追加情報を応答する。
 
 ```
 {
@@ -287,13 +287,13 @@ The server responds with an array of entries and additional information.
 }
 ```
 
-Note the `"AdditionalEntries": false` field; this means that there are no further entries to be read. If this field had come back set to true, more entries could be read by re-issuing the command with `First` set to 1024 and `Last` set to 2048, repeating until no more entries are available.
+`AdditionalEntries": false` フィールドに注目してください。これは、これ以上読み込むべきエントリがないことを意味します。もしこのフィールドが true に設定されて戻ってきたら、`First` を 1024 に、`Last` を 2048 に設定してコマンドを再発行し、利用できるエントリがなくなるまで繰り返すことで、さらにエントリを読み込むことができます。
 
-## Request streamed results (request 0x11)
+## ストリーム結果を取得する
 
-By sending a request ID 0x11, a client can request that the renderer send entries as quickly as possible via the websocket. This is generally not recommended unless the entries will be immediately written to a disk or other simple operation; the render module can frequently output results faster than the client can process them. We recommend using the REQ_GET_ENTRIES command to fetch results block-by-block.
+要求 ID 0x11 を送信すると、クライアントはレンダラーに Web ソケット経由でできるだけ早くエントリを送信するように要求できます。これは、エントリーがすぐにディスクに書き込まれるか、その他の簡単な操作でない限り、一般に推奨されません。レンダー モジュールは、クライアントが処理できるよりも速く結果を出力することがよくあります。結果をブロックごとに取得するには、REQ_GET_ENTRIES コマンドを使用することをお勧めします。
 
-To request streaming:
+以下のようにリクエストします:
 
 ```
 {
@@ -301,7 +301,7 @@ To request streaming:
 }
 ```
 
-The renderer will begin send large blocks of entries as quickly as it can:
+レンダラーは、大きなエントリーのブロックを出来るだけ早く送信し始めます:
 
 ```
 {
@@ -338,13 +338,13 @@ The renderer will begin send large blocks of entries as quickly as it can:
 }
 ```
 
-In this case, the renderer sent many blocks of 1000 entries, then a block containing the 861 remaining blocks, and a final block containing 0 entries. This final block of 0 entries signals that no further entries will be sent.
+この場合、レンダラーは1000エントリーのブロックを多数送信し、次に残りの861ブロックを含むブロックを送信し、最後に0エントリーを含むブロックを送信しました。この0エントリーの最終ブロックは、これ以上エントリーを送信しないことを示すものである。
 
-Attention: Please use great care when enabling streaming results.
+注意: ストリーミング結果を有効にする場合は、十分な注意を払うようにしてください。
 
-## Requesting entries from a particular time range (request 0x12)
+## 特定の時間範囲のエントリを取得する
 
-Use request 0x12 (REQ_TS_RANGE) to fetch entries for a particular portion of the search range. Because there may also be a large number of entries, use the `First` and `Last` fields as with REQ_GET_ENTRIES to fetch a block at a time, in this case the first 100 entries:
+検索範囲の特定の部分のエントリーを取得するには、リクエスト0x12 (REQ_TS_RANGE) を使用します。大量のエントリが存在する可能性があるので、 REQ_GET_ENTRIES と同様に `First` と `Last` フィールドを使用して、一度にひとつのブロック (この場合は最初の 100 エントリ) をフェッチします:
 
 ```
 {
@@ -358,7 +358,7 @@ Use request 0x12 (REQ_TS_RANGE) to fetch entries for a particular portion of the
 }
 ```
 
-The server responds with entries which fall within the requested time:
+サーバーは、要求された時間内に収まるエントリで応答します:
 
 ```
 {
@@ -389,11 +389,11 @@ The server responds with entries which fall within the requested time:
 }
 ```
 
-In this case, there were fewer than 100 entries. If there were more, the `AdditionalEntries` field would have been set to `true`; more entries could be fetched by sending another request with the same timestamps but changing the `First` field to 100 and the `Last` field to 200 to fetch the next block of 100 entries.
+この場合、エントリーは100件未満でした。もしそれ以上あったなら、 `AdditionalEntries` フィールドは `true` に設定されていたでしょう。同じタイムスタンプで別のリクエストを送ることで、より多くのエントリーを取得することができますが、 `First` フィールドを 100 に、 `Last` フィールドを 200 に変更して次のブロックの 100 エントリーを取得することができます。
 
-## Get current stats entry count (request 0x7F000001)
+## 現在の統計情報のカウントを取得する
 
-As a search runs, statistics entries are generated. The number of entries can be retrieved using the 0x7F000001 (REQ_STATS_SIZE) request:
+検索が実行されると、統計エントリが生成される。エントリ数は、0x7F000001 (REQ_STATS_SIZE) リクエストを使用して取得することができます:
 
 ```
 {
@@ -401,7 +401,7 @@ As a search runs, statistics entries are generated. The number of entries can be
 }
 ```
 
-The server will respond with the number of stats entries:
+サーバーは、統計エントリーの数を応答します:
 
 ```
 {
@@ -412,9 +412,9 @@ The server will respond with the number of stats entries:
 }
 ```
 
-## Get current time range covered by stats (request 0x7F000002)
+## 統計情報によってカバーされる現在の時間範囲を取得する
 
-This command returns the time range for which search stats are available. Send the command:
+このコマンドは、検索統計が利用可能な時間範囲を返します。コマンドを送信します:
 
 ```
 {
@@ -436,13 +436,13 @@ The server responds:
 }
 ```
 
-The Size parameter handed back tells us the maximum granularity available.  In this example the issued search only covered 2 seconds, so the client can ask for a maximum granularity of 2 (or one stat entry for each second worth of data).  The webserver has a maximum count of 65k stat entries held, unless the search is issued with "full resolution stats" which allows for unlimited granularity (as permitted by memory and storage)
+返されたSizeパラメータは、利用可能な最大粒度を示します。 この例では、発行された検索は 2 秒間しかカバーしていないので、 クライアントは最大粒度を 2 (あるいは 1 秒分のデータに対して 1 つの stat エントリ) にするよう要求することができます。 ウェブサーバが保持する統計エントリの最大数は65kである。ただし、検索が「完全解像度統計」で発行された場合は、メモリとストレージの許容範囲内で無制限の粒度を使用することができる。
 
-## Asking for stats sets (request 0x7F000003)
+## 統計情報セットの依頼
 
-Stat sets are requested by providing how many "chunks" you want.  For example, there may be 65k stats sets if a search was run over a months worth of data, but for display you may want those stats in increments of 10, 100, or 1000 to show different granularities.
+統計セットは、必要な「チャンク」数を指定することで要求されます。 例えば、1ヶ月分のデータを検索した場合、65k個の統計セットがありますが、表示には、10、100、1000の単位で、異なる粒度の統計データを表示することができます。
 
-To get different granularities, you send a SetCount in your StatsRequest.  In this example we ask for a set of size 1 (summarize all modules):
+異なる粒度を得るには、StatsRequest で SetCount を送信します。 この例では、サイズ 1 のセット (すべてのモジュールをまとめる) を要求しています:
 
 ```
 {
@@ -453,7 +453,7 @@ To get different granularities, you send a SetCount in your StatsRequest.  In th
 }
 ```
 
-The response contains only a single Stats entry:
+レスポンスには、Statsの項目が1つだけ含まれています:
 
 ```
 {
@@ -494,9 +494,9 @@ The response contains only a single Stats entry:
 }
 ```
 
-## Asking for stats sets over a specific time range (request 0x7F000006)
+## 特定の時間範囲での統計セットを要求する
 
-In this example we ask for a set of size 1 (summarize all modules) between 2016-09-09T06:02:14Z and 2016-09-09T06:02:16Z.  It is important to note that the SetCount number is used to generate a "ChunkSize" that is uniform across the requested range.  For example if your search has data from 2016-01-09T06:02:16Z to 2016-12-09T06:02:16Z (11-ish months) but you gave a range of 1901-01-01T06:02:16Z to 2016-01-01T06:02:16Z and a SetSize of 100, you will only get one stats size, because the "ChunkSize" for that range and size is much larger than the span of time you actually have data for.
+この例では、2016-09-09T06:02:14Z から 2016-09-09T06:02:16Z の間のサイズ 1 のセット（すべてのモジュールをまとめる）を要求しています。 ここで重要なのは、SetCountの数値は、要求された範囲に渡って均一な「ChunkSize」を生成するために使用されるということです。 例えば、2016-01-09T06:02:16Z から 2016-12-09T06:02:16Z (11-ish months) までのデータがあるのに、範囲を 1901-01-01T06:02:16Z から 2016-01-01T06:02:16Z にして SetSize を 100 にすると、その範囲とサイズの "ChunkSize" は実際にデータがある期間よりはるかに大きいので、1つの統計サイズしか取得できないのです。
 
 ```
 {
@@ -601,9 +601,9 @@ Response:
 }
 ```
 
-## Asking for search metadata (request 0x10001)
+## 検索のメタデータを取得する
 
-This message requests a high-level survey of enumerated values which passed through the pipeline. Below a sample query and an example of the sort of metadata which may be generated:
+このメッセージは、パイプラインを通過した列挙値のハイレベルな調査を要求します。以下は、クエリの例と生成されるメタデータの例です:
 
 ```
 tag=syslog syslog Hostname Appname |

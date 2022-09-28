@@ -1,18 +1,18 @@
-## Reattaching to an existing search
-Attaching to a search that already exists is performed through the existing websocket using another subprotocol named "attach" which must be negotiated along with "search", "parse", and "PONG" when connecting.
+## 既存の検索に再アタッチする
+既に存在する検索へのアタッチは、接続時に「search」、「parse」、「PONG」とともにネゴシエートされなければならない「attach」という名前の別のサブプロトコルを使用して、既存のウェブソケットを通じて実行されます。
 
-#### Permissions
-Users must either be a member of the group the search is assigned, the owner, or an admin in order to attach to searches.  If a user is not allowed to attach to a search, a permission denied message will be sent back over the socket.
+#### 権限
+検索に参加するためには、ユーザーは検索に割り当てられたグループのメンバー、オーナー、または管理者である必要があります。 ユーザーが検索に添付することを許可されていない場合、permission deniedメッセージがソケットを介して返送されます。
 
-### Requesting to attach to a search
-Basically you just pass in the ID in and the server will respond with either an Error, or a new SubProto, RenderMod, RenderCmd, and SearchInfo.
+### 検索にアタッチすることをリクエストする
+基本的にはIDを渡すだけで、サーバーはErrorか、新しいSubProto、RenderMod、RenderCmd、SearchInfoで応答するようになります。
 
-The new Subproto is the name of the new subprotocol which will be created to service the newly attached search.  This means that you can fire up the websocket and then attach to lots of searches at the same time.
+new Subproto は、新しくアタッチされた検索にサービスを提供するために作成される新しいサブプロトコルの名前です。 つまり、ウェブソケットを立ち上げて、同時にたくさんの検索にアタッチすることができるのです。
 
-### Example transfers
-Below is an example of the client asking for a list of searches, then attaching to one.
+### 例
+以下は、クライアントが検索リストを要求し、それにアタッチする例です。
 
-Asking for list of searches
+検索のリストを要求する
 ```
 WEB GET /api/searchctrl:
 [
@@ -40,7 +40,7 @@ WEB GET /api/searchctrl:
 ]
 ```
 
-Transaction on the "attach" subprotocol
+"attach "サブプロトコルに関するトランザクション
 ```
 SUBPROTO PUT attach:
 {
@@ -64,7 +64,7 @@ SUBPROTO GET attach:
         }
 }
 ```
-After negotiating a new attached search, continue on using the same old APIs as you would when normally taking to a renderer.
+新しいアタッチドサーチをネゴシエートした後は、通常レンダラーに取り込むときと同じように、古いAPIを使い続けてください。
 ```
 SUBPROTO PUT attach5:
 {
