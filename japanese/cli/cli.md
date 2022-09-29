@@ -1,10 +1,10 @@
 # DatalaiQ CLI
 
-The DatalaiQ command line client can be used to remotely manage DatalaiQ and perform searches (with limited renderer support).  Administrators can manage users and monitor cluster health without the need for a full web browser.  Users can perform searches and easily export results to files for additional analysis with other tools.
+DatalaiQコマンドラインクライアントは、DatalaiQのリモート管理および検索の実行に使用できます（レンダラーのサポートは制限されています）。 管理者は、フル・ウェブ・ブラウザを使用せずにユーザーを管理し、クラスタの状態を監視することができます。 ユーザーは検索を実行し、結果をファイルにエクスポートして、他のツールでさらに分析することができます。
 
-The command line client is slightly limited in that it cannot render some search results (e.g. the CLI cannot draw a chart in a terminal, so it will refuse to render a search that uses the chart module).  However, the CLI does have access to all renderer modules when issuing backgrounded searches, which may be useful if an advanced user wanted to login remotely and start a few very large searches that will be ready for viewing on a full browser once they get on-site.
+コマンドラインクライアントは、いくつかの検索結果をレンダリングできないという点で若干の制限があります（例えば、CLI はターミナルでチャートを描画できないので、チャートモジュールを使用する検索のレンダリングを拒否します）。 これは、上級ユーザがリモートでログインし、いくつかの非常に大きな検索を開始し、現地に到着したらフルブラウザで表示できるようにしたい場合に便利です。
 
-On a typical installation, the CLI tool will be installed as `/usr/sbin/gravwell`; passing the `-h` flag will give you an idea on where to start.  By default the DatalaiQ client expects the webserver to be listening on the local machine, specify the `-s` flag to point it at other webservers or a remote DatalaiQ instance.
+典型的なインストールでは、CLIツールは `/usr/sbin/gravwell` としてインストールされます; `-h` フラグを渡すことで、どこから始めればよいかが分かります。 デフォルトでは、DatalaiQクライアントはローカルマシンのWebサーバーをリッスンすることを想定していますが、他のWebサーバーやリモートのDatalaiQインスタンスを指定する場合は `-s` フラグを指定してください。
 
 ```
 DatalaiQ options
@@ -68,15 +68,15 @@ MODIFIERS:
 EXAMPLE: gravwell -s=localhost state
 ```
 
-The DatalaiQ client is also a great way to perform searches on DatalaiQ and feed the output to other tools.  For instance if you have a custom program for processing security data, but prefer to store your log entries in DatalaiQ, you can run a background query using the CLI client to extract the entries, then save the results to a file for the custom program to read.
+DatalaiQクライアントは、DatalaiQ上で検索を実行し、その出力を他のツールに供給するための優れた方法でもあります。 例えば、セキュリティ・データを処理するためのカスタム・プログラムを持っているが、ログ・エントリーをDatalaiQに保存したい場合、CLIクライアントを使用してバックグラウンド・クエリーを実行してエントリーを抽出し、その結果をファイルに保存してカスタム・プログラムに読み込ませることが可能です。
 
-## Using the CLI interactively.
+## CLIを対話的に使用する
 
-The DatalaiQ CLI client provides an interactive shell similar to those found on commercial switches. It has different "menu" levels; for example, from the top level menu one might select the 'dashboards' sub-menu, which contains commands for managing dashboards. This section will describe the basics of using the client interactively.
+DatalaiQ CLIクライアントは、商用スイッチに見られるものと同様の対話型シェルを提供します。このクライアントにはさまざまな「メニュー」レベルがあり、たとえばトップレベルのメニューから「dashboards」サブメニューを選択すると、ダッシュボードを管理するためのコマンドを含むことができます。このセクションでは、クライアントを対話的に使用するための基本的な方法を説明します。
 
-### Connecting & Logging In
+### 接続とログイン
 
-By default, the client will assume the DatalaiQ webserver is listening on `localhost:443`. If this is correct, you can connect by simply running the command `gravwell`. The client will prompt for your username and password, then display a prompt:
+デフォルトでは、クライアントはDatalaiQのウェブサーバーが `localhost:443` でリスニングしていると仮定します。これが正しい場合は、単に `gravwell` というコマンドを実行することで接続できます。クライアントはユーザー名とパスワードの入力を促し、プロンプトを表示します:
 
 ```
 $ gravwell
@@ -85,15 +85,15 @@ Password:  changeme
 #> 
 ```
 
-If your webserver is on a different host, use the `-s` flag to specify the hostname and port, e.g. `gravwell -s webserver.example.com:4443`.
+ウェブサーバが別のホストにある場合は、`s`フラグを使用してホスト名とポートを指定します（例：`gravwell -s webserver.example.com:4443` ）。
 
-If your webserver has self-signed TLS certificates installed, you will need to add the `-insecure` flag to disable TLS verification but still use HTTPS.
+もしあなたのウェブサーバーに自己署名のTLS証明書がインストールされている場合、TLS検証を無効にしてもHTTPSを使用するために `-insecure` フラグを追加する必要があります。
 
-If your webserver does not have TLS certificates installed, add the `-insecure-no-https` flag to use HTTP-only mode. Note that this is insecure: your password will be sent to the server in plain text.
+もしあなたのウェブサーバーにTLS証明書がインストールされていない場合は、`-insecure-no-https`フラグを追加してHTTPオンリーモードを使用してください。これは安全ではないことに注意してください。パスワードはプレーンテキストでサーバに送信されます。
 
-### Listing Available Commands
+### 使用可能なコマンドをリスト表示する
 
-The `help` command will list the commands available at the current menu level. Immediately after launching the client, it will be at the top level:
+`help` コマンドは現在のメニューレベルで利用可能なコマンドをリストアップします。クライアントを起動した直後は、トップレベルである:
 
 ```
 #>  help
@@ -141,7 +141,7 @@ Some of the items listed are commands:
 +----------------------+----------+
 ```
 
-Others are menus which will contain their own commands. In the example below, we select the 'dashboards' menu, list the available commands, and run the 'list' command:
+その他は、それ自身のコマンドを含むメニューです。以下の例では、「dashboards」メニューを選択し、利用可能なコマンドをリストアップし、「list」コマンドを実行します:
 
 ```
 #>  dashboards
@@ -159,9 +159,9 @@ dashboards>  list
 dashboards>  
 ```
 
-## Kit Management
+## キット管理
 
-Kits can be managed from the kits sub-menu:
+キットの管理は、キットサブメニューから行うことができます:
 
 ```
 #>  kits
@@ -178,42 +178,42 @@ repack              	Repack a currently-installed kit, optionally changing attri
 remote              	List available kits from the remote kitserver
 ```
 
-### Installing Kits
+### キットをインストールする
 
-There are two ways to install a kit: from the kitserver or by uploading a local file. In either case, the installation process consists of two steps: staging the kit on the webserver, then installing it.
+キットをインストールするには、kitserver からインストールする方法と、ローカルファイルをアップロードする方法の 2 通りがあります。どちらの場合も、インストール作業は、ウェブサーバ上でキットをステージングし、それをインストールするという2つのステップで構成されます。
 
-To install a kit from the kit server, first use the `remote` command to list kits on the server. Copy the UUID of the desired kit, then run the `pull` command and paste the UUID when prompted. This will download the kit and stage it. Once the kit is staged, run the `install` command and select the staged kit to begin the installation process.
+キットサーバからキットをインストールするには、まず `remote` コマンドを使用してサーバ上のキットをリストアップします。目的のキットの UUID をコピーして、`pull`コマンドを実行し、プロンプトが表示されたら UUID を貼り付けてください。これでキットがダウンロードされ、ステージングされます。キットのステージングが完了したら、`install`コマンドを実行してステージングされたキットを選択すると、インストール処理が開始されます。
 
-To install a kit from a local file, run the `upload` command and enter the path to the file when prompted. This will stage the kit. Then run the `install` command and select the staged kit to begin the installation process.
+ローカルファイルからキットをインストールするには、`upload`コマンドを実行し、プロンプトが表示されたらファイルのパスを入力してください。これでキットがステージングされます。次に `install` コマンドを実行し、ステージングされたキットを選択すると、インストールが開始されます。
 
-The `install` command will ask the user if the kit should be installed with default options; if the user answers "no", they must select each option individually:
+インストール`コマンドは、キットをデフォルトのオプションでインストールするかどうかをユーザに尋ねます。"no "と答えた場合、ユーザはそれぞれのオプションを個別に選択しなければなりません:
 
-* Global: (admin-only) If true, kit items will be visible to all users (default: false)
-* Overwrite existing: If true, the installation process will overwrite any existing objects which conflict with the kit's contents (default: false)
-* Allow unsigned: Must be set in order to install unsigned kits (default: false)
-* Item labels: An optional list of additional labels to be applied to the items in the kit (default: none)
-* Kit labels: An optional list of additional labels to be applied to the kit itself (default: none)
-* Group: Select a group whose members can see the kit contents (default: none)
+* Global: (管理者のみ) trueにすると全てのユーザーが閲覧可能です (デフォルト: false)
+* Overwrite existing: True の場合、インストール時にキットの内容と競合する既存のオブジェクトを上書きします (デフォルト: false)。
+* Allow unsigned: 無署名キットをインストールするために設定する必要があります (デフォルト: false)
+* Item labels: キット内のアイテムに貼付する追加ラベルのオプション一覧 (デフォルト: none)
+* Kit labels: キット本体に貼付する追加ラベルのオプション一覧 (デフォルト: none)
+* Group: キットの内容を見ることができるグループを選択します (デフォルト: none)
 
-### Building Kits
+### キットを構築する
 
-The `build` command walks the user through the process of building a kit. It prompts for the kit ID, name, description, and version. Note that the ID should be a "namespaced" ID such as "io.gravwell.networkenrichment" to avoid conflicts; the name and description fields can be anything. The version must be an integer.
+`build` コマンドは、キットを構築するためのプロセスをユーザーに指示します。キットのID、名前、説明、そしてバージョンを入力するよう求められます。ID は競合を避けるために "io.gravwell.networkenrichment" のような "namespaced" ID であるべきであることに注意してください。名前と説明の欄は何でもかまいません。バージョンは整数値でなければなりません。
 
-After gathering basic information, the CLI will then prompt the user to select which objects should be included in the kit. It will prompt for dashboards, templates, actionables, etc. one after another. Pressing enter at a prompt indicates that you do not want to include any of that type of object.
+基本的な情報を収集した後、CLIはキットに含めるべきオブジェクトを選択するようユーザーに促します。ダッシュボード、テンプレート、actionableなどのプロンプトが次々と表示されます。プロンプトでEnterキーを押すと、そのタイプのオブジェクトを一切含めたくないことを示します。
 
-When all objects have been selected, the CLI will prompt for a location to download the resulting kit. You can enter either a filename or just a directory. When complete, it will print the location of the new kit.
+すべてのオブジェクトが選択されると、CLIは結果のキットをダウンロードする場所を尋ねるプロンプトを表示します。ファイル名またはディレクトリのいずれかを入力することができます。完了すると、新しいキットの場所が表示されます。
 
-### Rebuilding Kits
+### キットを再構築する
 
-The `rebuild` command is used to build an updated version of a previously-built kit. When executed, it lists kits previously built by the user. The user selects one, then the UI gives the option to modify the list of included items in the kit if desired. It will then automatically increment the kit version number and generate a new kit file output, prompting (as in the `install` command) for where the resulting file should be saved.
+`rebuild` コマンドは、以前にビルドしたキットのアップデート版をビルドするために使用します。実行すると、以前にユーザがビルドしたキットの一覧が表示されます。ユーザーはそれを選択し、必要に応じてキットに含まれるアイテムのリストを変更するオプションが表示されます。その後、キットのバージョン番号が自動的に増加し、新しいキットファイルが生成されます。
 
-### Repacking Kits
+### キットを再パッケージ化する
 
-The `repack` command operates much like the `rebuild` command, except it re-packages one of the *currently-installed* kits, instead of rebuilding a *previously built* kit. This is useful if you want to modify an existing kit obtained from DatalaiQ or another user: install the kit, modify whatever items need to be changed, and then run the repack command on that kit.
+`repack` コマンドは `rebuild` コマンドとよく似た動作をしますが、*previously built* キットを再構築するのではなく、*currently-installed* キットの一つを再パッケージ化する点が異なります。DatalaiQ や他のユーザから入手した既存のキットを変更したい場合に便利です。キットをインストールし、変更する必要がある項目をすべて変更し、そのキットに対して repack コマンドを実行します。
 
-## Searching via CLI
+## CLI経由で検索する
 
-The `search` command runs a search in the foreground:
+`search` コマンドはフォアグラウンドで検索を実行します:
 
 ```
 #>  search
@@ -228,7 +228,7 @@ Total Items: 1
 count 100.00/1.00 61.66 KB/616 B 8.109585ms
 ```
 
-If you wish to save the results of a search, we can run the client with the '-b' flag, which specifies that searches should be run in the background, then use the `search` and `download` commands to run a search and save the results:
+検索結果を保存したい場合は、 '-b' フラグを指定してクライアントを実行し、バックグラウンドで検索を実行するように指定します。そして、 `search` と `download` コマンドを使って検索を実行し、結果を保存します:
 
 ```
 $ gravwell -b
@@ -254,9 +254,9 @@ Saving to  /tmp/nm.txt
 ```
 
 
-## Admin
+## 管理者コマンド
 
-The DatalaiQ client implements many commands for managing the system in the admin sub-menu:
+DatalaiQクライアントには、システムを管理するための多くのコマンドがadminサブメニューに実装されています:
 
 ```
 #>  admin
@@ -302,12 +302,12 @@ update_extraction   Update an installed autoextractor
 sync_extractions    Force a sync of installed autoextractors to indexers
 ```
 
-In addition to user/group management, the admin menu also provides tools to manage dashboards, kits, and other objects belonging to other users on the system.
+管理者メニューには、ユーザー/グループ管理の他に、システム上の他のユーザーが所有するダッシュボード、キット、その他のオブジェクトを管理するためのツールも用意されています。
 
 
-## CLI examples
+## CLI例
 
-### Check On Indexer Health
+### インデクサーの状態を確認する
 
 ```
 $ gravwell state
@@ -322,7 +322,7 @@ $ gravwell state
 +----------------------+----------+
 ```
 
-Output of every command can be set to “raw” with no tables or formatting.  The raw output can be easier to digest if you are passing DatalaiQ data to other tools or scripts.
+すべてのコマンドの出力は、テーブルやフォーマットのない「生」に設定することができます。 DatalaiQのデータを他のツールやスクリプトに渡す場合、生の出力は消化しやすくなります。
 
 ```
 $ gravwell -r state
@@ -331,7 +331,7 @@ webserver     OK
 10.0.0.2:9404 OK
 ```
 
-### View Indexer Wells and Storage Size
+### ウェルとストレージサイズを確認する
 
 ```
 $ gravwell -r indexes
@@ -351,7 +351,7 @@ $ gravwell -r indexes
 10.0.0.3:9404 bench /mnt/storage/gravwell/bench 136.5 GB 658.69 M
 ```
 
-### View Remote Ingesters
+### リモートインジェスターを確認する
 
 ```
 $ gravwell -r ingesters
@@ -365,7 +365,7 @@ $ gravwell -r ingesters
         tcp://192.210.192.202:43368 34m51.9s [kernel] 1.33 K 141.57 KB
 ```
 
-### Run a script
+### スクリプトを実行する
 
 ```
 $ gravwell script
