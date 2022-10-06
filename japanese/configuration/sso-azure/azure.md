@@ -1,51 +1,51 @@
-# Configuring SSO for Azure Active Directory
+# Azure Active DirectoryのSSOを設定する
 
-Microsoft's Azure Active Directory service provides cloud-based authentication and single-sign on. DatalaiQ can integrate with Azure AD for authentication; in fact, it is one of the easiest SSO services to set up!
+MicrosoftのAzure Active Directoryサービスは、クラウドベースの認証とシングルサインオンを提供します。DatalaiQは、認証のためにAzure ADと統合することができます。実際、これは最も簡単にセットアップできるSSOサービスの1つです。
 
-To set up Azure AD SSO for DatalaiQ, you'll need the following:
+DatalaiQにAzure AD SSOを設定するためには、以下のものが必要です:
 
-* An Azure Premium License or equivalent which allows the creation of Enterprise Applications & SSO (Contact Microsoft sales to determine your needs).
-* A DatalaiQ webserver configured with [TLS certificates and HTTPS](#!configuration/certificates.md).
+* エンタープライズアプリケーションとSSOを作成できるAzure Premiumライセンスまたは同等のもの（お客様のニーズを確認するためにMicrosoftの営業にお問い合わせください。）.
+* DatalaiQのWebサーバーは[TLS証明書とHTTPS](#!configuration/certificates.md)を設定可能です。
 
-Additional DatalaiQ SSO configuration information can be found [here](#!configuration/sso.md) if needed.
+DatalaiQのSSO設定詳細は必要であれば[こちら](#!configuration/sso.md)をご覧ください。
 
-Note: For the purposes of this document, we'll assume your DatalaiQ webserver's URL is `https://datalaiq.example.com/`.
+ 備考: この文書では、DatalaiQウェブサーバーのURLを`https://datalaiq.example.com/`と仮定します。
 
-## Create Application in Azure
+## Azureでアプリケーションを作成する
 
-We manage authentication for DatalaiQ by creating an "Enterprise Application" in Azure. Within the Azure Active Directory console, select "Enterprise Applications", then select the "New Application" button:
+DatalaiQの認証は、Azureに「Enterprise Application」を作成することで管理します。Azure Active Directoryのコンソールで、「Enterprise Applications」を選択し、「New Application」ボタンを選択します:
 
 ![](applications.png)
 
-A new screen will open showing options for creating a new application. Select "Create your own application" in the upper left, then fill in the form which comes up:
+新しいアプリケーションを作成するためのオプションが表示された新しい画面が表示されます。左上の「Create your own application」を選択し、表示されるフォームに必要事項を入力します:
 
 ![](newapp.png)
 
-After clicking "Create", you should be taken to a management page for the newly-created application:
+[作成]をクリックすると、作成したアプリケーションの管理画面が表示されます:
 
 ![](newapp2.png)
 
-First, select "Assign users and groups" and pick which users or groups should be allowed to log in to DatalaiQ; you may wish to make a "DatalaiQ Users" group to keep things simple:
+まず、"Assign users and groups "を選択し、DatalaiQへのログインを許可するユーザーやグループを選択します。"DatalaiQ Users "グループを作成すると、シンプルになります:
 
 ![](groups.png)
 
-Next, select "Single sign-on" in the left-hand menu and pick SAML in the resulting screen:
+次に、左側のメニューで「シングルサインオン」を選択し、表示された画面で「SAML」を選びます:
 
 ![](saml.png)
 
-You'll be taken to the SAML configuration screen:
+SAMLの設定画面が表示されます:
 
 ![](saml2.png)
 
- Click the pencil icon on the "Basic SAML Configuration" card. You'll need to fill in the "Identifier" and "Reply URL" fields. "Identifier" should be the URL of your DatalaiQ server's metadata file, e.g. `https://datalaiq.example.com/saml/metadata`. "Reply URL" will be DatalaiQ's SSO reply URL, e.g. `https://datalaiq.example.com/saml/acs`:
+ SAML基本設定」カードの鉛筆アイコンをクリックします。Identifier "と "Reply URL "フィールドを入力する必要があります。"Identifier" には、DatalaiQ サーバーのメタデータ・ファイルの URL を指定します（例：`https://datalaiq.example.com/saml/metadata`）。"Reply URL" は、DatalaiQ の SSO 応答 URL になります。例：`https://datalaiq.example.com/saml/acs`。:
 
 ![](basic.png)
 
-Save the basic configuration. Back on the main SAML configuration screen, find the field named "App Federation Metadata URL" and copy the URL contained there; it should look something like `https://login.microsoftonline.com/e802844f-e935-49c1-ba4e-b42442356fe1/federationmetadata/2007-06/federationmetadata.xml?appid=1d41efd8-5cf3-4ac3-9ad3-e3874f48cadc` but the UUIDs in the URL will be different.
+基本構成を保存する。SAML のメイン設定画面に戻り、「App Federation Metadata URL」というフィールドを見つけて、そこに含まれる URL をコピーします。https://login.microsoftonline.com/e802844f-e935-49c1-ba4e-b42442356fe1/federationmetadata/2007-06/federationmetadata.xml?appid=1d41efd8-5cf3-4ac3-9ad3-e3874f48cadc` のように見えるはずですが、URL の UUID は異なるでしょう。
 
-## Configure DatalaiQ
+## DatalaiQを設定する
 
-Open `gravwell.conf` on your webserver and create an SSO section:
+Webサーバで `gravwell.conf` を開き、SSOセクションを作成します:
 
 ```
 [SSO]
@@ -55,31 +55,31 @@ Open `gravwell.conf` on your webserver and create an SSO section:
 	Username-Attribute=http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name
 ```
 
-Change `Gravwell-Server-URL` to point to your DatalaiQ webserver (this can be an IP address if necessary), then set `Provider-Metadata-URL` to the "App Federation Metadata URL" you copied in the previous section. The other two parameters can be left alone.
+`Gravwell-Server-URL` を DatalaiQ Web サーバを指すように変更し（必要に応じて IP アドレスでも構いません）、次に `Provider-Metadata-URL` に前のセクションでコピーした "App Federation Metadata URL" を設定します。他の2つのパラメータはそのままで大丈夫です。
 
-Attention: You MUST set the `Provider-Metadata-URL` option; the one given is invalid and serves only as an example.
+注意: `Provider-Metadata-URL` オプションは必ず設定しなければならない(MUST)。
 
-Now restart the DatalaiQ webserver (`systemctl restart gravwell_webserver.service`). It should come back up; if not, check for typos in your configuration and look in `/dev/shm/gravwell_webserver.service` and `/opt/gravwell/log/web/` for errors.
+ここで DatalaiQ ウェブサーバーを再起動してください (`systemctl restart gravwell_webserver.service`). もしそうでなければ、設定にタイプミスがないか、また `/dev/shm/gravwell_webserver.service` と `/opt/gravwell/log/web/` でエラーがないか確認してください。
 
-## Test SSO
+## SSOを試験する
 
-With DatalaiQ restarted, you should now see a "Login with SSO" button on the login page:
+DatalaiQを再起動すると、ログインページに「Login with SSO」ボタンが表示されるはずです:
 
 ![](gravlogin.png)
 
-Click it; you should be taken to a Microsoft login page:
+クリックすると、マイクロソフトのログインページが表示されます:
 
 ![](login.png)
 
-Log in as one of the users you set up to access the DatalaiQ application. Once login is complete, you should be redirected to the DatalaiQ webserver, logged in as a user with the same username as the Azure user.
+DatalaiQ アプリケーションにアクセスするために設定したユーザーのうちの 1 人としてログインします。ログインが完了すると、Azureユーザーと同じユーザー名でログインしたDatalaiQのWebサーバーにリダイレクトされるはずです。
 
-## Notes on Groups
+## グループに関する注意事項
 
-DatalaiQ can automatically create groups and add SSO users to these groups as [documented on the main SSO page](#!configuration/sso.md). You can configure Azure AD to send a claim with groups by clicking 'Add a group claim' in the application's User Attributes & Claims configuration page:
+DatalaiQは自動的にグループを作成し、[SSOのページに記載されている](#!configuration/sso.md)グループとしてユーザーを追加します。 アプリケーションの User Attributes & Claims 設定ページで 'Add a group claim' をクリックすると、Azure AD がグループ付きのクレームを送信するように設定できます:
 
 ![](groups.png)
 
-To enable groups, you'll need to tell DatalaiQ which attribute contains the list of groups and specify the mapping from Azure group IDs (which are sent as UUIDs) to the desired group name in DatalaiQ. If you have a group with Azure Object ID = dc4b4166-21d7-11ea-a65f-cfd3443399ee that you want to be named "datalaiq-users", you should add this to your gravwell.conf's SSO section:
+グループを有効にするには、どの属性にグループのリストが含まれているかを DatalaiQ に伝え、Azure グループ ID (UUID として送信される) から DatalaiQ の希望のグループ名へのマッピングを指定する必要があります。Azure Object ID = dc4b4166-21d7-11ea-a65f-cfd3443399ee のグループを「datalaiq-users」という名前にしたい場合、gravwell.conf の SSO セクションに以下の内容を追加します。:
 
 ```
 	Groups-Attribute=http://schemas.microsoft.com/ws/2008/06/identity/claims/groups

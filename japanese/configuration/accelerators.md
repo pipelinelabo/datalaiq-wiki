@@ -1,31 +1,31 @@
-#DatalaiQ Accelerators
+#DatalaiQアクセラレーター
 
-DatalaiQ can process entries as they are *ingested* in order to perform field extraction.  The extracted fields are then recorded in acceleration blocks which accompany each shard.  Using the accelerators can enable dramatic speedups in throughput with minimal storage overhead.  Accelerators are specified on a per-well basis and are designed to be as unobtrusive and flexible as possible.  If data enters a well that does not match the acceleration directive, or is missing the specified fields, DatalaiQ processes it just like any other entry.  Acceleration will engage when it can.
+DatalaiQは、フィールド抽出を行うために、エントリーがインジェストされた状態で処理することができます。 抽出されたフィールドは、各シャードに付随するアクセラレーション・ブロックに記録されます。 アクセラレーターを使用することで、ストレージのオーバーヘッドを最小限に抑えながら、スループットを劇的に向上させることができます。 アクセラレーターはウェルごとに指定され、できるだけ邪魔にならないように、かつ柔軟に設計されています。 もしデータが加速度指示と一致しない、あるいは指定されたフィールドが欠けているウェルに入ったとしても、DatalaiQは他のエントリーと同じようにそれを処理します。 アクセラレーションは、可能な限り実行されます。
 
-We refer to "accelerators" and "acceleration" rather than "indexers" and "indexing" for two reasons. First, DatalaiQ already has a very important component called an "indexer". Second, acceleration can be done by direct indexing **or** with a bloom filter, so describing about an "index" is not necessarily accurate.
+私たちは、「インデクサ」や「インデックス」ではなく、「アクセラレータ」や「アクセラレーション」と呼んでいますが、これには2つの理由があります。第一に、DatalaiQはすでに "indexer "と呼ばれる非常に重要なコンポーネントを持っています。第二に、アクセラレーションはブルームフィルタによる直接的なインデックス付けによって行われるため、"インデックス "について説明することは必ずしも正確ではありません。
 
-## Acceleration Basics
+## アクセラレーションの基本
 
-DatalaiQ accelerators use a filtering technique that works best when data is relatively unique.  If a field value is extremely common, or present in almost every entry, it doesn't make much sense to include it in the accelerator specification.  Specifying and filtering on multiple fields can also improve accuracy, which improves query speed.  Fields which make good candidates for acceleration are fields that users will query for directly.  Examples include process names, usernames, IP addresses, module names, or any other field that will be used in a needle-in-the-haystack type query.
+DatalaiQアクセラレータは、データが比較的一意である場合に最適なフィルタリング技術を使用しています。 あるフィールドの値が極めて一般的であったり、ほとんどすべてのエントリに存在する場合、それをアクセラレータの仕様に含めることはあまり意味のないことなのです。 複数のフィールドを指定してフィルタリングすることで、精度が向上し、クエリの速度も向上します。 アクセラレータの候補となるフィールドは、ユーザーが直接問い合わせるようなフィールドです。 例えば、プロセス名、ユーザー名、IPアドレス、モジュール名、その他、needle-in-the-haystackタイプのクエリで使用されるフィールドが挙げられます。
 
-Tags are always included in the acceleration, regardless of the extraction module in use.  Even when the query does not specify inline filters, the acceleration system can help narrow down and accelerate queries when there are multiple tags in a single well.
+タグは、使用中の抽出モジュールに関係なく、常にアクセラレーションに含まれます。 クエリーがインラインフィルターを指定しない場合でも、1つのウェルに複数のタグがある場合、アクセラレーションシステムはクエリーの絞り込みと高速化を支援します。
 
-Most acceleration modules incur about a 1-1.5% storage overhead when using the bloom engine, but extremely low-throughput wells may consume more storage.  If a well typically sees about 1-10 entries per second, acceleration may incur a 5-10% storage penalty, where a well with 10-15 thousand entries per second may see as little as 0.5% storage overhead.  DatalaiQ accelerators also allow for user specified collision rate adjustments.  If you can spare the storage, a lower collision rate may increase accuracy and speed up queries while increasing storage overhead.  Reducing the accuracy reduces the storage penalty but decreases accuracy and reduces the effectiveness of the accelerator.  The index engine will consume significantly more space depending on the number of fields extracted and the variability of the extracted data.  For example, full text indexing may cause the accelerator files to consume as much space as the stored data files.
+ほとんどのアクセラレーション・モジュールは、ブルーム・エンジン使用時に約1～1.5%のストレージ・オーバーヘッドを生じますが、極めて低スループットのウェルでは、より多くのストレージを消費する可能性があります。 例えば、1秒間に1～10件のエントリーがある場合、アクセラレーションによって5～10%のストレージ・ペナルティが発生する可能性がありますが、1秒間に10～15万件のエントリーがあるウェルでは、ストレージ・オーバーヘッドは0.5%とごくわずかとなります。 DatalaiQアクセラレーターでは、ユーザーが指定した衝突率の調整も可能です。 ストレージに余裕がある場合、衝突率を下げると精度が上がり、クエリーが高速化しますが、ストレージのオーバーヘッドが増加します。 精度を下げると、ストレージのペナルティは軽減されますが、精度が低下し、アクセラレータの効果も低下します。 インデックスエンジンは、抽出されるフィールドの数や抽出されるデータの可変性によって、かなり多くのスペースを消費します。 たとえば、フルテキストインデックスでは、アクセラレータファイルが保存データファイルと同程度の容量を消費する可能性があります。
 
-Accelerators must operate on the direct data portion of an entry (with the exception of the src accelerator which directly operates on the SRC field).
+アクセラレータはエントリの直接データ部分で動作しなければならない（SRCフィールドで直接動作するsrcアクセラレータは例外）。
 
-## Acceleration Engines
+## アクセラレーションエンジン
 
-The engine is the system that actually stores the extracted acceleration data.  DatalaiQ supports two acceleration engines. Each engine provide different benefits depending on desired ingest rates, disk overhead, search performance, and data volumes.  The acceleration engine is entirely independent from the accelerator extractor itself (as specified with the Accelerator-Name configuration option).
+エンジンは、抽出された加速度データを実際に保存するシステムです。 DatalaiQは2つのアクセラレーション・エンジンをサポートしています。それぞれのエンジンは、希望する取り込み速度、ディスクのオーバーヘッド、検索性能、データ量に応じて異なる利点を提供します。 アクセラレーション・エンジンは、アクセラレータ抽出器自体から完全に独立しています（アクセラレータ名設定オプションで指定します）。
 
-The default engine is the "index" engine.  The "index" engine is a full indexing system designed to be fast across all query types.  The index engine typically consumes considerably more disk space than the bloom engine but is significantly faster when operating on very large data volumes or queries that may touch a significant portion of the total data.  It is not uncommon for the index engine to consume as much space as the compressed data in heavily-indexed systems.
+デフォルトのエンジンは "index "エンジンです。 インデックス」エンジンは、あらゆる種類のクエリで高速に動作するように設計されたフルインデックスシステムです。 インデックスエンジンは通常、ブルームエンジンよりもかなり多くのディスクスペースを消費しますが、非常に大きなデータボリュームや、全データのかなりの部分に触れる可能性のあるクエリで動作する場合は、大幅に高速化されます。 大量のインデックスを持つシステムでは、インデックスエンジンが圧縮データと同程度の容量を消費することも珍しくありません。
 
-The bloom engine uses bloom filters to indicate whether or not a piece of data exists in a given block.  The bloom engine typically has very little disk overhead and works well with needle-in-haystack style queries, for example finding logs where a specific IP showed up.  The bloom engine performs poorly on filters where filtered entries occur regularly.  The bloom engine is also a poor choice when combined with the fulltext accelerator.
+ブルームエンジンは、ブルームフィルタを使用して、与えられたブロックにデータの一部が存在するかどうかを示します。 ブルームエンジンは通常、ディスクのオーバーヘッドをほとんど持たず、例えば特定のIPが現れたログを見つけるような、針小棒大なスタイルのクエリでうまく動作します。 ブルームエンジンは、フィルタリングされたエントリーが定期的に発生するようなフィルターではあまり効果がありません。 また、ブルームエンジンは、フルテキストアクセラレータと組み合わせた場合にもあまり適していません。
 
 
-### Optimizing the Index Engine
+### インデックスエンジンの最適化
 
-The "index" uses a file-backed data structure to store and query key data. The file backing is performed using memory maps, which can be pretty abusive when the kernel is too eager to write back dirty pages.  It is highly recommended that you tune the kernel's dirty page parameters to reduce the frequency that the kernel writes back dirty pages.  This is done via the "/proc" interface and can be made permanent using the "/etc/sysctl.conf" configuration file.  The following script will set some efficient parameters and ensure they stick across reboots.
+「インデックス」は、ファイルバックされたデータ構造を使用して、キーデータを保存し、クエリを実行します。ファイルのバックアップはメモリマップを使用して行われ、カーネルがダーティページを書き戻すのに熱心な場合、かなり乱暴になることがあります。 カーネルがダーティページを書き戻す頻度を減らすために、カーネルのダーティページパラメータを調整することが強く推奨されます。 これは、"/proc" インターフェース経由で行われ、"/etc/sysctl.conf" 設定ファイルを使って恒久的にすることができます。 以下のスクリプトは、いくつかの効率的なパラメータを設定し、それらがリブートにわたって固定されるようにします。
 
 ```
 #!/bin/bash
@@ -46,19 +46,19 @@ echo "vm.dirty_expire_centisecs = 3000" >> /etc/sysctl.conf
 
 ```
 
-## Configuring Acceleration
+## アクセラレーションの設定
 
-Accelerators are configured on a per-well basis.  Each well can specify an acceleration module, fields for extraction, a collision rate, and the option to include the entry source field.  If you commonly filter on specific sources (e.g. only look at syslog entries coming from a specific device) including the source field provides an effective way to boost accelerator accuracy independent of the fields being extracted.
+アクセラレーションはウェルごとに設定されます。 各ウェルは、アクセラレーションモジュール、抽出用フィールド、衝突率、およびエントリソースフィールドを含めるオプションを指定することができます。 特定のソースで一般的にフィルタリングする場合（例えば、特定のデバイスから来るsyslogエントリだけを見る）、ソースフィールドを含めると、抽出されるフィールドとは無関係にアクセラレータの精度を高める効果的な方法が提供されます。
 
 | Acceleration Parameter | Description | Example |
 |----------|------|-------------|
-| Accelerator-Name  | Specifies the field extraction module to use at ingest. | Accelerator-Name="json" |
-| Accelerator-Args  | Specifies arguments for the acceleration module, typically the fields to extract. | Accelerator-Args="username hostname appname" |
-| Collision-Rate | Controls the accuracy for the acceleration modules using the bloom engine.  Must be between 0.1 and 0.000001. Defaults to 0.001. | Collision-Rate=0.01
-| Accelerate-On-Source | Specifies that the SRC field of each module should be included.  This allows combining a module like CEF with SRC. | Accelerate-On-Source=true
-| Accelerator-Engine-Override | Specifies the engine to use for indexing.  By default the index engine is used. | Accelerator-Engine-Override=index
+| Accelerator-Name  | インジェスト時に使用するフィールド抽出モジュールを指定する。 | Accelerator-Name="json" |
+| Accelerator-Args  | アクセラレーションモジュールの引数（通常は抽出するフィールド）を指定する。 | Accelerator-Args="username hostname appname" |
+| Collision-Rate | ブルームエンジンを使用したアクセラレーションモジュールの精度を制御する。 0.1 から 0.000001 の間である必要があります。デフォルトは0.001です。 | Collision-Rate=0.01
+| Accelerate-On-Source | 各モジュールの SRC フィールドを含めるように指定する。 これにより、CEFのようなモジュールとSRCを組み合わせることができる。 | Accelerate-On-Source=true
+| Accelerator-Engine-Override | インデックス作成に使用するエンジンを指定します。 デフォルトではインデックスエンジンが使用される。 | Accelerator-Engine-Override=index
 
-### Supported Extraction Modules
+### サポートされている抽出モジュール
 
 * [CSV](#!search/csv/csv.md)
 * [Fields](#!search/fields/fields.md)
@@ -73,9 +73,9 @@ Accelerators are configured on a per-well basis.  Each well can specify an accel
 * [Packet](#!search/packet/packet.md)
 * Fulltext
 
-### Example Configuration
+### 設定例
 
-Below is an example configuration which extracts the 2nd, 4th, and 5th field in a tab-delimited entry, for example a line from a bro log file.  In this example we are extracting and accelerating on the source ip, destination ip, and destination port from each bro connection log.  All entries which enter the "bro" well (which contains only the tag "bro" for this example) will pass through the extraction module during ingest.  If a piece of data does not conform to the acceleration specification, it will be stored but not accelerated; it will be included in the query, but if many nonconforming entries are in the well, queries will be much slower.
+以下は、タブ区切りのエントリ、たとえばブロログファイルの行から、2番目、4番目、5番目のフィールドを抽出する設定例です。 この例では、各Bro接続ログから送信元IP、送信先IP、送信先ポートを抽出し、高速化するものです。 bro」ウェル（この例では「bro」タグのみを含む）に入るすべてのエントリーは、取り込み中に抽出モジュールを通過します。 データの一部が高速化仕様に適合しない場合、それは保存されるが高速化されません。それはクエリーに含まれるが、適合しないエントリーがウェルに多数存在する場合、クエリーは非常に遅くなります。
 
 ```
 [Storage-Well "bro"]
@@ -87,11 +87,11 @@ Below is an example configuration which extracts the 2nd, 4th, and 5th field in 
 	Collision-Rate=0.0001
 ```
 
-## Acceleration Basics
+## アクセラレーション基礎
 
-Each acceleration module uses the same syntax as their companion search module for basic field extraction.  Accelerators do not support renaming, filtering, or operating on enumerated values.  They are the first-level filter.  Acceleration modules are transparently invoked whenever the corresponding search module operates and performs an equality filter.
+各アクセラレーション・モジュールは、基本的なフィールド抽出のために、コンパニオン検索モジュールと同じシンタックスを使用します。 アクセラレータは、名前の変更、フィルタリング、列挙された値に対する操作をサポートしません。 アクセラレータは第一レベルのフィルターです。 アクセラレーションモジュールは、対応する検索モジュールが動作し、等値性フィルタを実行するたびに透過的に呼び出されます。
 
-For example, consider the following well configuration which uses the JSON accelerator:
+例えば、JSONアクセラレータを使用する次のようなウェルの構成を考えてみましょう:
 
 ```
 [Storage-Well "applogs"]
@@ -101,23 +101,23 @@ For example, consider the following well configuration which uses the JSON accel
 	Accelerator-Args="username hostname app.field1 app.field2"
 ```
 
-If we were to issue the following query:
+もし、次のようなクエリーを発行するとしたら:
 
 ```
 tag=app json username==admin app.field1=="login event" app.field2 != "failure" | count by hostname | table hostname count
 ```
 
-The json search module will transparently invoke the acceleration framework and provide a first-level filter on the "username" and "app.field1" extracted values.  The "app.field2" field is NOT accelerated in this query because it does not use a direct equality filter.  Filters that exclude, compare, or check for subsets are not eligible for acceleration.
+jsonサーチモジュールは、透過的にアクセラレーションフレームワークを呼び出し、抽出された "username "と "app.field1 "の値に対して第一レベルのフィルターを提供する。 app.field2 "フィールドは、直接の等値性フィルタを使用しないため、このクエリでは高速化されません。 除外、比較、またはサブセットのチェックを行うフィルターは、高速化の対象とはなりません。
 
-### Accelerating Specific Tags
+### 特定のタグにアクセラレーションを適用する
 
-The acceleration system allows for acceleration at the well or tag levels, this allows you to specify a basic acceleration scheme on a well then specify specific accelerator configurations for specific tags or groups of tags.
+アクセラレーションシステムは、ウェルレベルまたはタグレベルでの高速化が可能です。このため、ウェルでの基本的な加速スキームを指定し、特定のタグまたはタグのグループに対して特定のアクセラレーション構成を指定することができます。
 
-Per tag acceleration is enabled by including one or more `Tag-Accelerator-Definitions` in the `[global]` configuration block in your `gravwell.conf`.  The `Tag-Accelerator-Definitions` configuration parameter should point to a file containing `Tag-Accelerator` blocks.  The `Tag-Accelerator` blocks allow for specifying a set of tags and an accelerator configuration for those specific tags.
+タグごとのアクセラレーションは `gravwell.conf` の `[global]` コンフィギュレーションブロックに一つ以上の `Tag-Accelerator-Definitions` を含めることで有効になります。 Tag-Accelerator-Definitions` 設定パラメータは `Tag-Accelerator` ブロックを含むファイルを指している必要があります。 Tag-Accelerator` ブロックは、タグのセットと、それらの特定のタグのためのアクセラレータの設定を指定することができます。
 
-For example, lets look at a definition where a well has a default Acceleration schema (or none at all) and several tags are singled out.  In this example we are going to define two wells in addition to the default well.  We will then include an accelerator definition file that will specify specific accelerators for tags.
+例えば、ウェルがデフォルトのアクセラレーションスキーマを持ち（あるいは全く持たず）、いくつかのタグが単 位指定されている場合の定義を見てみましょう。 この例では、デフォルトのウェルに加え、2つのウェルを定義する予定です。 次に、タグに特定のアクセラレータを指定するアクセラレータ定義ファイルを含めます。
 
-Note - Multiple `Tag-Accelerator-Definitions` may be specified to include multiple files.
+備考 - 複数のファイルをインクルードするために、複数の `Tag-Accelerator-Definitions` を指定することができる。
 
 ##### gravwell.conf
 
@@ -162,9 +162,9 @@ Note - Multiple `Tag-Accelerator-Definitions` may be specified to include multip
 	Tags=pcap
 ```
 
-The `Tag-Accelerator` definitions support tag wildcards in the same way as a well, but a `Tag-Accelerator` specification does NOT have be the same as a well specification.
+`タグアクセラレータ`の定義はウェルと同じようにタグのワイルドカードをサポートしますが、`タグアクセラレータ`の指定はウェルの指定と同じである必要はありません。
 
-Lets build out a table to see how specific tags would be mapped to specific wells and accelerators:
+特定のタグが特定のウェルとアクセラレータにどのようにマッピングされるか、テーブルを作成してみましょう:
 
 | Tag      | Well Assignment | Accelerator                   |
 |----------|-----------------|-------------------------------|
@@ -175,11 +175,11 @@ Lets build out a table to see how specific tags would be mapped to specific well
 | pcap     | `raw`           | `packet`                      |
 
 
-#### Accelerator Tag Match Rules
+#### アクセラレータのタグマッチルール
 
-Accelerator tag definitions CAN overlap with some specific rules.  This is in contrast to the well assignment rules where a single tag may not match two different specifications.  Tags are matched against an accelerator definition using either a `hard` match or a `soft` match.  A `hard` match occurs when the tag is directly specified without any wildcards, a `soft` match occurs when a tag is matched using a wildcard globbing pattern.  For example the tag `foobar` would match the tag specification `foo*` via a soft match, if we directly specified the tag `foobar` then it would be a hard match.
+アクセラレータのタグの定義は、いくつかの特定のルールと重複することがあります。 これは、1つのタグが2つの異なる仕様にマッチすることがないウェルアサインメントルールとは対照的です。 タグはアクセラレーションの定義に対して、`hard`マッチか`soft`マッチのどちらかでマッチングされます。 ハードマッチはタグがワイルドカードなしで直接指定されたときに起こり、ソフトマッチはタグがワイルドカードグロビングパターンを使ってマッチングされたときに起こります。 例えば、`foobar` というタグは、 `foo*` というタグの指定にソフトマッチでマッチします。もし、`foobar` というタグを直接指定した場合は、ハードマッチになります。
 
-The rules for matching tags are that a tag may not match multiple `soft` specifications or have multiple `hard` matches.  Let's look at a specification which would violate these matching rules and cause undefined behavior:
+タグのマッチングのルールは、1つのタグが複数の `soft` 仕様にマッチしたり、複数の `hard`` 仕様にマッチしてはいけないというものです。 これらのマッチングルールに違反し、未定義の動作を引き起こすような仕様を見てみましょう:
 
 ```
 [Tag-Accelerator "csv things"]
@@ -194,12 +194,12 @@ The rules for matching tags are that a tag may not match multiple `soft` specifi
 	Tags=foo*
 ```
 
-Notice that the two accelerator definitions have both a `foobar*` and a `foo*` tag matching pattern, this means that if we established the tag `foobarbaz` it could match both specifications (two `soft` matches).  DatalaiQ will send a notification indicating that the tag matches overlap.
-
-Now lets look at a specification where there is an allowed overlap:
+この2つのアクセラレータの定義には、`foobar*`と`foo*`の両方のタグマッチングパターンがあることに注意してください。これは、`foobarbaz`というタグを設定すると、両方の仕様にマッチする（2つの`ソフト`マッチ）可能性があるということです。 DatalaiQは、タグマッチが重複していることを示す通知を送信します。
+次に、オーバーラップが許容される仕様について説明します
+:
 
 ```
-#zeekconn is by far the most noisy, set a special accelerator for it
+#zeekconnは圧倒的にノイズが多いので、専用のアクセラレータをセットしてください。
 [Tag-Accelerator "zeek conn"]
 	Accelerator-Name=fields
 	Accelerator-Args=`-d "\t" [1] [2] [3] [4] [5] [6] [7] [11] [15]`
@@ -212,10 +212,10 @@ Now lets look at a specification where there is an allowed overlap:
 	Tags=zeek* #apply to all zeek prefixed tags
 ```
 
-Note that the tag `zeekconn` can be matched against both accelerators, however the accelerator definition `zeek conn` has a specific `hard` match where the more generic `zeek` definition would match with a `soft` match.  Because the tag has a hard and soft match, the specifications are legal and the `zeekconn` tag will be assigned the appropriate accelerator.  The `hard` and `soft` matching rules make it convenient to specify and acceleration for subset of tags and then tailor accelerators for specific high volume tags as is the case for Zeek data.
+`zeekconn` というタグは両方のアクセラレータにマッチしますが、アクセラレータの定義である `zeek conn` には特定の `hard` マッチがあり、より一般的な `zeek` の定義には `soft` マッチがあることに注意しましょう。 このタグにはハードマッチとソフトマッチがあるので、この仕様は合法であり、 `zeekconn` タグは適切なアクセラレータに割り当てられます。 ハードマッチとソフトマッチのルールは、タグのサブセットに対してアクセラレータを指定し、Zeekデータのように、特定の大量タグに対してアクセラレータを調整するのに便利です。
 
 
-`Tag-Accelerator` definitions can be included as external files or directly in the `gravwell.conf` file.  Here is a valid `gravwell.conf` that specifies a few accelerator deviations as well as two external definition files:
+`タグアクセラレータ`の定義は外部ファイルとして、または直接 `gravwell.conf` ファイルに含めることができます。 以下は有効な `gravwell.conf` で、2つの外部定義ファイルと同様にいくつかの加速器の偏差を指定します:
 
 ```
 [global]
@@ -251,30 +251,30 @@ Note that the tag `zeekconn` can be matched against both accelerators, however t
 
 ## Fulltext
 
-The fulltext accelerator is designed to index words within text logs and is considered the most flexible acceleration option.  Many of the other search modules support invoking the fulltext accelerator when executing queries.  However, the primary search module for engaging with the fulltext accelerator is the [grep](/search/grep/grep.md) module with the `-w` flag.  Much like the Unix grep utility, `grep -w` specifies that the provided filter is expected to a word, rather than a subset of bytes.  Running a search with `words foo bar baz` will look for the words foo, bar, and baz and engage the fulltext accelerator.
+フルテキストアクセラレータは、テキストログ内の単語をインデックス化するために設計されており、最も柔軟なアクセラレータオプションと考えられています。 他の多くの検索モジュールは、クエリを実行する際にフルテキストアクセラレータを呼び出すことをサポートしています。 しかし、フルテキストアクセラレータを使用するための主要な検索モジュールは、`-w` フラグを指定した [grep](/search/grep/grep.md) モジュールです。 Unix の grep ユーティリティと同様に、 `grep -w` は指定されたフィルタがバイトのサブセットではなく、ワードに期待されることを指定します。 words foo bar baz` と検索をかけると、foo, bar, baz という単語を探し、フルテキストアクセラレータを使用します。
 
-While the fulltext accelerator may be the most flexible, it is also the most costly.  Using the fulltext accelerator can significantly reduce the ingest performance of DatalaiQ and can consume significant storage space, this is due to the fact that the fulltext accelerator is indexing on virtually every component of every entry.
+フルテキストアクセラレーターは最も柔軟性が高い反面、最もコストがかかります。 これは、フルテキスト・アクセラレーターがすべてのエントリーのほぼすべての要素に対してインデックスを作成しているためです。
 
-### Fulltext Arguments
+### Fulltext引数
 
-The fulltext accelerator supports a few options which allow for refining the types of data that is indexed and removing fields that incur significant storage overhead but may not help much at query time.
+フルテキストアクセラレータは、インデックスを作成するデータの種類を絞り込んだり、ストレージのオーバーヘッドが大きいもののクエリ時にはあまり役に立たないフィールドを削除したりするための、いくつかのオプションをサポートしています。
 
 | Argument | Description | Example | Default State |
 |----------|-------------|---------|---------------|
-| -acceptTS | By default the fulltext accelerator attempts to identify and ignore timestamps in the data. This flag disables that behavior and allows timestamps to be indexed. | `-acceptTS` | DISABLED |
-| -acceptFloat | By default, the fulltext accelerator attempts to identify and ignore floating-point numbers, since they typically vary widely and are not explicitly queried. Setting this flag disables that behavior and allows floating-point numbers to be indexed. | `-acceptFloat` | DISABLED |
-| -min | Require that extracted tokens be at least X bytes long.  This can help prevent indexing on very small words such as "is" or "I". | `-min 3` | DISABLED |
-| -max | Require that extracted tokens be less than X bytes long.  This can help prevent indexing on very large "blobs" within logs that will never be feasibly queried. | `-max 256` | DISABLED |
-| -ignoreUUID | Enable a filter to ignore UUID/GUID values.  Some logs will generate a UUID for every entry, which incurs significant indexing overhead and provides very little value. | `-ignoreUUID` | DISABLED |
-| -ignoreTS | Identify and ignore timestamps during acceleration. Because timestamps change so frequently, they can be a significant source of bloat. The fulltext accelerator ignores timestamps by default. | `-ignoreTS` | ENABLED |
-| -ignoreFloat | Ignore floating point numbers. Logs where floating point numbers are used for filters can make use of `-accptFloat`. | `-acceptFloat` | ENABLED |
-| -maxInt | Enables a filter that will only index integers below a certain size.  This can be valuable when indexing data that such as HTTP access logs.  You want to index the return codes, but not the response times and data sizes. | `-maxInt 1000` | DISABLED |
+| -acceptTS | デフォルトでは、フルテキストアクセラレータはデータ中のタイムスタンプを識別し、無視しようとします。このフラグはその動作を無効にし、タイムスタンプをインデックス化することを可能にします。 | `-acceptTS` | DISABLED |
+| -acceptFloat | デフォルトでは、フルテキストアクセラレータは浮動小数点数を識別して無視しようとします。このフラグを設定すると、その動作が無効になり、浮動小数点数のインデックスが作成できるようになります。 | `-acceptFloat` | DISABLED |
+| -min | 抽出されたトークンの長さが少なくともXバイトであることを要求する。 これは、"is" や "I" のような非常に小さい単語でのインデックス作成を防ぐのに役立ちます。 | `-min 3` | DISABLED |
+| -max | 抽出されたトークンの長さがXバイト未満であることを要求する。 これは、決してクエリされることのない非常に大きな「ブロブ」に対してインデックスを作成するのを防ぐのに役立ちます。 | `-max 256` | DISABLED |
+| -ignoreUUID | UUID/GUID 値を無視するフィルタを有効にする。 ログによっては、すべてのエントリに対して UUID を生成するものがあります。これは、かなりのインデックス作成のオーバーヘッドを発生させ、ほとんど価値を提供しません。 | `-ignoreUUID` | DISABLED |
+| -ignoreTS | アクセラレーション時にタイムスタンプを識別し、無視する。タイムスタンプは頻繁に変更されるため、肥大化の重大な原因となる可能性があります。フルテキストアクセラレータは、デフォルトでタイムスタンプを無視します。 | `-ignoreTS` | ENABLED |
+| -ignoreFloat | 浮動小数点数を無視する。浮動小数点数がフィルタに使用されるログでは、 `-accptFloat` を使用することができる。 | `-acceptFloat` | ENABLED |
+| -maxInt | 特定のサイズ以下の整数のみをインデックス化するフィルタを有効にします。 これは、HTTP アクセスログのようなデータのインデックスを作成する際に有効です。 リターンコードはインデックス化したいが、レスポンスタイムやデータサイズはインデックス化したくない場合などに有効です。 | `-maxInt 1000` | DISABLED |
 
-NOTE: Make sure you understand your data before enabling the `-acceptTS` and `-acceptFloat` flags as these can dramatically bloat the index when using the index engine.  The Bloom engine is less impacted by orthogonal data such as timestamps and floating point numbers.
+備考: インデックスエンジンを使用する際には、インデックスを劇的に肥大化させる可能性があるため、 `-acceptTS` と `-acceptFloat` フラグを有効にする前に、自分のデータをよく理解しておく必要があります。 ブルームエンジンは、タイムスタンプや浮動小数点数などの直交するデータにはあまり影響を受けません。
 
-### Example Well Configuration
+### ウェルの設定例
 
-The following well configuration performs fulltext acceleration using the `index` engine.  We are attempting to identify and ignore timestamps, UUIDs, and require that all tokens be at least 2 bytes in length.
+以下のウェル設定例は `index` エンジンを使ってfulltextアクセラレーションを行うものです。 タイムスタンプや UUID を識別・無視し、すべてのトークンの長さが最低でも 2 バイトであることを要求しています。
 
 ```
 [Default-Well]
@@ -285,9 +285,9 @@ The following well configuration performs fulltext acceleration using the `index
 
 ## JSON
 
-The JSON accelerator module is specified using the accelerator name "json" and uses the exact same syntax for picking fields as the JSON modules.  See the [JSON search module](#!search/json/json.md) section for more information on field extraction.
+JSONアクセラレータモジュールは、アクセラレータ名「json」で指定し、JSONモジュールと全く同じ構文でフィールドの抽出を行います。 フィールドの抽出については、[JSON検索モジュール](#!search/json/json.md)のセクションを参照してください。
 
-### Example Well Configuration
+###  ウェルの設定例
 
 ```
 [Storage-Well "applogs"]
@@ -299,9 +299,9 @@ The JSON accelerator module is specified using the accelerator name "json" and u
 
 ## Syslog
 
-The syslog accelerator is designed to operate on conforming RFC5424 syslog messages.  See the [syslog search module](#!search/syslog/syslog.md) section for more information on field extraction.
+syslog アクセラレータは、RFC5424 に準拠した syslog メッセージで動作するように設計されています。 フィールド抽出の詳細については [syslog検索モジュール](#!search/syslog/syslog.md) のセクションを参照してください。
 
-### Example Well Configuration
+### ウェルの設定例
 
 ```
 [Storage-Well "syslog"]
@@ -313,9 +313,9 @@ The syslog accelerator is designed to operate on conforming RFC5424 syslog messa
 
 ## CEF
 
-The CEF accelerator is designed to operate on CEF log messages and is just as flexible as the search module.  See the [CEF search module](#!search/cef/cef.md) section for more information on field extraction.
+CEF アクセラレータは CEF ログメッセージ上で動作するように設計されており、検索モジュールと同じように柔軟性があります。 フィールド抽出の詳細については [CEF検索モジュール](#!search/cef/cef.md) セクションを参照してください。
 
-### Example Well Configuration
+### ウェルの設定例
 
 ```
 [Storage-Well "ceflogs"]
@@ -327,11 +327,11 @@ The CEF accelerator is designed to operate on CEF log messages and is just as fl
 
 ## Fields
 
-The fields accelerator can operate on any delimited data format, whether it be CSV, TSV, or some other delimiter.  The fields accelerator allows you to specify the delimiter the same way as the search module.  See the [fields search module](#!search/fields/fields.md) section for more information on field extraction.
+fields アクセラレータは、CSV や TSV など、あらゆる区切りデータ形式に対して操作することができます。 fields アクセラレータでは、search モジュールと同じようにデリミターを指定することができます。 フィールドの抽出については、[fields検索モジュール](#!search/fields/fields.md) のセクションを参照してください。
 
-### Example Well Configuration
+### ウェルの設定例
 
-This configuration extracts four fields from a comma-separated entry. Note the use of the `-d` flag to specify the delimiter.
+この設定では、カンマで区切られたエントリから4つのフィールドを抽出します。区切り文字を指定するために `-d` フラグを使用していることに注意してください。
 
 ```
 [Storage-Well "security"]
@@ -343,9 +343,9 @@ This configuration extracts four fields from a comma-separated entry. Note the u
 
 ## CSV
 
-The CSV accelerator is designed to operate on comma-separated value data, automatically removing surrounding whitespace and double quotes from data.  See the [CSV search module](#!search/csv/csv.md) section for more information on column extraction.
+CSVアクセラレータは、カンマ区切り値のデータに対して、周囲のホワイトスペースや二重引用符を自動的に削除して動作するように設計されています。 カラム抽出の詳細については、[CSV検索モジュール](#!search/csv/csv.md)のセクションを参照してください。
 
-### Example Well Configuration
+### ウェルの設定例
 
 ```
 [Storage-Well "security"]
@@ -357,9 +357,9 @@ The CSV accelerator is designed to operate on comma-separated value data, automa
 
 ## Regex
 
-The regex accelerator allows complicated extractions at ingest time in order to handle non-standard data formats.  Regular expressions are one of the slower extraction formats, so accelerating on specific fields can greatly increase query performance.
+正規表現アクセラレータは、非標準のデータ形式を扱うために、インジェスト時に複雑な抽出を可能にします。 正規表現は低速な抽出形式の一つであるため、特定のフィールドで高速化することにより、クエリの性能を大幅に向上させることができます。
 
-### Example Well Configuration
+### ウェルの設定例
 
 ```
 [Storage-Well "webapp"]
@@ -369,13 +369,13 @@ The regex accelerator allows complicated extractions at ingest time in order to 
 	Accelerator-Args="^\\S+\\s\\[(?P<app>\\w+)\\]\\s<(?P<uuid>[\\dabcdef\\-]+)>\\s(?P<src>\\S+)\\s(?P<srcport>\\d+)\\s(?P<dst>\\S+)\\s(?P<dstport>\\d+)\\s(?P<path>\\S+)\\s"
 ```
 
-Note: Remember to escape backslashes '\\' when specifying regular expressions in the gravwell.conf file.  The regex argument '\\w' will become '\\\\w'.
+備考: gravwell.confファイルに正規表現を指定する際は、バックスラッシュ「 \ 」をエスケープすることを忘れないようにしましょう。 正規表現の引数 'Ⓐ' は 'Ⓑ' となります。
 
 ## Winlog
 
-The winlog module is perhaps *the* slowest search module.  The complexity of XML data combined with the Windows log schema means that the module has to be extremely verbose, resulting in pretty poor performance.  This means that accelerating Windows log data may be your single most important performance optimization, as processing millions or billions of unaccelerated entries with the winlog module will be excruciatingly slow.  The accelerators help you narrow down the specific log entries you want without invoking the winlog search module on every piece of data.  However, accelerating winlog data simply shifts processing from search time to ingest time, meaning that ingest of Windows logs will be slower when acceleration is enabled, so don't expect DatalaiQ's typical ingest rate of hundreds of thousands of entries per second when ingesting into a winlog-accelerated well.
+winlogモジュールは、おそらく最も遅い検索モジュールです。 Windows ログスキーマと組み合わされた XML データの複雑さは、モジュールが非常に冗長でなければならないことを意味し、結果として、かなり悪いパフォーマンスになっています。 これは、Windowsログデータの高速化が、最も重要なパフォーマンスの最適化であることを意味し、winlogモジュールで加速されていない数百万または数十億のエントリーを処理することは、耐え難いほど遅くなります。 アクセラレーターは、すべてのデータに対してwinlog検索モジュールを呼び出すことなく、必要な特定のログ・エントリーを絞り込むのに役立ちます。 しかし、winlogデータの高速化は、単に検索時間から取り込み時間へと処理をシフトするだけです。つまり、高速化が有効になるとWindowsログの取り込みが遅くなるので、winlog-acceleratedウェルへの取り込み時にDatalaiQの典型的な取り込み速度、1秒間に数十万エントリーを期待しないでください。
 
-### Example Well Configuration
+### ウェルの設定例
 
 ```
 [Storage-Well "windows"]
@@ -385,17 +385,17 @@ The winlog module is perhaps *the* slowest search module.  The complexity of XML
 	Accelerator-Args="EventID Provider Computer TargetUserName SubjectUserName"
 ```
 
-Attention: The winlog accelerator is permissive ('-or' flag is implied).  So specify any field you plan on using to filter searches on, even if two of the fields would not be present in the same entry.
+注意: winlogアクセラレータは寛容です('-or'フラグは暗示的です)。 したがって、検索をフィルタリングするために使用するフィールドを指定します。たとえ、2 つのフィールドが同じエントリに存在しないとしてもです。
 
 ## Netflow
 
-The [netflow](#!search/netflow/netflow.md) module allows for accelerating on netflow V5 fields and speeding up queries on large amounts of netflow data.  While the netflow module is very fast and the data is extremely compact, it can still be beneficial to engage acceleration if you have very large netflow data volumes.  The netflow module can use any of the direct netflow fields, but cannot use the pivot helper fields.  This means that you must specify `Src` or `Dst` and not `IP`.  The `IP` and `Port` fields cannot be specified in the acceleration arguments.
+[netflow](#!search/netflow/netflow.md) モジュールは、netflow V5 フィールドでの高速化と、大量の netflow データでのクエリーの高速化を可能にします。 netflowモジュールは非常に高速で、データは非常にコンパクトですが、非常に大きなnetflowデータボリュームがある場合は、高速化を行うことが有益な場合もあります。 netflowモジュールはnetflowの直接フィールドのいずれかを使用できますが、ピボット・ヘルパー・フィールドは使用できません。 つまり、`IP`ではなく `Src` または `Dst` を指定しなければなりません。 加速度引数には `IP` と `Port` フィールドを指定することはできません。
 
-Note: The helper extractions `Timestamp` and `Duration` cannot be used in accelerators.
+備考: ヘルパー抽出の `Timestamp` と `Duration` はアクセラレータで使用することはできません。
 
-### Example Well Configuration
+### ウェルの設定例
 
-This example configuration uses the `bloom` engine and is accelerating on the source and destination IP/Port pairs as well as the protocol.
+この設定例では、`bloom`エンジンを使用し、送信元と送信先のIP/Portのペアとプロトコルで高速化を行っています。
 
 ```
 [Storage-Well "netflow"]
@@ -408,11 +408,11 @@ This example configuration uses the `bloom` engine and is accelerating on the so
 
 ## IPFIX
 
-The [ipfix](#!search/ipfix/ipfix.md) module can accelerate queries on IPFIX-formatted records. This module can accelerate on any of the 'normal' IPFIX fields, but not pivot helper fields. This means you must specify `sourceTransportPort` or `destinationTransportPort` rather than `port`, or `src`/`dst` rather than `ip`.
+[ipfix](#!search/ipfix/ipfix.md) モジュールは、IPFIX フォーマットのレコードに対するクエリーを高速化することができます。このモジュールは '通常の' IPFIX フィールドのいずれでも高速化できますが、ピボット・ヘルパー・フィールドは高速化できません。つまり、 `port` ではなく `sourceTransportPort` や `destinationTransportPort` を、また `ip` ではなく `src`/`dst` を指定しなければなりません。
 
-### Example Well Configuration
+### ウェルの設定例
 
-This example configuration uses the `index` engine to accelerate on source/destination ip/port pairs as well as the IP protocol of the flow, comparable to the example shown in the netflow section.
+この設定例では、ネットフローのセクションで示した例と同様に、フローのIPプロトコルと同様にソース/デスティネーションIP/ポートのペアで加速するために `index` エンジンを使用します。
 
 ```
 [Storage-Well "ipfix"]
@@ -425,13 +425,13 @@ This example configuration uses the `index` engine to accelerate on source/desti
 
 ## Packet
 
-The [packet](#!search/packet/packet.md) module can accelerate raw packet captures using the same syntax as the search module of the same name.  There is a subtle but important difference in how the packet accelerator is applied as compared to the search modules; the accelerator can use overlapping layers.  This means that you can specify both UDP and TCP items and extract the right field depending on the packet being processed.
+[packet](#!search/packet/packet.md) モジュールは、同名の検索モジュールと同じ構文で、生のパケットキャプチャを高速化することができます。 検索モジュールと比較して、パケットアクセラレータの適用方法に微妙な、しかし重要な違いがあります: アクセラレータは重複するレイヤーを使用できます。 つまり、UDPとTCPの両方の項目を指定し、処理するパケットに応じて適切なフィールドを抽出することができるのです。
 
-A well configuration can be configured to accelerate IPv4, IPv6, TCP, UDP, ICMP, etc... all at the same time.  The packet accelerator does not treat specified fields as implied filters.
+IPv4、IPv6、TCP、UDP、ICMPなど、すべてを同時に高速化するようにうまく設定することが可能です。 パケットアクセラレータは、指定されたフィールドを暗黙のフィルタとして扱いません。
 
-The packet accelerator also requires direct fields, this means you cannot use the convenience extractors like `IP` and `Port`.  You must specify exactly what you want to accelerate on.
+つまり、`IP` や `Port` といった便利なエキストラクタは使えないということです。 つまり、`IP` や `Port` のような便利な抽出器は使えないということです。何を高速化したいのかを正確に指定しなければなりません。
 
-### Example Well Configuration
+### ウェルの設定例
 
 ```
 [Storage-Well "packets"]
@@ -443,9 +443,9 @@ The packet accelerator also requires direct fields, this means you cannot use th
 
 ## SRC
 
-The src accelerator can be used when only the entry's source field should be accelerated.  However, it is essentially possible to combine the src accelerator with other accelerators by enabling the "Accelerate-On-Source" flag and using src search module in your queries.  See the [src search module](#!search/src/src.md) for more information on filtering.
+src アクセラレータは、エントリのソースフィールドのみを高速化する場合に使用します。 しかし、基本的には "Accelerate-On-Source" フラグを有効にし、クエリで src 検索モジュールを使用すれば、src アクセラレータを他のアクセラレータと組み合わせることが可能です。 フィルタリングの詳細については [src検索モジュール](#!search/src/src.md) を参照してください。
 
-### Example Well Configuration
+### ウェルの設定例
 
 ```
 [Storage-Well "applogs"]
@@ -454,7 +454,7 @@ The src accelerator can be used when only the entry's source field should be acc
 	Accelerator-Name="src"
 ```
 
-### Example Well Configuration and Query Combining SRC
+### SRCを組み合わせたウェルの構成とクエリーの例
 
 ```
 [Storage-Well "applogs"]
@@ -465,26 +465,26 @@ The src accelerator can be used when only the entry's source field should be acc
 	Accelerate-On-Source=true
 ```
 
-The following query invokes both the fields accelerator and the src accelerator to specify specific log types coming from specific sources.
+次のクエリは、fields アクセラレータと src アクセラレータの両方を呼び出して、特定のソースから来る特定のログタイプを指定します。
 
 ```
 tag=app src dead::beef | fields -d "," [1]=="security" [2]="process" [5]="domain" [3] as processname | count by processname | table processname count
 ```
 
-## Acceleration Performance and Benchmarking
+## アクセラレーション性能とベンチマーク
 
-To understand the benefits and drawbacks of acceleration it is best to see how it impacts storage use, ingest performance, and query performance.  We will use some apache combined access logs that are generated using a generator available on [github](https://github.com/kiritbasu/Fake-Apache-Log-Generator).  Our dataset is 10 million Apache combined access logs that are spread out over approximately 24 hours; the total data is 2.1GB.  We will define 4 wells with 4 different configurations.  We will be taking a fairly naive approach to indexing this data, as there are many parameters that don't make a lot of sense to index on, such as the number of returned bytes.
+高速化の利点と欠点を理解するためには、それがストレージの使用、インジェストパフォーマンス、クエリパフォーマンスにどのように影響するかを見るのが一番です。 ここでは、[github](https://github.com/kiritbasu/Fake-Apache-Log-Generator)で公開されているジェネレーターを使用して生成された、Apacheの複合アクセスログを使用します。 データセットは、約24時間に渡る1000万件のApache複合アクセスログで、データ総量は2.1GBです。 我々は、4つの異なる構成で4つのウェルを定義します。 このデータには、返されたバイト数のような、インデックスを作成する意味があまりないパラメータがたくさんあるため、かなり単純なアプローチでインデックスを作成することになります。
 
 
 
 | Well | Extractor | Engine | Description |
 |------|-----------|--------|-------------|
-| raw  | None | None | A completely raw well with no acceleration at all |
-| fulltext | fulltext | index | A fulltext accelerated well that uses the index engine and will perform fulltext acceleration on every word |
-| regexindex | regex | index | A well accelerated with the regex extractor and using the index engine.  Each parameter is extracted and indexed |
-| regexbloom | regex | bloom | A well with the same extractor as the regexindex well but with bloom engine.  Each parameter is extracted and added to the bloom filter |
+| raw  | None | None | アクセラレータが全くない完全な生ウェル |
+| fulltext | fulltext | index | インデックスエンジンを使用し、すべての単語に対して全文高速化を行うfulltextアクセラレーションウェル |
+| regexindex | regex | index | 正規表現抽出器とインデックスエンジンを使ってよく加速されたもの。各パラメータが抽出され、インデックスが作成される |
+| regexbloom | regex | bloom | regexindexウェルと同じ抽出器を持つが、ブルームエンジンを持つウェル。 各パラメータは抽出され、ブルームフィルタに追加される。 |
 
-The well configurations are:
+ウェルの構成は:
 
 ```
 [Storage-Well "raw"]
@@ -516,9 +516,9 @@ The well configurations are:
 	Accelerator-Args="^(?P<ip>\\S+) (?P<ident>\\S+) (?P<username>\\S+) \\[([\\w:/]+\\s[+\\-]\\d{4})\\] \"(?P<method>\\S+)\\s?(?P<url>\\S+)?\\s?(?P<proto>\\S+)?\" (?P<resp>\\d{3}|-) (?P<bytes>\\d+|-)\\s?\"?(?P<referer>[^\"]*)\"?\\s?\"?(?P<useragent>[^\"]*)?\"?$"
 ```
 
-### Test Machine
+### テストマシン
 
-Query, ingest, and storage performance characteristics will vary with each dataset and hardware platform, but for this test we are using the following hardware:
+クエリー、インジェスト、ストレージのパフォーマンス特性は、各データセットやハードウェアプラットフォームによって異なりますが、このテストでは以下のハードウェアを使用しています。:
 
 | Component | Description |
 |-----------|-------------|
@@ -527,11 +527,11 @@ Query, ingest, and storage performance characteristics will vary with each datas
 | Disk      | Samsung 960 EVO NVME |
 | Filesystem | BTRFS with zstd transparent compression |
 
-These tests were conducted using DatalaiQ version `3.1.5`
+このテストはDatalaiQのバージョン `3.1.5`を使用して行われました。
 
-### Ingest Performance
+### インジェストパフォーマンス
 
-For ingest we will use the singleFile ingester.  The singleFile ingester is designed to ingest a single newline delimited file, deriving timestamps as it goes.  Because the ingester is deriving timestamps, it requires some CPU resources.  The singleFile ingester is available on our [GitHub page](https://github.com/gravwell/ingesters/). The exact invocation of the singleFile ingester is:
+インジェストには、singleFileインジェスターを使用します。 singleFileインジェスターは一つの改行区切りファイルをインジェストするように設計されており、その都度タイムスタンプを導出するようになっています。 このインジェスターはタイムスタンプを生成するため、ある程度のCPUリソースを必要とします。 singleFileインジェスターは、私たちの[GitHubページ](https://github.com/gravwell/ingesters/)で公開されています。singleFileインジェスターの正確な起動方法は以下の通りです:
 
 ```
 ./singleFile -i apache_fake_access_10M.log -clear-conns 172.17.0.3 -block-size 1024 -timeout=10 -tag-name=fulltext
@@ -544,11 +544,11 @@ For ingest we will use the singleFile ingester.  The singleFile ingester is desi
 | regexindex | 57.58  KE/s        | 12.11 MB/s |
 | fulltext   | 26.37  KE/s        |  5.55 MB/s |
 
-We can see from the ingest performance that the fulltext acceleration system dramatically reduces the ingest performance.  While 5.55MB/s seems like poor ingest performance, it is worth mentioning that this is still about 480GB of data and 2.3 billion entries per day.
+インジェスト性能から、フルテキストアクセラレーションシステムがインジェスト性能を劇的に低下させていることがわかります。 5.55MB/sはインジェスト性能が悪いように見えますが、これでも約480GBのデータと1日あたり23億エントリーになることは特筆すべきことです。
 
-### Storage Usage
+### ストレージ使用率
 
-Outside of ingest performance and some additional memory requirements, the main penalty to enabling acceleration is usage.  We can see that the index engine for each extraction methodology consumed over 50% more storage, while the bloom engine consumed an additional 4%.  The storage usage is very dependent on data consumed, but on average the indexing system will consume significantly more storage.
+インジェストパフォーマンスと追加メモリー要件以外では、アクセラレーションを有効にすることによる主なペナルティは使用量です。 各抽出方法のインデックス・エンジンは50%以上のストレージを消費し、ブルーム・エンジンはさらに4%消費していることがわかります。 ストレージの使用量は消費されるデータに大きく依存しますが、平均すると、インデックス作成システムはかなり多くのストレージを消費します。
 
 |  Well      | Used Storage | Diff From Raw |
 |------------|--------------|---------------|
@@ -557,18 +557,18 @@ Outside of ingest performance and some additional memory requirements, the main 
 | regexindex | 3.76GB       | 51%           |
 | regexbloom | 2.60GB       | 4%            |
 
-### Query Performance
+### クエリパフォーマンス
 
-To demonstrate the differences in query performance we will execute two queries which can be categorized as sparse and dense.  The sparse query will look for a specific IP in the data set, returning just a handful of entries.  The dense query will look for a specific url that is reasonably common in the data set.  To simplify the queries we will install an ax module for the regexindex and regexbloom tags that matches the acceleration system.  The dense query will retrieve roughly 12% of the entries in the data set, while the sparse query will retrieve approximately 0.01%.
+クエリパフォーマンスの違いを示すために、sparseとdenseに分類される2つのクエリを実行します。 疎なクエリは、データセット内の特定のIPを探し、ほんの一握りのエントリを返します。 密なクエリでは、データセット内で適度に一般的な特定のURLを探します。 クエリを単純化するために、アクセラレーションシステムと一致するregexindexおよびregexbloomタグ用のaxモジュールをインストールします。 密なクエリではデータセットの約12%のエントリが検索され、疎なクエリでは約0.01%が検索されます。
 
-The sparse and dense queries are:
+スパースクエリーとデンスクエリーは:
 
 ```
 ax ip=="106.218.21.57"
 ax url=="/list" method | count by method | chart count by method
 ```
 
-Prior to executing each query, we will drop the system caches by executing the following command as root:
+各クエリーを実行する前に、rootで以下のコマンドを実行して、システムキャッシュを削除します:
 
 ```
 echo 3 > /proc/sys/vm/drop_caches
@@ -585,27 +585,27 @@ echo 3 > /proc/sys/vm/drop_caches
 | regexindex | dense      | 14.2s      |  13%                         | 5.17X   |
 | fulltext   | dense      | 24.6s      |  30%                         | 2.98X   |
 
-Note: The regex search module/autoextractor is not fully compatible with the fulltext accelerator, so we have to modify the queries slightly to engage the accelerators.  They are ```grep -w "106.218.21.57"``` and ```grep -w list | ax url=="/list" method | count by method | chart count by method```
+備考: 正規表現検索モジュール/autoextractorはフルテキストアクセラレータと完全に互換性があるわけではないので、アクセラレータを使用するためにクエリを少し変更する必要があります。 それらは ``grep -w "106.218.21.57"`` と ``grep -w list | ax url=="/list" method | count by method | chart count by method`` である。
 
 #### Fulltext
 
-The above benchmarks make it very apparent that the fulltext accelerator has significant ingest and storage penalties and the example queries don't appear to justify those expenses.  If your data is entirely token based such as tab delimited, csv, or json and every token is entirely discreet (single words, numbers, IPs, values, etc...) the fulltext accelerator doesn't make much sense.  However, if your data has complex components the fulltext accelerator can do things the other accelerators cannot.  We have been using Apache combined access logs, lets look at a query that allows the fulltext accelerator to really shine.
+上記のベンチマークを見ると、フルテキストアクセラレータには大きな取り込みと保存のペナルティがあり、例のクエリではその費用を正当化できないことがよくわかる。 データがタブ区切り、csv、json などの完全にトークンをベースとしたもので、すべてのトークンが完全に独立している場合（単一の単語、数値、IP、値など）、フルテキストアクセラレータはあまり意味をなさない。 しかし、データに複雑な要素がある場合、フルテキストアクセラレータは他のアクセラレータではできないことを行うことができる。 ここでは、Apache のアクセスログを組み合わせたクエリを使って、フルテキストアクセラレータが真価を発揮できるようなクエリを見てみましょう。
 
-We are going to look at sub-components of the URL and get a chart of users that are browsing our the `/apps` subdirectory using a PowerPC Macintosh computer.  The regular expressions in the above examples index on full fields within the Apache log.  They cannot drill down and use parts of those fields for acceleration, fulltext can.
+URL のサブコンポーネントを調べて、PowerPC Macintosh コンピュータを使用して `/apps` サブディレクトリをブラウズしているユーザのチャートを取得するつもりです。 上記の例の正規表現は Apache のログ中の完全なフィールドをインデックスします。 これらのフィールドの一部を掘り下げて加速することはできませんが、フルテキストは可能です。
 
-We will optimized the query for both the fulltext indexer and the others so that we can be fair, however both queries will work on either of the datasets.
+公平を期すため、フルテキストインデクサとその他のクエリの両方に最適化しましたが、どちらのクエリもどちらのデータセットでも機能します。
 
-The fulltext accelerator optimized query:
+フルテキストアクセラレータに最適化されたクエリ:
 ```
 grep -s -w apps Macintosh PPC | ax url~"/apps" useragent~"Macintosh; U; PPC" | count | chart count
 ```
 
-The query optimized for non-fulltext:
+fulltext以外に最適化されたクエリ:
 ```
 ax url~"/apps" useragent~"Macintosh; U; PPC" | count | chart count
 ```
 
-The results show why fulltext may often be worth the storage and ingest penalty:
+この結果は、なぜフルテキストがストレージとインジェストのペナルティに見合うことが多いかを示しています。:
 
 |  Well      | Query Time | Speedup |
 |------------|------------|---------|
@@ -615,9 +615,9 @@ The results show why fulltext may often be worth the storage and ingest penalty:
 | fulltext   | 5.73s      | 12.49X  |
 
 
-#### Query AX modules
+#### AXモジュール
 
-The AX definition file for all four tags is below, see the [AX]() documentation for more information:
+4つのタグのAX定義ファイルは以下の通りです。詳細は[AX]()のドキュメントを参照してください:
 
 ```
 [[extraction]]
