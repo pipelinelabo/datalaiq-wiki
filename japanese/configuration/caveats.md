@@ -1,68 +1,68 @@
-# Common Problems & Caveats
+# よくある問題点と注意点
 
-There are a few issues which can crop up in the course of configuring and using DatalaiQ. This document attempts to cover some of the most common.
+DatalaiQを設定し、使用する過程で、いくつかの問題が発生する可能性があります。この文書では、最も一般的なものをいくつか取り上げています。
 
-## Clock Source Warning
+## クロックソース警告
 
-When running DatalaiQ in a virtualized environment such as KVM, you may see a notification like this:
+KVMなどの仮想化環境でDatalaiQを実行すると、次のような通知が表示されることがあります:
 
 ```
-Detected potentially slow clock source acpi_pm. Consider changing webservers and indexers to one of the following: tsc, kvm-clock
+遅い可能性のあるクロックソースacpi_pmが検出されました。ウェブサーバとインデクサを次のいずれかに変更することを検討してください: tsc, kvm-clock
 ```
 
-Because DatalaiQ is a heavily time-oriented system, it needs to check the current time frequently. Some clock sources are significantly slower than others, which can lead to a noticeable slowdown in DatalaiQ queries.
+DatalaiQは時間志向の強いシステムであるため、頻繁に現在の時刻を確認する必要があります。クロック・ソースの中には他のものより著しく遅いものがあり、DatalaiQのクエリーにおいて顕著な速度低下をもたらすことがある。
 
-To modify the clock source, [follow the directions here](https://aws.amazon.com/premiumsupport/knowledge-center/manage-ec2-linux-clock-source/).
+クロックソース警告を編集するには, [こちらの案内に従ってください](https://aws.amazon.com/premiumsupport/knowledge-center/manage-ec2-linux-clock-source/).
 
-Note: If you are unable to modify the clock source, this notification is only visible to the default 'admin' user, not to any other users, and can be ignored if necessary.
+備考: クロックソースを変更できない場合、この通知はデフォルトの「admin」ユーザにのみ表示され、他のユーザには表示されないので、必要に応じて無視することができます。
 
-## Cannot Reach DatalaiQ Interface
+## DatalaiQインターフェイスに到達できない
 
-After installing DatalaiQ, you may find that your web browser cannot reach the webserver, or that the webserver is not connecting to any indexers. This is frequently a result of closed firewall ports. DatalaiQ uses a number of TCP ports which must be opened for proper operation. Please refer to [the networking considerations page](networking.md) for more information on which ports must be opened.
+DatalaiQをインストールした後、WebブラウザがWebサーバーに到達できない、またはWebサーバーがどのインデクサにも接続されないという現象が発生することがあります。これは、ファイアウォールのポートが閉じていることが原因であることが多いようです。DatalaiQは、適切な動作のために開く必要がある多数のTCPポートを使用します。どのポートを開かなければならないかについての詳細は、[ネットワークに関する考察のページ](networking.md)を参照してください。
 
-## Configuring HTTPS and Secure Listeners
+## HTTPSとセキュアリスナーを設定する
 
-By default, DatalaiQ does not include or generate TLS certificates. If you intend to use DatalaiQ on the Internet or any other untrusted network, we strongly recommend you install certificates as soon as possible. See [the certificates page](certificates.md) for instructions.
+デフォルトでは、DatalaiQはTLS証明書を含まないか、または生成しません。インターネットやその他の信頼できないネットワークでDatalaiQを使用する予定がある場合、できるだけ早く証明書をインストールすることを強くお勧めします。手順については、[証明書ページ](certificates.md)を参照してください。
 
-Note: DatalaiQ requires certificates that are compatible with TLS 1.2 or later.
+備考：DatalaiQは、TLS 1.2以降と互換性のある証明書を必要とします。
 
-## DatalaiQ Processes Won't Start
+## DatalaiQのプロセスが起動しない
 
-There are a few reasons that DatalaiQ components (webserver, indexers, searchagent, ingesters, etc.) may refuse to start.
+DatalaiQコンポーネント（Webサーバー、インデックス、サーチエージェント、インジェスターなど）の起動が拒否される理由はいくつかあります。
 
-### Invalid Configuration
+### 無効な設定
 
-An invalid configuration file will usually lead to the failure of the associated component. There are a few places you can look for more information.
+無効な設定ファイルは、通常、関連するコンポーネントの障害につながります。より詳しい情報を得るには、いくつかの場所を探すことができます。
 
-* `/dev/shm/` usually contains the stderr output of the process in question, for example the webserver component will output to `/dev/shm/gravwell_webserver`.
-* `/opt/gravwell/log` contains log files from some components.
-* Depending on the precise nature of the misconfiguration, ingesters may log errors or warnings to the `gravwell` tag.
+* `dev/shm/` は通常、該当するプロセスの標準エラー出力を含みます。例えば、ウェブサーバコンポーネントは `/dev/shm/gravwell_webserver` に出力されます。
+* `opt/gravwell/log` には、いくつかのコンポーネントからのログファイルが含まれています。
+* 設定ミスの正確な性質に応じて、インジェスターはエラーや警告を `gravwell` タグに記録するかもしれません。
 
-### Ownership Issues
+### 所有権に関する問題
 
-The DatalaiQ components are intended to run as user "gravwell". If the root user runs a DatalaiQ component manually, it may create or modify essential files and mark them as belonging to root. When run under the "gravwell" account later, the processes will not be able to access the files. You can use `chown` to reassign these files to the datalaiq user, but take care *not* to modify anything in `/opt/gravwell/bin` as this can conflict with SELinux flags!
+DatalaiQコンポーネントは、ユーザー "gravwell "として実行されることを想定しています。ルートユーザーがDatalaiQコンポーネントを手動で実行すると、重要なファイルが作成または変更され、それらがルートに属しているものとしてマークされる可能性があります。後で "gravwell "アカウントで実行すると、そのプロセスはそのファイルにアクセスできなくなります。しかし、`/opt/gravwell/bin` を変更すると SELinux のフラグと衝突する可能性があるので、注意してください!
 
-Warning: Do not modify permissions or ownership of files in `/opt/gravwell/bin` unless explicitly instructed by DatalaiQ support.
+注意: DatalaiQのサポートから明確な指示がない限り、`/opt/gravwell/bin`にあるファイルのパーミッションや所有権を変更しないでください。
 
-### SELinux Issues
+### SELinuxに関する問題
 
-DatalaiQ makes an attempt to properly flag files in `/opt/gravwell` for SELinux compatibility, but careless use of the `chown` and `chmod` commands in `/opt/gravwell/bin` can clear these flags. See [the SELinux section of the hardening document](hardening.md) for more information.
+DatalaiQ は SELinux との互換性を保つために `/opt/gravwell` にあるファイルに適切なフラグを立てようとしますが、 `/opt/gravwell/bin` にある `chown` と `chmod` コマンドを不用意に使うと、これらのフラグをクリアしてしまうことがあります。より詳しい情報は [ハードニングのドキュメントのSELinuxのセクション](hardening.md) を参照してください。
 
-## DatalaiQ Consumes Too Much Memory/CPU
+## DatalaiQのメモリ/CPUの消費量が多すぎる
 
-Because DatalaiQ often has to deal with huge quantities of data, we do not restrict how much memory or CPU time it can consume. If, however, you must run DatalaiQ on the same system as some other important software, you may wish to restrict its access to resources. In that case, see the "systemd Unit Files" section of the [system hardening document](hardening.md).
+DatalaiQはしばしば膨大な量のデータを処理する必要があるため、メモリやCPUの消費量を制限することはありません。しかし、DatalaiQ を他の重要なソフトウェアと同じシステムで実行する必要がある場合は、リソースへのアクセスを制限することができます。その場合は、[システムハードニングドキュメント](hardening.md) の "systemd Unit Files" のセクションを参照してください。
 
-## DatalaiQ and Virtual Memory Areas
+## DatalaiQと仮想メモリ領域
 
-DatalaiQ indexers use memory mapped (mmap) files to access stored data. Every mapped file counts against the indexer's maximum number of memory mapped files, as dictated by the Linux Kernel. On some systems, and depending on the amount and granularity of data in your indexer, you may have to increase the allowed number of memory mapped files to avoid crashes. Crashes caused by exhausting the available number of memory mapped files usually appear as a `malloc` failure. On most modern Linux distributions, the default number of allowed memory mapped files is 65536.
+DatalaiQ インデクサは、保存データにアクセスするためにメモリ・マップド・ファイル (mmap) を使用します。マッピングされたファイルはすべて、Linux カーネルによって規定された、インデクサーのメモリ・マップド・ファイルの最大数に対してカウントされます。シ ス テ ムに よ っ ては、 イ ンデ ッ ク サ内のデー タ の量 と 粒度に よ っ ては、 ク ラ ッ シ ュ を避け る ために メ モ リ マ ッ プ フ ァ イ ルの許容数を増や し なければな ら ない場合があ り ます。利用可能なメモリマップドファイルの数を使い果たすことによるクラッシュは、通常 `malloc` の失敗として表示されます。最近のLinuxディストリビューションでは、デフォルトのメモリマップドファイルの数は65536です。
 
-To increase the number of allowed memory mapped files, use `sysctl`:
+許可されるメモリマップファイルの数を増やすには、`sysctl`を使用します:
 
 ```
 sysctl -w vm.max_map_count=262144
 ```
 
-To permanently change the allowed number of memory mapped files, add the `sysctl` parameter to `sysctl.conf`:
+メモリマップファイルの許容数を恒久的に変更するには、`sysctl`パラメータを `sysctl.conf` に追加してください:
 
 ```
 echo vm.max_map_count=262144 >> /etc/sysctl.conf

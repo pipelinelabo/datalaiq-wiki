@@ -1,18 +1,18 @@
-# Configuring TLS certificates
+# TLS証明書の設定
 
-DatalaiQ ships without TLS certificates by default, meaning all communications will be unencrypted until you set up certificates. We did this because using auto-generated self-signed certificates tends to both frighten users with the browser's warnings and provide a false sense of security. It is difficult to properly validate a self-signed certificate and there is a real risk of training users to simply accept potentially impersonated certificates.  This is compounded by the extremely fickle behavior of Chromium-based browsers, which timeout certificate exceptions in unpredictable ways (you are often forced to close EVERY Chromium/Chrome zygote process in order to re-accept the certificate).
+DatalaiQはデフォルトでTLS証明書なしで出荷され、証明書を設定するまではすべての通信が暗号化されないことを意味します。これは、自動生成された自己署名証明書を使用すると、ブラウザの警告でユーザーを怖がらせ、誤ったセキュリティ感覚を与えてしまう傾向があるためです。自己署名証明書を適切に検証することは難しく、また、なりすましの可能性がある証明書を単純に受け入れるようユーザーを教育してしまう危険性があります。 さらに、Chromiumベースのブラウザの挙動は非常に気まぐれで、証明書の例外処理が予測できない方法でタイムアウトします（証明書を再認識するために、Chromium/Chrome zygoteプロセスを終了しなければならないことがよくあります）。
 
-We strongly recommend that you acquire fully validated certificates from a trusted provider if you plan to expose the DatalaiQ system to the Internet.  The folks at [LetsEncrypt](https://letsencrypt.org) are a great resource for learning about proper certificate validation, and they provide free certificates that are trusted by every major browser.
+DatalaiQシステムをインターネットに公開する予定がある場合は、信頼できるプロバイダーから完全に検証された証明書を取得することを強くお勧めします。 LetsEncrypt](https://letsencrypt.org) の人々は、適切な証明書の検証について学ぶための素晴らしいリソースであり、彼らはすべての主要なブラウザで信頼されている無料の証明書を提供しています。
 
-The DatalaiQ administrator has three options for certificates:
+DatalaiQの管理者は、証明書について以下の3つのオプションがあります:
 
-* Continue to use unencrypted HTTP only. This is suitable for installations that will only be accessed on a trusted private network, or where DatalaiQ will be fronted by an HTTP proxy such as nginx.
-* Install a properly-signed TLS certificate. This is the ideal configuration, but typically requires the DatalaiQ instance to have a publicly-accessible hostname.
-* Install a self-signed certificate. This makes sense when you want to encrypt traffic to DatalaiQ but for one reason or another cannot get a properly signed certificate.
+* 暗号化されていないHTTPのみを使用し続ける。これは、信頼できるプライベート・ネットワークからのみアクセスされる場合や、DatalaiQがnginxのようなHTTPプロキシによってフロント処理される場合に適しています。
+* 適切に署名されたTLS証明書をインストールします。これは理想的な構成ですが、通常、DatalaiQインスタンスが一般にアクセス可能なホスト名を持っている必要があります。
+* 自己署名入り証明書をインストールする。これは、DatalaiQへのトラフィックを暗号化したいが、何らかの理由で適切に署名された証明書を取得できない場合に意味があります。
 
-## Allowed TLS Ciphers
+## 対応するTLS暗号方式
 
-A number of TLS ciphers are considered cryptographically insecure, so DatalaiQ only supports the following TLS ciphers:
+多くのTLS暗号は暗号学的に安全でないと考えられているため、DatalaiQは以下のTLS暗号のみをサポートしています:
 
 - RSA-WITH-AES-256-CBC-SHA
 - ECDHE-ECDSA-WITH-AES-256-CBC-SHA
@@ -22,36 +22,36 @@ A number of TLS ciphers are considered cryptographically insecure, so DatalaiQ o
 - AES-256-GCM-SHA384
 - CHACHA20-POLY1305-SHA256
 
-## Using HTTP only
+## HTTPのみを使用する
 
-This is the default configuration for DatalaiQ, and no changes are needed to use it. It is suitable for someone experimenting with DatalaiQ on a home network, or evaluating it on an experimental network for work. It is also an acceptable configuration when the DatalaiQ webserver will be accessed through a load balancer/reverse proxy such as nginx; this allows the proxy to perform HTTPS encryption/decryption, taking load off the DatalaiQ system.
+これはDatalaiQのデフォルトの設定であり、これを使用するために変更する必要はありません。ホームネットワーク上でDatalaiQを実験的に使用する場合や、仕事用の実験的ネットワーク上で評価する場合に適しています。また、DatalaiQのウェブサーバーがnginxのようなロードバランサー／リバース・プロキシを通してアクセスされる場合にも、この設定が許容されます；これにより、プロキシがHTTPS暗号化／復号化を行い、DatalaiQシステムから負荷を取り除くことができます。
 
-Please note that without a certificate, ingesters will be unable to encrypt their traffic to the indexer. If you wish to encrypt ingester traffic but leave the webserver in HTTP-only mode, you may install a certificate as described in either of the other sections, but only uncomment the `Certificate-File`, `Key-File`, and `TLS-Ingest-Port` options in gravwell.conf. This will enable TLS for the indexer but not the webserver.
+証明書がないと、インジェスターはインデクサーへのトラフィックを暗号化することができないことに注意してください。インジェスターのトラフィックを暗号化したいが、ウェブサーバーをHTTPのみのモードにしておきたい場合、他のセクションで説明したように証明書をインストールすることができますが、 gravwell.conf の `Certificate-File` 、 `Key-File` 、 `TLS-Ingest-Port` オプションだけはアンコメントしてください。これにより、インデクサーのTLSは有効になりますが、WebサーバーのTLSは有効になりません。
 
-Note: If you configure distributed webservers and a datastore with HTTPS disabled, you must set the `Datastore-Insecure-Disable-TLS` flag in gravwell.conf for both the datastore and the webservers.
+備考: 分散型ウェブサーバとデータストアをHTTPSを無効にして構成する場合、データストアとウェブサーバの両方について、gravwell.confで`Datastore-Insecure-Disable-TLS`フラグを設定する必要があります。
 
-## Install a properly-signed TLS certificate
+## 正しく署名されたTLS証明書をインストールする
 
-A properly-signed TLS certificate is the most secure way to access DatalaiQ. Browsers will automatically accept the certificate without complaint.
+正しく署名されたTLS証明書は、DatalaiQにアクセスするための最も安全な方法です。ブラウザは文句を言わずに自動的に証明書を受け入れるでしょう。
 
-Obtaining a certificate is outside the scope of this documentation; consider either purchasing a certificate through one of the traditional providers or using [LetsEncrypt](https://letsencrypt.org) to obtain a free one.
+証明書の取得はこのドキュメントの範囲外です。従来のプロバイダーから証明書を購入するか、[LetsEncrypt](https://letsencrypt.org)を使用して無料の証明書を取得することを検討してください。
 
-To use the certificate, DatalaiQ must be told where the certificate and key files are. Assuming the files are at `/etc/certs/cert.pem` and `/etc/certs/key.pem`, edit gravwell.conf to uncomment and populate the `Certificate-File` and `Key-File` options:
+証明書を使用するために、DatalaiQは証明書と鍵のファイルがある場所を教えてもらう必要があります。ファイルは `/etc/certs/cert.pem` と `/etc/certs/key.pem` にあると仮定して、 gravwell.conf を編集して `Certificate-File` と `Key-File` オプションをアンコメントし入力する必要があります:
 
 ```
 Certificate-File=/etc/certs/cert.pem
 Key-File=/etc/certs/key.pem
 ```
 
-Note: These files must be readable by the "gravwell" user. However, take care to protect the key file from other users; if it is made world-readable, any user on the system can access the secret key.
+備考: これらのファイルは、「gravwell」ユーザが読めるようにしなければなりません。しかし、鍵ファイルを他のユーザーから保護するように注意してください。もし、世界的に読めるようにすると、システム上のどのユーザーも秘密鍵にアクセスできるようになります。
 
-To enable HTTPS on the webserver, change the `Web-Port` directive from 80 to 443, then comment out the `Insecure-Disable-HTTPS` directive.
+ウェブサーバーでHTTPSを有効にするには、`Web-Port`ディレクティブを80から443に変更し、`Insecure-Disable-HTTPS`ディレクティブをコメントアウトしてください。
 
-To enable TLS-encrypted ingester connections, find and uncomment the line `TLS-Ingest-Port=4024`.
+TLSで暗号化されたインジェスター接続を有効にするには、`TLS-Ingest-Port=4024`という行を見つけてコメントを解除してください。
 
-To enable HTTPS for the search agent, open /opt/gravwell/etc/searchagent.conf and comment out the `Insecure-Use-HTTP=true` line and change the port in the `Webserver-Address` line from 80 to 443.
+検索エージェントでHTTPSを有効にするには、 /opt/gravwell/etc/searchagent.conf を開き、 `Insecure-Use-HTTP=true` 行をコメントアウトし、 `Webserver-Address` 行のポートを 80 から 443 に変更します。
 
-Finally, restart the webserver, indexer, and search agent:
+最後に、ウェブサーバー、インデクサー、サーチエージェントを再起動します。:
 
 ```
 systemctl restart gravwell_webserver.service
@@ -59,30 +59,30 @@ systemctl restart gravwell_indexer.service
 systemctl restart gravwell_searchagent.service
 ```
 
-Note: If using the datastore and multiple webservers, you must set the `Search-Forwarding-Insecure-Skip-TLS-Verify parameter` to `true` to enable webservers to communicate with each other using self-signed certs. If the datastore also uses self-signed certificates, set `Datastore-Insecure-Skip-TLS-Verify` on the webservers to enable them to communicate with the datastore.
+備考: データストアと複数のウェブサーバを使用する場合、ウェブサーバが自己署名証明書を使用して相互に通信できるようにするには、`Search-Forwarding-Insecure-Skip-TLS-Verify パラメータ`を `true` に設定する必要があります。データストアで自己署名証明書を使用する場合は、ウェブサーバで `Datastore-Insecure-Skip-TLS-Verify` を設定して、データストアとの通信を可能にする必要があります。
 
-## Install a self-signed certificate
+## 自己署名証明書をインストールする
 
-Although it is not as secure as a proper TLS certificate, a self-signed certificate will ensure encrypted communication between users and DatalaiQ. By instructing browsers to trust the self-signed cert, it is also possible to avoid recurring warning screens.
+適切なTLS証明書ほど安全ではありませんが、自己署名証明書により、ユーザーとDatalaiQの間の暗号化された通信が保証されます。また、自己署名証明書を信頼するようにブラウザに指示することで、繰り返し表示される警告画面を回避することも可能です。
 
-First, we will generate a 1-year certificate in `/opt/gravwell/etc` using `gencert`, a program we ship with the DatalaiQ install:
+まず、DatalaiQのインストール時に配布されるプログラム `gencert` を使って `/opt/gravwell/etc` に1年間の証明書を生成してみます:
 
 ```
 cd /opt/gravwell/etc
 sudo -u gravwell ../bin/gencert -h HOSTNAME
 ```
 
-Make sure to replace HOSTNAME with either the hostname or the IP address of your DatalaiQ system. You can specify multiple hostnames or IPs by separating them with commas, e.g. `gencert -h gravwell.floren.lan,10.0.0.1,192.168.0.3`
+HOSTNAME は、必ず DatalaiQ システムのホスト名または IP アドレスに置き換えてください。複数のホスト名またはIPを指定するには、カンマで区切ります。例えば、`gencert -h gravwell.floren.lan,10.0.0.1,192.168.0.3` と指定します。
 
-Now, open gravwell.conf and uncomment the `Certificate-File` and `Key-File` directives. The defaults should point correctly to the two files we just created.
+次に gravwell.conf を開き、`Certificate-File` と `Key-File` ディレクティブのコメントを解除します。デフォルトでは、先ほど作成した2つのファイルが正しく指定されているはずです。
 
-To enable HTTPS on the webserver, change the `Web-Port` directive from 80 to 443, then comment out the `Insecure-Disable-HTTPS` directive.
+ウェブサーバーでHTTPSを有効にするには、`Web-Port`ディレクティブを80から443に変更し、`Insecure-Disable-HTTPS`ディレクティブをコメントアウトしてください。
 
-To enable TLS-encrypted ingester connections, find and uncomment the line `TLS-Ingest-Port=4024`.
+TLSで暗号化されたインジェスター接続を有効にするには、`TLS-Ingest-Port=4024`という行を見つけてコメントを解除してください。
 
-To enable HTTPS for the search agent, open /opt/gravwell/etc/searchagent.conf and comment out the `Insecure-Use-HTTP=true` line and change the port in the `Webserver-Address` line from 80 to 443.
+検索エージェントでHTTPSを有効にするには、 /opt/gravwell/etc/searchagent.conf を開き、 `Insecure-Use-HTTP=true` 行をコメントアウトし、 `Webserver-Address` 行のポートを 80 から 443 に変更します。
 
-Finally, restart the webserver, indexer, and search agent:
+最後に、ウェブサーバー、インデクサー、サーチエージェントを再起動します。:
 
 ```
 systemctl restart gravwell_webserver.service
@@ -90,58 +90,58 @@ systemctl restart gravwell_indexer.service
 systemctl restart gravwell_searchagent.service
 ```
 
-### Making browsers trust the self-signed certificate
+### 自己署名証明書をブラウザに信頼させる
 
-Browsers will issue a warning if a certificate is not signed by a recognized root CA. However, we can make the browser trust our certificate by installing it manually.
+ブラウザは、証明書が認識されたルートCAによって署名されていない場合、警告を発します。しかし、手動で証明書をインストールすることで、ブラウザに証明書を信用させることができます。
 
 #### Firefox
 
-Installing the certificate in Firefox is simple. First, navigate to your DatalaiQ instance via HTTPS. Firefox should display a screen similar to this:
+Firefoxに証明書をインストールするのは簡単です。まず、HTTPS経由でDatalaiQインスタンスに移動します。Firefoxには、次のような画面が表示されます。:
 
 ![](firefox-warning.png)
 
-Click the 'Advanced' button:
+「詳細設定」ボタンをクリックします。:
 
 ![](firefox-warning-advanced.png)
 
-Then click 'Add Exception...':
+次に「例外の追加...」をクリックします。
 
 ![](firefox-exception.png)
 
-The defaults should be appropriate, but make sure 'Permanently store this exception' is checked. Click 'Confirm Security Exception'.
+デフォルトは適切であるべきですが、「この例外を恒久的に保存する」がチェックされていることを確認してください。セキュリティ例外の確認」をクリックします。
 
-Firefox should now accept your self-signed certificate until the certificate expires.
+これでFirefoxは、証明書の有効期限が切れるまで、自己署名証明書を受け入れるはずです。
 
 #### Chrome
 
-Installing a certificate in a Chrome browser is slightly more complicated. First, navigate to your DatalaiQ instance via HTTPS. Chrome will display a warning screen:
+Chromeブラウザでの証明書のインストールは少し複雑です。まず、HTTPS経由でDatalaiQインスタンスにナビゲートしてください。Chromeに警告画面が表示されます。:
 
 ![](chrome-warning.png)
 
-Click the 'Not Secure' label in the address bar:
+アドレスバーの「安全ではありません」ラベルをクリックします:
 
 ![](chrome-export1.png)
 
-Then click the 'Invalid' link under 'Certificate'. A Certificate Viewer window should open; click the 'Details' tab:
+次に、「証明書」の下にある「無効」リンクをクリックします。証明書ビューアーのウィンドウが開くので、「詳細」タブをクリックします:
 
 ![](chrome-export2.png)
 
-Select the 'Export' button. Chrome will display a file dialog to save the certificate; save it somewhere and remember the location.
+Export」ボタンを選択します。Chromeが証明書を保存するためのファイルダイアログを表示するので、どこかに保存して場所を覚えておいてください。
 
-Now, enter [chrome://settings](chrome://settings) in your address bar or open Settings from the Chrome browser menu. Scroll to the bottom and click the Advanced button:
+ここで、アドレスバーに[chrome://settings](クローム://設定)と入力するか、Chromeブラウザーのメニューから[設定]を開いてください。一番下までスクロールして、[詳細設定]ボタンをクリックします。:
 
 ![](chrome-advanced.png)
 
-Within the 'Privacy and Security' section, find and click 'Manage certificates':
+プライバシーとセキュリティ」セクションの中で、「証明書の管理」を見つけてクリックします。:
 
 ![](chrome-advanced2.png)
 
-Now select the 'Authorities' tab and click 'IMPORT':
+次に、「権限」タブを選択し、「IMPORT」をクリックします:
 
 ![](chrome-authorities.png)
 
-A file dialog will open; select the certificate file you saved earlier. Then, in the next dialog, check 'Trust this certificate for identifying websites' and click Ok:
+ファイルダイアログが開くので、先ほど保存した証明書ファイルを選択します。次のダイアログで、「Webサイトを識別するためにこの証明書を信頼する」にチェックを入れて、「OK」をクリックします:
 
 ![](chrome-import.png)
 
-Now you should be able to refresh the DatalaiQ tab without further SSL warnings.
+これで、これ以上SSLの警告が出ることなく、DatalaiQタブを更新できるはずです。

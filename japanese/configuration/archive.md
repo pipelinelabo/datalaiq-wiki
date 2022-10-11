@@ -1,18 +1,18 @@
-# Cloud Archive
+# クラウドアーカイブ
 
-DatalaiQ supports an ageout mechanism called Cloud Archive.  Cloud archive is a remote service where data can be remotely archived prior to deleting.  DatalaiQ Cloud Archive is an excellent method for long term archival storage for data that does not need to be actively searchable but must be retained.  The Cloud Archive service can be hosted on a variety of storage platforms and is designed to provide a remote, low cost storage platform.  Cloud Archive configuration can be enabled on a per-well basis, which means you can decide which data sets warrant long term archival.
+DatalaiQは、クラウドアーカイブというエージアウトの仕組みをサポートしています。 クラウドアーカイブは、データを削除する前に遠隔地からアーカイブすることができるサービスです。 DatalaiQ Cloud Archiveは、アクティブに検索する必要はないものの、保持する必要があるデータの長期アーカイブ保存に最適な方法です。 Cloud Archiveサービスは様々なストレージプラットフォーム上でホスティングすることができ、リモートで低コストのストレージプラットフォームを提供するように設計されています。 クラウドアーカイブの設定はウェル単位で可能で、どのデータセットが長期保存に適しているかを判断することができます。
 
-The archive system ensures that data is successfully uploaded to the archive server before it is deleted during normal ageout.
+アーカイブシステムは、通常のエージアウトで削除される前に、データがアーカイブサーバーに正常にアップロードされることを確認します。
 
-Attention: Indexers will not delete data until they have successfully uploaded it to the archive server.  If the indexer cannot upload due to connectivity issues, misconfigurations, or poor network throughput they will not delete data.  The inability to delete data may cause indexers to run out of storage and cease ingesting new data.  If a Cloud Archive upload fails to complete the user interface will display a notification with the failure.
+注意: インデックス作成者は、アーカイブサーバーへのアップロードに成功するまで、データを削除しません。 接続の問題、設定の誤り、ネットワークのスループットの低下などの理由でインデクサがアップロードできない場合、データを削除することはありません。 データを削除できない場合、インデクサーのストレージが不足し、新しいデータの取り込みを停止することがあります。 クラウドアーカイブのアップロードが完了しなかった場合、ユーザーインターフェースに失敗の通知が表示されます。
 
-Attention: The Cloud Archive system compresses data while in transit which requires some CPU resources when uploading.  Pushing data to a remote system also requires time, depending on available bandwidth and CPU.  Be sure to leave yourself a little headroom when defining ageout parameters to account for additional time consumed by Cloud Archive.
+注意: クラウドアーカイブシステムは、転送中にデータを圧縮するため、アップロード時にCPUリソースを必要とします。 データをリモートシステムにプッシュする場合も、利用可能な帯域幅とCPUに依存しますが、時間がかかります。 クラウドアーカイブで消費される追加時間を考慮し、エージアウトパラメータを定義する際には少し余裕を持たせてください。
 
-## Configuring Indexers
+## インデクサー設定
 
-Every indexer has a global Cloud Archive configuration block which specifies the remote archive server and authentication token. The configuration block is specified using the "[cloud-archive]" header in the global section.  To enable Cloud Archive on a well, add the "Archive-Deleted-Shards=true" directive within the well.
+すべてのインデクサは、リモートアーカイブサーバと認証トークンを指定するグローバルなクラウドアーカイブコンフィギュレーションブロックを有しています。この設定ブロックは、グローバルセクションの "[cloud-archive]" ヘッダを使用して指定します。 ウェル上でCloud Archiveを有効にするには、ウェル内に "Archive-Deleted-Shards=true" ディレクティブを追加してください。
 
-Here is an example configuration with three wells:
+以下は、3つの井戸を持つ構成例です:
 
 ```
 [global]
@@ -46,10 +46,10 @@ Ingest-Port=4023
 	Tags=pcap
 ```
 
-The above example has 3 configured wells (default, netflow, and raw).  The default well uses both a hot and cold storage tier which means that data is archived when it would normally roll out of the cold storage tier.  The netflow well contains only a hot storage tier, its data will be uploaded when it would normally be deleted after 7 days.  The raw well does not have Cloud Archive enabled (Archive-Deleted-Shards=false), its data will not be uploaded.
+上記の例では、3つのウェルが設定されています（デフォルト、ネットフロー、ロー）。 デフォルトのウェルは、ホットストレージ層とコールドストレージ層の両方を使用しており、コールドストレージ層から通常ロールアウトするタイミングでデータがアーカイブされることを意味します。 netflowウェルにはホットストレージ層しかなく、そのデータは通常7日後に削除されるところ、アップロードされます。 rawウェルはクラウドアーカイブを有効にしていない（Archive-Deleted-Shards=false）ため、そのデータはアップロードされません。
 
-## Hosting Cloud Archive
+## クラウドアーカイブホスティング
 
-The Cloud Archive service is a module service designed to be self-hosted and potentially integrated into other larger infrastructures.  If you are interested in hosting your own Cloud Archive service or would like to remotely archive your data, contact support@ppln.co.
+クラウドアーカイブサービスは、セルフホスティングや他の大規模インフラへの統合を想定して設計されたモジュールサービスです。 クラウドアーカイブサービスのホスティングやリモートでのデータアーカイブにご興味のある方は、support@ppln.co までご連絡ください。
 
-Note: Indexers will authenticate to the cloud archive service using the customer license number *on the indexer*. In an [overwatch](#!distributed/overwatch.md) configuration, this number may be different from the license number deployed on the *webservers*.
+備考: インデクサは、インデクサ上の顧客ライセンス番号を使用して、クラウドアーカイブサービスに認証されます。[overwatch](#!distributed/overwatch.md) 構成では、この番号は *webserver* に展開されたライセンス番号と異なる可能性があります。
