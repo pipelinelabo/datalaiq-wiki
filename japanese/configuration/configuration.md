@@ -1,59 +1,59 @@
-# Advanced DatalaiQ Configuration
+# 高度なDatalaiQ設定
 
-This document describes some more advanced configuration options for DatalaiQ installations, including information on configuring storage wells, data ageout, and multi-node clusters.
+この文書では、ストレージウェル、データエージアウト、マルチノードクラスターの構成に関する情報を含む、DatalaiQインストールに関するより高度な構成オプションについて説明します。
 
-DatalaiQ is optionally a distributed system, allowing for multiple indexers which comprise a DatalaiQ cluster.  The default installation will install both the webserver and indexer on the same machine, but with an appropriate license configuration, running a cluster is just as simple as running a single instance.
+DatalaiQは、オプションで分散システムとして、DatalaiQクラスターを構成する複数のインデキサーを使用することができます。 デフォルトのインストールでは、ウェブサーバーとインデクサーの両方が同じマシンにインストールされますが、適切なライセンス設定を行えば、クラスタの実行は単一インスタンスの実行と同じくらいシンプルになります。
 
-## Installer Options
+## インストーラーオプション
 
-The DatalaiQ installer supports several flags to make automated installation or deployment easier.  The following flags are supported:
+DatalaiQインストーラは、自動インストールやデプロイメントを容易にするために、いくつかのフラグをサポートしています。 以下のフラグがサポートされています。:
 
 | Flag | Description |
 |------|-------------|
-| `--help` | Display installer help menu |
-| `--no-certs` | Installer will not generate self-signed certificates
-| `--no-questions` | Assume all defaults and automatically accept EULA
-| `--no-random-passwords` | Do not generate random ingest and control secrets
-| `--no-indexer` | Do not install DatalaiQ indexer component
-| `--no-webserver` | Do not install the DatalaiQ webserver component
-| `--no-searchagent` | Do not install the DatalaiQ search agent (typically used with `--no-webserver`)
-| `--no-start` | Do not start the components after installation
-| `--no-crash-report` | Do not install the automated debug report component
-| `--use-config` | Use a specific config file
+| `--help` | インストーラーヘルプメニューを表示する |
+| `--no-certs` | インストーラーが自己署名入り証明書を生成しない
+| `--no-questions` | すべてのデフォルトを仮定し、自動的にEULAを受け入れる
+| `--no-random-passwords` | ランダムなインジェスト・シークレットとコントロール・シークレットを生成しない
+| `--no-indexer` | DatalaiQ インデクサーのコンポーネントをインストールしないでください。
+| `--no-webserver` | DatalaiQ Webサーバーコンポーネントはインストールしないでください。
+| `--no-searchagent` | DatalaiQ 検索エージェントをインストールしない (通常 `--no-webserver` と一緒に使用します)
+| `--no-start` | インストール後、コンポーネントを起動しないでください
+| `--no-crash-report` | 自動デバッグレポートコンポーネントをインストールしない
+| `--use-config` | 特定のコンフィグファイルを使用する
 
-### Common use-cases for advanced installation requirements
+### 高度なインストール要件に対応した共通のユースケース
 
-If you are deploying DatalaiQ to a cluster with multiple indexers, you would not want to install the webserver component on your indexer nodes.
+DatalaiQを複数のインデクサを持つクラスターに展開する場合、インデクサノードにWebサーバーコンポーネントをインストールすることは望ましくありません。
 
-If you are using an automated deployment tool you don’t want the installer stopping and asking a questions.
+自動デプロイメントツールを使用している場合、インストーラが停止して質問されるのは困ります。
 
-If you already have your list of indexers with ingest and control shared secrets, specifying a configuration file at install time can greatly speed up the process.
+インジェストとコントロールの共有シークレットを持つインデクサーのリストが既にある場合、インストール時に設定ファイルを指定することで処理を大幅にスピードアップできます。
 
-For example, to install the indexer component without installing the webserver or randomizing passwords, run:
+例えば、Webサーバーのインストールやパスワードのランダム化を行わずにインデックスサーコンポーネントをインストールするには、次のように実行します:
 
 ```
 root@gravserver# bash gravwell_installer.sh --no-questions --no-random-passwords --no-webserver
 ```
 
-If you choose to randomize passwords, you will need to go back through your indexers and webserver and ensure the `Control-Auth` parameter in the `gravwell.conf` file matches for the webserver and each indexer. You'll also want to set the same `Ingest-Auth` value on all the indexers.
+パスワードをランダムにすることを選択した場合、インデクサーとウェブサーバーに戻って、 `gravwell.conf` ファイル内の `Control-Auth` パラメータがウェブサーバーと各インデクサーで一致することを確認する必要があります。また、すべてのインデキサーで同じ `Ingest-Auth` 値を設定したいと思うでしょう。
 
-## General Configuration
+## 一般的な設定
 
-Configuration of a DatalaiQ cluster is designed to be simple and efficient right from the start.  However, there are knobs to twist that can allow the system to better take advantage of extremely large systems or smaller embedded and industrial devices with memory constraints.  The core configuration file is designed to be shared by both the webserver and indexer, and is located by default at `/opt/gravwell/etc/gravwell.conf`
+DatalaiQクラスタの設定は、最初からシンプルかつ効率的に行えるように設計されています。 しかし、非常に大規模なシステムや、メモリに制約のある小規模な組み込み機器や産業用機器をより有効に活用できるようにするためのツマミも用意されています。 コアとなる設定ファイルはウェブサーバーとインデクサーの両方で共有されるように設計されており、デフォルトでは `/opt/gravwell/etc/gravwell.conf` に配置されています。
 
-For a detailed listing of configuration options see [this page](parameters.md).
+設定オプションの詳細な一覧は、[このページ](parameters.md)を参照してください。
 
-For a complete example indexer configuration see our [example default config](indexer-default-config.md).
+インデクサーの完全な設定例については、私たちの [デフォルト設定例](indexer-default-config.md) をご覧ください。
 
-The most important items in the configuration file are the `Ingest-Auth`, `Control-Auth`, and `Search-Agent-Auth` configuration parameters.  The `Control-Auth` parameter is the shared secret that the webserver and indexers use to authenticate each other. If an attacker can communicate with your indexers and has the `Control-Auth` token, he has total access to the data they store.  The `Ingest-Auth` token is used to validate ingesters, and restricts the ability to create tags and push data into DatalaiQ.  DatalaiQ prides itself on speed, which means an attacker with access to your `Ingest-Auth` token can push a tremendous amount of data into DatalaiQ in a very short amount of time.  The `Search-Agent-Auth` token allows DatalaiQ's Search Agent utility to automatically connect to the webserver and issue searches on the behalf of users. These tokens are important and you should protect them carefully.
+設定ファイルの中で最も重要な項目は、 `Ingest-Auth`, `Control-Auth`, `Search-Agent-Auth` の各設定パラメータです。 Control-Auth` パラメータは、ウェブサーバとインデクサが互いを認証するために使用する共有秘密です。攻撃者がインデクサと通信でき、かつ `Control-Auth` トークンを持っている場合、インデクサが保存しているデータに完全にアクセスすることができます。 Ingest-Auth` トークンは、インジェスターを認証するために使用され、タグを作成してデータをDatalaiQにプッシュする機能を制限します。 DatalaiQはスピードが自慢です。つまり、`Ingest-Auth`トークンにアクセスした攻撃者は、非常に短時間で膨大な量のデータをDatalaiQにプッシュすることができるのです。 Search-Agent-Auth` トークンを使用すると、DatalaiQ の Search Agent ユーティリティが自動的にウェブサーバーに接続し、ユーザーの代わりに検索を実行することができるようになります。これらのトークンは重要であり、慎重に保護する必要があります。
 
-Attention: In clustered DatalaiQ installations, it is essential that all nodes are configured with the same `Ingest-Auth` and `Control-Auth` values to enable proper intercommunication.
+注意: DatalaiQのクラスタ構成では、適切な相互通信を可能にするために、すべてのノードに同じ `Ingest-Auth` と `Control-Auth` 値が設定されることが不可欠です。
 
-## Webserver Configuration
+## Webサーバー設定
 
-The webserver acts as the focusing point for all searches, and provides an interactive interface into DatalaiQ.  While the webserver does not require significant storage, it can benefit from small pools of very fast storage so that even when a search hands back large amounts of data, users can quickly navigate their results.  The webserver also participates in the search pipeline and often performs some of the filtering, metadata extraction, and rendering of data.  When deploying a webserver, we recommend a reasonably sized solid state disk (NVME if possible), a memory pool of 16GB of RAM or more, and at least 4 physical cores.  DatalaiQ is built to be extremely concurrent, so more CPU cores and additional memory can yield significant performance benefits.  An Intel E5 or AMD Epyc chip with 32GB of memory or more is a good choice, and more is always better.
+ウェブサーバーは、すべての検索のフォーカスポイントとして機能し、DatalaiQへのインタラクティブなインターフェイスを提供します。 ウェブサーバーは大きなストレージを必要としませんが、非常に高速なストレージを小規模にプールしておくと、検索で大量のデータが返された場合でも、ユーザーが結果をすばやくナビゲートすることができるようになります。 ウェブサーバーは検索パイプラインにも参加し、データのフィルタリング、メタデータの抽出、レンダリングの一部を実行することがよくあります。 ウェブサーバーを導入する際には、適度な大きさのソリッドステートディスク（可能であればNVME）、16GB以上のメモリプール、および少なくとも4つの物理コアを推奨しています。 DatalaiQは極めて同時並行的に動作するように構築されているため、より多くのCPUコアと追加メモリを使用することで大きな性能上の利点が得られます。 Intel E5またはAMD Epycチップと32GB以上のメモリは良い選択であり、多ければ多いほど良いというものではありません。
 
-Two configuration options tell the webserver how to communicate with indexers. The `Remote-Indexers` option specifies the IPs or hostnames of the indexers, and the `Control-Auth` option gives a shared key used by the webserver to authenticate to the indexers. A webserver connecting to three indexers might contain the following in its `gravwell.conf`:
+2 つの設定オプションが、ウェブサーバーにインデクサーとの通信方法を伝えます。Remote-Indexers`オプションはインデクサーのIPまたはホスト名を指定し、 `Control-Auth`オプションはインデクサーの認証にウェブサーバーが使用する共有キーを指定します。3つのインデクサに接続するウェブサーバは、その `gravwell.conf` に次のように記述します:
 
 ```
 Control-Auth=MySuperSecureControlToken
@@ -62,45 +62,45 @@ Remote-Indexers=net:10.0.1.2:9404
 Remote-Indexers=net:10.0.1.3:9404
 ```
 
-Note: The indexers listed above are listening for control connections on port 9404, the default. This port is set by the `Control-Port` option in the indexer's DatalaiQ.conf file.
+備考: 上記のインデクサは、デフォルトのポート9404で制御接続を待ち受けます。このポートは、インデクサーの DatalaiQ.conf ファイルにある `Control-Port` オプションで設定します。
 
-### Webserver TLS
+### WebサーバーのTLS
 
-By default, DatalaiQ does not generate TLS certificates. For instructions on setting up properly-signed TLS certificates or self-signed certificates on the webserver, refer to the [TLS/HTTP instructions](certificates.md). 
+デフォルトでは、DatalaiQはTLS証明書を生成しません。ウェブサーバーで適切に署名されたTLS証明書または自己署名証明書を設定する手順については、[TLS/HTTP説明書](certificates.md)を参照してください。
+ウェブサーバー設定の落とし穴
+### 
 
-### Webserver Configuration Pitfalls
+* リモートインデックスの欠落または誤設定
+* Control-Authトークンの欠落または不一致
+* ウェブサーバーとバックエンドのライセンスが不一致です。
+  * ウェブサーバーとインデクサーの両方に互換性のあるライセンスが必要です。
+* ウェブサーバーとインデクサーの間のネットワーク接続が悪い
+  * 遅延が大きい、帯域が狭い、MTUサイズが誤って設定されている。
+* ファイアウォールがインデックスサーバーやウェブサーバーのポートへのアクセスをブロックしている
+  * デフォルトは9404
 
-* Missing or misconfigured Remote-Indexers
-* Missing or mismatched Control-Auth tokens
-* Mismatched licenses on webserver and backend
-  * Both the webserver and indexer must have compatible licenses
-* Poor network connectivity between the webserver and indexers
-  * High latency, low bandwidth, or misconfigured MTU sizes.
-* Firewalls blocking access to indexer or webserver ports
-  * The default is 9404
+## インデクサー設定
 
-## Indexer Configuration
+Indexer は、DatalaiQ のストレージセンターであり、データの保存、検索、処理を担当します。 クエリを実行する際、インデクサはまずデータを見つけ、それを検索パイプラインに押し込むという、最初の力仕事を行います。 検索パイプラインは、効率化のためにインデクサーの上で可能な限り多くの作業を並行して行います。 インデクサは、高速で低レイテンシーのストレージと、可能な限りのRAMを使用することで利益を得ます。 DatalaiQはファイルシステムのキャッシュを利用することができるので、同じデータに対して複数のクエリーを実行しても、ディスクに移動する必要すらありません。 DatalaiQは、キャッシュされたデータに対して、ノードあたり5GB/s以上の速度で動作していることが確認されています。 メモリが多ければ多いほど、より多くのデータをキャッシュすることができます。 最大級のマシンでもメモリ容量を超えるような大きなプールを検索する場合、高速のRAIDアレイがスループットを向上させるのに役立ちます。
 
-Indexers are the storage centers of DatalaiQ and are responsible for storing, retrieving, and processing data.  Indexers perform the first heavy lifting when executing a query, first finding the data then pushing it into the search pipeline.  The search pipeline will perform as much work as possible in parallel on the indexers for efficiency.  Indexers benefit from high-speed low-latency storage and as much RAM as possible.  DatalaiQ can take advantage of file system caches, which means that as you are running multiple queries over the same data it won’t even have to go to the disks.  We have seen DatalaiQ operate at over 5GB/s per node on well-cached data.  The more memory, the more data can be cached.  When searching over large pools that exceed the memory capacity of even the largest machines, high speed RAID arrays can help increase throughput.
+インデクサには、少なくとも 32GB のメモリと 8 つの CPU コアを搭載することを推奨します。 可能であれば、DatalaiQ は、ホットウェルとして機能する超高速 NVME ソリッドステートディスクも推奨します。これは、数日分の最新データを保持し、より低速の回転ディスクプールにエージングアウトします。 ホットウェルは、最新データへの高速アクセスを可能にする一方で、DatalaiQ が古いデータを整理・統合して、可能な限り効率的に検索できるようにするものです。
 
-We recommend indexers have at least 32GB of memory with 8 CPU cores.  If possible, DatalaiQ also recommends a very high speed NVME solid state disk that can act as a hot well, holding just a few days of of the most recent data and aging out to the slower spinning disk pools.  The hot well enables very fast access to the most recent data, while enabling DatalaiQ to organize and consolidate older data so that he can be searched as efficiently as possible.
+インデクサーのDatalaiQ.confには、その一般的な動作に影響を与えるいくつかの重要な設定オプションが存在します:
 
-There are a few key configuration options in an indexer's DatalaiQ.conf which affect its general behavior:
+* `Control-Port` は、インデクサがウェブサーバからの接続をリッスンするポートを設定します。デフォルトは 9404 です。
+* `Control-Auth` は、ウェブサーバーが認証に使用する共有秘密を設定します。デフォルトはランダムに生成される文字列です。
+* `Ingest-Port`と `TLS-Ingest-Port`は、それぞれ暗号化されていないインジェストトラフィックと暗号化されたインジェストトラフィックに対してリッスンするポートを指定します。
+* `Ingest-Auth` は、データインジェストがインデクサを認証するために使用する共有秘密を設定する。デフォルトはランダムに生成される文字列である。
 
-* `Control-Port` sets the port on which the indexer will listen for incoming connections from a webserver. Default 9404.
-* `Control-Auth` sets a shared secret which webservers use to authenticate. Defaults to a randomly-generated string.
-* `Ingest-Port` and `TLS-Ingest-Port` specify which ports to listen on for unencrypted and encrypted ingest traffic, respectively.
-* `Ingest-Auth` sets a shared secret used by data ingesters to authenticate to the indexer. Defaults to a randomly-generated string.
+インデクサはデータを_wells_に格納する。各ウェルには、ある程度の数のタグが格納されています。もし、1つのウェルに100GBの "pcap "とタグ付けされたデータと10MBの "syslog "とタグ付けされたデータがある場合、syslogデータを検索すると、インデクサはディスクからpcapデータも読まなければならず、検索速度が低下します。この理由から、多くのデータを含むと予想されるタグのために別のウェルを作成することを強くお勧めします。詳細については、「タグとウェル」セクションを参照してください。
 
-Indexers store their data in _wells_. Each well stores some number of tags. If a well contains 100GB of data tagged "pcap" and 10MB of data tagged "syslog", searching for syslog data means the indexer also has to read the pcap data from the disk, slowing down the search. For this reason we strongly suggest creating separate wells for tags you anticipate will contain a lot of data. See the 'Tags and Wells' section for more information.
+## タグとウェル
 
-## Tags and Wells
+**タグ**は、異なるタイプのデータを論理的に分離するための方法として使用されます。 タグはインジェスト時にインジェスター (SimpleRelay, NetworkCapture など) によって適用されます。 例えば、syslogログ、Apacheログ、ネットワークパケット、ビデオストリーム、オーディオストリームなどに一意のタグを適用すると便利です。 **ウェル**は、取り込まれたデータを実際に整理して保存するストレージのグループ化です。ユーザーは通常、ウェルと対話することはないが、ウェルはディスク上のデータを**シャード**に格納し、各シャードには約1.5日分のデータが格納される。
 
-**Tags** are used as a method to logically separate data of different types.  Tags are applied at ingest time by the ingesters (SimpleRelay, NetworkCapture, etc).  For example, it is useful to apply unique tags to syslog logs, Apache logs, network packets, video streams, audio streams, etc.  **Wells** are the storage groupings which actually organize and store the ingested data. Although users typically do not interact with them, the wells store data on-disk in **shards**, with each shard containing approximately 1.5 days of data.
+データストリームをより高速または大規模なストレージプールにルーティングできるように、ウェルにタグを割り当てることができます。たとえば、高帯域幅のリンクからのraw pcapストリームは、より高速なストレージプールに割り当てる必要がありますが、syslogやWebサーバーからの比較的低容量のログエントリは、高速なストレージを必要としない場合があります。タグとウェルのマッピングは、1対1のマッピングです。1つのウェルに複数のタグを含めることはできますが、1つのタグを複数のウェルに割り当てることはできません。 データストリームを論理的、物理的に分離することで、異なるデータに異なるルールを適用することができます。 例えば、ネットワークトラフィックのような高帯域幅のストリームは15日ごとに失効または圧縮し、低帯域幅のストリームはより長い期間保持することが望ましい場合があります。 論理的な分離は、システムがタグに基づいて適切なウェルにインテリジェントに問い合わせるため、検索性能も大幅に向上します（例えば、defaultというウェルにあるsyslogエントリーを検索する場合、DatalaiQは他のウェルに問い合わせません）。
 
-Tags can be assigned to wells so that data streams can be routed to faster or larger storage pools. For example, a raw pcap stream from a high bandwidth link may need to be assigned to a faster storage pool while relatively low-volume log entries from syslog or a webserver do not require fast storage. A tag-to-well mapping is a one-to-one mapping; a single tag cannot be assigned to multiple wells, although a well can contain multiple tags.  Logically and physically separating data streams allows different rules to be applied to different data.  For example, it may be desirable to expire or compress high bandwidth streams, like network traffic, every 15 days while keeping low bandwidth streams for much longer.  The logical separation also greatly increases search performance as the system intelligently queries the appropriate well based on tag (e.g. when searching syslog entries located in the well named default, DatalaiQ will not engage any other wells).
-
-Tag-to-well mappings are defined in the `/opt/gravwell/etc/gravwell.conf` configuration file. By default, only a `Default-Well` will be configured, which accepts all tags. An example configuration snippet for an indexer with multiple wells associated tags might look like this:
+タグからウェルへのマッピングは `/opt/gravwell/etc/gravwell.conf` 設定ファイルで定義されます。デフォルトでは、すべてのタグを受け入れる `Default-Well` のみが構成されます。複数のウェルにタグを関連付けるインデクサーの設定例は、以下のようになります:
 
 ```
 [Default-Well]
@@ -112,31 +112,32 @@ Tag-to-well mappings are defined in the `/opt/gravwell/etc/gravwell.conf` config
 	tags=video
 ```
 
-The well named "raw" is thus used to store data tagged "pcap" and "video", which we could reasonably assume will consume a significant amount of storage.
+そのため、"raw "という名前のついたデータは、"pcap "や "video "といったタグのついたデータの保存に使われ、かなりの量のストレージを消費すると推測される。
 
-### Tag Restrictions and Gotchas
 
-Tag names can only contain alpha numeric values; dashes, underscores, special characters, etc are not allowed in tag names.  Tags should be simple names like "syslog" or "apache" that are easy to type and reflect the type of data in use.
+### タグの制限とその他制限事項
 
-The Default well receives all entries with tags that have not been explicitly assigned to other wells.  For example, if you have one well named Syslog which has been assigned the tags "syslog" and "apache" then all other tags will go to the Default well.  Ingesters can still produce entries with tag names that are not explicitly defined in the gravwell.conf file; the entries will just be co-mingled with all other unassigned tags in the default well.
+タグ名には英数字のみを使用できます。ダッシュ、アンダースコア、特殊文字などはタグ名には使用できません。 タグは、"syslog "や "apache "など、入力しやすく、使用するデータの種類を反映したシンプルな名前にする必要があります。
 
-When reassigning tags between wells, the system will NOT move the data.  If you ingest data under the tag "syslog" without pinning the tag to a non-default well, then change the config file to define a new well or assign the syslog tag to an existing well, all data that exists in the default well under the syslog tag is no longer searchable.  Contact support@ppln.co for access to a standalone tool for well and tag migration that can recover the entries, or for help re-ingesting old wells into an optimized/alternate configuration.
+Defaultウェルは、他のウェルに明示的に割り当てられていないタグを持つすべてのエントリを受信します。 例えば、Syslogという名前のウェルに "syslog "と "apache "というタグが割り当てられている場合、他のすべてのタグはDefaultウェルに送られます。 インジェスターは、gravwell.confファイルで明示的に定義されていないタグ名を持つエントリーを作成することができます。そのエントリーは、デフォルトウェル内の他のすべての未割り当てタグと一緒に混在するだけです。
 
-## Data Ageout
+ウェル間でタグを再割り当てする場合、システムはデータを移動させません。 タグをデフォルト以外のウェルに固定せずに「syslog」タグでデータを取り込んだ後、設定ファイルを変更して新しいウェ ルを定義するか、syslogタグを既存のウェルに割り当てると、syslogタグの下のデフォルトウェルに存在するすべての データは検索不可能になります。 エントリを復元できるウェルおよびタグの移行用のスタンドアロンツールへのアクセス、または古いウェルを最適化/代替構成に再インストールするためのヘルプについては、support@ppln.co に連絡してください。
 
-DatalaiQ supports an ageout system whereby data management policies can be applied to individual wells.  The ageout policies control data retention, storage well utilization, and compression.  For more information about configuration data ageout see the [Data Ageout](ageout.md). section
+## データエージアウト
 
-## Well Replication
+DatalaiQは、データ管理ポリシーを個々のウェルに適用することができるエージアウトシステムをサポートしています。 エージアウトポリシーは、データの保持、ストレージウェルの使用、圧縮を制御します。 データのエージアウトの設定に関する詳細は、[データエージアウト](ageout.md) セクションを参照してください。
 
-A DatalaiQ cluster with multiple indexer nodes can be configured so that nodes replicate their data to one another in case of disk failure or accidental deletion. See the [replication documentation](replication.md) for information on configuring replication.
+## ウェルレプリケーション
 
-## Query Acceleration
+複数のインデクサノードを持つDatalaiQクラスタでは、ディスク障害や偶発的な削除に備えて、ノード間でデータの複製を行うように設定することができます。レプリケーションの設定方法については、[レプリケーションドキュメント](replication.md) を参照してください。
 
-DatalaiQ supports the notion of "accelerators" for individual wells, which allow you apply parsers to data at ingest to generate optimization blocks.  Accelerators are just as flexible as query modules and are transparently engaged when performing queries.  Accelerators are extremely useful for needle-in-haystack style queries, where you need to zero in on data that has specific field values very quickly.  See the [Accelerators](accelerators.md) section for more information and configuration techniques.
+## クエリアクセラレーション
 
-## Password Complexity
+DatalaiQは、個々のウェルに対して「アクセラレータ」という概念をサポートしており、インジェスト時にデータにパーサーを適用し、最適化ブロックを生成することができます。 アクセラレーターは、クエリーモジュールと同様に柔軟性があり、クエリーを実行する際に透過的に作動します。 Acceleratorsは、特定のフィールド値を持つデータに素早くアクセスする必要がある、needle-in-haystackスタイルのクエリに非常に有効です。 より詳細な情報と設定方法については、[アクセラレーター](accelerators.md) セクションを参照してください。
 
-DatalaiQ supports the option to enforce password complexity on users when not in single sign on mode.  Enabling password complexity requirements is performed by adding the following structure to the `gravwell.conf` file:
+## パスワード複雑性
+
+DatalaiQは、シングルサインオンモードでない場合に、ユーザーにパスワードの複雑さを強制するオプションをサポートしています。 パスワードの複雑さの要求を有効にするには、`gravwell.conf`ファイルに以下の構造を追加することで実行されます:
 
 
 ```
@@ -148,9 +149,9 @@ DatalaiQ supports the option to enforce password complexity on users when not in
 	Require-Special=<bool>
 ```
 
-The default DatalaiQ deployment does not enforce any rules on password complexity, and because DatalaiQ uses a secure bcrypt password hashing system, we have no way to enforce these rules after the fact.  Once you enable password complexity requirements all future password changes will be required to abide by the requirements.
+また、DatalaiQ は安全な bcrypt パスワード・ハッシュ・システムを使用しているため、事後的にこれらのルールを強制する方法がありません。 パスワードの複雑性に関する要件を有効にすると、今後変更するすべてのパスワードは、この要件に従うことが要求されます。
 
-Here is an example configuration block that requires complex passwords that are at least 10 characters in length:
+以下は、10文字以上の複雑なパスワードを要求する設定ブロックの例です:
 
 ```
 [Password-Controls]
@@ -162,11 +163,11 @@ Here is an example configuration block that requires complex passwords that are 
 
 ```
 
-Note that DatalaiQ fully supports UTF-8 character sets and that many languages do not have the concept of case.  So while the password `パスワードを推測することはできません!#$@42` may look very complex, it doesn't meet the requirements above due to the lack of upper and lower case values.
+DatalaiQはUTF-8文字セットを完全にサポートしており、多くの言語には大文字小文字の概念がないことに注意してください。 したがって、パスワード `パスワード推測することはできません！#$@42` は非常に複雑に見えるかもしれませんが、大文字と小文字の値がないため、上記の要件を満たしません。
 
-## Version Compatibility 
+## バージョン互換性 
 
-Certain versions of the indexer and webserver are only compatible with specific versions of other indexers and webservers. The table below details version compatibility restrictions. Mismatched webservers and indexers will not run.
+インデクサとウェブサーバの特定のバージョンは、他のインデクサとウェブサーバの特定のバージョンとしか互換性がありません。以下の表は、バージョンの互換性制限の詳細です。不一致のウェブサーバとインデクサは実行されません。
 
 | API Version | Indexer/Webserver Version Compatibility |
 |-------------|---------------|
@@ -174,4 +175,4 @@ Certain versions of the indexer and webserver are only compatible with specific 
 | 2 | 4.0 and 4.1 |
 | 3 | 4.2 |
 
-Ingesters are always backwards compatible with older versions of indexers as they negotiate the ingest protocol version when they connect. However, some new features may be disabled if there is a significant version mismatch. We recommend using the ingester version that matches your indexer version.
+インジェスターは、接続時にインジェストプロトコルのバージョンをネゴシエートするので、常に古いバージョンのインデクサーと後方互換性があります。しかし、バージョンの不一致が大きい場合、いくつかの新機能が無効になることがあります。お使いのインデクサーのバージョンと一致するインジェスターのバージョンを使用することをお勧めします。

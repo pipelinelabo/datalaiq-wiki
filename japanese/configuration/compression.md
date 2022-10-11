@@ -1,61 +1,61 @@
-# Compression
+# 圧縮
 
-Storage is compressed by default, which helps shift some load from storage to CPU.  DatalaiQ is a highly asynchronous system built for modern hardware in a scale wide paradigm.  Modern systems are typically over-provisioned on CPU with mass storage lagging behind.  Compressing data allows DatalaiQ can reduce stress on storage links while employing excess CPU cycles to asynchronously compress and decompress data.  The result is that searches can be faster when employing compression on slower mass storage devices.  Compression can be configured independently for each well with different compression settings for hot and cold data.
+ストレージはデフォルトで圧縮されており、ストレージからCPUへの負荷の移行を支援します。 DatalaiQは、スケールワイドのパラダイムで最新のハードウェア向けに構築された高度な非同期システムです。 最新のシステムは通常、CPUに過剰なプロビジョニングが施されており、大容量ストレージはそれに遅れをとっています。 DatalaiQはデータを圧縮することで、ストレージ・リンクのストレスを軽減し、余分なCPUサイクルを使って非同期にデータの圧縮と解凍を行うことができます。 その結果、低速の大容量記憶装置で圧縮を行う場合、検索をより高速に行うことができます。 圧縮は、ホットデータとコールドデータに対して異なる圧縮設定を行うことで、各ウェルに対して個別に設定することができます。
 
-A notable exception is data that will not compress much (if at all). In this situation, attempting to compress the data burns CPU time with no actual improvement in storage space or speed. Raw network traffic is a good example where encryption and high entropy prevent effective compression.  To disable compression for a well, add the "Disable-Compression=true" directive.
+例外は、あまり圧縮されないデータです（まったく圧縮されない場合もあります）。このような場合、データを圧縮しようとしても、CPU時間を消費するだけで、ストレージスペースや速度の実際の向上は見込めません。生のネットワークトラフィックは、暗号化と高エントロピーのために効果的な圧縮ができない良い例である。 ウェルの圧縮を無効にするには、"Disable-Compression=true "ディレクティブを追加します。
 
-## Compression Settings
+## 圧縮設定
 
-DatalaiQ supports two types of compression: default and transparent compression.  Default compression uses the [snappy](https://en.wikipedia.org/wiki/Snappy_%28compression%29) compression system to perform compression and decompression in userspace.  The default compression system is compatible with all filesystems.  The transparent compression system uses the underlying filesystem to provide transparent block level compression.
+DatalaiQは、デフォルト圧縮と透過的圧縮の2種類の圧縮をサポートしています。 デフォルト圧縮は、[snppy](https://en.wikipedia.org/wiki/Snappy_%28compression%29)圧縮システムを使用して、ユーザースペースで圧縮と解凍を実行します。 デフォルトの圧縮システムは、すべてのファイルシステムと互換性があります。 透過的圧縮は、ファイルシステムを利用してブロック単位の透過的な圧縮を行います。
 
-Transparent compression allows for offloading compression/decompression work to the host kernel while maintaining an uncompressed page cache.  Transparent compression can allow for very fast and efficient compression/decompression but requires that the underlying filesystem support transparent compression.  Currently the [BTRFS](https://btrfs.wiki.kernel.org/index.php/Main_Page) and [ZFS](https://wiki.archlinux.org/index.php/ZFS) filesystem are supported.
+透過型圧縮は、非圧縮のページキャッシュを維持しながら、圧縮/解凍作業をホストカーネルにオフロードすることができます。 透過圧縮は非常に高速で効率的な圧縮/解凍を可能にしますが、基盤となるファイルシステムが透過圧縮をサポートしていることが必要です。 現在、[BTRFS](https://btrfs.wiki.kernel.org/index.php/Main_Page) と [ZFS](https://wiki.archlinux.org/index.php/ZFS) ファイルシステムがサポートされています。
 
-Attention: Transparent compression has important implications for ageout rules involving total storage. Please refer to the [ageout documentation](ageout.md) for more information.
+注意: 透過的圧縮は、総保存量に関わるageoutルールに対して重要な意味を持ちます。より詳細な情報は [ageout documentation](ageout.md) を参照してください。
 
 **Disable-Compression**
 Default Value: `false`
 Example: `Disable-Compression=true`
-Compression for the entire well is disabled, both hot and cold storage locations will not use compression
+ウェル全体の圧縮を無効にし、温蔵庫と冷蔵庫の両方で圧縮を使用しないようにする
 
 **Disable-Hot-Compression**
 Default Value: `false`
 Example: `Disable-Hot-Compression=true`
-Compression for the hot storage location is disabled.
+ホットストレージの圧縮は無効です。
 
 **Disable-Cold-Compression**
 Default Value: `false`
 Example: `Disable-Cold-Compression=true`
-Compression for the cold storage location is disabled, if no cold storage location is specified the setting has no effect.
+コールドストレージの圧縮は無効です。コールドストレージが指定されていない場合、この設定は何の効果もありません。
 
 **Enable-Transparent-Compression**
 Default Value: `false`
 Example: `Enable-Transparent-Compression=true`
-DatalaiQ will mark the storage data as compressible and rely on the kernel to perform the compression operations.
+DatalaiQはストレージデータを圧縮可能なものとしてマークし、圧縮処理の実行をカーネルに依存することになります。
 
 **Enable-Hot-Transparent-Compression**
 Default Value: `false`
 Example: `Enable-Hot-Transparent-Compression=true`
-DatalaiQ will mark the hot storage data as compressible and rely on the kernel to perform the compression operations.
+DatalaiQは、ホットストレージのデータを圧縮可能なものとしてマークし、カーネルに依存して圧縮処理を実行します。
 
 **Enable-Cold-Transparent-Compression**
 Default Value: `false`
 Example: `Enable-Cold-Transparent-Compression=true`
-DatalaiQ will mark the Cold storage data as compressible and rely on the kernel to perform the compression operations.
+DatalaiQは、Coldストレージのデータを圧縮可能なものとしてマークし、圧縮処理をカーネルに依存する。
 
-Note: If transparent compression is enabled and the underlying filesystem is detected as incompatible with transparent compression, the data will effectively be uncompressed and DatalaiQ will send a notification to users.
+備考: 透過圧縮が有効で、基礎となるファイルシステムが透過圧縮と互換性がないと検出された場合、データは事実上圧縮されず、DatalaiQはユーザーに通知を送信します。
 
-Warning: If hot and cold storage locations are not compatible with regards to compression, DatalaiQ must perform additional work to ageout data from hot to cold.  If acceleration is enabled, DatalaiQ will re-index the data as it performs the ageout.  Incompatible compression settings can incur significant overhead during ageout.  Uncompressed data is compatible with transparently compressed data, but default compression is not compatible with uncompressed or transparently compressed data.  DatalaiQ will still function perfectly fine with incompatible compression, the indexer will just work much harder during ageout.
+注意: ホット・ストレージとコールド・ストレージの場所に圧縮に関する互換性がない場合、DatalaiQは、ホットからコールドへのデータのエージアウトに追加の作業を実行する必要があります。 アクセラレーションが有効な場合、DatalaiQはエージアウトを実行する際にデータのインデックスを再作成します。 互換性のない圧縮設定は、エージアウトの際に大きなオーバーヘッドを発生させる可能性があります。 非圧縮データは透過的に圧縮されたデータと互換性がありますが、デフォルトの圧縮は非圧縮データまたは透過的に圧縮されたデータと互換性がありません。 DatalaiQは、互換性のない圧縮でも全く問題なく機能しますが、インデクサはエージアウト時に非常に大きな作業を行うことになります。
 
 
-## Compression and Replication
+## 圧縮とレプリケーション
 
-The [replication system][replication.md] adheres to the same rules as normal well storage.  Replicated data can be configured to use transparent compression, default compression, or no compression at all.  The same rules for compatibility between hot and cold storage locations in a well and compression also apply to replicated data and replication peers.  If a replication peer has configured an incompatible form of compression indexers will perform significantly more work when restoring after a failure.  For best performance, DatalaiQ recommends that hot, cold, and replication stores use the same compression schemes.
+[レプリケーションシステム][replication.md]は、通常のウェルストレージのルールと同じものを遵守します。 レプリケートされたデータは、透過圧縮、デフォルト圧縮、または全く圧縮しないように設定することができます。 ウェル内のホットストレージとコールドストレージの位置の互換性と圧縮に関する同じルールが、複製されたデータとレプリケーションピアにも適用されます。 レプリケーション・ピアで互換性のない圧縮形式が構成されている場合、障害発生後の復元時にインデクサーの作業量が大幅に増加します。 最高のパフォーマンスを得るために、DatalaiQは、ホット、コールド、およびレプリケーション・ストアが同じ圧縮方式を使用することを推奨しています。
 
-Compression for replication storage locations is controlled by the `Disable-Compression` and `Enable-Transparent-Compression` directives.  The snappy compression system is the default compression scheme.
+レプリケーションの保存場所の圧縮は、 `Disable-Compression` ディレクティブと `Enable-Transparent-Compression` ディレクティブで制御します。 デフォルトの圧縮方式はSnappyである。
 
-## Compression Examples
+## 圧縮例
 
-An example storage well with compression disabled for an entire well:
+ウェル全体の圧縮を無効にした保存ウェルの例:
 
 ```
 [Storage-Well "network"]
@@ -68,7 +68,7 @@ An example storage well with compression disabled for an entire well:
 	Disable-Compression=true
 ```
 
-An example storage well with compression disabled for the hot storage location and transparent compression enabled for the cold location.  This configuration is considered compatible and will not require additional work during ageout.
+ホットストレージのロケーションで圧縮を無効にし、コールドロケーションで透過的圧縮を有効にしたストレージウェルの例です。 この構成は互換性があると考えられ、エージアウト時に追加作業を必要としません。
 
 ```
 [Storage-Well "syslog"]
@@ -82,7 +82,7 @@ An example storage well with compression disabled for the hot storage location a
 	Enable-Cold-Transparent-Compression=true
 ```
 
-An example storage well with transparent compression enabled on the hot storage location and default userspace compression on the cold well.  This configuration is considered incompatible and will incur additional overhead during data ageout.
+ホットストレージのロケーションで透過的圧縮を有効にし、コールドウェルでデフォルトのユーザースペース圧縮を有効にしたストレージウェルの例です。 この構成は互換性がないとみなされ、データのエージアウト時に追加のオーバーヘッドが発生します。
 
 ```
 [Storage-Well "windows"]
@@ -96,7 +96,7 @@ An example storage well with transparent compression enabled on the hot storage 
 	Disable-Cold-Compression=true
 ```
 
-An example replication configuration that uses transparent compression for the replication storage.
+レプリケーションストレージに透過型圧縮を使用したレプリケーション構成例です。
 
 ```
 [Replication]
