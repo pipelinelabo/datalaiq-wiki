@@ -1,4 +1,4 @@
-The following is an example default configuration for a Gravwell indexer.
+以下は、Gravwell インデクサーのデフォルト設定例です。
 
 ```
 [global]

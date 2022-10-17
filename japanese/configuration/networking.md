@@ -1,39 +1,39 @@
-# Networking Considerations for DatalaiQ
+# DatalaiQのネットワークに関する考察
 
-DatalaiQ uses several network ports for communication between distributed components. This article describes which ports are used for which purposes.
+DatalaiQは、分散コンポーネント間の通信にいくつかのネットワークポートを使用します。この記事では、どのポートがどのような目的で使用されるかを説明します。
 
-## Indexer Control Port: TCP 9404
+## インデクサコントロールポート：TCP 9404
 
-This port, set by the `Control-Port` option in gravwell.conf, is used by the webserver to communicate with the indexers. Ensure that any firewalls on the *indexers* allow incoming connections on this port from the *webserver*, and that no network infrastructure blocks this port between the webserver and the indexers.
+gravwell.conf の `Control-Port` オプションで設定されるこのポートは、ウェブサーバーがインデキサーと通信するために使用されます。インデックスサーバー*上のファイアウォールが、*ウェブサーバー*からこのポートへの着信接続を許可していること、また、ウェブサーバーとインデックスサーバーの間でこのポートをブロックするネットワーク基盤がないことを確認します。
 
-## Webserver Port: TCP 80/443
+## ウェブサーバーポート： TCP 80/443
 
-This port is how DatalaiQ users access the DatalaiQ webserver. The default configuration uses unencrypted HTTP on port 80, specified with the `Web-Port` option in gravwell.conf. This can be changed to another value, e.g. 8080 if desired. We recommend changing the port to 443 if you [install TLS certificates](#!configuration/certificates.md).
+このポートは、DatalaiQユーザーがDatalaiQウェブサーバーにアクセスするためのものです。デフォルトの設定では、gravwell.conf の `Web-Port` オプションで指定されたポート 80 で暗号化されていない HTTP を使用します。この値は、必要に応じて8080などの別の値に変更することができます。TLS証明書をインストールする](#!configuration/certificates.md)場合、ポートを443に変更することをお勧めします。
 
-## Cleartext Ingest Port: TCP 4023
+## クリアテキスト・インジェストポート：TCP 4023
 
-This port is used by ingesters to connect to indexers and upload entries via unencrypted communications. The default port is TCP 4023, but it can be changed using the `Ingest-Port` option in gravwell.conf. Because ingesters and indexers are often on entirely different networks, it is essential that firewalls are configured such that the *ingesters* are allowed to connect to this port on the *indexers*.
+このポートは、インジェストがインデクサーに接続し、暗号化されていない通信でエントリーをアップロードするために使用されます。デフォルトのポートはTCP 4023ですが、gravwell.confの`Ingest-Port`オプションで変更することができます。インジェスターとインデクサーは全く別のネットワーク上にあることが多いので、*インジェスター*が*インデクサー*のこのポートへの接続を許可されるように、ファイアウォールを設定することが重要です。
 
-## TLS Ingest Port: TCP 4024
+## TLSインジェストポート：TCP 4024
 
-This port is used by ingesters to connect to indexers and upload entries via TLS-encrypted communications. The default port is TCP 4024, but it can be changed using the `TLS-Ingest-Port` option in gravwell.conf. Because ingesters and indexers are often on entirely different networks, it is essential that firewalls are configured such that the *ingesters* are allowed to connect to this port on the *indexers*.
+このポートはインジェスターがインデクサーに接続し、TLS暗号化通信でエントリーをアップロードするために使用されます。デフォルトのポートはTCP 4024ですが、gravwell.confの`TLS-Ingest-Port`オプションで変更することが可能です。インジェスターとインデクサーは全く別のネットワーク上にあることが多いので、*インジェスター*が*インデクサー*のこのポートへの接続を許可されるように、ファイアウォールを設定することが重要です。
 
-## Indexer Replication Port: TCP 9606
+## インデックスレプリケーションポート：TCP 9606
 
-This port is used by indexers to communicate with each other for [replication](#!configuration/replication.md). The default port is 9606 if not otherwise specified in the `Peer` and `Listen-Address` options of the Replication portion of gravwell.conf. Only indexers use this port.
+このポートは、インデクサが[レプリケーション](#!configuration/replication.md)のために互いに通信するために使用されます。gravwell.confのReplication部分の `Peer` と `Listen-Address` オプションで指定されていない場合、デフォルトのポートは9606になります。このポートを使用するのはインデクサーのみです。
 
-## Datastore Port: TCP 9405
+## データストア・ポート：TCP 9405
 
-This port is used when a DatalaiQ cluster has [multiple webservers](#!distributed/frontend.md) configured. The *datastore* component listens on this port (specified using the `Datastore-Port` option) for incoming connections from *webservers*.
+このポートは、DatalaiQクラスタに[複数のウェブサーバ](#!distributed/frontend.md)が構成されている場合に使用されます。データストア*コンポーネントは、このポート(`Datastore-Port`オプションで指定)で*ウェブサーバ*からの着信接続を待ち受けます。
 
-## RHEL (Redhat Enterprise Linux) and CentOS firewall commands
+## RHEL (Redhat Enterprise Linux) および CentOS のファイアウォールコマンド
 
-RHEL/CentOS uses its own firewall commands. For convenience, we have collected the commands needed to open ports for the webserver and indexer components, plus the Simple Relay ingester. Note that any ingesters which listen on network ports will likely need ports opened in this manner.
+RHEL/CentOSでは、独自のファイアウォールコマンドを使用します。便宜上、ウェブサーバとインデクサコンポーネント、およびSimple Relayインジェスタのポートを開くために必要なコマンドを集めました。ネットワークポートをリッスンするすべてのインジェスタは、おそらくこの方法でポートを開く必要があることに注意してください。
 
-Note: The commands shown here will only *temporarily* open ports; rebooting the system will reset the rules. To make the rule changes permanent, run `sudo firewall-cmd --runtime-to-permanent`
+備考: ここで示されたコマンドは、一時的にポートを開くだけです。システムを再起動すると、ルールがリセットされます。ルールの変更を恒久的にするには、`sudo firewall-cmd --runtime-to-permanent` を実行してください。
 
 
-### Indexer ports
+### インデクサーポート
 
 ```
 sudo firewall-cmd --zone=public --add-port=9404/tcp 
@@ -42,14 +42,14 @@ sudo firewall-cmd --zone=public --add-port=4023/tcp
 sudo firewall-cmd --zone=public --add-port=4024/tcp
 ```
 
-### Webserver ports
+### ウェブサーバーポート
 
 ```
 sudo firewall-cmd --zone=public --add-service=http
 sudo firewall-cmd --zone=public --add-service=https
 ```
 
-### Simple Relay ports
+### Simple Relayポート
 
 ```
 sudo firewall-cmd --zone=public --add-port=7777/tcp

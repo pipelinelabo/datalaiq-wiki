@@ -1,22 +1,22 @@
-# Environment Variables
+# 環境変数
 
-The indexer, webserver, and ingester components support configuring some parameters via environment variables rather than config files. This helps make more generic configuration files for bigger deployments. Configuration variables that can contain multiple directives are configured in environment variables using a comma separated list. For instance, to specify the ingest secret when launching the Federator:
+indexer、webserver、および ingester コンポーネントは、設定ファイルではなく、環境変数によるいくつかのパラメータの設定をサポートしています。これは、より大きな展開のために、より汎用的な設定ファイルを作成するのに役立ちます。複数のディレクティブを含むことができる設定変数は、 カンマ区切りのリストを使って環境変数に設定されます。たとえば、Federator を起動するときに ingest secret を指定するには、次のようにします:
 
 ```
 GRAVWELL_INGEST_SECRET=MyIngestSecret /opt/gravwell/bin/gravwell_federator
 ```
 
-If "_FILE" is added to the end of the environment variable name, Gravwell assumes the variable contains the path to a file which in turn contains the desired data. This is particularly useful in combination with [Docker's "secrets" feature](https://docs.docker.com/engine/swarm/secrets/).
+環境変数名の最後に"_FILE "を追加すると、Gravwellはその変数に目的のデータを含むファイルへのパスが含まれていると見なします。Dockerの "secrets "機能](https://docs.docker.com/engine/swarm/secrets/)と組み合わせると特に効果的です。
 
 ```
 GRAVWELL_INGEST_AUTH_FILE=/run/secrets/ingest_secret /opt/gravwell/bin/gravwell_indexer
 ```
 
-Note: Environment variable values are **only** used when the corresponding field is not explicitly set in the appropriate config file (gravwell.conf or an ingester's config file).
+備考: 環境変数の値は、対応するフィールドが適切な設定ファイル（gravwell.conf またはインジェスターの設定ファイル）で明示的に設定されていない場合に **のみ** 使用されます。
 
-## Indexer and Webserver
+## インデクサーとウェブサーバー
 
-The table below shows which `gravwell.conf` parameters can be set via environment variables for the indexer and the webserver. Note that these variables are only used if the parameter is **not** configured in `gravwell.conf`.
+以下の表は、インデクサとウェブサーバの環境変数で設定できる `gravwell.conf` パラメータを表しています。これらの変数は、そのパラメータが `gravwell.conf` で設定されていない場合にのみ使用されることに注意してください。
 
 | gravwell.conf variable | Environment Variable | Example |
 |:------|:----|:---|----:|
@@ -28,9 +28,9 @@ The table below shows which `gravwell.conf` parameters can be set via environmen
 | Replication-Peers | GRAVWELL_REPLICATION_PEERS | GRAVWELL_REPLICATION_PEERS=172.20.0.1:9406,172.20.0.2:9406 |
 | Datastore | GRAVWELL_DATASTORE | GRAVWELL_DATASTORE=172.20.0.10:9405 |
 
-## Ingesters
+## インジェスター
 
-Ingesters can also accept some parameters as environment variables rather than setting them explicitly in the configuration file.
+インジェスターは、いくつかのパラメータを設定ファイルに明示的に設定するのではなく、環境変数として受け入れることもできます。
 
 | Config file variable | Environment Variable | Example |
 |:------|:----|:---|
@@ -41,11 +41,11 @@ Ingesters can also accept some parameters as environment variables rather than s
 | Pipe-Backend-target | GRAVWELL_PIPE_TARGETS | GRAVWELL_PIPE_TARGETS=/opt/gravwell/comms/pipe |
 
 
-### Federator-specific variables
+### フェデレータ固有の変数
 
-Because the federator may run many listeners, each with a different ingest secret associated with it, it recognizes a special set of environment variables to configure those listener secrets at runtime.
+フェデレータは多くのリスナーを実行し、それぞれが異なる取り込み秘密を関連付ける可能性があるため、実行時にそれらのリスナー秘密を設定するための特別な環境変数のセットを認識します。
 
-Each listener has a name. In the example below, the listener is named "base":
+各リスナーには名前がついています。以下の例では、リスナーは "base" という名前になっています:
 
 ```
 [IngestListener "base"]
@@ -53,21 +53,21 @@ Each listener has a name. In the example below, the listener is named "base":
 	Tags=syslog
 ```
 
-In order to specify an ingest secret for that listener at runtime, we use the variable `FEDERATOR_base_INGEST_SECRET`:
+実行時にそのリスナーのインジェストシークレットを指定するために、変数 `FEDERATOR_base_INGEST_SECRET` を使用します:
 
 ```
 FEDERATOR_base_INGEST_SECRET=SuperSecret /opt/gravwell/bin/gravwell_federator
 ```
 
-Or we can specify a file as with other environment variables:
+または、他の環境変数と同様にファイルを指定することもできます:
 
 ```
 FEDERATOR_base_INGEST_SECRET_FILE=/run/secrets/federator_base_secret /opt/gravwell/bin/gravwell_federator
 ```
 
-### Datastore-specific variables
+### データストア固有の変数
 
-The [Datastore](#!distributed/frontend.md) can be configured at run-time by environment variables:
+[データストア](#!distributed/frontend.md)は、実行時に環境変数で設定することが可能です:
 
 | gravwell.conf variable | Environment variable | Example |
 |------------------------|----------------------|---------|

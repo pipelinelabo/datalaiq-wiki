@@ -1,50 +1,50 @@
-# GUI configuration and tweaking
+# GUIの設定と微調整
 
-This page documents user preference options enabled by the "user preferences" section of the account management page.
+このページでは、アカウント管理ページの「ユーザー設定」セクションで有効になるユーザー設定オプションについて説明します。
 
-Currently, these options are configured via JSON and available for advanced Gravwell users. If you're not sure that making any of these tweaks would be helpful, then they probably wouldn't be.
-
-
-## User Preferences
-
-User preferences are for advanced users and configurable via the User Preferences JSON string under the account navigation section.
-
-Currently supported options are outlined below.
-
-### Search
-
-By adding a "search" property, users can control aspects to how searches appear and operate.
+現在、これらのオプションはJSON経由で設定され、Gravwellの上級ユーザが利用できます。もし、これらの調整をすることが役に立つかどうかわからないのであれば、おそらく役に立たないと思います。
 
 
-#### Granularity controls
+## ユーザー設定
 
-An option exists to control the granularity of the data renderers. Future versions will probably make this dynamically adjustable with a slider.
+ユーザー設定は上級者向けで、アカウントナビゲーションセクションの下にあるUser Preferences JSONストリングで設定可能です。
+
+現在、対応しているオプションの概要は以下の通りです。
+
+### 検索
+
+search」プロパティを追加することで、ユーザーは検索の表示や操作方法をコントロールすることができます。
+
+
+#### 粒度調整
+
+データレンダラーの粒度を制御するオプションがあります。将来のバージョンでは、スライダーで動的に調整できるようになると思われます。
 
 ```json
 {"search":{"granularity":{"chart":199}}}
 ```
 
-Any renderer is supported (e.g. text, table) but chart is probably the only renderer in which a user would want to control the granularity.
+どのようなレンダラー（テキスト、テーブルなど）もサポートされているが、ユーザーが粒度をコントロールしたいと思うレンダラーはおそらくチャートだけであろう。
 
-### Force directed graphs
+### 強制有向グラフ
 
-Customizable FDG options are outlined here.
+FDGのカスタマイズ可能なオプションの概要は以下のとおりです。
 
-#### Tick animations
+#### ティックアニメーション
 
-Users can disable the animations while the FDGs are iterating over the gravity calculations.
+FDGが重力計算を繰り返している間、ユーザーはアニメーションを無効化することができます。
 
 ```json
 {"fdg":{"tick":false}}
 ```
 
-### Maps
+### マップ
 
-Customizable Maps options are outlined here.
+マップのカスタマイズオプションの概要はこちらです。
 
-#### Center and Zoom
+#### センターとズーム
 
-Users can set the default zoom and lat/lng for map center:
+地図中心部のデフォルトズームと緯度・経度をユーザーが設定可能です:
 
 ```json
 {"maps":{"center":{"lat":41,"lng":-99,"zoom":2}}}

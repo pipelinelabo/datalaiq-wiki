@@ -1,26 +1,26 @@
-# Data Replication
+# データレプリケーション
 
-Replication is included with all DatalaiQ Cluster Edition licenses, allowing for fault-tolerant high availability deployments.  The DatalaiQ replication engine transparently manages data replication across distributed indexers with automatic failover, load balanced data distribution, and compression.  DatalaiQ also provides fine tuned control over exactly which wells are included in replication and how the data is distributed across peers.  Customers can rapidly deploy a DatalaiQ cluster with uniform data distribution, or design a replication scheme that can tolerate entire data center failures using region-aware peer selection.  The online failover system also allows continued access to data even when some indexers are offline.
+レプリケーションは、すべての DatalaiQ Cluster Edition ライセンスに含まれており、フォールトトレラントな高可用性配備を可能にします。 DatalaiQ のレプリケーション・エンジンは、自動フェイルオーバー、負荷分散されたデータ配信、および圧縮を備えた分散型インデクサーのデータ・レプリケーションを透過的に管理します。 DatalaiQ はまた、どのウェルをレプリケーションに含めるか、そしてデータをどのようにピアに分散させるかについて、きめ細かな制御を提供します。 お客様は、均一なデータ配信を行う DatalaiQ クラスターを迅速に導入したり、地域を考慮したピア選択によりデータセンター全体の障害に耐えうるレプリケーション方式を設計したりすることができます。 また、オンラインフェイルオーバーシステムにより、一部のインデクサがオフラインの場合でもデータへのアクセスを継続することができます。
 
-Attention: DatalaiQ's replication system is designed purely to replicate ingested data. It does not back up user accounts, dashboards, search history, resources, etc., which are stored on the webserver rather than the indexers. To add resiliency to a webserver, consider deploying [a datastore](#!distributed/frontend.md) for your webserver; the datastore will store a redundant live copy of your webserver's data.
+注意: DatalaiQのレプリケーション・システムは、純粋に取り込まれたデータを複製するために設計されています。ユーザーアカウント、ダッシュボード、検索履歴、リソースなどは、インデクサではなくWebサーバーに保存されるため、バックアップは行われません。ウェブサーバーに耐障害性を持たせるには、ウェブサーバーにデータストア(#!distributed/frontend.md)を導入することを検討してください。データストアは、ウェブサーバーのデータの冗長なライブコピーを保存します。
 
-The replication system is logically separated into "Clients" and "Peers", with each indexer potentially acting as both a peer and a client.  A client is responsible for reaching out to known replication peers and driving the replication transactions.  When deploying a DatalaiQ cluster in a replicating mode, it is important that indexers be able to initiate a TCP connection to any peers acting as replication storage nodes.
+レプリケーションシステムは論理的に「クライアント」と「ピア」に分かれており、各インデクサはピアとしてもクライアントとしても機能する可能性があります。 クライアントは、既知のレプリケーション・ピアに連絡を取り、レプリケーション・トランザクションを推進する責任を負っています。 DatalaiQクラスタをレプリケーション・モードで展開する場合、レプリケーション・ストレージ・ノードとして機能するすべてのピアに対して、インデクサがTCP接続を開始できることが重要です。
 
-Replication connections are encrypted by default and require that indexers have functioning X509 certificates.  If the certificates are not signed by a valid certificate authority (CA) then `Insecure-Skip-TLS-Verify=true` must be added to the Replication configuration section.
+レプリケーション接続はデフォルトで暗号化されており、インデクサが機能するX509証明書を持っていることが必要です。 もし、証明書が有効な認証局（CA）によって署名されていない場合は、レプリケーション設定セクションに `Insecure-Skip-TLS-Verify=true` を追加する必要があります。
 
-Replication storage nodes (nodes which receive replicated data) are allotted a specific amount of storage and will not delete data until that storage is exhausted.  If a remote client node deletes data as part of normal ageout, the data shard is marked as deleted and prioritized for deletion when the replication node hits its storage limit.  The replication system prioritizes deleted shards first, cold shards second, and oldest shards last.  All replicated data is compressed; if a cold storage location is provided it is usually recommended that the replication storage location have the same storage capacity as the cold and hot storage combined.
+レプリケーション・ストレージ・ノード（複製されたデータを受信するノード）には特定のストレージ量が割り当てられており、そのストレージを使い切るまでデータを削除することはありません。 リモートクライアントノードが通常のエージアウトの一環としてデータを削除した場合、データシャードは削除済みとマークされ、レプリケーションノードがストレージの制限に達したときに削除が優先されます。 レプリケーションシステムは、削除済みシャードを最初に、コールドシャードを2番目に、最も古いシャードを最後に優先的に処理します。 レプリケートされたデータはすべて圧縮されます。コールドストレージが提供されている場合、通常、レプリケーションストレージはコールドストレージとホットストレージを合わせたのと同じストレージ容量を持つことが推奨されます。
 
-Attention: Entries larger than 999MB will **not** be replicated. They can be ingested and searched as normal, but are omitted from replication.
+注意: 999MBを超えるエントリーはレプリケートされません。これらは通常通り取り込まれ、検索されますが、レプリケーションからは除外されます。
 
-## Basic Online Deployment
+## 基本的なオンラインデプロイメント
 
-The most basic replication deployment is a uniform distribution where every Indexer can replicate against every other indexer.  A uniform deployment is configured by specifying every other indexer in the Replication Peer fields.
+最も基本的なレプリケーション展開は、すべてのインデクサが他のすべてのインデクサに対してレプリケーションできる一様な分布です。 均一な配置は、Replication Peer フィールドで他のすべてのインデクサを指定することで構成されます。
 
 ![Basic Replication](replicationOverview.png)
 
-### Example Configuration
+### 設定例
 
-Given three indexers (192.168.100.50, 192.168.100.51, 192.168.100.52), the configuration for the indexer at 192.168.100.50 would look like this:
+3台のインデクサ（192.168.100.50, 192.168.100.51, 192.168.100.52） を想定すると、192.168.100.50のインデクサの設定は以下のようになります。:
 
 ```
 [Replication]
@@ -31,19 +31,19 @@ Given three indexers (192.168.100.50, 192.168.100.51, 192.168.100.52), the confi
 	Connect-Wait-Timeout=60
 ```
 
-Each node specifies the other nodes in its `Peer` fields.
+各ノードは `Peer` フィールドで他のノードを指定する。
 
-## Region Aware Deployment
+## リージョン・アウェア・デプロイメント
 
-The Replication system can be configured to fine tune which peers an indexer is allowed to replicate data to.  By controlling replication peers, it is possible to set up availability regions where an entire region can be taken offline without losing data so long as no subsequent losses occur in the online availability zone.
+レプリケーションシステムは、インデクサにデータの複製を許可するピアを細かく設定することができる。 レプリケーション・ピアーを制御することで、ある地域全体をオフラインにしても、オンラインのアベイラビリティ・ゾーンでその後の損失が発生しない限り、データを失うことなくアベイラビリティ・ゾーンを設定することが可能である。
 
 ![Region Aware Replication](RegionAwareReplication.png)
 
-### Example Configuration
+### 設定例
 
-An example, an 8 node cluster may be divided into two availability zones (1 and 2).  If availability zone 1 had a subnet of 172.16.2.0/24 and availability zone 2 had a subnet of 172.20.1.0/24.
+例えば、8ノードのクラスタを2つのアベイラビリティ・ゾーン（1および2）に分割することができます。 アベイラビリティ・ゾーン1のサブネットが 172.16.2.0/24 で、アベイラビリティ・ゾーン2のサブネットが 172.20.1.0/24 であったとすると、アベイラビリティ・ゾーン1は 172.16.2.0/24 のサブネットになります。
 
-Nodes in Region 1 are configured to replicate to Region 2:
+リージョン1のノードは、リージョン2にレプリケートされるように設定されています。:
 
 ```
 [Replication]
@@ -55,7 +55,7 @@ Nodes in Region 1 are configured to replicate to Region 2:
 	Connect-Wait-Timeout=60
 ```
 
-Nodes in Region 2 are configured to replicate to Region 1:
+リージョン2のノードは、リージョン1にレプリケートされるように設定されています。:
 
 ```
 [Replication]
@@ -67,76 +67,76 @@ Nodes in Region 2 are configured to replicate to Region 1:
 	Connect-Wait-Timeout=60
 ```
 
-## Offline Deployment
+## オフラインデプロイメント
 
-Replication is not included with the standard Single Edition DatalaiQ license.  If your organization does not need a multi-node deployment of DatalaiQ but would like access to the replication engine for managed backups, contact <support@ppln.co> to upgrade a Single Edition license to a replicating Single Edition license.  Single edition replication is entirely offline, meaning that if the indexing goes offline the data cannot be searched until the indexer comes back online and completes recovery.
+レプリケーションは、標準のSingle Edition DatalaiQライセンスには含まれていません。 お客様の組織がDatalaiQのマルチノード展開を必要としないが、管理バックアップのためにレプリケーション・エンジンへのアクセスを希望する場合は、<support@ppln.co>に連絡して、シングル・エディション・ライセンスをレプリケーション・シングル・エディション・ライセンスにアップグレードしてください。 Single Editionのレプリケーションは完全にオフラインです。つまり、インデックス作成がオフラインになった場合、インデクサがオンラインに戻って復旧が完了するまで、データを検索することができません。
 
 ![Single Edition Offline Replication](SingleOfflineReplication.png)
 
-Cluster Edition DatalaiQ licenses can choose to implement an offline replication configuration using the offline replicator.  The offline replicator acts exclusively as a replication peer, and does not provide automatic failover or act as an indexer.  Offline replication configurations can be useful in cloud environments where storage systems are already backed by a redundant store and loss is extremely unlikely.  By using an offline replication configuration, data can be replicated to a low cost instance that is attached to very low cost storage pools that would not perform well as an indexer.  In the unlikely event that an indexer is entirely lost, the low cost replication peer can restore the higher cost indexer instance.  Contact <support@ppln.co> for access to the offline replication package.
+クラスタ版のDatalaiQライセンスは、オフライン・レプリケータを使用してオフライン・レプリケーション構成を実装することができます。 オフライン・レプリケーターは、レプリケーション・ピアとしてのみ機能し、自動フェイルオーバーやインデクサとしての機能は提供しません。 オフラインレプリケーション構成は、ストレージシステムがすでに冗長ストアにバックアップされており、損失の可能性が極めて低いクラウド環境において有効です。 オフラインレプリケーション構成を使用することで、データを低コストなインスタンスに複製することができます。このインスタンスは、インデクサとしてうまく機能しない非常に低コストのストレージプールに接続されています。 万が一、インデクサが完全に失われた場合、低コストのレプリケーション・ピアは高コストのインデクサ・インスタンスを復元することができます。 オフライン・レプリケーション・パッケージへのアクセスについては、<support@ppln.co>にお問い合わせください。
 
 ![Offline Replication](OfflineReplicationCluster.png)
 
-## Configuration Options
+## 設定オプション
 
-Replication is controlled by the "Replication" configuration group in the gravwell.conf configuration file.  The Replication configuration group has the following configuration parameters.
+レプリケーションは、gravwell.conf設定ファイルの「Replication」設定グループによって制御されます。 Replication設定グループには、以下の設定パラメータがあります。
 
 | Parameter | Example | Description |
 |:----------|:--------|------------:|
-| Peer      | Peer=10.0.0.1:9406 | Designates a remote system acting as a replication storage node.  Multiple Peers can be specified. |
-| Listen-Address | Listen-Address=10.0.0.101:9406 | Designates the address to which the replication system should bind.  Default is to listen on all addresses on TCP port 9406. |
-| Storage-Location | Storage-Location=/mnt/storage/gravwell/replication | Designates the full path to use for replication storage. |
-| Max-Replicated-Data-GB | Max-Replicated-Data-GB=4096 | Designates the maximum amount of storage the replication system will consume, in this case 4TB. |
-| Replication-Secret-Override | Replication-Secret-Override=replicationsecret | Overrides the authentication token used when establishing connections to replication peers.  By default the "Control-Auth" token from the Global configuration group is used. |
-| Disable-TLS | Disable-TLS=true | Disables TLS communication between replication peers. Defaults to false (TLS enabled). |
-| Insecure-Skip-TLS-Verify | Insecure-Skip-TLS-Verify=true | Disables verification and validation of TLS public keys.  TLS is still enabled, but the system will accept any public key presented by a peer. |
-| Key-File | Key-File=/opt/gravwell/etc/replicationkey.pem | Overrides the X509 private key used for negotiating a replication connection.  By default TLS connections use the Global key file. |
-| Certificate-File | Certificate-File=/opt/gravwell/etc/replicationcert.pem | Overrides the X509 public key certificate used for negotiating a replication connection.  By default TLS connections use the Global certificate file. |
-| Connect-Wait-Timeout | Connect-Wait-Timeout=30 | Specifies the number of seconds an Indexer should wait when attempting to connect to replication peers during startup. |
-| Disable-Server | Disable-Server=true | Disable the indexer replication server, it will only act as a client.  This is important when using offline replication. | 
-| Disable-Compression | Disable-Compression=true | Disable compression on the storage for the replicated data. |
-| Enable-Transparent-Compression | Enable-Transparent-Compression=true | Enable transparent compression on using the host file system for replicated data. |
+| Peer      | Peer=10.0.0.1:9406 | レプリケーションストレージノードとして動作するリモートシステムを指定する。 複数のPeerを指定することができます。 |
+| Listen-Address | Listen-Address=10.0.0.101:9406 | レプリケーションシステムがバインドするアドレスを指定します。 デフォルトでは、TCPポート9406のすべてのアドレスでリッスンします。 |
+| Storage-Location | Storage-Location=/mnt/storage/gravwell/replication | レプリケーション用ストレージに使用するフルパスを指定します。 |
+| Max-Replicated-Data-GB | Max-Replicated-Data-GB=4096 | レプリケーションシステムが消費する最大ストレージ量を指定します（この場合は4TB）。 |
+| Replication-Secret-Override | Replication-Secret-Override=replicationsecret | レプリケーションピアへの接続を確立する際に使用される認証トークンを上書きします。 デフォルトでは、Global Configuration グループの "Control-Auth" トークンが使用されます。|
+| Disable-TLS | Disable-TLS=true | レプリケーションピア間のTLS通信を無効にします。デフォルトはfalse（TLSが有効）です。 |
+| Insecure-Skip-TLS-Verify | Insecure-Skip-TLS-Verify=true | TLS 公開鍵の検証および妥当性確認を無効にします。 TLS は引き続き有効ですが、システムは相手から提示された任意の公開鍵を受け入れます。 |
+| Key-File | Key-File=/opt/gravwell/etc/replicationkey.pem | レプリケーション接続のネゴシエーションに使用されるX509秘密鍵を上書きします。 デフォルトでは、TLS接続はグローバルキーファイルを使用します。 |
+| Certificate-File | Certificate-File=/opt/gravwell/etc/replicationcert.pem | レプリケーション接続のネゴシエーションに使用されるX509公開鍵証明書を上書きします。 デフォルトでは、TLS接続はグローバル証明書ファイルを使用します。 |
+| Connect-Wait-Timeout | Connect-Wait-Timeout=30 | 起動時にレプリケーションピアへの接続を試みる際に、Indexerが待つべき秒数を指定します。 |
+| Disable-Server | Disable-Server=true | インデックス・レプリケーション・サーバーを無効にし、クライアントとしてのみ動作するようにします。 これは、オフライン・レプリケーションを使用する場合に重要です。 | 
+| Disable-Compression | Disable-Compression=true | レプリケートされたデータ用のストレージの圧縮を無効にする。 |
+| Enable-Transparent-Compression | Enable-Transparent-Compression=true | 複製されたデータにホストファイルシステムを使用する場合、透過的圧縮を有効にします。 |
 
-## Replication Engine Behavior
+## レプリケーションエンジンの動作
 
-The replication engine is a best effort asynchronous replication and restoration system designed to minimize impact on ingest and search.  The replication system attempts a best-effort data distribution but focuses on timely assignment and distribution.  This means that shards are assigned in a distributed first-come, first-serve order with some guidance based on previous distribution.  The system does not attempt a perfectly uniform data distribution and replication peers with higher throughput (either bandwidth, storage, or CPU) may take on a greater replication load than peers with less.  When designing a DatalaiQ cluster topology intended to support data replication, we recommend over-provisioning the replication storage by 10-15% to allow for unexpected bursts or data distribution that is not perfectly uniform.
+レプリケーションエンジンは、インジェストや検索への影響を最小限にするために設計されたベストエフォート型の非同期レプリケーション・リストアシステムである。 レプリケーションシステムはベストエフォート型のデータ配信を試みますが、タイムリーな割り当てと配信に重点を置いています。 つまり、シャードは分散された先着順で割り当てられ、以前の配布に基づくガイダンスもあります。 システムは完全に均一なデータ配布を試みるわけではなく、スループット（帯域幅、ストレージ、CPUのいずれか）の高いレプリケーション・ピアは、低いピアよりも大きなレプリケーション・ロードを引き受ける可能性があります。 データレプリケーションをサポートする目的でDatalaiQクラスタートポロジーを設計する場合、予期せぬバーストや完全に均一でないデータ配布に対応するため、レプリケーションストレージを10～15%オーバープロビジョニングすることをお勧めします。
 
-The replication engine ensures backup of two core pieces of data: tags and the actual entries.  The mapping of printable tag names to storage IDs is maintained independently by each indexer and are critical for effective searching.  Because the tag to name maps are relatively small, every indexer replicates its entire map to every other replication peer.  Data on the other hand is only ever replicated once.
+レプリケーションエンジンは、タグと実際のエントリーの2つのコアデータのバックアップを保証します。 印刷可能なタグ名とストレージIDのマッピングは、各インデクサによって独立して維持され、効果的な検索に不可欠です。 タグから名前へのマップは比較的小さいため、すべてのインデクサはそのマップ全体を他のすべてのレプリケーションピアに複製します。 一方、データは一度だけ複製されます。
 
-Replication is designed to coordinate with data ageout, migration, and well isolation.  When an indexer ages out data to a cold storage pool or deletes it entirely, the data regions are marked as either cold or deleted on remote storage peers.  The remote storage peers use deletion, cold storage, and shard age when determining which data to keep and/or restore on a node failure.  If data has been marked as deleted by an indexer, the data will not be restored should the indexer fail and recover via replication.  Data that has previously been marked as cold will be put directly back into the cold storage pool during restoration.  Indexers should restore themselves to the exact same state they were in pre-failure when recovering using replication.
+レプリケーションは、データのエージアウト、マイグレーション、ウェルアイソレーションと連携するように設計されています。 インデクサがデータをコールドストレージプールにエージアウトするか、完全に削除すると、データ領域はリモートストレージピア上でコールドまたは削除とマークされます。 リモートストレージピアは、ノード障害時にどのデータを保持および/または復元するかを決定する際に、削除、コールドストレージ、およびシャードの年齢を使用します。 データがインデクサによって削除済みとマークされている場合、インデクサに障害が発生し、レプリケーションによって回復する場合、そのデータはリストアされません。 コールドとしてマークされたデータは、リストア時にコールド・ストレージ・プールに直接戻されます。 レプリケーションを使用して復旧する場合、インデキサーは故障前とまったく同じ状態に自分自身を復元する必要があります。
 
-### Best Practices
+###  ベストプラクティス
 
-Designing and deploying a high availability DatalaiQ cluster can be simple as long as a few basic best practices are followed.  The following list calls out some guidelines you should follow when deploying and recovering a DatalaiQ cluster instance.
+高可用性DatalaiQクラスタの設計と導入は、いくつかの基本的なベストプラクティスに従う限り、簡単に行うことができます。 以下のリストは、DatalaiQクラスタ・インスタンスを展開および回復する際に従うべきガイドラインを示したものです。
  
-1. `Indexer-UUID` represents an indexer's global identity.  The identity must be maintained for the lifetime of the node and appropriately restored after a failure.  If a failed indexer comes up with a different UUID than it previously used, it is interpreted as a wholly new member in the replication cluster and its previous data will not be restored. We recommend noting down the indexer UUIDs somewhere safe in case an indexer suffers catastrophic failure.
-2. Changing well configurations can impact replication states.  Adding additional wells or deleting wells is perfectly acceptable but changing the well configurations *after* a failure but *before* restoration will prevent the replication engine from appropriately restoring data.
-3. If an indexer fails, it is critically important that it be allowed to establish connections with replication peers and perform a first-level tag synchronization prior to ingesting new data.  It can be a good idea to set the `Connect-Wait-Timeout` config parameter to zero, ensuring the failed indexer will not start until it has established replication connections and performed a tag restoration.
-4. Replication storage locations should be reserved exclusively for a single replication system.  For example, using the same network attached storage location for multiple indexers' `Storage-Location` will cause replication failures and data corruption.
-5. Match the compression scheme for replicated and primary data.  If you are using host based transparent compression on the indexers, it is best to mimic that behavior on the replication stores.  If compression schemes match between indexers and replication peers, the restoration process is dramatically faster.
+1. Indexer-UUID` はインデクサーのグローバルIDを表します。 この ID はノードの存続期間中維持されなければならず、また故障の後にも適切に復元されなければなりません。 故障したインデックスが以前使用していたものと異なる UUID で現れた場合、それはレプリケーションクラスターのまったく新しいメンバーとして解釈され、以前のデータはリストアされません。インデクサーの致命的な故障に備え、インデクサーのUUIDを安全な場所にメモしておくことをお勧めします。
+2. ウェル構成を変更すると、レプリケーションの状態に影響を与える可能性があります。 ウェルの追加や削除は全く問題ありませんが、障害発生後、復旧前にウェル構成を変更すると、レプリケーションエンジンが適切にデータを復元できなくなります。
+3. インデクサに障害が発生した場合、新しいデータを取り込む前に、レプリケーション・ピアとの接続を確立し、第一レベルのタグ同期を行うことができるようにすることが極めて重要です。 Connect-Wait-Timeout`設定パラメータをゼロに設定し、レプリケーション接続を確立してタグの復元を行うまで、故障したインデクサが起動しないようにするのはよい考えです。
+4. レプリケーション・ストレージのロケーションは、1つのレプリケーション・システム専用に予約する必要があります。 例えば、複数のインデクサーの `Storage-Location` に同じネットワーク接続ストレージを使用すると、レプリケーションの失敗やデータ破損の原因となります。
+5. レプリケートデータとプライマリデータの圧縮方式を一致させる。 インデクサでホストベースの透過的圧縮を使用している場合、レプリケーションストアでその動作を真似ることが最善です。 インデクサとレプリケーション・ピアで圧縮方式を一致させると、リストア処理が劇的に速くなります。
 
-## Troubleshooting
+## トラブルシューティング
 
-Below are potential problems and solutions when debugging a replication problem.
+以下は、レプリケーションの問題をデバッグする際に考えられる問題点と解決策です。
 
-#### After a failure, an indexer did not restore its data
-Ensure that the indexer maintained its original `Indexer-UUID` value when coming back online.  If the UUID changed, put it back to the original value and ensure the indexer has adequate time to restore all data.  Restoration after changing the `Indexer-UUID` may require significantly more time as the replication system merges the two disparate data stores.
+#### 障害発生後、インデクサーのデータが復元されないことがある
+オンラインに戻ったとき、インデクサがそのオリジナルの `Indexer-UUID` 値を維持していることを確認します。 UUIDが変更された場合、元の値に戻し、インデクサがすべてのデータを復元するのに十分な時間があることを確認します。 インデックス作成者の UUID を変更した後のリストアは、レプリケーションシステムが 2 つの異なるデータストアを統合するため、より多くの時間を必要とする場合があります。
 
-#### Data is not showing up in the replication Storage-Location
-Ensure that all replication peers have a common `Control-Auth` (or `Replication-Secret-Override`) value.  If peers cannot authenticate with each other they will not exchange data.
+#### レプリケーションでデータが表示されない Storage-Location
+すべてのレプリケーションピアが共通の `Control-Auth` (または `Replication-Secret-Override`) 値を持っていることを確認してください。 ピア同士が認証できない場合、データを交換することはできません。
 
-Ensure that X509 certificates are signed by a valid Certificate Authority (CA) that is respected by the keystore on the host systems.  If the certificate stores are not valid, either install the public keys into the host machines certificate store, or disable TLS validation via the `Insecure-Skip-TLS-Verify` option.
+X509証明書は、ホストシステム上の鍵ストアが尊重する有効な認証局(CA)によって署名されていることを確認します。 証明書ストアが有効でない場合、ホストマシンの証明書ストアに公開鍵をインストールするか、 `Insecure-Skip-TLS-Verify` オプションでTLS検証を無効にしてください。
 
-Attention: Disabling TLS verification via `Insecure-Skip-TLS-Verify` opens up replication to man-in-the-middle attacks.  An attacker could modify data in flight, potentially corrupting logs or hiding activity in replicated data.
+注意: `Insecure-Skip-TLS-Verify`によってTLS検証を無効にすると、レプリケーションが中間者攻撃にさらされるようになります。 攻撃者は飛行中のデータを変更することができ、ログを破損したり、複製されたデータの活動を隠したりする可能性があります。
 
-Check firewall rules and/or routing ACLs to ensure that indexers are allowed to communicate with one another on the specified port.
+ファイアウォールルールやルーティングACLをチェックして、インデクサが指定されたポートで互いに通信することが許可されていることを確認します。
 
-#### After a failure an indexer is refusing to start due to a failed tag merge
-If an indexer starts ingesting after a failure prior to restoring its tag mapping, it is possible to enter a state where the tag maps on replication nodes cannot be merged.  If you encounter an unmergeable tag error, contact <support@ppln.co> for assistance in manually restoring the failed node.
+#### タグの結合に失敗したため、インデクサーの起動が拒否されます
+インデクサが障害発生後、タグマッピングを復元する前にインジェストを開始すると、レプリケーションノードのタグマップがマージできない状態になる可能性があります。 マージできないタグのエラーが発生した場合は、<support@ppln.co>に連絡して、障害が発生したノードを手動で復元するための支援を受けてください。
  
-#### After a failure an indexer did not restore all its data
-Replication peers may not have been able to keep up with an indexer due to poor storage performance, poor network performance, or storage failures on the replication node.  Ensure that replication peers have adequate bandwidth and storage capacity to keep up with ingestion.  If a storage node is ingesting at hundreds of megabytes per second, the replication peers must be able to compute, transfer, and store the data at the same rate.
+#### 障害発生後、インデクサが全データをリストアしない
+レプリケーション・ピアは、ストレージの性能低下、ネットワークの性能低下、またはレプリケーション・ノードのストレージ障害により、インデクサに追いつくことができなかった可能性があります。 レプリケーション・ピアに、インジェストに追いつくのに十分な帯域幅とストレージ容量があることを確認します。 ストレージノードが1秒間に数百メガバイトのデータを取り込んでいる場合、レプリケーションピアも同じ速度でデータの計算、転送、保存を行えるようにする必要があります。
 
-Also ensure that there was adequate storage on replication peers.  If a storage node is configured to keep 10TB of cold data and 1TB of hot data, replication peers should be capable of storing at least 11TB of data.  If a replication node was overloaded or misconfigured it may have been removing old data.
+また、レプリケーション・ピアに十分なストレージがあることを確認してください。 ストレージノードが10TBのコールドデータと1TBのホットデータを保持するように構成されている場合、レプリケーションピアには少なくとも11TBのデータを保存する能力が必要です。 レプリケーションノードに過負荷がかかっていたり、誤った構成になっていたりすると、古いデータが削除されている可能性があります。
 
-Ensure that the system times on replication nodes and indexers are consistent.  Both systems use the wall-clock time to determine eligibility of data for removal.  If an indexer has an incorrect system time, its data my be prioritized for deletion in the event a replication peer runs out of storage.
+レプリケーションノードとインデクサーのシステム時刻が一致していることを確認してください。 両システムは、ウォールクロック時間を使用して、削除するデータの適格性を判断します。 インデクサのシステム時間が正しくない場合、レプリケーションピアがストレージを使い果たしたときに、インデクサのデータが優先的に削除される可能性があります。

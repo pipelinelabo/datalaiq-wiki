@@ -1,119 +1,120 @@
-# Deploying DatalaiQ in Docker
+# DockerでDatalaiQをデプロイする
 
-With pre-built Docker images available in the Docker Hub, it is very easy to deploy DatalaiQ in Docker for experimentation or long-term use. In this document, we show how to set up a DatalaiQ environment within Docker.
+Docker Hubでビルド済みのDockerイメージが利用できるため、実験や長期的な使用のためにDatalaiQをDockerにデプロイすることは非常に簡単です。このドキュメントでは、Docker内でDatalaiQ環境をセットアップする方法を紹介します。
 
-If you are a paid DatalaiQ customer and wish to deploy DatalaiQ in Docker, contact support@ppln.co for help. 
+DatalaiQの有料カスタマーで、DatalaiQをDockerでデプロイしたい場合は、support@ppln.co までお問い合わせください。
 
 [//]: # (We also have some information about deploying a custom Docker instance [on this wiki]&#40;#!configuration/custom-docker.md&#41; and [on our blog]&#40;https://www.gravwell.io/blog/gravwell-docker-deployment&#41;.)
 
-Once you have set up DatalaiQ, check out the [quickstart](#!quickstart/quickstart.md) for some starting points on *using* DatalaiQ.
+DatalaiQをセットアップしたら、[クイックスタート](#!quickstart/quickstart.md)をチェックして、DatalaiQを使うためのいくつかの出発点を得てください。
 
-Note: Users running Docker on MacOS should be aware that the MacOS host does not have direct IP access to containers, as explained [here](https://docs.docker.com/docker-for-mac/networking/). Be prepared to forward additional ports if you need to access container network services from the host.
+備考: MacOS上でDockerを実行しているユーザーは、[こちら](https://docs.docker.com/docker-for-mac/networking/)で説明したように、MacOSホストがコンテナに直接IPアクセスできないことに注意する必要があります。ホストからコンテナのネットワークサービスにアクセスする必要がある場合は、追加のポートを転送する準備をしておいてください。
 
-## Create Docker network
+## Dockerネットワークを作成する
 
-To keep our DatalaiQ containers separated from any other containers you may be running, we'll create a Docker network called `gravnet`:
+DatalaiQコンテナを他のコンテナから分離するために、`gravnet`と呼ばれるDockerネットワークを作成します:
 
 	docker network create gravnet
 
-## Deploy the indexer and webserver
+## インデクサとウェブサーバをデプロイする
 
-The DatalaiQ indexer and webserver frontend, plus the Simple Relay ingester, are shipped in a single Docker image ([gravwell/gravwell](https://hub.docker.com/r/gravwell/gravwell/)) for convenience. We will launch it with port 80 forwarded to port 8080 on the host for access to the webserver:
+DatalaiQのインデクサとWebサーバのフロントエンド、そしてSimple Relayのインジェスタは、利便性を考慮して単一のDockerイメージ（[gravwell/gravwell](https://hub.docker.com/r/gravwell/gravwell/)）で提供されています。ウェブサーバーにアクセスするために、ホストのポート80をフォワードした状態で起動します:
 
 	docker run --net gravnet -p 8080:80 -p 4023:4023 -p 4024:4024 -d -e GRAVWELL_INGEST_SECRET=MyIngestSecret -e GRAVWELL_INGEST_AUTH=MyIngestSecret -e GRAVWELL_CONTROL_AUTH=MyControlSecret -e GRAVWELL_SEARCHAGENT_AUTH=MySearchAgentAuth --name gravwell gravwell/gravwell:latest
 
-Note that the new container is named `gravwell`; we will use this when pointing ingesters to the indexer.
+新しいコンテナの名前は `gravwell` であることに注意してください。インジェスターをインデクサーに向けるときにこれを使用します。
 
-We have set several environment variables which bear examination. They set shared secrets used to communicate between components of DatalaiQ. Normally these are set in [configuration files](#!configuration/parameters.md), but we can also set them via [environment variables](#!configuration/environment-variables.md) for a more dynamic, Docker-friendly config. We'll use the `GRAVWELL_INGEST_SECRET=MyIngestSecret` value later for ingesters too. The variables we set are:
+私たちはいくつかの環境変数を設定しましたが、これは検討に値します。これらは、DatalaiQのコンポーネント間で通信するために使用される共有秘密を設定します。通常、これらは[設定ファイル](#!configuration/parameters.md)で設定しますが、よりダイナミックでDockerフレンドリーな設定のために、[環境変数](#!configuration/environment-variables.md)で設定することも可能です。GRAVWELL_INGEST_SECRET=MyIngestSecret` の値は、後でインジェストにも使用する予定です。設定する変数は:
 
-* `GRAVWELL_INGEST_AUTH=MyIngestSecret` tells the *indexer* to use MyIngestSecret to authenticate ingesters.
-* `GRAVWELL_INGEST_SECRET=MyIngestSecret` tells the *Simple Relay ingester* to use MyIngestSecret to authenticate to the indexer. This **must** match the value of GRAVWELL_INGEST_AUTH!
-* `GRAVWELL_CONTROL_AUTH=MyControlSecret` tells the *frontend* and *indexer* that they should authenticate with each other using MyControlSecret
-* `GRAVWELL_SEARCHAGENT_AUTH=MySearchAgentAuth` tells the *frontend* to use MySearchAgentAuth when authenticating the search agent
+* `GRAVWELL_INGEST_AUTH=MyIngestSecret` は、インジェストの認証に MyIngestSecret を使用するよう *indexer* に指示します。
+* `GRAVWELL_INGEST_SECRET=MyIngestSecret` は、 *Simple Relay ingester* に MyIngestSecret を使用してインデクサを認証するよう指示します。これは GRAVWELL_INGEST_AUTH の値と一致しなければなりません!
+* `GRAVWELL_CONTROL_AUTH=MyControlSecret` は、 *frontend* と *indexer* に、 MyControlSecret を使用して互いに認証するよう指示します。
+* `GRAVWELL_SEARCHAGENT_AUTH=MySearchAgentAuth` は、検索エージェントを認証する際に MySearchAgentAuth を使用するよう *フロントエンド* に指示します。
 
-Attention: We **highly** recommend setting these values to secrets of your own choosing if you intend to run this long-term, ESPECIALLY if you expose it to the Internet in any way.
+注意: 長期的に運用する場合、特にインターネットに公開する場合は、これらの値を任意に設定することを強くお勧めします。
 
-Attention: The secret value for GRAVWELL_INGEST_AUTH must match GRAVWELL_INGEST_SECRET
+注意: The secret value for 
+GRAVWELL_INGEST_AUTH must match GRAVWELL_INGEST_SECRET
 
-### Configuring Persistent Storage
+### 永続的ストレージの設定
 
-The default DatalaiQ docker deployment uses the base container for all storage, this means that if you delete the container all data is lost.  Docker provides several options for configuring persistent storage that is independent from the underlying container, including binds and volumes.  When deploying dataliq in a production environment you will want to maintain a few directories in persistent storage depending on the component.  See the [Docker Volumes](https://docs.docker.com/storage/volumes/) documentation for additional information on persistent storage.
+DatalaiQのデフォルトのDocker展開は、すべてのストレージにベースとなるコンテナを使用しますが、これはコンテナを削除するとすべてのデータが失われることを意味します。 Dockerは、バインドやボリュームなど、基盤となるコンテナから独立した永続的なストレージを設定するためのオプションをいくつか提供しています。 dataliqを本番環境にデプロイする場合、コンポーネントに応じていくつかのディレクトリを永続ストレージに維持したいと思うことでしょう。 永続的ストレージに関する追加情報については、[Docker ボリューム](https://docs.docker.com/storage/volumes/) のドキュメントを参照してください。
 
-#### Indexer Persistent Storage
+#### インデクサー永続的ストレージ
 
-The DatalaiQ indexer keeps two critical sets of data, the stored data shards and the `tags.dat` file.  Almost every other component of an indexer can be recovered without data loss, but under normal operation several directories should be bound to persistent storage.  Important data exists in the `storage`, `resources`, `log`, and `etc` directories.  Each of the directories can be mounted to individual volumes or configured in the `gravwell.conf` file to point to a single persistent storage directory.  An example `gravwell.conf` designed for docker deployment with persistent storage within docker might modify the storage paths for each of the data directories to point to alternate paths within `/opt/gravwell/persistent` rather than just `/opt/gravwell`.  Complete documentation on all `gravwell.conf` configuration parameters can be found on the [Detailed Configuration](parameters.md) page.
+DatalaiQ インデクサは、保存されたデータ・シャードと `tags.dat` ファイルという 2 つの重要なデータ・セットを保持します。 インデクサーの他のほとんどすべてのコンポーネントは、データを失うことなく復元することができますが、通常の運用では、いくつかのディレクトリを永続的なストレージにバインドしておく必要があります。 重要なデータは `storage`、`resources`、`log`、`etc` ディレクトリに存在する。 各ディレクトリは個別のボリュームにマウントするか、`gravwell.conf`ファイルで単一の永続ストレージディレクトリを指すように設定することができます。 例えば、Docker 内の永続的なストレージを使用するために設計された `gravwell.conf` の例では、各データディレクトリのストレージパスを `/opt/gravwell/persistent` 内の代替パスを指すように変更することができます。 すべての `gravwell.conf` 設定パラメータに関する完全なドキュメントは [詳細設定](parameters.md) ページで見ることができます。
 
-#### Webserver Persistent Storage
+#### ウェブサーバー永続的ストレージ
 
-The DatalaiQ webserver holds a few directories that should be maintained in order to not lose any configuration data or search results.  The `etc`, `resources`, and `saved` directories contain critical that should be maintained across container deployments.  The `saved` directory contains saved search results that users have chosen to keep.  The `etc` directory contains the user database, webstore, and `tags.dat` files; all of which are critical to proper operation of DatalaiQ.
+DatalaiQ Webサーバーは、設定データや検索結果を失わないために維持すべきいくつかのディレクトリを保持しています。 etc`、`resources`、`saved`の各ディレクトリには、コンテナのデプロイメントに関わらず維持されるべき重要な情報が含まれています。 saved` ディレクトリには、ユーザーが保存することを選択した、保存された検索結果が格納されています。 etc` ディレクトリには、ユーザーデータベース、ウェブストア、および `tags.dat` ファイルが含まれます。これらのファイルはすべて、DatalaiQ を適切に動作させるために重要なものです。
 
-#### Ingester Persistent Storage
+#### インジェスター永続的ストレージ
 
-DatalaiQ ingesters are designed to relay data and typically don't need persistent storage, the one exception is the cache system.  The DatalaiQ ingest API contains an integrated cache system so that if uplinks to indexers fail, ingesters can locally cache data in a persistent store so that data is never lost.  Most ingesters do not deploy the cache by default, but a common cache storage location is `/opt/gravwell/cache`.  Binding the `cache`directory to persistent storage ensures that ingesters can maintain state and not lose data across container restarts and/or updates.
+DatalaiQインジェストはデータを中継するように設計されており、通常は永続的なストレージを必要としませんが、例外としてキャッシュシステムがあります。 DatalaiQのインジェストAPIにはキャッシュシステムが統合されており、インデクサへのアップリンクが失敗しても、インジェスターはローカルにデータを永続的なストアにキャッシュすることができるので、データが失われることはありません。 ほとんどのインジェストはデフォルトではキャッシュを展開しませんが、一般的なキャッシュの保存場所は `/opt/gravwell/cache` です。 cache`ディレクトリを永続的なストレージにバインドすることで、ingesterは状態を維持し、コンテナの再起動や更新があってもデータが失われないようにします。
 
-## Upload license and log in
+## ライセンスのアップロードとログイン
 
-Now that DatalaiQ is running, point a web browser at port http://localhost:8080 on the host. It should prompt for a license upload:
+DatalaiQが起動しているので、ウェブブラウザでホスト上のポートhttp://localhost:8080。ライセンスのアップロードが要求されるはずです:
 
 ![](license-upload-docker.png)
 
-Note: Paid users and existing Community Edition users should have received a license via email. If you haven't signed up for Community Edition yet, head over to [https://www.gravwell.io/download](https://www.gravwell.io/download) and get a license.
+備考: 有料ユーザーと既存のCommunity Editionユーザーは、電子メールでライセンスを受け取っているはずです。まだCommunity Editionにサインアップしていない方は、[https://www.gravwell.io/download](https://www.gravwell.io/download)にアクセスして、ライセンスを取得してください。
 
-Once you upload the license and it is verified, you'll get a login prompt:
+ライセンスをアップロードし、それが検証されると、ログインプロンプトが表示されます:
 
 ![](docker-login.png)
 
-Log in with the default credentials **admin** / **changeme**. You're now in DatalaiQ! If you're going to run DatalaiQ for a while, you should probably change the password (click the user icon in the upper right to change the password).
+デフォルトの認証情報である **admin** / **changeme** でログインしてください。これでDatalaiQに入りました! DatalaiQをしばらく運用するのであれば、パスワードを変更した方が良いでしょう（右上のユーザーアイコンをクリックしてパスワードを変更します）。
 
-## Add some data to test
+## テスト用のデータを追加する
 
-The gravwell/gravwell Docker image ships with the Simple Relay [ingester](#!ingesters/ingesters.md) pre-installed. It listens on the following ports:
+gravwell/gravwell Dockerイメージには、Simple Relay [ingester](#!ingesters/ingesters.md) がプリインストールされて出荷されています。これは以下のポートでリッスンします:
 
-* TCP 7777 for line-delimited logs (tagged 'default')
-* TCP 601 for syslog messages (tagged 'syslog')
-* UDP 514 for syslog messages (tagged 'syslog')
+* TCP 7777（行区切りログ用）（タグは「default」）。
+* syslogメッセージ用のTCP 601（タグは'syslog'）。
+* syslogメッセージ用UDP 514（タグは'syslog'）。
 
-To make sure we can get data into DatalaiQ, we can use netcat to write lines to port 7777. However, when we launched the VM, we didn't forward any of those ports to the host. Luckily, we can use `docker inspect` to get the IP address assigned to the DatalaiQ container:
+DatalaiQにデータを取り込めるようにするには、netcatを使ってポート7777に行を書き込めばいいのです。しかし、VMを起動する際に、これらのポートをホストに転送していません。幸い、`docker inspect`を使えば、DatalaiQコンテナに割り当てられたIPアドレスを取得することができます:
 
 	docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' gravwell
 
-In our case, it was **172.19.0.2**. We can then use netcat to send in some lines, hitting Ctrl-C when done:
+この場合、それは **172.19.0.2** でした。次に、netcatを使っていくつかの行を送信し、終了したらCtrl-Cを押すことができます:
 
 	$ netcat 172.19.0.2 7777
 	this is a test
 	this is another test
 
-Attention: MacOS users cannot access containers directly by IP, because the containers are actually run within a Linux VM. You can either use netcat from within a Docker container (either the same container or a new one), or forward port 7777 to the host when launching the DatalaiQ container.
+注意: MacOSユーザーは、コンテナが実際にはLinux VM内で実行されるため、コンテナに直接IPでアクセスすることはできません。Dockerコンテナ（同じコンテナまたは新しいコンテナ）内からnetcatを使用するか、DatalaiQコンテナを起動する際にポート7777をホストに転送することができます。
 
-We can then run a quick search over the last hour to verify that the data made it in and DatalaiQ is working properly:
+そして、過去1時間の簡単な検索を行い、データが入力され、DatalaiQが正常に動作していることを確認することができます:
 
 ![](docker-search.png)
 
-## Set up ingesters
+## インジェスターの設定
 
-Besides the Simple Relay ingester that ships with the gravwell/gravwell image, we provide a number of pre-build images for our ingesters. More information can be found at the [DatalaiQ Docker Hub](https://hub.docker.com/u/gravwell) page.
+gravwell/gravwellイメージに同梱されているSimple Relayインジェスターの他に、インジェスター用のプレビルドイメージを多数提供しています。詳細は、[DatalaiQ Docker Hub](https://hub.docker.com/u/gravwell)のページで確認することができます。
 
-We'll launch the Netflow ingester here, but the same command (with names and ports changed) can be used for the other ingesters too:
+ここではNetflowインジェスターを起動しますが、同じコマンド（名前とポートを変更）を他のインジェスターにも使用することができます:
 
 	docker run -d --net gravnet -p 2055:2055/udp --name netflow -e GRAVWELL_CLEARTEXT_TARGETS=gravwell -e GRAVWELL_INGEST_SECRET=MyIngestSecret gravwell/netflow_capture
 
-Note the use of the `-e` flag to set environment variables. This allows us to dynamically configure the ingester by directing it to connect to the container named 'gravwell' for ingest (GRAVWELL_CLEARTEXT_TARGETS=gravwell) and setting the shared ingest secret to 'IngestSecrets' (GRAVWELL_INGEST_SECRET=IngestSecrets).
+環境変数を設定するために `-e` フラグを使用することに注意してください。これにより、インジェストのために 'gravwell' という名前のコンテナに接続するよう指示し（GRAVWELL_CLEARTEXT_TARGETS=gravwell）、共有インジェストシークレットを 'IngestSecrets' に設定する（GRAVWELL_INGEST_SECRET=IngestSecrets）ことで動的にインジェストを構成することができるようになりました。
 
-The `-p 2055:2055/udp` option forwards UDP port 2055 (Netflow v5 ingest port) from the container to the host. This should make it easier to send Netflow records into the ingest container.
+`-p 2055:2055/udp` オプションは、コンテナからホストへ UDP ポート 2055 (Netflow v5 ingest ポート) を転送します。これにより、Netflow レコードをインジェストコンテナに送信することが容易になるはずです。
 
-Note: The netflow ingester is also configured by default to accept IPFIX records over UDP on port 6343. If you wish to ingest IPFIX records too, add `-p 6343:6343/udp` to the command line above.
+備考: netflow ingesterは、デフォルトでポート6343上のUDP上でIPFIXレコードを受け入れるように設定されています。IPFIXレコードもインジェストしたい場合は、上記のコマンドラインに `-p 6343:6343/udp` を追加してください。
 
-We can verify that the ingester is active by clicking on the Ingesters item in the menu:
+インジェスターが有効であることは、メニューのIngesters項目をクリックすることで確認できます:
 
 ![](netflow_ingest.png)
 
-Now we can configure our Netflow generators to send records to port 2055 of the host; they'll be passed in to the container and ingested into DatalaiQ.
+これで、ホストのポート 2055 にレコードを送信するように Netflow ジェネレーターを設定することができます。
 
-## Customizing services
+## カスタマイズサービス
 
-The official DatalaiQ docker container contains a service management system that makes launching and controlling multiple services within the container very easy.  The manager controls service restarts, error reporting, and back off controls.  DatalaiQ has open-sourced the [manager](https://github.com/gravwell/manager) application on [github](https://github.com/gravwell) under the BSD 3-Clause license.  So if you want a very small and easily configured systemd like service manager for your docker containers, have at it.
+DatalaiQの公式Dockerコンテナには、コンテナ内で複数のサービスを非常に簡単に起動・制御するためのサービス管理システムが含まれています。 マネージャは、サービスの再起動、エラー報告、バックオフの制御を行います。 DatalaiQは、[github](https://github.com/gravwell)上で[管理](https://github.com/gravwell/manager)アプリケーションをBSD 3-Clauseライセンスの下でオープンソースしています。 もしあなたが、Dockerコンテナのために、非常に小さく、簡単に設定できるsystemdのようなサービスマネージャを望んでいるなら、ぜひ使ってみてください。
 
-The official dataliq Docker image contains the full DatalaiQ stack (indexer and webserver) as well as the Simple Relay ingester.  The default manager configuration is:
+公式のdataliq Dockerイメージには、Simple Relayインジェスターだけでなく、DatalaiQスタック（インデックスサーバーとウェブサーバー）のフルセットが含まれています。 デフォルトのマネージャ構成は:
 
 ```
 [Global]
@@ -152,54 +153,54 @@ The official dataliq Docker image contains the full DatalaiQ stack (indexer and 
 	Restart-Period=10 #10 minutes
 ```
 
-This default configuration for the manager application enables the error reporting system which helps us identify and correct bugs.  If a service exits with a non-zero exit code, we get an error report.  To disable the error reporting system you can either remove the "[Error-Handler]" section or pass in the environment variable "DISABLE_ERROR_REPORTING" with a value of "TRUE".
+マネージャーアプリケーションのこのデフォルト設定は、バグの特定と修正に役立つエラーレポートシステムを有効にします。 サービスがゼロ以外の終了コードで終了した場合、エラーレポートが表示されます。 エラー報告システムを無効にするには、 "[Error-Handler]" セクションを削除するか、 環境変数 "DISABLE_ERROR_REPORTING" に "TRUE" を指定して渡します。
 
-Individual services can be disabled at the time of launch by passing in an environment variable with the service name in all caps and prefixed with "DISABLE_" assigned to "TRUE".
+サービス名を全角で書き、先頭に "DISABLE_"を付けた環境変数に "TRUE "を代入することで、起動時に個々のサービスを無効化することができる。
 
-For example, to launch the datalaiq docker container without error reporting, launch with the "-e DISABLE_ERROR_REPORTING=true" option.
+たとえば、エラーレポートなしでdatalaiqドッカーコンテナを起動するには、「-e DISABLE_ERROR_REPORTING=true」オプションで起動する。
 
-If you would like to disable the integrated SimpleRelay ingester, add "-e DISABLE_SIMPLE_RELAY=TRUE" and if you wanted to launch with ONLY the indexer started chain them all up like so:
+SimpleRelay インジェスターを無効にしたい場合は、"-e DISABLE_SIMPLE_RELAY=TRUE" を追加し、インデクサーのみで起動したい場合は以下のように連鎖させます:
 
 ```
 docker run --name gravwell -e GRAVWELL_INGEST_SECRET=MyIngestSecret -e DISABLE_SIMPLE_RELAY=TRUE -e DISABLE_WEBSERVER=TRUE -e DISABLE_SEARCHAGENT=TRUE gravwell/gravwell:latest
 ```
 
-For more information about the service manager visit the [GitHub page](https://github.com/gravwell/manager).
+サービスマネージャーの詳細については、[GitHubページ](https://github.com/gravwell/manager)をご覧ください。
 
-### Customizing ingester containers
+### インジェスターのコンテナをカスタマイズする
 
-Once you've launched an ingester container, you may want to modify the default configuration somewhat. For instance, you may decide to run the Netflow ingester on a different port.
+インジェスターコンテナを起動したら、デフォルトの設定を多少変更したいと思うかもしれません。例えば、Netflowインジェスターを別のポートで実行することにするかもしれません。
 
-To make changes to the Netflow ingester container we launched above, we can launch a shell in the container:
+上記で起動したNetflow ingesterのコンテナに変更を加えるには、コンテナ内でシェルを起動します:
 
 	docker exec -it netflow sh
 
-Then we can use vi to edit `/opt/gravwell/etc/netflow_capture.conf` as described in [the ingesters documentation](#!ingesters/ingesters.md). Once our modifications are made, we simply restart the whole container:
+そして、viを使って `/opt/gravwell/etc/netflow_capture.conf` を [インジェスタードキュメント](#!ingesters/ingesters.md) にあるように編集することができます。修正が完了したら、コンテナ全体を再起動します。:
 
 	docker restart netflow
 
-## Configuring external (non-Docker) ingesters
+## 外部（Docker以外）のインジェスターを設定する
 
-If you refer back to the original command we used to launch the `gravwell/gravwell` image, you'll note that we forwarded ports 4023 and 4024 to the host. These are respectively the cleartext and TLS-encrypted ingest ports for the indexer. If you have an ingester running on another system (perhaps gathering log files on a Linux server somewhere), you can set the `Cleartext-Backend-target` or `Encrypted-Backend-target` fields in the ingester config file to point at your Docker host and ingest data into the DatalaiQ instance there.
+gravwell/gravwell`イメージを起動するために使用したオリジナルのコマンドを参照すると、ポート4023と4024をホストに転送していることに気がつくと思います。これらはそれぞれ、インデクサーのための平文とTLSで暗号化されたインジェストポートです。もし別のシステムでインジェスターが動作している場合（おそらくどこかのLinuxサーバーでログファイルを収集している）、インジェスター設定ファイルの `Cleartext-Backend-target` または `Encrypted-Backend-target` フィールドを設定して、あなたのDockerホストを指し、そこでDatalaiQインスタンスにデータをインジェストすることが可能です。
 
-Refer to [the ingesters documentation](#!ingesters/ingesters.md) for more information on configuring ingesters.
+ingestersの設定については、[インジェスタードキュメント](#!ingesters/ingesters.md)を参照してください。
 
-## Security considerations
+## セキュリティへの配慮
 
-If you intend to expose the forwarded container ports to the Internet, it is **critical** that you set the following to secure values:
+転送されたコンテナポートをインターネットに公開する場合、以下を安全な値に設定することが **重要** です:
 
-* The 'admin' password must be changed from default 'changeme'.
-* The GRAVWELL_INGEST_SECRET, GRAVWELL_INGEST_AUTH, GRAVWELL_CONTROL_AUTH, and GRAVWELL_SEARCHAGENT_AUTH environment variables set when launching the indexer & webserver (see above) must be set to complex strings.
+* 「admin」のパスワードは、デフォルトの「changeme」から変更する必要があります。
+* インデックスサーバおよびウェブサーバの起動時に設定する環境変数 GRAVWELL_INGEST_SECRET, GRAVWELL_INGEST_AUTH, GRAVWELL_CONTROL_AUTH, GRAVWELL_SEARCHAGENT_AUTH (上記参照) には、複雑な文字列を設定する必要があります。
 
-## Crash Reporting and Metrics
+## クラッシュレポートとメトリックス
 
-The DatalaiQ software has automated crash reporting & metrics reporting built in. For more information about what gets sent back to us at DatalaiQ, and how to opt out, see the [crash reporting and metrics page](#!metrics.md).
+DatalaiQソフトウェアには、自動化されたクラッシュレポートとメトリクスレポートが組み込まれています。DatalaiQに返送される内容や、それを拒否する方法についての詳細は、[クラッシュレポートとメトリクスページ](#!metrics.md)を参照してください。
 
 
-## More Info
+## より詳細な情報
 
-With DatalaiQ running, refer to [the rest of the documentation](#!index.md) for more information on how to use the system.
+DatalaiQが起動している状態で、システムの使用方法については、[その他のドキュメント](#!index.md)を参照してください。
 
-If you are a paid DatalaiQ customer and wish to deploy DatalaiQ in Docker, contact support@ppln.co for help. 
+DatalaiQの有料カスタマーで、DatalaiQをDockerでデプロイしたい場合は、support@ppln.co までお問い合わせください。
 
 [//]: # (We also have some information about deploying a custom Docker instance [on this wiki]&#40;#!configuration/custom-docker.md&#41; and [on our blog]&#40;https://www.gravwell.io/blog/gravwell-docker-deployment&#41;.)
