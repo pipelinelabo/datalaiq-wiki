@@ -1,16 +1,16 @@
-# Gravwell Metrics and Crash Reporting
+# DatalaiQ Metrics and Crash Reporting
 
-Gravwell users care about what's going on in their networks--it's a big reason people check us out in the first place. We want to make sure all users are aware of and comfortable with the automated crash reporting & metrics systems built into Gravwell. This document will cover both systems, with complete examples of exactly what we send back to the Gravwell servers.
+DatalaiQ users care about what's going on in their networks--it's a big reason people check us out in the first place. We want to make sure all users are aware of and comfortable with the automated crash reporting & metrics systems built into DatalaiQ. This document will cover both systems, with complete examples of exactly what we send back to the DatalaiQ servers.
 
 ## Crash Reporting
 
-When a Gravwell component crashes, an automated crash report is sent to Gravwell. This consists of the console output from the component in question, which typically includes some brief information about the license (in order to determine whose system just crashed) and a stack trace. **Every** Gravwell component--the webserver, the indexer, the ingesters, the search agent--is set up to send crash reports.
+When a DatalaiQ component crashes, an automated crash report is sent to DatalaiQ. This consists of the console output from the component in question, which typically includes some brief information about the license (in order to determine whose system just crashed) and a stack trace. **Every** DatalaiQ component--the webserver, the indexer, the ingesters, the search agent--is set up to send crash reports.
  
  ```{note}
-Crash reports are always sent via TLS-verified HTTPS to update.gravwell.io. If we are unable to fully validate the remote certificate, the report does *not* go out.
+Crash reports are always sent via TLS-verified HTTPS to our server. If we are unable to fully validate the remote certificate, the report does *not* go out.
 ```
 
-Here's an example of a crash report from a Gravwell employee's test system:
+Here's an example of a crash report from a DatalaiQ employee's test system:
 
 ```
 Component:      webserver
@@ -58,43 +58,43 @@ created by gravwell/pkg/search.(*SearchManager).GetSystemStats.func1
         gravwell@/pkg/search/manager_handlers.go:301 +0x65
 ```
 
-The message starts with the particular component that crashed, in this case the webserver. It then lists the Gravwell version, the IP and hostname of the system that crashed, and a path where Gravwell staff can find a full copy of the crash log--if a backtrace is particularly long, we receive an email with only the first 100 lines or so.
+The message starts with the particular component that crashed, in this case the webserver. It then lists the DatalaiQ version, the IP and hostname of the system that crashed, and a path where DatalaiQ staff can find a full copy of the crash log--if a backtrace is particularly long, we receive an email with only the first 100 lines or so.
 
 The remainder of the message is the console output from the crashed program. The crash reporter pulls this directly from the component's output file in `/dev/shm`; you can see what your system might send by looking at e.g. `/dev/shm/gravwell_webserver`. You can also view any past crash reports in `/opt/gravwell/log/crash`, but be aware that if you *disable* the crash reporter, crash logs will no longer be stored in that directory.
 
-The first few lines (Version, API Version, Build Date, and Build ID) help us determine exactly what version of Gravwell was running. "Cmdline", "Executing user", "Parent PID", "Parent cmdline", and "Parent user" all help us figure out how the Gravwell process is being run and identify potential issues there--in this example, because the parent process as PID 1 and named "manager", we can infer that Gravwell is being run in a Docker container. Sometimes issues can crop up in one environment (e.g. in Docker being launched by "manager") but not in others (Ubuntu, launching via systemd), and this helps us chase that down.
+The first few lines (Version, API Version, Build Date, and Build ID) help us determine exactly what version of DatalaiQ was running. "Cmdline", "Executing user", "Parent PID", "Parent cmdline", and "Parent user" all help us figure out how the DatalaiQ process is being run and identify potential issues there--in this example, because the parent process as PID 1 and named "manager", we can infer that DatalaiQ is being run in a Docker container. Sometimes issues can crop up in one environment (e.g. in Docker being launched by "manager") but not in others (Ubuntu, launching via systemd), and this helps us chase that down.
 
 We also include information about the amount of memory on the system and the rlimits set because this can help us track down certain classes of crashes--for instance, an out-of-memory error on a system with 512MB of RAM wouldn't be particularly surprising! Note that the "Host hash" field is a unique identifier for the host running the process, but because it is a hash we can only use it to say "This is the same machine as that other crash report"; no other information is included.
 
-The "SKU", "Customer NUM", and "Customer GUID" fields describe the license in use. The SKU describes the capabilities allowed by the user's license; in this case, the Gravwell employee is using an unlimited ("UX") license. The customer number and customer GUID fields allow us to refer to our customer database and see who is having the problem.
+The "SKU", "Customer NUM", and "Customer GUID" fields describe the license in use. The SKU describes the capabilities allowed by the user's license; in this case, the DatalaiQ employee is using an unlimited ("UX") license. The customer number and customer GUID fields allow us to refer to our customer database and see who is having the problem.
 
-Below all this information is the backtrace from the Gravwell process. In this case, we see that a bug in an alpha build caused a crash in the routine that the webserver uses to check CPU/memory information of the indexers for use on the GUI's hardware stats page. We want to make it very clear that these stacktraces will never contain user data, only line numbers from our source code: just enough so we can figure out where in the program it's crashing.
+Below all this information is the backtrace from the DatalaiQ process. In this case, we see that a bug in an alpha build caused a crash in the routine that the webserver uses to check CPU/memory information of the indexers for use on the GUI's hardware stats page. We want to make it very clear that these stacktraces will never contain user data, only line numbers from our source code: just enough so we can figure out where in the program it's crashing.
 
 ### Disabling Crash Reporting
 
 If for any reason you decide you don't want to send crash reports, you have multiple options for disabling the report system.
 
 * If using the standalone shell installer, you can disable it at install time with the `--no-crash-report` flag.
-* If you installed Gravwell from the Debian repositories, you can disable it with `systemctl disable gravwell_crash_report`.
-* If you're using the Gravwell Docker image, you can disable the crash reporter by passing `-e DISABLE_ERROR_HANDLING=true` in the Docker command.
+* If you installed DatalaiQ from the Debian repositories, you can disable it with `systemctl disable gravwell_crash_report`.
+* If you're using the DatalaiQ Docker image, you can disable the crash reporter by passing `-e DISABLE_ERROR_HANDLING=true` in the Docker command.
 
 However, we'd really appreciate if you'd leave crash reporting enabled. Thanks to these crash reports, we can often identify and fix problems that users may not even notice! It's one of our best feedback mechanisms to improve our software.
 
-If you would like us to remove all past crash reports that your system has sent, please email support@gravwell.io and we will permanently delete them from our system.
+If you would like us to remove all past crash reports that your system has sent, please email support@pipelinesecurity.net and we will permanently delete them from our system.
 
 ## Metrics Reporting
 
-The Gravwell webserver component (*only* the webserver) will occasionally send an HTTPS POST request to the Gravwell corporate servers with generic usage statistics. This information helps us figure out which features get the most use and which can use more work. We can generate statistics about how much RAM is being consumed by Gravwell--do we need to optimize garbage collection, or be more conservative in our default configuration? It also allows us to make sure paid licenses aren't being deployed improperly.
+The DatalaiQ webserver component (*only* the webserver) will occasionally send an HTTPS POST request to the DatalaiQ corporate servers with generic usage statistics. This information helps us figure out which features get the most use and which can use more work. We can generate statistics about how much RAM is being consumed by DatalaiQ--do we need to optimize garbage collection, or be more conservative in our default configuration? It also allows us to make sure paid licenses aren't being deployed improperly.
 
-Our most important goal in gathering these metrics is to protect the anonymity of your data. These metrics reports will **never** include the actual contents of any data stored in Gravwell, nor will they ever send actual search queries or even a list of tags on the system.
+Our most important goal in gathering these metrics is to protect the anonymity of your data. These metrics reports will **never** include the actual contents of any data stored in DatalaiQ, nor will they ever send actual search queries or even a list of tags on the system.
 
 ```{note}
-Metrics reports are always sent via TLS-verified HTTPS to update.gravwell.io. If we are unable to fully validate the remote certificate, the report does *not* go out.
+Metrics reports are always sent via TLS-verified HTTPS to server. If we are unable to fully validate the remote certificate, the report does *not* go out.
 ```
 
-We use this same system to notify users of new Gravwell releases: when the metrics report is sent, the server will respond with the latest version of Gravwell. This lets us display a notification in the Gravwell UI when a new version is available (these notifications can be disabled with the `Disable-Update-Notification` parameter in gravwell.conf).
+We use this same system to notify users of new DatalaiQ releases: when the metrics report is sent, the server will respond with the latest version of DatalaiQ. This lets us display a notification in the DatalaiQ UI when a new version is available (these notifications can be disabled with the `Disable-Update-Notification` parameter in gravwell.conf).
 
-Here's an example that was sent by a Gravwell employee's home system:
+Here's an example that was sent by a DatalaiQ employee's home system:
 
 ```
 {
@@ -381,9 +381,9 @@ Here's an example that was sent by a Gravwell employee's home system:
 The structure is large, in part because this webserver is connected to 4 indexers which each get their own set of information. Here's a breakdown of the fields in detail:
 
 * `ABACActive`: Set to true if any ABAC or tag access rules are in place on the system.
-* `ApiVer`: An internal Gravwell API versioning number.
+* `ApiVer`: An internal DatalaiQ API versioning number.
 * `AutomatedSearchCount`: The number of searches which have been executed "automatically" (by the search agent, or by loading a dashboard).
-* `BuildVer`: A structure describing the particular build of Gravwell on this system.
+* `BuildVer`: A structure describing the particular build of DatalaiQ on this system.
 * `CustomerNumber`: The customer number associated with the license on this system.
 * `CustomerUUID`: The UUID of the license on this system.
 * `DashboardCount`: The number of dashboards that exist.
@@ -443,13 +443,13 @@ The structure is large, in part because this webserver is connected to 4 indexer
 	- `TotalMemory`: The size of the system's main memory.
 	- `VirtRole`: "host" or "guest", depending on if the webserver is running in a virtual machine or not.
 	- `VirtSystem`: The virtualization system, if any, e.g. "xen", "kvm", "vbox", "vmware", "docker", "openvz", "lxc".
-* `WebserverUUID`: Every Gravwell webserver generates a UUID when installed; this field contains that UUID.
+* `WebserverUUID`: Every DatalaiQ webserver generates a UUID when installed; this field contains that UUID.
 * `WellCount`: The total number of wells across all indexers.
 
-We carefully considered the information we report, taking pains to make it impossible to glean any intelligence regarding the type or content of the data you've got in Gravwell. We are always happy to discuss the reasoning behind any of the information we gather; please email support@gravwell.io with any questions.
+We carefully considered the information we report, taking pains to make it impossible to glean any intelligence regarding the type or content of the data you've got in DatalaiQ. We are always happy to discuss the reasoning behind any of the information we gather; please email support@DatalaiQ.io with any questions.
 
 ### Limiting Metric Reporting
 
 Customers may set `Disable-Stats-Report=true` in gravwell.conf, which will strip down the metrics report to a bare minimum containing the CustomerUUID, CustomerNumber, BuildVer, ApiVer, LicenseTimeLeft, and LicenseHash fields--just enough information to verify that the correct license is installed and the system is running.
 
-We'd really appreciate if you'd leave full stats reports enabled, though. As we said above, these stats reports help us figure out which features are getting used the most, what kind of systems Gravwell is running on, how much RAM it's using--information that, in aggregate, can help us decide where to prioritize future improvements.
+We'd really appreciate if you'd leave full stats reports enabled, though. As we said above, these stats reports help us figure out which features are getting used the most, what kind of systems DatalaiQ is running on, how much RAM it's using--information that, in aggregate, can help us decide where to prioritize future improvements.

@@ -1,12 +1,10 @@
 :html_theme.sidebar_secondary.remove:
 
-# Gravwell Docs
+# DatalaiQ Docs
 
-This site contains documentation for Gravwell, plus other resources such as Changelogs.
+This site contains documentation for DatalaiQ, plus other resources such as Changelogs.
 
-If you're just starting out with Gravwell, we recommend reading the [Quick Start](quickstart/quickstart) first, then moving on to the [Search pipeline](search/search) documentation to learn more.
-
-Gravwell is pleased to announce our free [Community Edition](https://www.gravwell.io/download)!
+If you're just starting out with DatalaiQ, we recommend reading the [Quick Start](quickstart/quickstart) first, then moving on to the [Search pipeline](search/search) documentation to learn more.
 
 ```{toctree}
 ---
@@ -15,7 +13,7 @@ hidden: true
 Quick Start <quickstart/quickstart>
 Configuration <architecture/architecture>
 Ingesters <ingesters/ingesters>
-Searching with Gravwell <gravwell>
+Searching with DataialiQ <datalaiq>
 Automation <automation>
 API <api/api>
 Release Notes <changelog/list>
@@ -52,7 +50,7 @@ Release Notes <changelog/list>
 :link: gravwell
 :link-type: doc
 
-**Searching with Gravwell**  {material-twotone}`search;3em;sd-text-primary`
+**Searching with DatalaiQ**  {material-twotone}`search;3em;sd-text-primary`
 
 :::
 ::::

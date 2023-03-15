@@ -1,5 +1,5 @@
-### Gravwell Wiki
-Current version of Gravwell documentation can always be found at http://docs.gravwell.io
+### DatalaiQ Wiki
+Current version of DatalaiQ documentation can always be found at http://docs.datalaiq.io
 This repo is served up at that url and can be cloned for offline use.
 
 There is a shell.nix provided in the repo. To install Nix, visit https://nixos.org/download.html
