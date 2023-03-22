@@ -1,6 +1,6 @@
 # Playbooks Web API
 
-This API is used to manipulate playbooks withing Gravwell. A playbook is a user-friendly way to bring together notes and search queries into a user-formatted document.
+This API is used to manipulate playbooks withing DatalaiQ. A playbook is a user-friendly way to bring together notes and search queries into a user-formatted document.
 
 The playbook structure contains the following components:
 
@@ -16,7 +16,7 @@ The playbook structure contains the following components:
 * `Labels`: An array of strings containing optional labels to apply to the playbook.
 * `LastUpdated`: A timestamp indicating when the playbook was last modified.
 * `Author`: A structure containing information about the author of the playbook (see below).
-* `Synced`: Used internally by Gravwell.
+* `Synced`: Used internally by DatalaiQ.
 
 Note that the UUID and GUID fields may be used interchangeably in all API calls. This is so playbooks included in kits may link to each other, by using links containing GUIDs which will persist across kit installation.
 
@@ -54,7 +54,7 @@ To list playbooks, send a GET request to `/api/playbooks`. The server will respo
     "Author": {
       "Name": "John Floren",
       "Email": "john@example.org",
-      "Company": "Gravwell",
+      "Company": "Pipeline",
       "URL": "http://grawell.io"
     },
     "Synced": false
@@ -78,7 +78,7 @@ To list playbooks, send a GET request to `/api/playbooks`. The server will respo
     "Author": {
       "Name": "John Floren",
       "Email": "john@example.org",
-      "Company": "Gravwell",
+      "Company": "DatalaiQ",
       "URL": "http://grawell.io"
     },
     "Synced": false

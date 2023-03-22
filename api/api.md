@@ -48,7 +48,7 @@ User Files <userfiles>
 maxdepth: 1
 caption: Search and Stats
 ---
-Gravwell Direct Query API </search/directquery/directquery>
+DatalaiQ Direct Query API </search/directquery/directquery>
 ```
 
 

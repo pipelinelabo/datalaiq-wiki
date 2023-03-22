@@ -1,20 +1,20 @@
-# Searching with Gravwell
+# Searching with DatalaiQ
 
-This section provides an overview of the Gravwell GUI and a comprehensive description of the search pipeline and its modules. This is where you can learn more about interacting with Gravwell and building queries to effectively explore and understand your data.
+This section provides an overview of the DatalaiQ GUI and a comprehensive description of the search pipeline and its modules. This is where you can learn more about interacting with DatalaiQ and building queries to effectively explore and understand your data.
 
-## Gravwell
+## DatalaiQ
 ```{toctree}
 ---
 maxdepth: 1
 caption: The GUI
 ---
-The Gravwell GUI <gui/gui>
+The DatalaiQ GUI <gui/gui>
 ```
 
 ```{toctree}
 ---
 maxdepth: 1
-caption: Searching with Gravwell
+caption: Searching with DatalaiQ
 ---
 Search <search/search>
 Search Extraction modules <search/extractionmodules>
@@ -31,5 +31,5 @@ Data Exploration <gui/data-explorer/de>
 maxdepth: 1
 caption: Command Line Interface
 ---
-Gravwell CLI <cli/cli>
+DatalaiQ CLI <cli/cli>
 ```
