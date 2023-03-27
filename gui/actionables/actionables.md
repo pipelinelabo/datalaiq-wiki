@@ -2,9 +2,9 @@
 
 ## Overview
 
-Actionables provide a way to create custom menus that key on any text rendered in a query; users can take different actions on that text by selecting options in the menus. Similar to an HTML hyperlink, actionables can be used to open external URLs that key on data, but actionables can also be leveraged to submit new Gravwell queries, launch dashboards, and execute templates.
+Actionables provide a way to create custom menus that key on any text rendered in a query; users can take different actions on that text by selecting options in the menus. Similar to an HTML hyperlink, actionables can be used to open external URLs that key on data, but actionables can also be leveraged to submit new DatalaiQ queries, launch dashboards, and execute templates.
 
-Actionables are created by specifying one or more regular expressions, along with one or more actions. Gravwell automatically parses all text rendered with the [table](/search/table/table) and [chart](/search/chart/chart) renderers and creates menus for any corresponding triggers.
+Actionables are created by specifying one or more regular expressions, along with one or more actions. DatalaiQ automatically parses all text rendered with the [table](/search/table/table) and [chart](/search/chart/chart) renderers and creates menus for any corresponding triggers.
 
 ![](actionables-overview.png)
 
@@ -12,19 +12,19 @@ Actionables are created by specifying one or more regular expressions, along wit
 
 ![](actionables-architecture.png)
 
-Actionables are made up of two components - triggers, which are simply regular expressions that Gravwell uses to match on text, and actions, which are the actions that can be taken on a matched trigger.
+Actionables are made up of two components - triggers, which are simply regular expressions that DatalaiQ uses to match on text, and actions, which are the actions that can be taken on a matched trigger.
 
 An actionable can contain more than one trigger and triggers can enumerate values within a regular expression. For example, if you wanted to extract the color "green" from the phrase "The color is green", you could use the following regular expression:
 
 ```The color is (?<color>.*)```
 
-Gravwell would then look for strings which match the expression, and provide any actions available to the word "green", such as looking up the color on Wikipedia.
+DatalaiQ would then look for strings which match the expression, and provide any actions available to the word "green", such as looking up the color on Wikipedia.
 
 ## Creating Actionables
 
 To get started with actionables, first open the Actionables menu, found in the main menu.
 
-Actionables are listed by name, and it's possible for two actionables to have the same name. By allowing actionables to have the same name, Gravwell can automatically group like actionables from different sources. For example, both the Netflow and CoreDNS kits provide actionables for IP addresses, and both are named "IP Address". 
+Actionables are listed by name, and it's possible for two actionables to have the same name. By allowing actionables to have the same name, DatalaiQ can automatically group like actionables from different sources. For example, both the Netflow and CoreDNS kits provide actionables for IP addresses, and both are named "IP Address". 
 
 ![](actionables-menu.png)
 
@@ -77,7 +77,7 @@ In this example, if the trigger matched against the string "The color is blue", 
 
 ### Action Types
 
-Gravwell provides several actions, and an actionable can use any or all actions in a single actionable. 
+DatalaiQ provides several actions, and an actionable can use any or all actions in a single actionable. 
 
 #### Run a Query
 
@@ -97,7 +97,7 @@ This action opens a dashboard. If the dashboard has [template](/gui/templates/te
 
 The URL action will open a new window/tab with a given URL and matched text. It also provides a set of timestamp options which can inject the time range arguments from the search that the actionable triggered on. 
 
-The "Open in a modal" option opens the URL in a window *within* the current Gravwell instance, similar to an HTML iframe, rather than opening a new tab.
+The "Open in a modal" option opens the URL in a window *within* the current DatalaiQ instance, similar to an HTML iframe, rather than opening a new tab.
 
 #### Run a Saved Query
 

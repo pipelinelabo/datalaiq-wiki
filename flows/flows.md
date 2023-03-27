@@ -1,6 +1,6 @@
 # Flows
 
-Flows provide a no-code method for developing advanced automations in Gravwell. By wiring together nodes in a drag-and-drop user interface, you can:
+Flows provide a no-code method for developing advanced automations in DatalaiQ. By wiring together nodes in a drag-and-drop user interface, you can:
 
 * Run queries
 * Generate PDF reports
@@ -25,7 +25,7 @@ Flows are *automations*, meaning they are normally executed on a user-specified 
 
 ### Nodes
 
-A flow is a collection of *nodes*, linked together to define an order of execution. Each node does a single task, such as running a query or sending an email. In the example below, the leftmost node runs a Gravwell query, then the middle node formats the results of that query into a PDF document, and finally the rightmost node sends that PDF document as an email attachment.
+A flow is a collection of *nodes*, linked together to define an order of execution. Each node does a single task, such as running a query or sending an email. In the example below, the leftmost node runs a DatalaiQ query, then the middle node formats the results of that query into a PDF document, and finally the rightmost node sends that PDF document as an email attachment.
 
 ![](nodes.png)
 
@@ -66,7 +66,7 @@ hidden: true
 Email <nodes/email>
 Flow Storage Read <nodes/storageread>
 Flow Storage Write <nodes/storagewrite>
-Gravwell Notification <nodes/notification>
+DatalaiQ Notification <nodes/notification>
 HTML Format <nodes/htmlformat>
 HTTP <nodes/http>
 If <nodes/if>
@@ -99,24 +99,24 @@ Update Resources <nodes/resourceupdate>
 * [Email](nodes/email): send email.
 * [Flow Storage Read](nodes/storageread): read items from a persistent storage.
 * [Flow Storage Write](nodes/storagewrite): write items into a persistent storage.
-* [Gravwell Notification](nodes/notification): set Gravwell notifications.
+* [DatalaiQ Notification](nodes/notification): set DatalaiQ notifications.
 * [HTML Format](nodes/htmlformat): format variables as HTML.
 * [HTTP](nodes/http): do HTTP requests.
 * [If](nodes/if): perform logical operations.
-* [Indexer Info](nodes/indexerinfo): get information about Gravwell indexers.
-* [Ingest](nodes/ingest): ingest data into Gravwell.
-* [Ingester Info](nodes/ingesterinfo): get information about Gravwell ingesters.
+* [Indexer Info](nodes/indexerinfo): get information about DatalaiQ indexers.
+* [Ingest](nodes/ingest): ingest data into DatalaiQ.
+* [Ingester Info](nodes/ingesterinfo): get information about DatalaiQ ingesters.
 * [JavaScript](nodes/javascript): run JavaScript code.
 * [JSON Encode/Decode](nodes/json): encode and decode JSON.
 * [Mattermost Message](nodes/mattermost): send a Mattermost message.
 * [Nest Merge](nodes/nestmerge): join multiple input payloads into one.
 * [PDF](nodes/pdf): create PDF documents.
 * [Query Log Ingest](nodes/queryalert): convert search results to alert entries & ingest.
-* [Read Macros](nodes/macroget): read Gravwell macros.
-* [Read Resources](nodes/resourceget): read Gravwell resources.
+* [Read Macros](nodes/macroget): read DatalaiQ macros.
+* [Read Resources](nodes/resourceget): read DatalaiQ resources.
 * [Rename](nodes/rename): rename variables in the payload.
-* [Run a Query](nodes/runquery): run a Gravwell query.
-* [Run Query - Advanced](nodes/runqueryadvanced): run a Gravwell query with more flexible options.
+* [Run a Query](nodes/runquery): run a DatalaiQ query.
+* [Run Query - Advanced](nodes/runqueryadvanced): run a DatalaiQ query with more flexible options.
 * [Set Variables](nodes/inject): inject variables into the payload.
 * [Slack File](nodes/slackfile): upload a file to a Slack channel.
 * [Slack Message](nodes/slackmessage): send a message to a Slack channel.
@@ -126,7 +126,7 @@ Update Resources <nodes/resourceupdate>
 * [Teams Message](nodes/teams): send a Microsoft Teams message.
 * [Text Template](nodes/template): format text.
 * [Throttle](nodes/throttle): limit execution frequency of certain nodes within a flow.
-* [Update Resources](nodes/resourceupdate): create or update Gravwell resources.
+* [Update Resources](nodes/resourceupdate): create or update DatalaiQ resources.
 
 The following nodes tend to be needed only in particular advanced cases:
 

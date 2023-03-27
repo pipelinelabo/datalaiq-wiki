@@ -1,12 +1,12 @@
 # The Flow Editor
 
-Although the Gravwell flow editor can be intimidating at first glance, a few minutes' worth of experimentation and exploration should be enough to get started building flows. This section will go through the various components of the UI, explaining each component.
+Although the DatalaiQ flow editor can be intimidating at first glance, a few minutes' worth of experimentation and exploration should be enough to get started building flows. This section will go through the various components of the UI, explaining each component.
 
 ```{note}
 If you're not yet familiar with the basic components of a flow (nodes, sockets, payloads), refer to the [top-level Flow documentation](flows) for an overview.
 ```
 
-Flows are managed through the Flows page, in the Automation section of the Main Menu. From there, you can start a new blank flow or instantiate one of the "starter flows" provided by Gravwell by clicking the "+" icon in the upper right.
+Flows are managed through the Flows page, in the Automation section of the Main Menu. From there, you can start a new blank flow or instantiate one of the "starter flows" provided by DatalaiQ by clicking the "+" icon in the upper right.
 
 ![](create-flow.png)
 
@@ -37,7 +37,7 @@ Once a node has been instantiated by dragging it from the palette to the canvas,
 
 ![](node-config.png)
 
-The HTTP node shown here is a particularly complex node with many config options, which serves well for demonstration. Note that the URL and Method fields are marked with an asterisk, indicating that they are required. Note also the drop-down menus for each config option; these allow you to change between entering a constant value (e.g. the string "http://gravwell.io" in the URL config) or selecting a value from the payload as shown with the Body config.
+The HTTP node shown here is a particularly complex node with many config options, which serves well for demonstration. Note that the URL and Method fields are marked with an asterisk, indicating that they are required. Note also the drop-down menus for each config option; these allow you to change between entering a constant value (e.g. the string "http://ppln.co" in the URL config) or selecting a value from the payload as shown with the Body config.
 
 ![](parse-errors.png)
 
@@ -77,7 +77,7 @@ You should specify a name and description for the flow, then define a schedule. 
 
 Once the schedule is set, toggle the "Enable scheduling" option to enable scheduled executions of the flow. The search agent will then automatically run it on the given schedule.
 
-The "Enable Backfilled Scheduling" toggle controls whether or not Gravwell will attempt to "backfill" flow executions which *should* have happened but were skipped because e.g. the Gravwell webserver was temporarily offline. If enabled, Gravwell will look at the last execution time of the flow and the schedule string, then figure out every time it should have run between the last execution and now. It will then re-run the flow for each instance, setting the `flow.Scheduled` field appropriately. The `flow.Scheduled` timestamp is used as the endpoint for Run Query nodes in the flow, so backfilled flows which run queries will run the queries over the appropriate time span.
+The "Enable Backfilled Scheduling" toggle controls whether or not DatalaiQ will attempt to "backfill" flow executions which *should* have happened but were skipped because e.g. the DatalaiQ webserver was temporarily offline. If enabled, DatalaiQ will look at the last execution time of the flow and the schedule string, then figure out every time it should have run between the last execution and now. It will then re-run the flow for each instance, setting the `flow.Scheduled` field appropriately. The `flow.Scheduled` timestamp is used as the endpoint for Run Query nodes in the flow, so backfilled flows which run queries will run the queries over the appropriate time span.
 
 We recommend leaving backfilling on in most cases.
 
