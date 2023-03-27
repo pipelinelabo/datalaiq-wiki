@@ -1,10 +1,10 @@
 # Set Variables Node
 
-This node manually injects variables into the payload. This can be used to set a long string, such as a Gravwell query, in one place, then use it in several other nodes.
+This node manually injects variables into the payload. This can be used to set a long string, such as a DatalaiQ query, in one place, then use it in several other nodes.
 
 ## Configuration
 
-The node takes a variable number of config options, one per variable to be injected. The screenshot below shows a node configured to inject two variables: one named "query" containing a Gravwell query string, and one named "count" containing the integer 7.
+The node takes a variable number of config options, one per variable to be injected. The screenshot below shows a node configured to inject two variables: one named "query" containing a DatalaiQ query string, and one named "count" containing the integer 7.
 
 ![](inject-config.png)
 

@@ -17,7 +17,7 @@ In the Splunk web UI, one might run the following query to see a table of failed
 
 	index=_audit action="login attempt" "info=failed" | stats count by user | table user count
 
-However, that exact query will not work in the Splunk Query node, because the Splunk UI adds an *implicit* `search` to the start of the query. To run the same query in a Gravwell flow, you must add the `search` string explicitly:
+However, that exact query will not work in the Splunk Query node, because the Splunk UI adds an *implicit* `search` to the start of the query. To run the same query in a DatalaiQ flow, you must add the `search` string explicitly:
 
 	search index=_audit action="login attempt" "info=failed" | stats count by user | table user count
 

@@ -2,7 +2,7 @@
 
 This page documents user preference options enabled by the "user preferences" section of the account management page.
 
-Currently, these options are configured via JSON and available for advanced Gravwell users. If you're not sure that making any of these tweaks would be helpful, then they probably wouldn't be.
+Currently, these options are configured via JSON and available for advanced DatalaiQ users. If you're not sure that making any of these tweaks would be helpful, then they probably wouldn't be.
 
 
 ## User Preferences

@@ -1,6 +1,6 @@
 # Email Configuration
 
-Gravwell can be configured to send Emails via automated scripts and flows, but this requires that the system be configured with a valid SMTP configuration.
+DatalaiQ can be configured to send Emails via automated scripts and flows, but this requires that the system be configured with a valid SMTP configuration.
 
 ## User Defined Email Configuration
 
@@ -13,7 +13,7 @@ The fields are mostly self-explanatory: "Server" is an SMTP server, "Port" is th
 
 Once the fields have been populated, click "Update Settings" to save them, then click "Test Configuration" to send a test email.
 
-If an email configuration is specified in a users preferences, Gravwell will use those credentials to send emails even if a shared Email configuration is available.  Gravwell will *NOT* fall back to the shared email configuration if a users email configuration fails.
+If an email configuration is specified in a users preferences, DatalaiQ will use those credentials to send emails even if a shared Email configuration is available.  DatalaiQ will *NOT* fall back to the shared email configuration if a users email configuration fails.
 
 ## Shared Email Configuration
 
@@ -51,11 +51,11 @@ At a minimum, the `[Shared-Email-Config]` requires the following SMTP parameters
 
 ### Optional Shared Email Configuration Parameters
 
-The shared Email configuration also has several optional configuration parameters which can be used to enforce connection behavior, sender addresses, receiver addresses, and Gravwell group access.  The following are optional parameters:
+The shared Email configuration also has several optional configuration parameters which can be used to enforce connection behavior, sender addresses, receiver addresses, and DatalaiQ group access.  The following are optional parameters:
 
 * `UseTLS`: Boolean indicating that StartTLS should be used.  Defaults to false.
 * `InsecureSkipVerify`: Boolean indicating that we should ignore TLS certificate validation errors.  Defaults to false.
-* `Allowed-Group`: Name of a Gravwell group that is allowed to use the shared email configuration.  Multiple groups can be specified.
+* `Allowed-Group`: Name of a DatalaiQ group that is allowed to use the shared email configuration.  Multiple groups can be specified.
 * `Force-From`: Email address override for all sent mail.  The `Force-From` address will always be applied regardless of what users specify.
 * `Allowed-To`: Regular expression which can be used to limit destination addresses.  Multiple expressions can be specified.
 

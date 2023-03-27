@@ -1,6 +1,6 @@
 # Cloud Archive
 
-Gravwell supports an ageout mechanism called Cloud Archive.  Cloud archive is a remote service where data can be remotely archived prior to deleting.  Gravwell Cloud Archive is an excellent method for long term archival storage for data that does not need to be actively searchable but must be retained.  The Cloud Archive service can be hosted on a variety of storage platforms and is designed to provide a remote, low cost storage platform.  Cloud Archive configuration can be enabled on a per-well basis, which means you can decide which data sets warrant long term archival.
+DatalaiQ supports an ageout mechanism called Cloud Archive.  Cloud archive is a remote service where data can be remotely archived prior to deleting.  DatalaiQ Cloud Archive is an excellent method for long term archival storage for data that does not need to be actively searchable but must be retained.  The Cloud Archive service can be hosted on a variety of storage platforms and is designed to provide a remote, low cost storage platform.  Cloud Archive configuration can be enabled on a per-well basis, which means you can decide which data sets warrant long term archival.
 
 The archive system ensures that data is successfully uploaded to the archive server before it is deleted during normal ageout.
 
@@ -54,7 +54,7 @@ The above example has 3 configured wells (default, netflow, and raw).  The defau
 
 ## Hosting Cloud Archive
 
-The Cloud Archive service is a module service designed to be self-hosted and potentially integrated into other larger infrastructures.  If you are interested in hosting your own Cloud Archive service or would like to remotely archive your data, contact sales@gravwell.io.
+The Cloud Archive service is a module service designed to be self-hosted and potentially integrated into other larger infrastructures.  If you are interested in hosting your own Cloud Archive service or would like to remotely archive your data, contact support@pipelinesecurity.net.
 
 ```{note}
 Indexers will authenticate to the cloud archive service using the customer license number *on the indexer*. In an [overwatch](/distributed/overwatch) configuration, this number may be different from the license number deployed on the *webservers*.

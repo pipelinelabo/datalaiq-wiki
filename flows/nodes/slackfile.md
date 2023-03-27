@@ -15,7 +15,7 @@ The node does not modify the payload.
 
 ## Example
 
-This example gathers information about currently-connected ingesters and formats that information into a text representation, then runs a Gravwell query. It then combines the search output and the ingester information into a PDF file and uploads that file to a Slack channel.
+This example gathers information about currently-connected ingesters and formats that information into a text representation, then runs a DatalaiQ query. It then combines the search output and the ingester information into a PDF file and uploads that file to a Slack channel.
 
 ![](slackfile-example.png)
 

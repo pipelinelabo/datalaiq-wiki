@@ -1,6 +1,6 @@
 # Update Resources Node
 
-This node creates or updates the contents of a [Gravwell Resource](/resources/resources). 
+This node creates or updates the contents of a [DatalaiQ Resource](/resources/resources). 
 
 ## Configuration
 
@@ -8,7 +8,7 @@ This node creates or updates the contents of a [Gravwell Resource](/resources/re
 
 ## Example
 
-This example reads errors from the Gravwell tag over the last hour, and writing them to a resource named "errors".
+This example reads errors from the DatalaiQ tag over the last hour, and writing them to a resource named "errors".
 
 ![](resource-update-example.png)
 

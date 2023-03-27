@@ -16,11 +16,11 @@ Depending on the configuration, the node will create one or more new elements in
 
 ## Example
 
-This example uses both the JSON Encode and JSON Decode nodes. It hits a Gravwell endpoint, decoding the JSON in the response. It then extracts some specific fields from the decoded response, encodes those fields back as JSON, and sends them to a different HTTP endpoint.
+This example uses both the JSON Encode and JSON Decode nodes. It hits a DatalaiQ endpoint, decoding the JSON in the response. It then extracts some specific fields from the decoded response, encodes those fields back as JSON, and sends them to a different HTTP endpoint.
 
 ![](json-example.png)
 
-First, the [HTTP](http) node does a GET request on `http://localhost/api/stats/sysDesc`, querying the local Gravwell system for information about the system. The response comes back as a JSON-encoded string, so we feed that into the JSON Decode node, which is configured to decode the variable `response` and put the result into the payload under the name `decoded`.
+First, the [HTTP](http) node does a GET request on `http://localhost/api/stats/sysDesc`, querying the local DatalaiQ system for information about the system. The response comes back as a JSON-encoded string, so we feed that into the JSON Decode node, which is configured to decode the variable `response` and put the result into the payload under the name `decoded`.
 
 Next, we use the [JavaScript](javascript) node to pick out the CPU model and CPU MHz fields from the decoded structure and put them into a different object within the payload. Refer back to the screenshot above; note how the payload coming out of the JavaScript node has a `decoded` field, with lots of information about the webserver, and a `webserverInfo` field, containing only the two items we picked out in the JS code. The JavaScript code used was:
 
