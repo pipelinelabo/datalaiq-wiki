@@ -1,20 +1,20 @@
 # Integrations
 
-The gravwell ingest framework is open sourced via the BSD 2-clause license, which enables it to be directly included in both open source and commercial products.  Data processors and/or generators can directly embed the ingest framework and provide an easy to configure integration with Gravwell.  This documentation page is used to highlight and where appropriate document some Gravwell integrations.
+The datalaiq ingest framework is open sourced via the BSD 2-clause license, which enables it to be directly included in both open source and commercial products.  Data processors and/or generators can directly embed the ingest framework and provide an easy to configure integration with DatalaiQ.  This documentation page is used to highlight and where appropriate document some DatalaiQ integrations.
 
 ## CoreDNS
 
 CoreDNS is a highly configurable and plugin friendly DNS server meant to provide a base platform for DNS services.   The base functionality of CoreDNS provides a robust and performant DNS server that can act as a relay, proxy, or full blown DNS server.  CoreDNS is licensed under the Apache-2.0 and is available on [github](https://github.com/coredns/coredns).  To learn more about CoreDNS visit [https://coredns.io](https://coredns.io).
 
-### Gravwell CoreDNS Plugin
+### DatalaiQ CoreDNS Plugin
 
-A Gravwell plugin is available for CoreDNS which directly embeds the ingest framework into CoreDNS.  Using the plugin, a statically compiled and high performance DNS server can directly transmit DNS audit data to a Gravwell instance.  The plugin is licensed under BSD 2-Clause and available on [github](https://github.com/gravwell/coredns).
+A DatalaiQ plugin is available for CoreDNS which directly embeds the ingest framework into CoreDNS.  Using the plugin, a statically compiled and high performance DNS server can directly transmit DNS audit data to a DatalaiQ instance.  The plugin is licensed under BSD 2-Clause and available on [github](https://github.com/gravwell/coredns).
 
-The plugin provides a complete ingest system which supports all the usual features: local caching for high reliability, load balancing, failover, etc...  Additional information about the Gravwell plugin can be found on the CoreDNS [External Plugins](https://coredns.io/explugins/gravwell/) page.
+The plugin provides a complete ingest system which supports all the usual features: local caching for high reliability, load balancing, failover, etc...  Additional information about the DatalaiQ plugin can be found on the CoreDNS [External Plugins](https://coredns.io/explugins/gravwell/) page.
 
-#### Building CoreDNS with Gravwell
+#### Building CoreDNS with DatalaiQ
 
-Building CoreDNS with the Gravwell plugin requires that the Go toolchain and compiler is installed, more information is available [here](https://golang.org/).
+Building CoreDNS with the DatalaiQ plugin requires that the Go toolchain and compiler is installed, more information is available [here](https://golang.org/).
 
 ```
 go get github.com/coredns/coredns
@@ -31,7 +31,7 @@ The resulting statically compiled binary will be located at _/tmp/coredns_.  Cor
 setcap 'cap_net_bind_service=+ep' /tmp/coredns
 ```
 
-#### Configuring Gravwell Plugin
+#### Configuring DatalaiQ Plugin
 
 Configuration is performed via the CoreDNS Corefile which has the basic syntax of **directive** **value**.  Comments are preceded by the "#" character.
 
@@ -50,7 +50,7 @@ The following configuration parameters are available:
 * **Cache-Mode** specifies the behavior of the backing cache based on the state of indexer connections. The default mode is "always".
 
 
-A basic Gravwell definition looks like so:
+A basic DatalaiQ definition looks like so:
 
 ~~~
 gravwell {
@@ -67,7 +67,7 @@ gravwell {
 }
 ~~~
 
-A unique Gravwell plugin section can be applied to each DNS listener.  An example Corefile which listens to two different interfaces and applies a unique Gravwell configuration to each might look like so:
+A unique DatalaiQ plugin section can be applied to each DNS listener.  An example Corefile which listens to two different interfaces and applies a unique DatalaiQ configuration to each might look like so:
 
 ~~~
 .:53 {
@@ -101,9 +101,9 @@ A unique Gravwell plugin section can be applied to each DNS listener.  An exampl
 }
 ~~~
 
-Notice that we are sending each of the DNS listeners to two completely independent Gravwell installations, one a single indexer the other a distributed cluster.
+Notice that we are sending each of the DNS listeners to two completely independent DatalaiQ installations, one a single indexer the other a distributed cluster.
 
-A sample Gravwell Corefile section which sends DNS requests to a single indexer over an unencrypted connection.  Local cache is disabled.
+A sample DatalaiQ Corefile section which sends DNS requests to a single indexer over an unencrypted connection.  Local cache is disabled.
 
 ~~~
 gravwell {
@@ -113,7 +113,7 @@ gravwell {
   }
 ~~~
 
-A sample Gravwell Corefile section which sends DNS requests to two indexers over a TLS connection and accepts unsigned certificates. Local cache is disabled.
+A sample DatalaiQ Corefile section which sends DNS requests to two indexers over a TLS connection and accepts unsigned certificates. Local cache is disabled.
 IPv4 and IPv6 addresses are supported for both the Cleartext and Ciphertext targets.  IPv6 addresses must be enclosed in brackets.
 
 ~~~
@@ -127,7 +127,7 @@ gravwell {
   }
 ~~~
 
-A sample Gravwell Corefile section which sends DNS requests to two indexers over a TLS connection and accepts unsigned certificates. Local cache is disabled.
+A sample DatalaiQ Corefile section which sends DNS requests to two indexers over a TLS connection and accepts unsigned certificates. Local cache is disabled.
 
 ~~~
 gravwell {
@@ -141,7 +141,7 @@ gravwell {
   }
 ~~~
 
-A sample Gravwell Corefile section which sends DNS requests to two indexers and enables a local cache should indexer communication fail.  Up to 1GB of data can be locally cached.
+A sample DatalaiQ Corefile section which sends DNS requests to two indexers and enables a local cache should indexer communication fail.  Up to 1GB of data can be locally cached.
 
 ~~~
 gravwell {

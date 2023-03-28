@@ -4,7 +4,7 @@ The SNMP ingester can receive SNMP traps for SNMP versions 2c and 3. The trap me
 
 ## Basic Configuration
 
-The SNMP ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other Gravwell ingesters SNMP supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
+The SNMP ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other DatalaiQ ingesters SNMP supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
 
 To receive SNMP traps, you must define at least one `Listener` block in the configuration as well, which tells the ingester which port to listen on, which SNMP version it should expect, etc. Below is an example configuration with two Listeners:
 

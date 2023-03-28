@@ -11,7 +11,7 @@ Some common use cases for Simple Relay are:
 
 ## Basic Configuration
 
-The Simple Relay ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other Gravwell ingesters Simple Relay supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
+The Simple Relay ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other DatalaiQ ingesters Simple Relay supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
 
 An example configuration for the Simple Relay ingester, configured to listen on several ports and apply a unique tag to each is as follows:
 
@@ -136,9 +136,9 @@ Basic Listeners also require that each listener designate the tag the listener w
 
 ## Line Reader Listener
 
-The line reader listener is designed to read newline broken data streams from either a TCP or UDP stream.  Applications which can deliver simple line broken data over a network can utilize this type of reader to very simply and easily integrate with Gravwell.  The Line Reader listener can also be used for simple log file delivery by simply sending log files to the listening port.
+The line reader listener is designed to read newline broken data streams from either a TCP or UDP stream.  Applications which can deliver simple line broken data over a network can utilize this type of reader to very simply and easily integrate with DatalaiQ.  The Line Reader listener can also be used for simple log file delivery by simply sending log files to the listening port.
 
-For example, an existing log file can be imported into Gravwell using netcat and Simple Relay:
+For example, an existing log file can be imported into DatalaiQ using netcat and Simple Relay:
 ```
 nc -q 1 10.0.0.1 7777 < /var/log/syslog
 ```
@@ -330,7 +330,7 @@ The Max-Buffer parameter specifies, in bytes, how much data the regex listener s
 
 The JSON Listener type enables some mild JSON processing at the time of ingest.  The purpose of a JSON reader would be to apply a unique tag to an entry based on the value of a field in a JSON entry.   Many applications export JSON data with a field that indicates the format of the JSON, from a processing efficiency standpoint it can be beneficial to tag the different formats with specific tags.
 
-A great example use case is the JSON over TCP data export functionality found in many Bro sensor appliances.  The appliances export all Bro log data over a single TCP stream, however there are multiple data types within the stream built by different modules.  Using the JSON Listener we can derive the data type from the module field and apply a unique tag.  this allows us to do things like keep the Bro conn logs in one well, the Bro DNS logs in another, and all other Bro logs in yet another.  As a result, we can differentiate the data types with different tags and take advantage of Gravwell Wells when multiple JSON data types are coming in via a single stream.
+A great example use case is the JSON over TCP data export functionality found in many Bro sensor appliances.  The appliances export all Bro log data over a single TCP stream, however there are multiple data types within the stream built by different modules.  Using the JSON Listener we can derive the data type from the module field and apply a unique tag.  this allows us to do things like keep the Bro conn logs in one well, the Bro DNS logs in another, and all other Bro logs in yet another.  As a result, we can differentiate the data types with different tags and take advantage of DatalaiQ Wells when multiple JSON data types are coming in via a single stream.
 
 Additional JSON listener configuration parameters:
 
@@ -346,7 +346,7 @@ The JSON Listener blocks implement the universal listener types as documented ab
 
 #### Extractor Parameter Details
 
-The "Extractor" parameter specifies a JSON extraction string which is used to pull a field from a JSON entry.  The Extraction string follows the same syntax as the Gravwell [json](/search/json/json) search module minus any inline filtering.
+The "Extractor" parameter specifies a JSON extraction string which is used to pull a field from a JSON entry.  The Extraction string follows the same syntax as the DatalaiQ [json](/search/json/json) search module minus any inline filtering.
 
 Given the following JSON:
 

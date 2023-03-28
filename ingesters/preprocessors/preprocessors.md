@@ -4,7 +4,7 @@ Sometimes, ingested data needs some additional massaging before we send it to th
 
 ## Preprocessor Data Flow
 
-An ingester reads raw data from some source (a file, a network connection, an Amazon Kinesis stream, etc.) and splits that incoming data stream out into individual entries. Before those entries are sent to a Gravwell indexer, they may optionally be passed through an arbitrary number of preprocessors as shown in the diagram below.
+An ingester reads raw data from some source (a file, a network connection, an Amazon Kinesis stream, etc.) and splits that incoming data stream out into individual entries. Before those entries are sent to a DatalaiQ indexer, they may optionally be passed through an arbitrary number of preprocessors as shown in the diagram below.
 
 ![](arch.png)
 
@@ -82,7 +82,7 @@ plugin <plugin>
 | [regextimestamp](regextimestamp) | Perform complex timestamp processing using regular expressions |
 | [regexextract](regexextract) | Perform data extractions and repacking using regular expressions |
 | [forwarder](forwarder) | Forward entries using TCP or UDP connections |
-| [gravwellforwarder](gravwellforwarder) | Forward entries using a Gravwell ingest connection |
+| [gravwellforwarder](gravwellforwarder) | Forward entries using a DatalaiQ ingest connection |
 | [drop](drop) | Simple dropping preprocessor, it stops all entries from moving through the preprocessor chain |
 | [ciscoise](ciscoise) | Cisco ISE multi-message reconstruction preprocessor |
 | [corelight](corelight) | Preprocessor to adapt Corelight JSON logs to Zeek TSV data |

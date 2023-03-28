@@ -1,6 +1,6 @@
 # Playbooks
 
-Playbooks are hypertext documents within Gravwell which help guide users through common tasks, describe functionality, and record information about data in the system. Most Gravwell kits include a playbook or two to help users get oriented in the kit, but regular users can also create playbooks for themselves, documenting their data investigations with a mix of text, images, and *executable queries*.
+Playbooks are hypertext documents within DatalaiQ which help guide users through common tasks, describe functionality, and record information about data in the system. Most DatalaiQ kits include a playbook or two to help users get oriented in the kit, but regular users can also create playbooks for themselves, documenting their data investigations with a mix of text, images, and *executable queries*.
 
 The Playbooks page (Main Menu→Tools & Resources→Playbooks) lists the playbooks currently in the system and allows the creation of new ones:
 
@@ -39,7 +39,7 @@ The final icon lets you set editor options such as the font size and the theme:
 Playbooks are written in [Markdown](https://www.markdownguide.org/basic-syntax/). The basic structures (headings, italics, bold, links, lists, etc.) are available and, for convenience, are also available via icons at the top of the editor pane.
 
 ```{note}
-The only major caveat of the Markdown used for playbooks is that code blocks (text wrapped in backticks, triple backticks, or indented by at least 4 spaces/1 tab) are considered *queries*; Gravwell will attempt to parse the contents of the code block as a Gravwell query. To insert plain unformatted text, use HTML `pre` tags.
+The only major caveat of the Markdown used for playbooks is that code blocks (text wrapped in backticks, triple backticks, or indented by at least 4 spaces/1 tab) are considered *queries*; DatalaiQ will attempt to parse the contents of the code block as a DatalaiQ query. To insert plain unformatted text, use HTML `pre` tags.
 ```
 
 ## Inserting Queries
@@ -60,7 +60,7 @@ Once you have selected an image to upload, the dialog will let you set details a
 
 ![](image-upload-options.png)
 
-The second option in the drop-down allows you to choose an image from a gallery of existing files already in Gravwell:
+The second option in the drop-down allows you to choose an image from a gallery of existing files already in DatalaiQ:
 
 ![](image-gallery.png)
 
@@ -72,7 +72,7 @@ The final option allows you to specify the URL of an image directly:
 
 ![](image-url.png)
 
-Note that inserting an image via URL will not create a new user file on Gravwell, but will instead point at that URL.
+Note that inserting an image via URL will not create a new user file on DatalaiQ, but will instead point at that URL.
 
 ## Linking to Other Resources
 

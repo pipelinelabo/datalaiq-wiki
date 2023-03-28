@@ -1,22 +1,22 @@
 # Kits
 
-Kits are Gravwell's way of bundling up a lot of related items (dashboards, queries, scheduled searches, autoextractors) for easy installation on other systems. A kit might contain tools for analyzing Netflow data, or for monitoring a homebrewing setup. Gravwell Inc. provides pre-built kits for common use cases, but users can also build their own kits from within the Gravwell UI.
+Kits are DatalaiQ's way of bundling up a lot of related items (dashboards, queries, scheduled searches, autoextractors) for easy installation on other systems. A kit might contain tools for analyzing Netflow data, or for monitoring a homebrewing setup. DatalaiQ Inc. provides pre-built kits for common use cases, but users can also build their own kits from within the DatalaiQ UI.
 
 ## What's in a Kit
 
 There are many components which make up a kit. First, there are the *contents* of the kit, which fall into 2 categories:
 
-* Items: Regular Gravwell components such as dashboards, scheduled searches, macros, actionables, etc.
+* Items: Regular DatalaiQ components such as dashboards, scheduled searches, macros, actionables, etc.
 * Configuration Macros: These are specialized macros which the kit uses to configure itself, which can allow greater flexibility in e.g. choices of tags used. For instance, rather than using `tag=netflow` in all queries, a Netflow kit can say `tag=$NETFLOW_KIT_TAG`, then define a configuration macro named NETFLOW_KIT_TAG. At installation time, the kit prompts the user for which tag or tags contain Netflow records.
 
 There are a few other things which help *identify* a kit that are useful to keep in mind:
 
-* ID: Identifies the kit. Gravwell uses namespaces similar to Android applications, e.g. "io.gravwell.netflowv5".
-* Version: Kits may be updated over time, and the version number tracks this so Gravwell can automatically notify of new kit versions.
+* ID: Identifies the kit. DatalaiQ uses namespaces similar to Android applications, e.g. "io.gravwell.netflowv5".
+* Version: Kits may be updated over time, and the version number tracks this so DatalaiQ can automatically notify of new kit versions.
 * Name: A user-friendly name for the kit, e.g. "Netflow v5".
 * Description: A detailed description of what the kit does.
-* MinVersion/MaxVersion: Some kits require specific Gravwell features; to ensure those features are available, these fields specify which Gravwell versions are compatible with the kit.
-* Dependencies: Kits can depend on other kits, like packages in a Linux distribution. Gravwell's Netflow v5 kit depends on the Network Enrichment kit, for example. Dependencies are automatically installed along with the kit.
+* MinVersion/MaxVersion: Some kits require specific DatalaiQ features; to ensure those features are available, these fields specify which DatalaiQ versions are compatible with the kit.
+* Dependencies: Kits can depend on other kits, like packages in a Linux distribution. DatalaiQ's Netflow v5 kit depends on the Network Enrichment kit, for example. Dependencies are automatically installed along with the kit.
 
 ## Browsing Installed Kits
 
@@ -32,7 +32,7 @@ The UI is now in the kit's *context*, meaning it will only show that kit's conte
 
 ![](kitcontext.png)
 
-Note the text "Kits / Network enrichment / Resources" at the top of the page. This indicates that we are *inside* that particular kit. To leave the kit context, open the main menu and navigate back to "All Gravwell" or click the Gravwell logo next to the main menu.
+Note the text "Kits / Network enrichment / Resources" at the top of the page. This indicates that we are *inside* that particular kit. To leave the kit context, open the main menu and navigate back to "All Gravwell" or click the DatalaiQ logo next to the main menu.
 
 ## Installing Kits
 
@@ -66,7 +66,7 @@ If you abort the installation wizard, the kit will not be installed, but the dow
 
 ## Upgrading Kits
 
-Gravwell will periodically push updates to the official kit server. When one of your installed kits has an update available, an "Upgrade" button will appear on that kit's tile:
+DatalaiQ will periodically push updates to the official kit server. When one of your installed kits has an update available, an "Upgrade" button will appear on that kit's tile:
 
 ![](upgradekit.png)
 
@@ -88,7 +88,7 @@ If you click "Uninstall", the kit will be removed, unless you have manually chan
 
 ## The Kit Server
 
-By default, Gravwell will check for available kits at `https://kits.gravwell.io/kits/list`. If you don't see any kits listed in the "Available Kits" page, make sure you can hit that server from your Gravwell webserver. We are currently working on a toolset to allow self-hosted kit servers.
+By default, DatalaiQ will check for available kits at `https://kits.gravwell.io/kits/list`. If you don't see any kits listed in the "Available Kits" page, make sure you can hit that server from your DatalaiQ webserver. We are currently working on a toolset to allow self-hosted kit servers.
 
 If you have `curl` and `jq` installed, you can use this command snippet to get a list of available kits:
 ```

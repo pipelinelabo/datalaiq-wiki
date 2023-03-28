@@ -1,6 +1,6 @@
 # The Migration Tool
 
-Gravwell provides an interactive tool for migrating text files and Splunk data into Gravwell. This document describes how to install, configure, and use it.
+DatalaiQ provides an interactive tool for migrating text files and Splunk data into DatalaiQ. This document describes how to install, configure, and use it.
 
 ## Installation
 
@@ -44,9 +44,9 @@ Log-File=/opt/gravwell/log/migrate.log
 
 It specifies:
 
-* Data should be ingested to the Gravwell indexer at `192.168.1.50:4023`, using `IngestSecrets` as the token to authenticate with Gravwell.
+* Data should be ingested to the DatalaiQ indexer at `192.168.1.50:4023`, using `IngestSecrets` as the token to authenticate with DatalaiQ.
 * There is a Splunk server at `splunk.example.org` which can be accessed using the given token (the token has been shortened for this document).
-* It should pull `auth.log`, `auth.log.1`, `auth.log.2` and so on from `/var/log` and ingest each line as an entry, using the Gravwell tag "auth".
+* It should pull `auth.log`, `auth.log.1`, `auth.log.2` and so on from `/var/log` and ingest each line as an entry, using the DatalaiQ tag "auth".
 
 The sections on migrating files and migrating Splunk data have detailed descriptions of the configuring each migration type; see below.
 
@@ -167,7 +167,7 @@ Multiple `Splunk` blocks may be defined, although each must have a unique name. 
 | Server	| X	| The hostname or IP address of the Splunk server. Port 8089 must be accessible. | `splunk.example.org` |
 | Token		| X	| A valid Splunk auth token. | `eyJraWQiOj[...]nlHnn4Oivew` |
 | Ingest-From-Unix-Time | | A Unix timestamp which specifies the default "start" time to use when copying entries from the Splunk server. This may be overridden on a per-sourcetype basis. | 1625100000 |
-| Index-Sourcetype-To-Tag | | A mapping of a Splunk index and sourcetype pair to a Gravwell tag. Can be set interactively from within the migrate tool. | `main,json:importedjson` (maps the index "main" and sourcetype "json" to the Gravwell tag "importedjson") |
+| Index-Sourcetype-To-Tag | | A mapping of a Splunk index and sourcetype pair to a DatalaiQ tag. Can be set interactively from within the migrate tool. | `main,json:importedjson` (maps the index "main" and sourcetype "json" to the DatalaiQ tag "importedjson") |
 | Preprocessor |              | Specify preprocessors to be applied to entries as they are consumed from Splunk.  More than one preprocessor can be specified and they are executed in order. | `Preprocessor="logins"` |
 
 ```{note}
@@ -186,7 +186,7 @@ Once a server has been selected, you will see the server's menu:
 
 ### Mapping index+sourcetype to tag
 
-You must now define how Splunk's data organization should be mapped to Gravwell. In Splunk, data is organized into indexes and sourcetypes. In Gravwell, data simply receives a tag. To define these mappings, select "Manage Mappings"; this will open the mapping screen:
+You must now define how Splunk's data organization should be mapped to DatalaiQ. In Splunk, data is organized into indexes and sourcetypes. In DatalaiQ, data simply receives a tag. To define these mappings, select "Manage Mappings"; this will open the mapping screen:
 
 ![Splunk mappings menu](splunkmappings.png)
 
@@ -194,7 +194,7 @@ Initially, the tool is not aware of which indexes and sourcetypes exist on the S
 
 ![Splunk sourcetypes](sourcetypes.png)
 
-Select a pair which you wish to import and press enter. A form (below) will be displayed in which you may enter the Gravwell tag to be used; note that it will only allow you to type valid tag characters. You may also set a Unix timestamp to start the migration from, if you wish to exclude old data.
+Select a pair which you wish to import and press enter. A form (below) will be displayed in which you may enter the DatalaiQ tag to be used; note that it will only allow you to type valid tag characters. You may also set a Unix timestamp to start the migration from, if you wish to exclude old data.
 
 ![Tag form](tagform.png)
 
@@ -206,7 +206,7 @@ After you have set the tag for the desired index + sourcetype pairs, you can sel
 
 ### Starting Migrations
 
-Having defined mappings from Splunk index+sourcetype to Gravwell tag, you may now launch migration jobs. From the server menu, select "Start Migrations". A menu will appear showing the index+sourcetype → tag mappings you defined earlier. Selecting one of these mappings will start a migration job:
+Having defined mappings from Splunk index+sourcetype to DatalaiQ tag, you may now launch migration jobs. From the server menu, select "Start Migrations". A menu will appear showing the index+sourcetype → tag mappings you defined earlier. Selecting one of these mappings will start a migration job:
 
 ![Migration jobs](migratejobs.png)
 

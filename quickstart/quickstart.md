@@ -13,13 +13,13 @@ calculate()
 
 # Quick Start
 
-This section contains basic “quick start” instructions for getting Gravwell up and running on a single server.  These instructions support the most common use case and act as an introduction to Gravwell.  Please note, the “Quick Start” instructions do not take advantage of the more advanced Gravwell features regarding distributed search and storage that are available in the Cluster Edition. If you require a more advanced setup, please review the Advanced Topics section of this guide.
+This section contains basic “quick start” instructions for getting DatalaiQ up and running on a single server.  These instructions support the most common use case and act as an introduction to DatalaiQ.  Please note, the “Quick Start” instructions do not take advantage of the more advanced DatalaiQ features regarding distributed search and storage that are available in the Cluster Edition. If you require a more advanced setup, please review the Advanced Topics section of this guide.
 
-This guide is suitable for Community Edition users as well as users with a paid single-node Gravwell subscription.
+This guide is suitable for Community Edition users as well as users with a paid single-node DatalaiQ subscription.
 
 You may find the [installation checklist](checklist) a useful companion to this document.
 
-If you are interested in a complete training package, please see the [complete training PDF](https://github.com/gravwell/training/releases/download/v5.2.0/gravwell_training_5.2.0.pdf).  The Gravwell training PDF is the complete training manual which is paired with labs and exercises. The exercises are built from the open source [Gravwell Training](https://github.com/gravwell/training) repository.
+If you are interested in a complete training package, please see the [complete training PDF](https://github.com/gravwell/training/releases/download/v5.2.0/gravwell_training_5.2.0.pdf).  The DatalaiQ training PDF is the complete training manual which is paired with labs and exercises. The exercises are built from the open source [DatalaiQ Training](https://github.com/gravwell/training) repository.
 
 ```{note}
 Community Edition users will need to obtain their own license from [https://www.gravwell.io/download](https://www.gravwell.io/download) before beginning installation. Paid users should already have received a license file via email.
@@ -34,8 +34,8 @@ hidden: true
 Installation Checklists <checklist>
 Docker Deployment </configuration/docker>
 Custom Docker Deployments </configuration/custom-docker>
-Gravwell Beta Program </beta/index>
-Gravwell Tools </tools/tools>
+DatalaiQ Beta Program </beta/index>
+DatalaiQ Tools </tools/tools>
 Downloads <downloads>
 ```
 
@@ -45,7 +45,7 @@ maxdepth: 1
 caption: Licensing
 hidden: true
 ---
-Gravwell License System </license/license>
+DatalaiQ License System </license/license>
 End User License Agreement </eula>
 Open-Source Library Licenses </open_source>
 ```
@@ -54,7 +54,7 @@ Open-Source Library Licenses </open_source>
 
 ### Hardware
 
-We strongly recommend at least 4GB of RAM and 2 CPU cores to run Gravwell Community Edition; this should be sufficient up to the CE ingest limit. If you have a paid license, you should scale up your hardware as your daily data ingest increases. In general, we recommend the following rule of thumb:
+We strongly recommend at least 4GB of RAM and 2 CPU cores to run DatalaiQ Community Edition; this should be sufficient up to the CE ingest limit. If you have a paid license, you should scale up your hardware as your daily data ingest increases. In general, we recommend the following rule of thumb:
 
 * One CPU core per 30 GB/day ingest.
 * 1 GB of RAM per 6 GB/day ingest.
@@ -69,14 +69,14 @@ We provide a basic calculator below; just enter your expected daily ingest in gi
 
 
 ## Installation
-Installing Gravwell on a single machine is quite simple--just follow the instructions in this section. For more advanced environments involving multiple systems, review the Advanced Topics section.
+Installing DatalaiQ on a single machine is quite simple--just follow the instructions in this section. For more advanced environments involving multiple systems, review the Advanced Topics section.
 
-Gravwell is distributed in four ways: via a Docker container, via a distribution-agnostic self-extracting installer, via a Debian package repository, and via a Redhat package repository. We recommend using the Debian repository if your system runs Debian or Ubuntu, the Redhat packages if your system runs RHEL, CentOS, or SuSE, and the self-extracting installer otherwise. The Docker distribution is also useful for those familiar with Docker. Gravwell has been tested on all of the major Linux distributions and runs well, but Ubuntu Server LTS is preferred. Help installing Ubuntu can be found at https://tutorials.ubuntu.com/tutorial/tutorial-install-ubuntu-server.
+DatalaiQ is distributed in four ways: via a Docker container, via a distribution-agnostic self-extracting installer, via a Debian package repository, and via a Redhat package repository. We recommend using the Debian repository if your system runs Debian or Ubuntu, the Redhat packages if your system runs RHEL, CentOS, or SuSE, and the self-extracting installer otherwise. The Docker distribution is also useful for those familiar with Docker. DatalaiQ has been tested on all of the major Linux distributions and runs well, but Ubuntu Server LTS is preferred. Help installing Ubuntu can be found at https://tutorials.ubuntu.com/tutorial/tutorial-install-ubuntu-server.
 
 (debian_repo)=
 ### Debian repository
 
-Installing from the Debian repository is quite simple. We need to take a few steps first to add Gravwell's PGP signing key and Debian package repository, but then it's just a matter of installing the `gravwell` package.
+Installing from the Debian repository is quite simple. We need to take a few steps first to add DatalaiQ's PGP signing key and Debian package repository, but then it's just a matter of installing the `gravwell` package.
 
 Run the following commands as the `root` user:
 
@@ -86,23 +86,23 @@ Run the following commands as the `root` user:
 apt install apt-transport-https gnupg wget
 ```
 
-#### Get the Gravwell Repository Signing Key
+#### Get the DatalaiQ Repository Signing Key
 ```
 wget -O /usr/share/keyrings/gravwell.asc https://update.gravwell.io/debian/update.gravwell.io.gpg.key
 ```
 
-#### Install the Gravwell Repository
+#### Install the DatalaiQ Repository
 ```
 echo 'deb [ arch=amd64 signed-by=/usr/share/keyrings/gravwell.asc ] https://update.gravwell.io/debian community main' > /etc/apt/sources.list.d/gravwell.list
 ```
 
-#### Update Apt and Install Gravwell
+#### Update Apt and Install DatalaiQ
 ```
 apt update && apt install gravwell
 ```
 
 
-The installation process will prompt to set some shared secret values used by components of Gravwell. We strongly recommend allowing the installer to generate random values (the default) for security.
+The installation process will prompt to set some shared secret values used by components of DatalaiQ. We strongly recommend allowing the installer to generate random values (the default) for security.
 
 ![Read the EULA](eula.png)
 
@@ -112,7 +112,7 @@ The installation process will prompt to set some shared secret values used by co
 
 ### Redhat/CentOS Repositories
 
-Gravwell is available as a `yum` repository for both Redhat and CentOS Linux distributions. To use the Gravwell yum repository, add the following stanza to your `yum.conf` (located in `/etc/yum.conf`)
+DatalaiQ is available as a `yum` repository for both Redhat and CentOS Linux distributions. To use the DatalaiQ yum repository, add the following stanza to your `yum.conf` (located in `/etc/yum.conf`)
 
 ```
 [gravwell]
@@ -135,11 +135,11 @@ sudo firewall-cmd --zone=public --add-service=http
 sudo firewall-cmd --zone=public --add-service=https
 ```
 
-You should now be able to access the Gravwell web interface on the IP assigned to the CentOS/RHEL system.
+You should now be able to access the DatalaiQ web interface on the IP assigned to the CentOS/RHEL system.
 
 ### Docker Container
 
-Gravwell is available on DockerHub as a single container including both the webserver and indexer. Refer to [the Docker installation instructions](/configuration/docker) for detailed instructions on installing Gravwell in Docker.
+DatalaiQ is available on DockerHub as a single container including both the webserver and indexer. Refer to [the Docker installation instructions](/configuration/docker) for detailed instructions on installing DatalaiQ in Docker.
 
 ### Self-contained Installer
 
@@ -151,15 +151,15 @@ Then run the installer:
 sudo bash gravwell_X.X.X.sh
 ```
 
-Follow the prompts and, after completion, you should have a running Gravwell instance.
+Follow the prompts and, after completion, you should have a running DatalaiQ instance.
 
 ```{note}
-If your distribution does not use systemd, you will have to start the Gravwell processes manually after installation. Please contact support@gravwell.io if you need help.
+If your distribution does not use systemd, you will have to start the DatalaiQ processes manually after installation. Please contact support@ppln.co if you need help.
 ```
 
 ## Configuring the License
 
-Once Gravwell is installed, open a web browser and navigate to the server (e.g. [http://localhost/](http://localhost/)). It should ask if you have a license file already (if you've already signed up for CE) or if you need to get one:
+Once DatalaiQ is installed, open a web browser and navigate to the server (e.g. [http://localhost/](http://localhost/)). It should ask if you have a license file already (if you've already signed up for CE) or if you need to get one:
 
 ![Upload or Get license](license1.png)
 
@@ -175,50 +175,50 @@ After agreeing to the EULA, you may upload your license:
 
 ![Upload license](upload-license.png)
 
-Once the license is uploaded and verified, Gravwell should present a login screen. Log in as "admin" with the password "changeme".
+Once the license is uploaded and verified, DatalaiQ should present a login screen. Log in as "admin" with the password "changeme".
 
 ```{attention}
-The default username/password combination for Gravwell is admin/changeme. We highly recommend changing the admin password as soon as possible! This can be done by choosing “Account Settings” from the navigation sidebar or clicking the “user” icon in the upper right.
+The default username/password combination for DatalaiQ is admin/changeme. We highly recommend changing the admin password as soon as possible! This can be done by choosing “Account Settings” from the navigation sidebar or clicking the “user” icon in the upper right.
 ```
 
 ![](login.png)
 
 ## Configuring Ingesters
 
-A freshly installed Gravwell instance, by itself, is boring. You'll want some ingesters to provide data. You can either install packages from the repositories or head over to [the Downloads page](downloads) to fetch self-extracting installers for each ingester.
+A freshly installed DatalaiQ instance, by itself, is boring. You'll want some ingesters to provide data. You can either install packages from the repositories or head over to [the Downloads page](downloads) to fetch self-extracting installers for each ingester.
 
 The ingesters available in the Debian repository can be viewed by running `apt-cache search gravwell`:
 
 ```console
 root@debian:~# apt-cache search gravwell
-gravwell - Gravwell data analytics platform (gravwell.io)
-gravwell-azure-event-hubs - Gravwell ingester for Azure Event Hubs
-gravwell-collectd - Gravwell collectd ingester
-gravwell-crash-reporter - Gravwell crash reporter service
-gravwell-datastore - Gravwell datastore service
-gravwell-federator - Gravwell ingest federator
-gravwell-file-follow - Gravwell file follow ingester
-gravwell-http-ingester - Gravwell HTTP ingester
-gravwell-ipmi - Gravwell IPMI Ingester
-gravwell-kafka - Gravwell Kafka ingester
-gravwell-kafka-federator - Gravwell Kafka federator
-gravwell-kinesis - Gravwell Kinesis ingester
-gravwell-loadbalancer - Gravwell load balancing service
-gravwell-msgraph - Gravwell ingester for Microsoft Graph API
-gravwell-netflow-capture - Gravwell netflow ingester
-gravwell-network-capture - Gravwell packet ingester
-gravwell-o365 - Gravwell Office 365 log ingester
-gravwell-offline-replication - Gravwell offline replication service
-gravwell-packet-fleet - Gravwell Packet Fleet ingester
-gravwell-pubsub - Gravwell ingester for Google Pub/Sub streams
-gravwell-s3 - Gravwell S3 ingester
-gravwell-shodan - Gravwell Shodan ingester
-gravwell-simple-relay - Gravwell simple relay ingester
-gravwell-sqs - Gravwell SQS ingester
-gravwell-tools - Miscellaneous Gravwell tools
+gravwell - DatalaiQ data analytics platform (ppln.co)
+gravwell-azure-event-hubs - DatalaiQ ingester for Azure Event Hubs
+gravwell-collectd - DatalaiQ collectd ingester
+gravwell-crash-reporter - DatalaiQ crash reporter service
+gravwell-datastore - DatalaiQ datastore service
+gravwell-federator - DatalaiQ ingest federator
+gravwell-file-follow - DatalaiQ file follow ingester
+gravwell-http-ingester - DatalaiQ HTTP ingester
+gravwell-ipmi - DatalaiQ IPMI Ingester
+gravwell-kafka - DatalaiQ Kafka ingester
+gravwell-kafka-federator - DatalaiQ Kafka federator
+gravwell-kinesis - DatalaiQ Kinesis ingester
+gravwell-loadbalancer - DatalaiQ load balancing service
+gravwell-msgraph - DatalaiQ ingester for Microsoft Graph API
+gravwell-netflow-capture - DatalaiQ netflow ingester
+gravwell-network-capture - DatalaiQ packet ingester
+gravwell-o365 - DatalaiQ Office 365 log ingester
+gravwell-offline-replication - DatalaiQ offline replication service
+gravwell-packet-fleet - DatalaiQ Packet Fleet ingester
+gravwell-pubsub - DatalaiQ ingester for Google Pub/Sub streams
+gravwell-s3 - DatalaiQ S3 ingester
+gravwell-shodan - DatalaiQ Shodan ingester
+gravwell-simple-relay - DatalaiQ simple relay ingester
+gravwell-sqs - DatalaiQ SQS ingester
+gravwell-tools - Miscellaneous DatalaiQ tools
 ```
 
-If you install them on the same node as the main Gravwell instance, they should be automatically configured to connect to the indexer, but you'll need to set up data sources for most. See the [ingester configuration documents](/ingesters/ingesters) for instructions on that.
+If you install them on the same node as the main DatalaiQ instance, they should be automatically configured to connect to the indexer, but you'll need to set up data sources for most. See the [ingester configuration documents](/ingesters/ingesters) for instructions on that.
 
 We highly recommend installing the File Follow ingester (gravwell-file-follow) as a first experiment; it comes pre-configured to ingest Linux log files, so you should be able to see some entries immediately by issuing a search such as `tag=auth`:
 
@@ -226,59 +226,59 @@ We highly recommend installing the File Follow ingester (gravwell-file-follow) a
 
 ### File Ingester
 
-The File Follower ingester is one of the simplest ways to start getting logs into Gravwell, because it comes pre-configured to ingest standard Linux log files.
+The File Follower ingester is one of the simplest ways to start getting logs into DatalaiQ, because it comes pre-configured to ingest standard Linux log files.
 
-If you're using the Gravwell Debian repository, installation is just a single apt command:
+If you're using the DatalaiQ Debian repository, installation is just a single apt command:
 
 ```
 apt-get install gravwell-file-follow
 ```
 
-Otherwise, download the installer from the [Downloads page](/quickstart/downloads). Using a terminal on the Gravwell server, issue the following command as a superuser (e.g. via the `sudo` command) to install the ingester:
+Otherwise, download the installer from the [Downloads page](/quickstart/downloads). Using a terminal on the DatalaiQ server, issue the following command as a superuser (e.g. via the `sudo` command) to install the ingester:
 
 ```console
 root@gravserver ~ # bash gravwell_file_follow_installer.sh
 ```
 
-If the Gravwell services are present on the same machine, the installation script will automatically extract and configure the `Ingest-Auth` parameter and set it appropriately. However, if your ingester is not resident on the same machine as a pre-existing Gravwell backend, the installer will prompt for the authentication token and the IP address of the Gravwell indexer. You can set these values during installation or leave them blank and modify the configuration file in `/opt/gravwell/etc/file_follow.conf` manually. See the [ingesters documentation](/ingesters/ingesters) for more information on configuring the ingester.
+If the DatalaiQ services are present on the same machine, the installation script will automatically extract and configure the `Ingest-Auth` parameter and set it appropriately. However, if your ingester is not resident on the same machine as a pre-existing DatalaiQ backend, the installer will prompt for the authentication token and the IP address of the DatalaiQ indexer. You can set these values during installation or leave them blank and modify the configuration file in `/opt/gravwell/etc/file_follow.conf` manually. See the [ingesters documentation](/ingesters/ingesters) for more information on configuring the ingester.
 
 ### Simple Relay Ingester
 
-Gravwell's 'Simple Relay' ingester can ingest line-delimited or syslog-formatted messages over the network. It's another good way to start getting data into Gravwell from your existing data sources.
+DatalaiQ's 'Simple Relay' ingester can ingest line-delimited or syslog-formatted messages over the network. It's another good way to start getting data into DatalaiQ from your existing data sources.
 
-If you're using the Gravwell Debian repository, installation is just a single apt command:
+If you're using the DatalaiQ Debian repository, installation is just a single apt command:
 
 ```
 apt-get install gravwell-simple-relay
 ```
 
-Otherwise, download the installer from the [Downloads page](/quickstart/downloads). Using a terminal on the Gravwell server, issue the following command as a superuser (e.g. via the `sudo` command) to install the ingester:
+Otherwise, download the installer from the [Downloads page](/quickstart/downloads). Using a terminal on the DatalaiQ server, issue the following command as a superuser (e.g. via the `sudo` command) to install the ingester:
 
 ```console
 root@gravserver ~ # bash gravwell_simple_relay_installer.sh
 ```
 
-If the Gravwell services are present on the same machine, the installation script will automatically extract and configure the `Ingest-Auth` parameter and set it appropriately.  However, if your ingester is not resident on the same machine as a pre-existing Gravwell backend, the installer will prompt for the authentication token and the IP address of the Gravwell indexer. You can set these values during installation or leave them blank and modify the configuration file in `/opt/gravwell/etc/simple_relay.conf` manually. See the [ingesters documentation](/ingesters/ingesters) for more information on configuring the ingester.
+If the DatalaiQ services are present on the same machine, the installation script will automatically extract and configure the `Ingest-Auth` parameter and set it appropriately.  However, if your ingester is not resident on the same machine as a pre-existing DatalaiQ backend, the installer will prompt for the authentication token and the IP address of the DatalaiQ indexer. You can set these values during installation or leave them blank and modify the configuration file in `/opt/gravwell/etc/simple_relay.conf` manually. See the [ingesters documentation](/ingesters/ingesters) for more information on configuring the ingester.
 
 ### Ingester Notes
-If your installation is entirely contained on one machine, as it is in these quick start instructions, the ingester installers will extract the configuration options and configure themselves appropriately. If you are using an advanced setup where not all Gravwell components are running on a single system, review the [ingesters](/ingesters/ingesters) section of the documentation.
+If your installation is entirely contained on one machine, as it is in these quick start instructions, the ingester installers will extract the configuration options and configure themselves appropriately. If you are using an advanced setup where not all DatalaiQ components are running on a single system, review the [ingesters](/ingesters/ingesters) section of the documentation.
 
-You now have the File Follow and Simple Relay services running on the Gravwell server. File Follow will automatically ingest log entries from some files in `/var/log/`. By default it ingests /var/log/auth.log with the "auth" tag, /var/log/dpkg.log with the "dpkg" tag, and /var/log/dmesg and /var/log/kern.log with the "kernel" tag.
+You now have the File Follow and Simple Relay services running on the DatalaiQ server. File Follow will automatically ingest log entries from some files in `/var/log/`. By default it ingests /var/log/auth.log with the "auth" tag, /var/log/dpkg.log with the "dpkg" tag, and /var/log/dmesg and /var/log/kern.log with the "kernel" tag.
 
 Simple Relay will ingest syslog entries sent to it on TCP port 601 or UDP port 514; these will be tagged with the "syslog" tag. The Simple Relay config file also contains an entry to listen for any line-delimited data on port 7777. This can be disabled if you only intend to use syslog; simply comment out the `[Listener "default"]` section in the config file and restart the simple relay service. The configuration file for this service is located at `/opt/gravwell/etc/simple_relay.conf`. See the Simple Relay section of the [Ingesters documentation](/ingesters/ingesters) for advanced configuration options.
 
 (quickstart_feeding_data)=
-## Feeding Data into Gravwell
-This section provides basic instructions for sending data into Gravwell. Review the [ingesters](/ingesters/ingesters) section for instructions for setting up other data ingesters.
+## Feeding Data into DatalaiQ
+This section provides basic instructions for sending data into DatalaiQ. Review the [ingesters](/ingesters/ingesters) section for instructions for setting up other data ingesters.
 
-The "Ingesters & Federators" page (in the "Systems & Health" section of the main menu) can help you see if the ingesters are connected and the Gravwell server is receiving any data. If no data is reported and you think that is an error, double-check that the ingesters are running (`ps aux | grep gravwell` should show `gravwell_webserver`, `gravwell_indexer`, `gravwell_simple_relay`, and `gravwell_file_follow`) and that their configuration files are correct.
+The "Ingesters & Federators" page (in the "Systems & Health" section of the main menu) can help you see if the ingesters are connected and the DatalaiQ server is receiving any data. If no data is reported and you think that is an error, double-check that the ingesters are running (`ps aux | grep gravwell` should show `gravwell_webserver`, `gravwell_indexer`, `gravwell_simple_relay`, and `gravwell_file_follow`) and that their configuration files are correct.
 
 ![](stats.png)
 
 ### Ingesting Syslog
-Once the Gravwell server is installed and the Simple Relay text ingester service is running, you can start feeding any log or text data into Gravwell via the syslog protocol. By default, the Simple Relay ingester listens for TCP syslog on port 601 and UDP syslog on port 514.
+Once the DatalaiQ server is installed and the Simple Relay text ingester service is running, you can start feeding any log or text data into DatalaiQ via the syslog protocol. By default, the Simple Relay ingester listens for TCP syslog on port 601 and UDP syslog on port 514.
 
-To send the syslog entries from a Linux server running rsyslog to Gravwell, create a new file named `/etc/rsyslog.d/90-gravwell.conf` on the server and paste the following line into it for UDP syslog, taking care to modify the hostname `gravwell.example.com` to point at your own Gravwell instance:
+To send the syslog entries from a Linux server running rsyslog to DatalaiQ, create a new file named `/etc/rsyslog.d/90-gravwell.conf` on the server and paste the following line into it for UDP syslog, taking care to modify the hostname `gravwell.example.com` to point at your own DatalaiQ instance:
 
 ```
 *.* @gravwell.example.com;RSYSLOG_SyslogProtocol23Format
@@ -298,9 +298,9 @@ Then restart the rsyslog daemon:
 sudo systemctl restart rsyslog.service
 ```
 
-Many Linux services (such as DNS, Apache, ssh, and others) can be configured to send event data via syslog. Using syslog as a “go between” for those services and Gravwell is often the easiest way to configure those services to send events remotely.
+Many Linux services (such as DNS, Apache, ssh, and others) can be configured to send event data via syslog. Using syslog as a “go between” for those services and DatalaiQ is often the easiest way to configure those services to send events remotely.
 
-Adding this line to an Apache configuration entry, for example, will send all Apache logs to rsyslog, which will forward them to Gravwell:
+Adding this line to an Apache configuration entry, for example, will send all Apache logs to rsyslog, which will forward them to DatalaiQ:
 
 ```
 CustomLog "|/usr/bin/logger -t apache2.access -p local6.info" combined
@@ -309,7 +309,7 @@ CustomLog "|/usr/bin/logger -t apache2.access -p local6.info" combined
 ### Archived Logs
 The Simple Relay ingester can also be used to ingest any old logs (Apache, syslog, etc) that are sitting around on the filesystem. By utilizing a basic network comms tool like netcat, any data can be shoveled into the Simple Relay ingester's line-delimited listener. By default Simple Relay listens for line-delimited entries on TCP port 7777.
 
-For example, if you have some old Apache log files you'd like to analyze in Gravwell, you could run a command like this to ingest them:
+For example, if you have some old Apache log files you'd like to analyze in DatalaiQ, you could run a command like this to ingest them:
 
 ```console
 user@webserver ~# cat /tmp/apache-oct2017.log | nc -q gravwell.server.address 7777
@@ -321,9 +321,9 @@ If you are ingesting a very large set of logs in multiple files, we recommend us
 
 ### Network Packet Ingester
 
-A primary strength of Gravwell is the ability to ingest binary data. The network ingester allows you to capture full packets from the network for later analysis; this provides much better flexibility than simply storing Netflow or other condensed traffic information at the cost of increased storage use.
+A primary strength of DatalaiQ is the ability to ingest binary data. The network ingester allows you to capture full packets from the network for later analysis; this provides much better flexibility than simply storing Netflow or other condensed traffic information at the cost of increased storage use.
 
-If you're using the Gravwell Debian repository, installation is just a single apt command:
+If you're using the DatalaiQ Debian repository, installation is just a single apt command:
 
 ```
 apt-get install libpcap0.8 gravwell-network-capture
@@ -337,7 +337,7 @@ root@gravserver ~ # bash gravwell_network_capture_installer.sh
 
 The network ingester requires the libpcap shared libraries. If using the standalone installer, you'll need to make sure you have also installed the libraries; the package is `libpcap0.8` on Debian.
 
-If the ingester is on a machine with a Gravwell backend already installed, the installer should automatically pick up the correct `Ingest-Secrets` value and populate the config file with it. In any case, review the configuration file in `/opt/gravwell/etc/network_capture.conf` before running. Make sure at least one "Sniffer" section is uncommented, with the Interface field set to one of your system's network interfaces. For more information, see the [Ingesters documentation](/ingesters/ingesters)
+If the ingester is on a machine with a DatalaiQ backend already installed, the installer should automatically pick up the correct `Ingest-Secrets` value and populate the config file with it. In any case, review the configuration file in `/opt/gravwell/etc/network_capture.conf` before running. Make sure at least one "Sniffer" section is uncommented, with the Interface field set to one of your system's network interfaces. For more information, see the [Ingesters documentation](/ingesters/ingesters)
 
 ```{note}
 The Debian package and the standalone installer should both prompt for a device from which to capture. If you wish to change your selection, open `/opt/gravwell/etc/network_capture.conf`, set the desired interface, and run `service gravwell_network_capture restart` to restart the ingester.
@@ -345,15 +345,15 @@ The Debian package and the standalone installer should both prompt for a device 
 
 (quickstart_searching)=
 ## Searching
-Once the Gravwell server is up and running and receiving data, the power of the search pipeline is made available.
+Once the DatalaiQ server is up and running and receiving data, the power of the search pipeline is made available.
 
 Here are a few example searches based on the type of data ingested in this quick-start setup. For these examples, we assume there is syslog data being generated by Linux servers and ingested via the Simple Relay text ingester, and that packets are being captured from the network as described in the preceding sections.
 
 ### Syslog Example
 
-Syslog is a core component of any Unix logging and auditing operation. It is important to have complete visibility into logins, crashes, sessions, or any other service action while debugging and defending Unix infrastructure.  Gravwell makes it easy to get syslog data off your many remote machines into a central location and ready for query.  For this example we will search SSH logs and examine how an administrator or security professional might gain visibility into SSH activity.
+Syslog is a core component of any Unix logging and auditing operation. It is important to have complete visibility into logins, crashes, sessions, or any other service action while debugging and defending Unix infrastructure.  DatalaiQ makes it easy to get syslog data off your many remote machines into a central location and ready for query.  For this example we will search SSH logs and examine how an administrator or security professional might gain visibility into SSH activity.
 
-In this example, servers are configured to send SSH login data to a Gravwell instance. If you want to see a list of all SSH-related entries, you can issue a search like:
+In this example, servers are configured to send SSH login data to a DatalaiQ instance. If you want to see a list of all SSH-related entries, you can issue a search like:
 
 ```gravwell
 tag=syslog grep ssh
@@ -422,9 +422,9 @@ tag=pcap packet ipv4.DstIP !~ 192.168.0.0/16 tcp.DstPort==443 ipv4.SrcIP
 
 A review of the search command is as follows:
 
-* ```tag=pcap```: Tells Gravwell to only search through items tagged 'pcap'.
+* ```tag=pcap```: Tells DatalaiQ to only search through items tagged 'pcap'.
 * ```packet```: Invokes the packet parsing search pipeline module and enables the rest of the options in this command.
-  * ```ipv4.DstIP !~ 192.168.0.0/16```: The Gravwell packet parser splits out a packet into its various fields. In this case, the search is comparing Destination IPs and looking for those not in the 192.168.x.x class B subnet.
+  * ```ipv4.DstIP !~ 192.168.0.0/16```: The DatalaiQ packet parser splits out a packet into its various fields. In this case, the search is comparing Destination IPs and looking for those not in the 192.168.x.x class B subnet.
   * ```tcp.DstPort == 443```: Specifies a destination port. This will filter only packets destined for port 443, used by most modern web traffic.
   * ```ipv4.SrcIP```: Specifying this field without a comparison operator tells the packet parser to extract and place the source IP into the pipeline.
 * ```count by SrcIP```: Pipe the filtered results from the packet parser into the math count module and tell it to count how many times each source IP appears.
@@ -444,7 +444,7 @@ Navigate to the “Dashboards" page (use the menu at top-left) and click the "+A
 The dashboard should have automatically created a tile for the search, but you may wish to resize it. You can change how the tile is displayed by selecting "Edit tile" from the tile's menu.
 
 ### Dashboards in Action
-One common use case for Gravwell is keeping track of network activity. Here we see a dashboard that reports on network traffic based on Zeek connection logs
+One common use case for DatalaiQ is keeping track of network activity. Here we see a dashboard that reports on network traffic based on Zeek connection logs
 
 ![network dashboard](network-dashboard.png)
 
@@ -452,7 +452,7 @@ We can use the Overview tile to investigate particular spans of time by clicking
 
 ## Installing Kits
 
-Gravwell Kits are pre-packaged tool sets for analyzing a particular data source. Kits exist to analyze Netflow v5, IPFIX, CoreDNS, and more. They're a great way to get started with your data, a jumping-off place to building your own analysis.
+DatalaiQ Kits are pre-packaged tool sets for analyzing a particular data source. Kits exist to analyze Netflow v5, IPFIX, CoreDNS, and more. They're a great way to get started with your data, a jumping-off place to building your own analysis.
 
 Most kits rely on you to set up ingesters (e.g. the Netflow v5 kit expects that you're running the Netflow ingester to gather Netflow records), but the *Weather* kit is actually entirely self-contained. It includes a script which will run every minute and fetch weather data for locations you specify.
 
@@ -496,11 +496,11 @@ After a day or so, you'll have gathered enough data to see nice charts like this
 
 ![](weather.png)
 
-Refer to the [kits documentation](/kits/kits) for more details on Gravwell Kits.
+Refer to the [kits documentation](/kits/kits) for more details on DatalaiQ Kits.
 
-## Updating Gravwell
+## Updating DatalaiQ
 
-Upgrading Gravwell is an uneventful affair, we take great pains to ensure that the installation and upgrade process is fast and easy.  The upgrade process is different depending on your original installation method.  If you are using one of the package repositories, such as Debian, Gravwell is upgraded like any other application:
+Upgrading DatalaiQ is an uneventful affair, we take great pains to ensure that the installation and upgrade process is fast and easy.  The upgrade process is different depending on your original installation method.  If you are using one of the package repositories, such as Debian, DatalaiQ is upgraded like any other application:
 
 
 ```
@@ -523,7 +523,7 @@ There are a few tips to upgrading that can help in some installations.
  * It's ok to check what changed, we are usually just adding configurations for new features
  * If you accept upstream configuration files it may overwrite your configurations and cause components failures
 
-After an upgrade it is always a good practice to check the state of Gravwell by ensuring that all indexers are present and accounted for and that ingesters have reconnected and are reporting the expected version numbers.
+After an upgrade it is always a good practice to check the state of DatalaiQ by ensuring that all indexers are present and accounted for and that ingesters have reconnected and are reporting the expected version numbers.
 
 
 ![Ingester status](ingesters.png)
@@ -533,15 +533,15 @@ After an upgrade it is always a good practice to check the state of Gravwell by 
 
 ### Crash Reporting and Metrics
 
-The Gravwell software has automated crash reporting & metrics reporting built in. For more information about what gets sent back to us at Gravwell, see the [crash reporting and metrics page](/metrics).
+The DatalaiQ software has automated crash reporting & metrics reporting built in. For more information about what gets sent back to us at DatalaiQ, see the [crash reporting and metrics page](/metrics).
 
 ### Clustered Configurations
 
-Users with multi-node licenses can deploy multiple indexer and webserver instances and coordinate them over the network. We highly recommend coordinating with Gravwell's support team before deploying such a setup, but will outline the basic steps in this document.
+Users with multi-node licenses can deploy multiple indexer and webserver instances and coordinate them over the network. We highly recommend coordinating with DatalaiQ's support team before deploying such a setup, but will outline the basic steps in this document.
 
 For most use cases, a single webserver and multiple indexer nodes will be desirable. For simplicity, we will describe an environment in which the webserver resides on the same node as one of the indexers.
 
-First, perform a single-node Gravwell installation as described above on the system which will be the head node. This will install the webserver and indexer and generate authentication secrets:
+First, perform a single-node DatalaiQ installation as described above on the system which will be the head node. This will install the webserver and indexer and generate authentication secrets:
 
 ```console
 root@headnode# bash gravwell_installer.sh
@@ -566,15 +566,15 @@ Remote-Indexers=net:indexer2.example.net:9404
 
 Restart the webserver with the command `systemctl restart gravwell_webserver`. Now, when you view the "Systems Stats" page and click on the "Hardware" tab, you should see entries for each of the 4 indexer processes.
 
-### Uninstalling Gravwell
+### Uninstalling DatalaiQ
 
-If you decide you no longer want Gravwell installed on a particular system, the removal process is relatively straightforward.
+If you decide you no longer want DatalaiQ installed on a particular system, the removal process is relatively straightforward.
 
-On Redhat and Debian systems, uninstalling the package should disable the services and remove the Gravwell binaries. It is then your choice to remove the rest of `/opt/gravwell`; note that if you delete the storage directories, any data that was ingested into your Gravwell system will be lost!
+On Redhat and Debian systems, uninstalling the package should disable the services and remove the DatalaiQ binaries. It is then your choice to remove the rest of `/opt/gravwell`; note that if you delete the storage directories, any data that was ingested into your DatalaiQ system will be lost!
 
 * Debian: `apt-get remove gravwell gravwell-crash-reporter`
 * Redhat: `yum remove gravwell gravwell-crash-reporter`
 
-On Docker systems, use `docker kill` and `docker rm` to remove your Gravwell container. You may need to delete any persistent volumes you created.
+On Docker systems, use `docker kill` and `docker rm` to remove your DatalaiQ container. You may need to delete any persistent volumes you created.
 
 Newer versions of the self-contained shell installer have a `--uninstall` flag, which disables the `gravwell_webserver`, `gravwell_indexer`, `gravwell_searchagent`, and `gravwell_crash_reporter` services but does not actually delete any data. You can also manually disable those services, then delete `/opt/gravwell` if desired.

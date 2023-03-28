@@ -65,7 +65,7 @@ Templates can specify multiple fields constant values.  Extracted fields can be 
 Given the following record, we want to remove the host and category headers and leave only the data field; the host and category will be attached as values to the entry:
 
 ```
-hostname => [testing.gravwell.io] category => [test values] data => [A very important data item]
+hostname => [testing.datalaiq.io] category => [test values] data => [A very important data item]
 ```
 
 This log message contains several items and significant formatting. We can use the `regexextract` preprocessor to extract the data field and put it into the body of an entry while extracting the hostname and category and placing them into attached values.
@@ -89,7 +89,7 @@ The result is:
 A very important data item
 ```
 
-Two attached values named `host` and `cat` will also be attached to the entry with the values `testing.gravwell.io` and `test values` respectively.
+Two attached values named `host` and `cat` will also be attached to the entry with the values `testing.datalaiq.io` and `test values` respectively.
 
 ```{note}
 Multiple attach directives can be specified, but the specified attach names must be named extractions in the regular expression.

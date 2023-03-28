@@ -4,15 +4,15 @@
 The Debian and RHEL repositories are more easily maintained than these standalone installers and are the recommended methods of installation. See the [quickstart instructions](quickstart).
 ```
 
-## Gravwell Core
+## DatalaiQ Core
 
-The Gravwell core installer contains the indexer and webserver frontend. You'll need a license; either get a Community Edition free license, or contact info@gravwell.io for commercial options.
+The DatalaiQ core installer contains the indexer and webserver frontend. You'll need a license; either get a Community Edition free license, or contact support@ppln.co for commercial options.
 
-Download Gravwell Core Installer <a data-custom-class="hash-popover" href="https://update.gravwell.io/archive/5.2.0/installers/gravwell_5.2.0.sh"><i class="fa-solid fa-download"></i></a>&nbsp;&nbsp;&nbsp;<a data-custom-class="hash-popover" href="javascript:void\(0\)" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<code class="docutils literal notranslate"><span class="pre">310db020110fe3abd4665cfd99f0dc1345ee4938837463f69491660ae5cc3577</span></code>'>(SHA256)</a>
+Download DatalaiQ Core Installer <a data-custom-class="hash-popover" href="https://update.gravwell.io/archive/5.2.0/installers/gravwell_5.2.0.sh"><i class="fa-solid fa-download"></i></a>&nbsp;&nbsp;&nbsp;<a data-custom-class="hash-popover" href="javascript:void\(0\)" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<code class="docutils literal notranslate"><span class="pre">310db020110fe3abd4665cfd99f0dc1345ee4938837463f69491660ae5cc3577</span></code>'>(SHA256)</a>
 
 ## Ingesters
 
-The core suite of ingesters are available for download as installable packages.  Ingesters designed to operate on Linux machines are typically self contained, statically linked executables that are agnostic to the hosts package management system (with the exception of the NetworkCapture ingester).  Windows based ingesters are distributed as executable MSI packages.  Source code for many ingesters can be found at the [Gravwell Github](https://github.com/gravwell/gravwell/tree/master/ingesters) repository.
+The core suite of ingesters are available for download as installable packages.  Ingesters designed to operate on Linux machines are typically self contained, statically linked executables that are agnostic to the hosts package management system (with the exception of the NetworkCapture ingester).  Windows based ingesters are distributed as executable MSI packages.  Source code for many ingesters can be found at the [DatalaiQ Github](https://github.com/gravwell/gravwell/tree/master/ingesters) repository.
 
 ### Current Ingester Releases
 | Ingester Name | Installer    | More Info |
@@ -40,11 +40,11 @@ The core suite of ingesters are available for download as installable packages. 
 
 ## Other downloads
 
-Some Gravwell components are distributed as optional additional installers, such as the search agent and the datastore.
+Some DatalaiQ components are distributed as optional additional installers, such as the search agent and the datastore.
 
 | Component Name | Installer    | More Info |
 | :------------- | :----------- | :-------- |
 | Datastore | <a data-custom-class="hash-popover" href="https://update.gravwell.io/archive/5.2.0/installers/gravwell_datastore_installer_5.2.0.sh"><i class="fa-solid fa-download"></i></a>&nbsp;&nbsp;&nbsp;<a data-custom-class="hash-popover" href="javascript:void\(0\)" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<code class="docutils literal notranslate"><span class="pre">1f2aa8bdb5a2529deaaa5dd8e427fd381c7b1ccc42e13e06925185e860fe3f17</span></code>'>(SHA256)</a> | [Documentation](/distributed/frontend) |
 | Offline Replicator | <a data-custom-class="hash-popover" href="https://update.gravwell.io/archive/5.2.0/installers/gravwell_offline_replication_installer_5.2.0.sh"><i class="fa-solid fa-download"></i></a>&nbsp;&nbsp;&nbsp;<a data-custom-class="hash-popover" href="javascript:void\(0\)" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<code class="docutils literal notranslate"><span class="pre">7449220a00ac33942d8268338171acc112dd56fdb3c3b47b7d24ac3a1870ba8c</span></code>'>(SHA256)</a> | [Documentation](/configuration/replication) |
 | Load Balancer | <a data-custom-class="hash-popover" href="https://update.gravwell.io/archive/5.2.0/installers/gravwell_loadbalancer_installer_5.2.0.sh"><i class="fa-solid fa-download"></i></a>&nbsp;&nbsp;&nbsp;<a data-custom-class="hash-popover" href="javascript:void\(0\)" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<code class="docutils literal notranslate"><span class="pre">97dd80329a3cfd685dab836a30321c6d1b74fbc6ff44956e4e503d3280e9b850</span></code>'>(SHA256)</a> | [Documentation](/distributed/loadbalancer) |
-| Gravwell Tools | <a data-custom-class="hash-popover" href="https://update.gravwell.io/archive/5.2.0/installers/gravwell_tools_5.2.0.sh"><i class="fa-solid fa-download"></i></a>&nbsp;&nbsp;&nbsp;<a data-custom-class="hash-popover" href="javascript:void\(0\)" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<code class="docutils literal notranslate"><span class="pre">a9bd3d486cf24fbf9a67debbd14fbcec77a6ae086beadd6c0d03226f787b873f</span></code>'>(SHA256)</a> | [Documentation](/tools/tools)|
+| DatalaiQ Tools | <a data-custom-class="hash-popover" href="https://update.gravwell.io/archive/5.2.0/installers/gravwell_tools_5.2.0.sh"><i class="fa-solid fa-download"></i></a>&nbsp;&nbsp;&nbsp;<a data-custom-class="hash-popover" href="javascript:void\(0\)" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<code class="docutils literal notranslate"><span class="pre">a9bd3d486cf24fbf9a67debbd14fbcec77a6ae086beadd6c0d03226f787b873f</span></code>'>(SHA256)</a> | [Documentation](/tools/tools)|

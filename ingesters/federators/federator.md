@@ -1,4 +1,4 @@
-# The Gravwell Federator
+# The DatalaiQ Federator
 
 The Federator is an entry relay: ingesters connect to the Federator and send it entries, then the Federator passes those entries to an indexer.  The Federator can act as a trust boundary, securely relaying entries across network segments without exposing ingest secrets or allowing untrusted nodes to send data for disallowed tags.  The Federator upstream connections are configured like any other ingester, allowing multiplexing, local caching, encryption, etc.
 
@@ -32,13 +32,13 @@ The Federator is an entry relay: ingesters connect to the Federator and send it 
 
 ## Installation
 
-If you're using the Gravwell Debian repository, installation is just a single apt command:
+If you're using the DatalaiQ Debian repository, installation is just a single apt command:
 
 ```
 apt-get install gravwell-federator
 ```
 
-Otherwise, download the installer from the [Downloads page](/quickstart/downloads). Using a terminal on the Gravwell server, issue the following command as a superuser (e.g. via the `sudo` command) to install the Federator:
+Otherwise, download the installer from the [Downloads page](/quickstart/downloads). Using a terminal on the DatalaiQ server, issue the following command as a superuser (e.g. via the `sudo` command) to install the Federator:
 
 ```console
 root@gravserver ~ # bash gravwell_federator_installer.sh
@@ -48,7 +48,7 @@ The Federator will almost certainly require configuration for your specific setu
 
 ## Example Configuration
 
-The following example configuration connects to two upstream indexers in a *protected* network segment and provides ingest services on two *untrusted* network segments.  Each untrusted ingest point has a unique Ingest-Secret, with one serving TLS with a specific certificate and key pair. The configuration file also enables a local cache, making the Federator act as a fault-tolerant buffer between the Gravwell indexers and the untrusted network segments.
+The following example configuration connects to two upstream indexers in a *protected* network segment and provides ingest services on two *untrusted* network segments.  Each untrusted ingest point has a unique Ingest-Secret, with one serving TLS with a specific certificate and key pair. The configuration file also enables a local cache, making the Federator act as a fault-tolerant buffer between the DatalaiQ indexers and the untrusted network segments.
 
 ```
 [Global]

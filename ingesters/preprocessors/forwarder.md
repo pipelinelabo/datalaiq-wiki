@@ -78,7 +78,7 @@ The `Regex` filters are used so that we only get event data from specific Channe
 
 ## Example: Forwarding logs to multiple hosts
 
-For this example we are using the Gravwell Federator to forward subsets of logs to different endpoints using different formats.  Because the forwarder preprocessor can be stacked the same way as any other preprocessor, we can specify multiple forwarding preprocessors with their own filters, endpoints, and formats.
+For this example we are using the DatalaiQ Federator to forward subsets of logs to different endpoints using different formats.  Because the forwarder preprocessor can be stacked the same way as any other preprocessor, we can specify multiple forwarding preprocessors with their own filters, endpoints, and formats.
 
 ```
 [IngestListener "enclaveA"]

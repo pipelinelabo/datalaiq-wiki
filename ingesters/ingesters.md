@@ -1,11 +1,11 @@
 # Ingesters
-This section contains more detailed instruction for configuring and running Gravwell ingesters, which gather incoming data, package it into Gravwell entries, and ship it to Gravwell indexers for storage. The ingesters described in these pages are primarily designed to capture *live* data as it is generated; if you have existing data you want to import, check out the [migration documents](migrate/migrate).
+This section contains more detailed instruction for configuring and running DatalaiQ ingesters, which gather incoming data, package it into DatalaiQ entries, and ship it to DatalaiQ indexers for storage. The ingesters described in these pages are primarily designed to capture *live* data as it is generated; if you have existing data you want to import, check out the [migration documents](migrate/migrate).
 
-The Gravwell-created ingesters are released under the BSD open source license and can be found on [Github](https://github.com/gravwell/gravwell/tree/master/ingesters). The ingest API is also open source, so you can create your own ingesters for unique data sources, performing additional normalization or pre-processing, or any other manner of things. The ingest API code [is located here](https://github.com/gravwell/gravwell/tree/master/ingest).
+The DatalaiQ-created ingesters are released under the BSD open source license and can be found on [Github](https://github.com/gravwell/gravwell/tree/master/ingesters). The ingest API is also open source, so you can create your own ingesters for unique data sources, performing additional normalization or pre-processing, or any other manner of things. The ingest API code [is located here](https://github.com/gravwell/gravwell/tree/master/ingest).
 
-In general, for an ingester to send data to Gravwell, the ingester will need to know the “Ingest Secret” of the Gravwell instance, for authentication. This can be found by viewing the `/opt/gravwell/etc/gravwell.conf` file on the Gravwell server and finding the entry for `Ingest-Auth`. If the ingester is running on the same system as Gravwell itself, the installer will usually be able to detect this value and set it automatically.
+In general, for an ingester to send data to DatalaiQ, the ingester will need to know the “Ingest Secret” of the DatalaiQ instance, for authentication. This can be found by viewing the `/opt/gravwell/etc/gravwell.conf` file on the DatalaiQ server and finding the entry for `Ingest-Auth`. If the ingester is running on the same system as DatalaiQ itself, the installer will usually be able to detect this value and set it automatically.
 
-The Gravwell GUI has an Ingesters page (under the System menu category) which can be used to easily identify which remote ingesters are actively connected, for how long they have been connected, and how much data they have pushed.
+The DatalaiQ GUI has an Ingesters page (under the System menu category) which can be used to easily identify which remote ingesters are actively connected, for how long they have been connected, and how much data they have pushed.
 
 ![](remote-ingesters.png)
 
@@ -57,7 +57,7 @@ Windows Events <winevent>
 | [GCP PubSub](pubsub) | Fetch and ingest entries from Google Compute Platform PubSub Streams. |
 | [HTTP](http) | Create HTTP listeners on multiple URL paths. |
 | [IPMI](ipmi) | Periodically collect SDR and SEL records from IPMI devices. |
-| [Kafka](kafka) | Create a Kafka Consumer that ingests into Gravwell. Can be paired with the Gravwell Kafka Federator. |
+| [Kafka](kafka) | Create a Kafka Consumer that ingests into DatalaiQ. Can be paired with the DatalaiQ Kafka Federator. |
 | [Kinesis](kinesis) | Ingest from Amazon's [Kinesis Data Streams](https://aws.amazon.com/kinesis/data-streams/) service. |
 | [Microsoft Graph API](msg) | Ingest from Microsoft's Graph API. |
 | [Netflow](netflow) | Collect Netflow and IPFIX records. |
@@ -74,7 +74,7 @@ Windows Events <winevent>
 
 ## Tags
 
-Tags are an essential Gravwell concept. Every entry has a single tag associated with it; these tags allow us to separate and categorize data at a basic level. For example, we may chose to apply the "syslog" tag to entries read from a Linux system's log files, apply "winlog" to Windows logs, and "pcap" to raw network packets. The ingesters determine which tags are applied to the entries.
+Tags are an essential DatalaiQ concept. Every entry has a single tag associated with it; these tags allow us to separate and categorize data at a basic level. For example, we may chose to apply the "syslog" tag to entries read from a Linux system's log files, apply "winlog" to Windows logs, and "pcap" to raw network packets. The ingesters determine which tags are applied to the entries.
 
 From the user's point of view, tags are strings such as "syslog", "pcap-router", or "default". The following characters are not allowed in tag names:
 
@@ -86,7 +86,7 @@ You should also refrain from using non-printing or difficult-to-type characters 
 
 ### Tag Wildcards
 
-When choosing tag names, keep in mind that Gravwell allows wildcards when specifying tag names to query. By selecting your tag names carefully, you can make later querying easier.
+When choosing tag names, keep in mind that DatalaiQ allows wildcards when specifying tag names to query. By selecting your tag names carefully, you can make later querying easier.
 
 For instance, if you are collecting system logs from five servers, of which two are HTTP servers, two are file servers, and one is an email server, you may chose to use the following tags:
 
@@ -100,16 +100,16 @@ This will allow your [queries](/search/search) greater flexibility in selecting 
 
 ### Tag Internals
 
-Reading this section is not necessary to use Gravwell, but it may help to understand how tags are managed internally.
+Reading this section is not necessary to use DatalaiQ, but it may help to understand how tags are managed internally.
 
-Internally, Gravwell *indexers* store tags as 16-bit integers. Each indexer maintains its own mapping of tag names to tag numbers, which can be found in `/opt/gravwell/etc/tags.dat`. Never modify or delete this file unless explicitly instructed by Gravwell support!
+Internally, DatalaiQ *indexers* store tags as 16-bit integers. Each indexer maintains its own mapping of tag names to tag numbers, which can be found in `/opt/gravwell/etc/tags.dat`. Never modify or delete this file unless explicitly instructed by DatalaiQ support!
 
 When an *ingester* connects to an indexer, it sends a list of tag names it intends to use. The indexer then responds with the mapping of tag name to tag numbers. Whenever the ingester sends an entry to that indexer, it will add the appropriate *tag number* to the entry.
 
 (ingesters_global_configuration_parameters)=
 ## Global Configuration Parameters
 
-Most of the core ingesters support a common set of global configuration parameters.  The shared Global configuration parameters are implemented using the [ingest config](https://godoc.org/github.com/gravwell/ingest/config#IngestConfig) package.  Global configuration parameters should be specified in the Global section of each Gravwell ingester config file.  The following Global ingester parameters are available:
+Most of the core ingesters support a common set of global configuration parameters.  The shared Global configuration parameters are implemented using the [ingest config](https://godoc.org/github.com/gravwell/ingest/config#IngestConfig) package.  Global configuration parameters should be specified in the Global section of each DatalaiQ ingester config file.  The following Global ingester parameters are available:
 
 * Ingest-Secret
 * Connection-Timeout
@@ -130,7 +130,7 @@ Most of the core ingesters support a common set of global configuration paramete
 
 ### Ingest-Secret
 
-The Ingest-Secret parameter specifies the token to be used for ingest authentication.  The token specified here MUST match the Ingest-Auth parameter for Gravwell indexers.
+The Ingest-Secret parameter specifies the token to be used for ingest authentication.  The token specified here MUST match the Ingest-Auth parameter for DatalaiQ indexers.
 
 ### Connection-Timeout
 
@@ -190,7 +190,7 @@ Enable-Compression=true
 
 ### Cleartext-Backend-Target
 
-Cleartext-Backend-Target specifies the host and port of a Gravwell indexer.  The ingester will connect to the indexer using a cleartext TCP connection.  If no port is specified the default port 4023 is used.  Cleartext connections support both IPv6 and IPv4 destinations.  **Multiple Cleartext-Backend-Targets can be specified to load balance an ingester across multiple indexers.**
+Cleartext-Backend-Target specifies the host and port of a DatalaiQ indexer.  The ingester will connect to the indexer using a cleartext TCP connection.  If no port is specified the default port 4023 is used.  Cleartext connections support both IPv6 and IPv4 destinations.  **Multiple Cleartext-Backend-Targets can be specified to load balance an ingester across multiple indexers.**
 
 #### Examples
 ```
@@ -202,7 +202,7 @@ Cleartext-Backend-Target=[DEAD::BEEF]:4023
 
 ### Encrypted-Backend-Target
 
-Encrypted-Backend-Target specifies the host and port of a Gravwell indexer. The ingester will connect to the indexer via TCP and perform a full TLS handshake/certificate validation.  If no port is specified the default port of 4024 is used.  Encrypted connections support both IPv6 and IPv4 destinations.  **Multiple Encrypted-Backend-Targets can be specified to load balance an ingester across multiple indexers.**
+Encrypted-Backend-Target specifies the host and port of a DatalaiQ indexer. The ingester will connect to the indexer via TCP and perform a full TLS handshake/certificate validation.  If no port is specified the default port of 4024 is used.  Encrypted connections support both IPv6 and IPv4 destinations.  **Multiple Encrypted-Backend-Targets can be specified to load balance an ingester across multiple indexers.**
 
 #### Examples
 ```
@@ -224,7 +224,7 @@ Pipe-Backend-Target=/tmp/gravwellpipe
 
 ### Ingest-Cache-Path
 
-The Ingest-Cache-Path enables a local cache for ingested data.  When enabled, ingesters can cache locally when they cannot forward entries to indexers.  The ingest cache can help ensure you don't lose data when links go down or if you need to take a Gravwell cluster offline momentarily.  Be sure to specify a Max-Ingest-Cache value so that a long-term network failure won't cause an ingester to fill the host disk.  The local ingest cache is not as fast as ingesting directly to indexers, so don't expect the ingest cache to handle 2 million entries per second the way the indexers can.
+The Ingest-Cache-Path enables a local cache for ingested data.  When enabled, ingesters can cache locally when they cannot forward entries to indexers.  The ingest cache can help ensure you don't lose data when links go down or if you need to take a DatalaiQ cluster offline momentarily.  Be sure to specify a Max-Ingest-Cache value so that a long-term network failure won't cause an ingester to fill the host disk.  The local ingest cache is not as fast as ingesting directly to indexers, so don't expect the ingest cache to handle 2 million entries per second the way the indexers can.
 
 ```{attention}
 The ingest cache should **not** be enabled for the File Follower ingester. Because this ingester reads directly from files on the disk and tracks its position within each file, it does not need a cache.
@@ -306,7 +306,7 @@ Source-Override=DEAD:BEEF::FEED:FEBE
 (ingesters_log-source-override)=
 ### Log-Source-Override
 
-Many ingesters can emit entries on the `gravwell` tag for the purposes of auditing, health and status, and general ingest infrastructure logging.  Typically, these entries will use the source IP address of the ingester as seen from the indexer for the SRC field.  However, it can be useful to override the source IP field for only the entries that are actually generated by the ingester.  A good example would be using the `Log-Source-Override` on the Gravwell Federator to change the SRC field for health and status entries, but not every entry that transits the Federator.
+Many ingesters can emit entries on the `gravwell` tag for the purposes of auditing, health and status, and general ingest infrastructure logging.  Typically, these entries will use the source IP address of the ingester as seen from the indexer for the SRC field.  However, it can be useful to override the source IP field for only the entries that are actually generated by the ingester.  A good example would be using the `Log-Source-Override` on the DatalaiQ Federator to change the SRC field for health and status entries, but not every entry that transits the Federator.
 
 The `Log-Source-Override` configuration parameter requires an IPv4 or IPv6 value as a parameter.
 
@@ -354,9 +354,9 @@ There are several ways to change the behavior of how timestamps are parsed, deta
 
 ### Time Zones
 
-Dealing with time zones can be one of the most challenging and frustrating aspects of ingestion. If a log's timestamp includes an explicit UTC offset (e.g. "-0700"), things are relatively easy, but many log formats do not include any time zone information at all! Sometimes, the system *generating* the log entry is in a local time zone, while the Gravwell ingester's system is set to UTC, or vice versa.
+Dealing with time zones can be one of the most challenging and frustrating aspects of ingestion. If a log's timestamp includes an explicit UTC offset (e.g. "-0700"), things are relatively easy, but many log formats do not include any time zone information at all! Sometimes, the system *generating* the log entry is in a local time zone, while the DatalaiQ ingester's system is set to UTC, or vice versa.
 
-If you believe you have configured your ingester properly, but you're not seeing any data in a query, try expanding your query timeframe to include the future using the "Date Range" timeframe selection: just set the End Date to some time tomorrow. If the Gravwell ingest system is set to a US time zone, but the logs are in UTC time with no offset included, the incoming data will be ingested in the "future".
+If you believe you have configured your ingester properly, but you're not seeing any data in a query, try expanding your query timeframe to include the future using the "Date Range" timeframe selection: just set the End Date to some time tomorrow. If the DatalaiQ ingest system is set to a US time zone, but the logs are in UTC time with no offset included, the incoming data will be ingested in the "future".
 
 The `Timezone-Override` parameter (described below) is the surest way to fix time zone problems. If your data has a UTC timestamp but the system clock is set to another time zone, set `Timezone-Override="Etc/UTC"`. If your data is in US Eastern time, but the system clock is set to UTC, set `Timezone-Override="America/New_York"`, and so on.
 
@@ -370,7 +370,7 @@ Most ingesters attempt to apply a timestamp to each entry by extracting a timest
 * `Timezone-Override` (string): Setting `Timezone-Override` tells the ingester that timestamps which don't include a timezone should be parsed in the specified timezone. Thus `Timezone-Override=US/Pacific` would tell the ingester to treat incoming timestamps as if they were in US Pacific time. See [this page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for a complete list of acceptable timezone names (in the 'TZ database name' column). Mutually exclusive with Assume-Local-Timezone.
 * `Timestamp-Format-Override` (string): This parameter tells the ingester to look for a specific timestamp format in the data, e.g. `Timestamp-Format-Override="RFC822"`. Refer to [the timegrinder documentation](https://pkg.go.dev/github.com/gravwell/gravwell/v3/timegrinder) for a full list of possible overrides, with examples.
 
-The Kinesis and Google Pub/Sub ingesters do not provide the `Ignore-Timestamps` option. Kinesis and Pub/Sub include an arrival timestamp with every entry; by default, the ingesters will use that as the Gravwell timestamp. If `Parse-Time=true` is specified in the data consumer definition, the ingester will instead attempt to extract a timestamp from the message body. See these ingesters' respective sections for additional information.
+The Kinesis and Google Pub/Sub ingesters do not provide the `Ignore-Timestamps` option. Kinesis and Pub/Sub include an arrival timestamp with every entry; by default, the ingesters will use that as the DatalaiQ timestamp. If `Parse-Time=true` is specified in the data consumer definition, the ingester will instead attempt to extract a timestamp from the message body. See these ingesters' respective sections for additional information.
 
 Custom timestamp formats are supported on many ingesters, see [Custom Time Formats](/ingesters/customtime/customtime) for more information.
 
@@ -386,15 +386,15 @@ Source-Override=[fe80::899:b3ff:feb7:2dc6]
 
 ## Ingest API
 
-The Gravwell ingest API and core ingesters are fully open source under the BSD 2-Clause license.  This means that you can write your own ingesters and integrate Gravwell entry generation into your own products and services.  The core ingest API is written in Go, but the list of available API languages is under active expansion.
+The DatalaiQ ingest API and core ingesters are fully open source under the BSD 2-Clause license.  This means that you can write your own ingesters and integrate DatalaiQ entry generation into your own products and services.  The core ingest API is written in Go, but the list of available API languages is under active expansion.
 
 [API code](https://github.com/gravwell/gravwell/tree/master/ingest)
 
 [API documentation](https://godoc.org/github.com/gravwell/ingest)
 
-A very basic ingester example (less than 100 lines of code) that watches a file and sends any lines written to it up to a Gravwell cluster [can be seen here](https://www.godoc.org/github.com/gravwell/ingest#example-package)
+A very basic ingester example (less than 100 lines of code) that watches a file and sends any lines written to it up to a DatalaiQ cluster [can be seen here](https://www.godoc.org/github.com/gravwell/ingest#example-package)
 
-Keep checking back with the Gravwell GitHub page, as the team is continually improving the ingest API and porting it to additional languages. Community development is fully supported, so if you have a merge request, language port, or a great new ingester that you have open sourced, let Gravwell know!  The Gravwell team would love to feature your hard work in the ingester highlight series.
+Keep checking back with the DatalaiQ GitHub page, as the team is continually improving the ingest API and porting it to additional languages. Community development is fully supported, so if you have a merge request, language port, or a great new ingester that you have open sourced, let DatalaiQ know!  The DatalaiQ team would love to feature your hard work in the ingester highlight series.
 
 ```{toctree}
 ---
