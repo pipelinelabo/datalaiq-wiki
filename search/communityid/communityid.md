@@ -26,7 +26,7 @@ The `communityid` module requires the protocol *number*, it will not resolve a p
 
 #### Zeek Conn Logs
 
-In this example we show how to get a community ID value from traditional Zeek conn logs.  These logs include the protocol by name rather than number, which means we need to use the `network_services` resource from the Gravwell Network Enrichment kit to resolve the name back to a number.  In this example we are also using the autoextractors provided in the Gravwell Zeek Kit to process the TSV Zeek logs.
+In this example we show how to get a community ID value from traditional Zeek conn logs.  These logs include the protocol by name rather than number, which means we need to use the `network_services` resource from the DatalaiQ Network Enrichment kit to resolve the name back to a number.  In this example we are also using the autoextractors provided in the DatalaiQ Zeek Kit to process the TSV Zeek logs.
 
 ```gravwell
 tag=zeekconn ax

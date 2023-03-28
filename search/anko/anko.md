@@ -2,7 +2,7 @@
 
 The anko module provides a more complete scripting environment as a supplement to eval. It allows more complex operations on search entries, but it also requires more work to develop, test, and deploy an anko script than a simple eval expression. Scripts are stored as resources in the [resource system](/resources/resources).
 
-The syntax of anko is identical to that of eval; both derive from [github.com/mattn/anko](https://github.com/mattn/anko), with some additional functions added for Gravwell-specific tasks.
+The syntax of anko is identical to that of eval; both derive from [github.com/mattn/anko](https://github.com/mattn/anko), with some additional functions added for DatalaiQ-specific tasks.
 
 We recommend using anko in situations where no other modules are capable enough. Typically this means situations where entries need to be compared against previous entries, entries need to be duplicated, complex operations are required to extract data from entries, or a combination of these.
 

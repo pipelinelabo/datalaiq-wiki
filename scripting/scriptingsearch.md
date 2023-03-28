@@ -1,33 +1,33 @@
 # Automation Scripts
 
-Gravwell provides a robust scripting engine in which you can run searches, update resources, send alerts, or take action.  The engine can run searches and examine data automatically, taking action based on search results without the need to involve a human.  
+DatalaiQ provides a robust scripting engine in which you can run searches, update resources, send alerts, or take action.  The engine can run searches and examine data automatically, taking action based on search results without the need to involve a human.  
 
 Automation scripts can be run [on a schedule](scheduledsearch) or by hand from the [command line client](/cli/cli). 
 
 ## Building Scripts
 
-The Gravwell user interface provides a built-in editor for creating and testing scripts. This interface allows rapid debugging and is the best way to build scripts. It is documented [in the scheduled search/script UI documentation](scheduledsearch).
+The DatalaiQ user interface provides a built-in editor for creating and testing scripts. This interface allows rapid debugging and is the best way to build scripts. It is documented [in the scheduled search/script UI documentation](scheduledsearch).
 
 (scripting_built-in_functions)=
 ## Built-in functions
 
-Scripts can use built-in functions that mostly match those available for the [anko](/scripting/anko) module, with some additions for launching and managing searches. The functions are listed below in the format `functionName(<functionArgs>) <returnValues>`.  These functions are provided as convenience wrappers for specific functionality, however the complete [Gravwell client](https://pkg.go.dev/github.com/gravwell/gravwell/v3/client#Client) is available using the `getClient` wrapper.  The `getClient` wrapper will return a client object that is signed in as the user executing the script. 
+Scripts can use built-in functions that mostly match those available for the [anko](/scripting/anko) module, with some additions for launching and managing searches. The functions are listed below in the format `functionName(<functionArgs>) <returnValues>`.  These functions are provided as convenience wrappers for specific functionality, however the complete [DatalaiQ client](https://pkg.go.dev/github.com/gravwell/gravwell/v3/client#Client) is available using the `getClient` wrapper.  The `getClient` wrapper will return a client object that is signed in as the user executing the script. 
 
 ## Controlling Versions
 
-Gravwell is constantly adding new modules, methods, and functionality.  It is often desirable to be able to validate that a given script will work with the current version.  This is achieved through two built-in scripting functions which specify the minimum and maximum versions of Gravwell that they are compatible with.  If either assertion fails, the script will fail immediately with an error indicating that the version is incompatible.
+DatalaiQ is constantly adding new modules, methods, and functionality.  It is often desirable to be able to validate that a given script will work with the current version.  This is achieved through two built-in scripting functions which specify the minimum and maximum versions of DatalaiQ that they are compatible with.  If either assertion fails, the script will fail immediately with an error indicating that the version is incompatible.
 
-* `MinVer(major, minor, point)` Ensures that Gravwell is at least a particular version.
-* `MaxVer(major, minor, point)` Ensures that Gravwell is no newer than a particular version.
+* `MinVer(major, minor, point)` Ensures that DatalaiQ is at least a particular version.
+* `MaxVer(major, minor, point)` Ensures that DatalaiQ is no newer than a particular version.
 
 ## Libraries and external functions
 
-Version 3.3.1 of Gravwell now allows automation scripts to include external scripting libraries.  Two functions are provided for including additional libraries:
+Version 3.3.1 of DatalaiQ now allows automation scripts to include external scripting libraries.  Two functions are provided for including additional libraries:
 
 * `include(path, commitid, repo) error` Includes a library file. The repo and commitid arguments are optional.  If the include fails, the failure reason is returned.
 * `require(path, commitid, repo)` Identical behavior to `include`, but if it fails the script is halted and the failure reason is attached to the script's results.
 
-Both `include` and `require` can optionally specify an exact repository or commitid.  If the `repo` argument is omitted the Gravwell default library repo of `https://github.com/gravwell/libs` is used.  If the `commitid` is omitted then the `HEAD` commit is used.  Repos should be accessible by the Gravwell webserver via the schema defined (either `http://`, `https://`, or `git://`) in the repo path.  The scripting system will automatically go get repos as needed: if a commit id is requested that isn't currently known Gravwell will attempt to update the repo.
+Both `include` and `require` can optionally specify an exact repository or commitid.  If the `repo` argument is omitted the DatalaiQ default library repo of `https://github.com/gravwell/libs` is used.  If the `commitid` is omitted then the `HEAD` commit is used.  Repos should be accessible by the DatalaiQ webserver via the schema defined (either `http://`, `https://`, or `git://`) in the repo path.  The scripting system will automatically go get repos as needed: if a commit id is requested that isn't currently known DatalaiQ will attempt to update the repo.
 
 ```
 require("email/htmlEmail.ank")
@@ -49,14 +49,14 @@ if err != nil {
 ...
 ```
 
-If you are in an airgapped system, or otherwise do not want Gravwell to have access to GitHub, you can specify an internal mirror and/or default commit in the `gravwell.conf` file using the `Library-Repository` and `Library-Commit` configuration variables.  For example:
+If you are in an airgapped system, or otherwise do not want DatalaiQ to have access to GitHub, you can specify an internal mirror and/or default commit in the `gravwell.conf` file using the `Library-Repository` and `Library-Commit` configuration variables.  For example:
 
 ```
 Library-Repository="https://github.com/foobar/baz" #override the default library
 Library-Commit=da4467eb8fe22b90e5b2e052772832b7de464d63
 ```
 
-The Library-Repository can also be a local folder that is readable by the Gravwell webserver process.  For example, if you are running Gravwell in a completely airgapped environment, you may still want access to the libs and the ability to update them.  Just unpack the git repository and set `Library-Repository` to that path.
+The Library-Repository can also be a local folder that is readable by the DatalaiQ webserver process.  For example, if you are running DatalaiQ in a completely airgapped environment, you may still want access to the libs and the ability to update them.  Just unpack the git repository and set `Library-Repository` to that path.
 
 ```
 Library-Repository="/opt/gitstuff/gravwell/libs"
@@ -119,7 +119,7 @@ require(`alerts/email.ank`, cfg.email_lib_revision)
 (scripting_search_management)=
 ## Search management
 
-Due to the way Gravwell's search system works, some of the functions in this section return Search structs (written as `search` in the parameters) while others return search IDs (written as `searchID` in the parameters). Each Search struct contains a search ID which can be accessed as `search.ID`.
+Due to the way DatalaiQ's search system works, some of the functions in this section return Search structs (written as `search` in the parameters) while others return search IDs (written as `searchID` in the parameters). Each Search struct contains a search ID which can be accessed as `search.ID`.
 
 Search structs are used to actively read entries from a search, while search IDs tend to refer to inactive searches to which we may attach or otherwise manage.
 
@@ -180,7 +180,7 @@ The ScheduledSearch structure contains the following fields:
 
 ## Querying Infrastructure Information
 
-The automation scripting system can also be used to monitor the state of the Gravwell installation using API calls.  This allows you to monitor ingester status, system loads, and indexer connectivity within the platform.  The following calls can provide information about the physical deployment:
+The automation scripting system can also be used to monitor the state of the DatalaiQ installation using API calls.  This allows you to monitor ingester status, system loads, and indexer connectivity within the platform.  The following calls can provide information about the physical deployment:
 
 * `ingesters` - Returns a map containing an ingester status block for each indexer.
 * `indexers` - Returns a map containing a well status for each indexer.
@@ -199,7 +199,7 @@ The following functions provide basic HTTP functionality:
 
 More elaborate HTTP operations are possible with the "net/http" library. See the package documentation in the [anko document](anko) for a description of what is available, or see below for an example.
 
-If the user has configured their personal email settings within Gravwell, the `email` function is a very simple way to send an email:
+If the user has configured their personal email settings within DatalaiQ, the `email` function is a very simple way to send an email:
 
 * `email(from, to, subject, message, attachments...) error` sends an email via SMTP. The `from` field is simply a string, while `to` should be a slice of strings containing email addresses or a single string containing one email address. The `subject` and `message` fields are also strings which should contain the subject line and body of the email. The attachments parameter is optional.
   * Attachments can be sent as a byte array, and they will be given an automatic file name
@@ -232,7 +232,7 @@ Scripts may create notifications targeted at the script owner. A notification co
 
 * `addSelfTargetedNotification(uint32, string, string, time.Time) error`
 
-If the expiration is in the past, or more than 24 hours in the future, Gravwell will instead set the expiration to be 12 hours. The notification ID uniquely identifies the notification. This allows the user to update existing notifications by calling the function again with the same notification ID, but it also allows the user to add multiple simultaneous notifications by specifying different IDs.
+If the expiration is in the past, or more than 24 hours in the future, DatalaiQ will instead set the expiration to be 12 hours. The notification ID uniquely identifies the notification. This allows the user to update existing notifications by calling the function again with the same notification ID, but it also allows the user to add multiple simultaneous notifications by specifying different IDs.
 
 ### Example Notification Creation Script
 
@@ -442,7 +442,7 @@ c.Close()
 (scripting_system_management_functions)=
 ## Management Functions
 
-The scripting system also has access to management functions that can be used to automatically interact with various Gravwell APIs.
+The scripting system also has access to management functions that can be used to automatically interact with various DatalaiQ APIs.
 
 ### Performing a system backup
 
@@ -517,7 +517,7 @@ if c == 0 {
 detachSearch(s)
 ```
 
-To test the script, we can paste the contents into a file, say `/tmp/script`. We then use the Gravwell CLI tool to run the script. It will prompt to re-run as many times as desired and re-read the file for each run; this makes it easy to test changes to the script.
+To test the script, we can paste the contents into a file, say `/tmp/script`. We then use the DatalaiQ CLI tool to run the script. It will prompt to re-run as many times as desired and re-read the file for each run; this makes it easy to test changes to the script.
 
 ```
 $ gravwell -s gravwell.example.org watch script
@@ -539,7 +539,7 @@ Take care to delete old searches when testing scripts at the CLI; the scheduled 
 
 ## Using HTTP in scripts
 
-Many modern computer systems use HTTP requests to trigger actions. Gravwell scripts offer the following basic HTTP operations:
+Many modern computer systems use HTTP requests to trigger actions. DatalaiQ scripts offer the following basic HTTP operations:
 
 * httpGet(url)
 * httpPost(url, contentType, data)
@@ -602,7 +602,7 @@ httpPost("http://example.org:3002/", "application/json", encoded)
 detachSearch(s)
 ```
 
-Sometimes, the results of a search may be very large, too large to hold in memory. The "net/http" library, combined with the `getDownloadHandle` function, allows you to stream results directly from the Gravwell search into an HTTP POST/PUT request. It also allows cookies or additional headers to be set:
+Sometimes, the results of a search may be very large, too large to hold in memory. The "net/http" library, combined with the `getDownloadHandle` function, allows you to stream results directly from the DatalaiQ search into an HTTP POST/PUT request. It also allows cookies or additional headers to be set:
 
 ```
 var http = import("net/http")
@@ -652,7 +652,7 @@ return err
 
 ## CSV Helpers
 
-CSV is a pretty common export format for resources and just generally getting data out of Gravwell.  The CSV library provided by `encoding/csv` is robust and flexible but a little verbose.  We have wrapped the CSV writer to provide a simpler interface for use within the Gravwell scripting system.  To create a simplified CSV builder, import the `encoding/csv` package and instead of invoking `NewWriter` call `NewBuilder` without any arguments.
+CSV is a pretty common export format for resources and just generally getting data out of DatalaiQ.  The CSV library provided by `encoding/csv` is robust and flexible but a little verbose.  We have wrapped the CSV writer to provide a simpler interface for use within the DatalaiQ scripting system.  To create a simplified CSV builder, import the `encoding/csv` package and instead of invoking `NewWriter` call `NewBuilder` without any arguments.
 
 The CSV builder manages its own internal buffers and returns a byte array upon executing `Flush`.  This can simplify the process of building up CSVs for exporting or saving.  Here is an example script that uses the simplified csv Builder to create a resource comprised of two table columns:
 
@@ -703,7 +703,7 @@ return setResource("csv", buff)
 (scripting_sql_usage)=
 ## SQL Usage
 
-The Gravwell scripting system exposes SQL database packages so that automation scripts can interact with external SQL databases.  The SQL library requires Gravwell version 4.1.6 or newer.
+The DatalaiQ scripting system exposes SQL database packages so that automation scripts can interact with external SQL databases.  The SQL library requires DatalaiQ version 4.1.6 or newer.
 
 The scripting system currently supports the following database drivers:
 
@@ -714,7 +714,7 @@ The scripting system currently supports the following database drivers:
 
 Using the SQL interfaces is done through the `database/sql` package which is a direct import of the Go [database/sql](https://golang.org/pkg/database/sql/) package.
 
-The Gravwell `database/sql` package also includes a helper function that is not part of the Go sql package called `ExtractRows`.  The `ExtractRows` helper function makes it easier to transform the an SQL result row into a slice of strings for later manipulation.  The `ExtractRows` function has the following interface:
+The DatalaiQ `database/sql` package also includes a helper function that is not part of the Go sql package called `ExtractRows`.  The `ExtractRows` helper function makes it easier to transform the an SQL result row into a slice of strings for later manipulation.  The `ExtractRows` function has the following interface:
 
 `ExtractRows(*sql.Row, columnCount) ([]string, error)`
 
@@ -791,7 +791,7 @@ return setResource("foobar", data)
 
 The [ipexist](/search/ipexist/ipexist) search module is designed to test whether an IPv4 address exists in a set, this module is a simple filtering module that is designed for one thing and one thing only: speed.  Under the hood, `ipexist` uses a highly optimized bitmap system so that its possible for a modest machine to represent the entirety of the IPv4 address space in it's filter system.  IPExist is a great tool for holding threat lists and performing initial filtering operations on very large sets of data before performing more expensive lookups using the [iplookup](/search/iplookup/iplookup) module.
 
-The Gravwell scripting system has access to the ipexist builder functions, enabling you to generate high speed ip membership tables from existing data.  The ipexist builder functions are open source and available on [github](https://github.com/gravwell/ipexist).  Below is a basic script which generates an ip membership resource using a query:
+The DatalaiQ scripting system has access to the ipexist builder functions, enabling you to generate high speed ip membership tables from existing data.  The ipexist builder functions are open source and available on [github](https://github.com/gravwell/ipexist).  Below is a basic script which generates an ip membership resource using a query:
 
 ```
 ipexist = import("github.com/gravwell/ipexist")
@@ -841,11 +841,11 @@ return setResource("sshusers", buff)
 ```
 
 (scripting_gravwell_client_usage)=
-## Gravwell Client Usage
+## DatalaiQ Client Usage
 
-The `getClient` function will hand back a pointer to a new [Client](https://pkg.go.dev/github.com/gravwell/gravwell/v3/client#Client) object that is logged in and synchronized as the current user. Under normal operating conditions, the new client should be ready for immediate use.  However, it is possible for Gravwell webservers to become unavailable during script operations due to network failures or system upgrades.  We therefore recommend that scripts test the status of the client connection using the [TestLogin()](https://pkg.go.dev/github.com/gravwell/gravwell/v3/client#Client.TestLogin) method.
+The `getClient` function will hand back a pointer to a new [Client](https://pkg.go.dev/github.com/gravwell/gravwell/v3/client#Client) object that is logged in and synchronized as the current user. Under normal operating conditions, the new client should be ready for immediate use.  However, it is possible for DatalaiQ webservers to become unavailable during script operations due to network failures or system upgrades.  We therefore recommend that scripts test the status of the client connection using the [TestLogin()](https://pkg.go.dev/github.com/gravwell/gravwell/v3/client#Client.TestLogin) method.
 
-This example script gets a client, makes a TCP connection to a remote server, and performs a [backup](https://pkg.go.dev/github.com/gravwell/gravwell/v3/client#Client.Backup) of the Gravwell system, sending the backup file out over the remote TCP connection:
+This example script gets a client, makes a TCP connection to a remote server, and performs a [backup](https://pkg.go.dev/github.com/gravwell/gravwell/v3/client#Client.Backup) of the DatalaiQ system, sending the backup file out over the remote TCP connection:
 
 ```
 net = import("net")
@@ -885,5 +885,5 @@ return cli.Close()
 ``` 
 
 ```{note}
-The Gravwell client has a default request timeout of 5 seconds. For long running requests like system backups you should increase that timeout, but note that it is best practice to restore the original timeout when you've completed the long-running request; we have omitted that above for brevity.
+The DatalaiQ client has a default request timeout of 5 seconds. For long running requests like system backups you should increase that timeout, but note that it is best practice to restore the original timeout when you've completed the long-running request; we have omitted that above for brevity.
 ```
