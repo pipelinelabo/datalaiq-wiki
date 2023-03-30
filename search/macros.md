@@ -1,14 +1,14 @@
 # Search Macros
 
-Search macros are a powerful feature that can help you use Gravwell more effectively. Macros can turn long, repetitive search queries into easily-remembered shortcuts.
+Search macros are a powerful feature that can help you use DatalaiQ more effectively. Macros can turn long, repetitive search queries into easily-remembered shortcuts.
 
 ## Macro Basics
 
-Macros are essentially string replacement rules which are applied to the search query string. The macro maps a short, name (like $MYMACRO) to a longer string. When Gravwell parses the search query, it looks for macro names (defined as a dollar sign followed by at least one capital letter or number) and does the replacement before launching the search. The GUI will show the expanded version of the query when you use a macro.
+Macros are essentially string replacement rules which are applied to the search query string. The macro maps a short, name (like $MYMACRO) to a longer string. When DatalaiQ parses the search query, it looks for macro names (defined as a dollar sign followed by at least one capital letter or number) and does the replacement before launching the search. The GUI will show the expanded version of the query when you use a macro.
 
 For example, you may define a macro named `$DHCPACK` which expands to `regex "DHCPACK on (?P<ip>\S+) to (?P<mac>\S+) via (?P<iface>\S+)`. You can then use that macro in place of the regex invocation, e.g. `tag=syslog $DHCPACK | unique ip mac | table ip mac`.
 
-A macro can contain any part of a regular Gravwell query: the tag specification, search modules, or render modules. A macro can even contain an entire query, although you may find the search library a more useful tool for storing entire queries.
+A macro can contain any part of a regular DatalaiQ query: the tag specification, search modules, or render modules. A macro can even contain an entire query, although you may find the search library a more useful tool for storing entire queries.
 
 ### Macro arguments
 
@@ -18,13 +18,13 @@ Macros can be defined with arguments. To define a macro that takes arguments, pu
 
 ### Nested macros
 
-A macro can contain another macro. We can define a macro `$FOO` which expands to `tag=foo json timestamp $BAR`; when you use the macro, Gravwell will see that the expansion contains another macro and will in turn expand the $BAR macro as well.
+A macro can contain another macro. We can define a macro `$FOO` which expands to `tag=foo json timestamp $BAR`; when you use the macro, DatalaiQ will see that the expansion contains another macro and will in turn expand the $BAR macro as well.
 
-Gravwell will continue expanding macros for several iterations, although it will catch infinite recursion if a macro loop exists.
+DatalaiQ will continue expanding macros for several iterations, although it will catch infinite recursion if a macro loop exists.
 
 ## Defining a Macro
 
-The macro management page is found in the main Gravwell menu:
+The macro management page is found in the main DatalaiQ menu:
 
 ![](macro-page.png)
 

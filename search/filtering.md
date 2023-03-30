@@ -1,8 +1,8 @@
 # Inline Filtering
 
-Very frequently you will want to filter entries in a query based on some criteria--perhaps you want to remove all HTTPS flows from Netflow data, or you only want to look at traffic originating in a certain subnet, or you need to match against a particular username in Windows logs. *Inline filtering* is an efficient way to filter down many different types of Gravwell data.
+Very frequently you will want to filter entries in a query based on some criteria--perhaps you want to remove all HTTPS flows from Netflow data, or you only want to look at traffic originating in a certain subnet, or you need to match against a particular username in Windows logs. *Inline filtering* is an efficient way to filter down many different types of DatalaiQ data.
 
-Gravwell extraction modules will typically allow *extracted* items to be *filtered* at extraction time. Consider the query below, which extracts the IPv4 destination IP and the TCP destination port from packets:
+DatalaiQ extraction modules will typically allow *extracted* items to be *filtered* at extraction time. Consider the query below, which extracts the IPv4 destination IP and the TCP destination port from packets:
 
 ```gravwell
 tag=pcap packet ipv4.DstIP tcp.DstPort
@@ -18,7 +18,7 @@ Any entry whose DstIP and DstPort do not match the specified filters will be **d
 
 ## Filtering Operations & Data Types
 
-Within the Gravwell search pipeline, enumerated values can be a variety of different *types*, for example strings, integers, or IP addresses. Some types cannot be filtered in certain ways--it is not particularly useful to ask if an IP address is "less than" another IP address! The filtering operations supported by Gravwell are below:
+Within the DatalaiQ search pipeline, enumerated values can be a variety of different *types*, for example strings, integers, or IP addresses. Some types cannot be filtered in certain ways--it is not particularly useful to ask if an IP address is "less than" another IP address! The filtering operations supported by DatalaiQ are below:
 
 | Operator | Name |
 |----------|------|
@@ -54,7 +54,7 @@ For acceleration to be engaged, your data needs to be configured to accelerate o
 
 ## Built-in Keywords
 
-Gravwell implements some special shortcuts for filtering. When filtering IP addresses by subnet, you can specify the keywords PRIVATE and MULTICAST instead of giving a single subnet, e.g. `packet ipv4.DstIP ~ PRIVATE`. The keywords map to the following subnets:
+DatalaiQ implements some special shortcuts for filtering. When filtering IP addresses by subnet, you can specify the keywords PRIVATE and MULTICAST instead of giving a single subnet, e.g. `packet ipv4.DstIP ~ PRIVATE`. The keywords map to the following subnets:
 
 * PRIVATE: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 127.0.0.0/8, 224.0.0.0/24, 169.254.0.0/16, fd00::/8, fe80::/10
 * MULTICAST: 224.0.0.0/4, ff00::/8

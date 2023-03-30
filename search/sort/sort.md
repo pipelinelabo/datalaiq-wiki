@@ -1,6 +1,6 @@
 ## Sort
 
-By default, everything in the Gravwell search pipeline is temporally sorted. The web interface provides some additional sorting capabilities while maintaining the raw power of temporal sorting on the search backend.
+By default, everything in the DatalaiQ search pipeline is temporally sorted. The web interface provides some additional sorting capabilities while maintaining the raw power of temporal sorting on the search backend.
 
 The sort module, however, allows the user to sort on other values. This can be very useful for organizing information. For example, a query to display a table of the top domains requested from the dnsmasq daemon might look like:
 

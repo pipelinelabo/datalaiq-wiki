@@ -1,6 +1,6 @@
 # Location
 
-The location module converts individual latitude & longitude enumerated values into Gravwell location enumerated values. By default, if given a latitude and longitude E.V., it will join them into a new E.V. named Location:
+The location module converts individual latitude & longitude enumerated values into DatalaiQ location enumerated values. By default, if given a latitude and longitude E.V., it will join them into a new E.V. named Location:
 
 	tag=weather json coord.lon coord.lat | location lat lon | table lat lon Location
 

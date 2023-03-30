@@ -234,7 +234,7 @@ The MPLS package module will only look at the first MPLS layer, if there are mul
 <!---
 ### ICS-specific protocols
 
-Gravwell includes basic protocol crackers for Modbus, Ethernet/IP, and CIP. Due to the complexity of Ethernet/IP and CIP, only basic decoding is available, but this can still help establish baselines and detect anomalies.
+DatalaiQ includes basic protocol crackers for Modbus, Ethernet/IP, and CIP. Due to the complexity of Ethernet/IP and CIP, only basic decoding is available, but this can still help establish baselines and detect anomalies.
 
 | Packet type | Field | Operators | Example 
 |-----|-------|-----------|---------
