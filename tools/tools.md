@@ -1,10 +1,10 @@
-# Gravwell Tools
+# DatalaiQ Tools
 
-The Gravwell tools package (available in the Redhat and Debian repositories and [the downloads page](/quickstart/downloads)) contains small utilities which may come in handy when using Gravwell. The programs will be installed in `/usr/local/sbin` when the tools package is installed.
+The DatalaiQ tools package (available in the Redhat and Debian repositories and [the downloads page](/quickstart/downloads)) contains small utilities which may come in handy when using DatalaiQ. The programs will be installed in `/usr/local/sbin` when the tools package is installed.
 
 ## Common Arguments for Ingester Tools
 
-Several of the tools described here can ingest entries to Gravwell indexers. They use a common set of flags to specify how to communicate with the indexer. These flags are fully described in each tool's help output (use the `-h` flag), but the most important ones are described here too:
+Several of the tools described here can ingest entries to DatalaiQ indexers. They use a common set of flags to specify how to communicate with the indexer. These flags are fully described in each tool's help output (use the `-h` flag), but the most important ones are described here too:
 
 * `-clear-conns`, `-tls-conns`, `-pipe-conns`: specifies the indexer(s) to which the entries should be sent. For example, `-clear-conns 10.0.0.5:4023,10.0.0.6:4023`, or `-tls-conns idx1.example.org:4024`, or `-pipe-conns /opt/gravwell/comms/pipe`.
 * `-ingest-secret`: specifies the authentication token used to ingest entries (the `Ingest-Auth` parameter defined in the indexer's gravwell.conf file)
@@ -37,7 +37,7 @@ For example, to generate random 1000 JSON entries (an excellent choice for testi
 
 ## Single File Ingester
 
-The single file ingester (`/usr/local/sbin/gravwell_single_file_ingester`) is a convenient way to ingest a text file into Gravwell. Each line in the file will become one entry. By default, it will attempt to extract timestamps from the entries, unless the `-ignore-ts` or `-timestamp-override` flags are used.
+The single file ingester (`/usr/local/sbin/gravwell_single_file_ingester`) is a convenient way to ingest a text file into DatalaiQ. Each line in the file will become one entry. By default, it will attempt to extract timestamps from the entries, unless the `-ignore-ts` or `-timestamp-override` flags are used.
 
 To ingest a system log file on Linux into the "syslog" tag:
 
@@ -76,7 +76,7 @@ The custom timestamp mode operates the same as the basic mode but also accepts a
 
 Time Tester will walk each string provided on the command line and attempt to process it as if it were a timestamp.
 
-The tester can set the timegrinder config values and define custom timestamp formats in the same way that Gravwell ingesters can.
+The tester can set the timegrinder config values and define custom timestamp formats in the same way that DatalaiQ ingesters can.
 
 ```
 ./timetester -h

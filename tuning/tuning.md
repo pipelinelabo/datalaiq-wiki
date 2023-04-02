@@ -1,10 +1,10 @@
 # Performance Tuning
 
-Gravwell is capable of taxing the disk, network, and CPU resources of even the most performant systems. Gravwell is optimized to work well on a variety of hardware and software configurations. That said, there are a number of query optimizations, configuration options, and Linux system parameters that can dramatically improve ingest and search performance. 
+DatalaiQ is capable of taxing the disk, network, and CPU resources of even the most performant systems. DatalaiQ is optimized to work well on a variety of hardware and software configurations. That said, there are a number of query optimizations, configuration options, and Linux system parameters that can dramatically improve ingest and search performance. 
 
 ## Query tuning
 
-A Gravwell query, when read left to right, represents the flow of data from one module to the next. For example:
+A DatalaiQ query, when read left to right, represents the flow of data from one module to the next. For example:
 
 ```gravwell
 tag=gravwell syslog Severity Message | count Message by Severity | chart count by Severity
@@ -31,7 +31,7 @@ This query counts the number of entries that are valid JSON with a member "foo" 
 
 * `tag=*` - This reads from all tags on the system. You likely do not need to do this. Instead, make sure you only query tags you expect to extract data from (such as `tag=json`).
 * `grep bar | alias DATA myData` - These two modules filter data down to just those that have the bytes "bar" anywhere in the DATA portion, and then alias the DATA to an enumerated value. The filter in the following JSON module already does this, and can take advantage of indexer acceleration if simply used directly (and without the `-e` flag). Additionally, the `grep` module does not support acceleration. 
-* `json -e myData foo=bar baz` - The JSON module extracts "baz", but that field is never used. This is an optimization that Gravwell can detect and simply remove for you, but depending on your usage, you could still incur an extraction performance penalty for doing so. Avoid unused extractions.
+* `json -e myData foo=bar baz` - The JSON module extracts "baz", but that field is never used. This is an optimization that DatalaiQ can detect and simply remove for you, but depending on your usage, you could still incur an extraction performance penalty for doing so. Avoid unused extractions.
 
 A much faster and equivalent query could be:
 
@@ -45,7 +45,7 @@ The following subsections describe in greater detail additional query optimizati
 
 ### Acceleration
 
-Gravwell stores data in "wells", logical groupings of data, on disk according to your configuration. A typical well declaration looks like:
+DatalaiQ stores data in "wells", logical groupings of data, on disk according to your configuration. A typical well declaration looks like:
 
 ```
 [Storage-Well "syslog"]
@@ -54,13 +54,13 @@ Gravwell stores data in "wells", logical groupings of data, on disk according to
 	Tags=gravwell
 ```
 
-This declaration creates a well named "syslog" that in turn stores data belonging to both the "syslog" and "gravwell" tags. When issuing a search on a tag, Gravwell will read from the well containing the given tag(s) and read from it. If you were using the declaration above and issued the following query:
+This declaration creates a well named "syslog" that in turn stores data belonging to both the "syslog" and "gravwell" tags. When issuing a search on a tag, DatalaiQ will read from the well containing the given tag(s) and read from it. If you were using the declaration above and issued the following query:
 
 ```gravwell
 tag=gravwell syslog Appname==indexer
 ```
 
-Gravwell would have to read all entries in the given timeframe and send them to the syslog module to be filtered. Gravwell can accelerate data by _indexing_ entries in wells. Acceleration is a complex topic, and a detailed description of how to configure acceleration can be found in the [Acceleration documentation](/configuration/accelerators).
+DatalaiQ would have to read all entries in the given timeframe and send them to the syslog module to be filtered. DatalaiQ can accelerate data by _indexing_ entries in wells. Acceleration is a complex topic, and a detailed description of how to configure acceleration can be found in the [Acceleration documentation](/configuration/accelerators).
 
 For now though, let's rewrite the configuration to simply perform "fulltext" acceleration on this data:
 
@@ -72,7 +72,7 @@ For now though, let's rewrite the configuration to simply perform "fulltext" acc
 	Accelerator-Name=fulltext 
 ```
 
-By enabling acceleration, Gravwell creates an index of all text fragments in the ingested data, with references to where in the well that fragment can be found. Let's look at the query again:
+By enabling acceleration, DatalaiQ creates an index of all text fragments in the ingested data, with references to where in the well that fragment can be found. Let's look at the query again:
 
 ```gravwell
 tag=gravwell syslog Appname==indexer
@@ -84,7 +84,7 @@ With acceleration enabled, the syslog module can tell the indexer when the query
 
 In the screenshot above, you can see the same query issues on two systems. The one on the left has acceleration enabled, and the one on the right does not. The one on the right had to process nearly 100k entries to get the same result, while the one on the left only had to process the entries containing the search filter "indexer". 
 
-Using acceleration can improve query performance by several orders of magnitude and is the most important optimization you can make when configuring your Gravwell system.
+Using acceleration can improve query performance by several orders of magnitude and is the most important optimization you can make when configuring your DatalaiQ system.
 
 ### Minimize extractions
 
@@ -94,7 +94,7 @@ Consider the query:
 tag=pcap packet eth.SrcMAC eth.DstMAC eth.Type ipv4.IP ipv4.Payload tcp.Port | max Port | table max
 ```
 
-The above query uses the packet module to extract 6 fields and only uses one (Port). Gravwell performs a best effort optimization at parse time to eliminate unused extractions in modules, but there are several scenarios where the extractions may still take place. In order to reduce burden on the packet module, which in this example not only has to extract the packet data, but also perform type assertions on MAC addresses, IP addresses, and integers, you can rewrite the query with *just* the necessary extractions for the end result:
+The above query uses the packet module to extract 6 fields and only uses one (Port). DatalaiQ performs a best effort optimization at parse time to eliminate unused extractions in modules, but there are several scenarios where the extractions may still take place. In order to reduce burden on the packet module, which in this example not only has to extract the packet data, but also perform type assertions on MAC addresses, IP addresses, and integers, you can rewrite the query with *just* the necessary extractions for the end result:
 
 ```gravwell
 tag=pcap packet tcp.Port | max Port | table max
@@ -117,7 +117,7 @@ tag=default json UUID=="cd656e75-d54d-4e80-ac13-bc77abdde0ad" foo | lookup -r da
 ### Condensing modules
 
 ```{note}
-This subsection applies only to Gravwell deployments with multiple indexers. 
+This subsection applies only to DatalaiQ deployments with multiple indexers. 
 ```
 
 Some modules require knowledge of all data passing through that portion of a pipeline in order to function. For example:
@@ -142,14 +142,14 @@ tag=default json value subxml | xml -e subxml Name | stats mean(value) unique_co
 
 In this form of the query, the indexers perform the extractions locally at each indexer, and then send the data to the webserver to perform the stats operations.
 
-## Tuning options for Gravwell indexers
+## Tuning options for DatalaiQ indexers
 
-As the main storage and search component of a Gravwell deployment, indexers can require significant system resources in order to operate at peak performance. While Gravwell is optimized to run well on most Linux systems, there are various Gravwell configuration and Linux system options that can be used to fine tune your system. 
+As the main storage and search component of a DatalaiQ deployment, indexers can require significant system resources in order to operate at peak performance. While DatalaiQ is optimized to run well on most Linux systems, there are various DatalaiQ configuration and Linux system options that can be used to fine tune your system. 
 
-### Gravwell configuration
+### DatalaiQ configuration
 
 ```{note}
-See the [Detailed configuration document](/configuration/parameters) for a list of all Gravwell configuration options.
+See the [Detailed configuration document](/configuration/parameters) for a list of all DatalaiQ configuration options.
 ```
 
 #### Global configuration options
@@ -174,7 +174,7 @@ Example: `Search-Pipeline-Buffer-Size=8`
 
 The Search-Pipeline-Buffer-Size specifies how many blocks can be in transit between each module during a search. Larger sizes allow for better buffering and potentially higher throughput searches at the expense of resident memory usage. Indexers are more sensitive to the pipeline size, but also use a shared memory technique whereby the system can evict and re-instantiate memory at will; the webserver typically keeps all entries resident when moving through the pipeline and relies on condensing modules to reduce the memory load. If your system uses higher latency storage systems like spinning disks, it can be advantageous to increase this buffer size.
 
-Increasing this parameter may make searches perform better, but it will directly impact the number of running searches the system can handle at once! If you know you are storing extremely large entries like video frames, PE executables, or audio files you may need to reduce the buffer size to limit resident memory usage. If you see your host kernel invoking the Out Of Memory (OOM) firing and killing the Gravwell process, this is the first knob to turn.
+Increasing this parameter may make searches perform better, but it will directly impact the number of running searches the system can handle at once! If you know you are storing extremely large entries like video frames, PE executables, or audio files you may need to reduce the buffer size to limit resident memory usage. If you see your host kernel invoking the Out Of Memory (OOM) firing and killing the DatalaiQ process, this is the first knob to turn.
 
 ##### Search-Relay-Buffer-Size
 
@@ -192,7 +192,7 @@ The Prebuff-Block-Hint specifies in megabytes a soft target that the indexer sho
 
 Example: `Prebuff-Max-Size=128`
 
-The Prebuff-Max-Size parameter controls the maximum data size in megabytes the prebuffer will hold before forcing entries to disk. The prebuffer is used to help optimize storage of entries when source clocks may not be very well synchronized. A larger prebuffer means that the indexer can better optimize ingesters that are providing wildly out of order values. Each well has its own prebuffer, so if your installation has 4 wells defined and a Prebuff-Max-Size of 256, the indexer can consume up to 1GB of memory holding data. The prebuffer max size will typically only engage in high-throughput systems, as the prebuffer is periodically evicting entries and pushing them to the storage media all the time. This is the second knob to turn (after Search-Pipeline-Buffer-Size) if your host system's OOM killer is terminating the Gravwell processes.
+The Prebuff-Max-Size parameter controls the maximum data size in megabytes the prebuffer will hold before forcing entries to disk. The prebuffer is used to help optimize storage of entries when source clocks may not be very well synchronized. A larger prebuffer means that the indexer can better optimize ingesters that are providing wildly out of order values. Each well has its own prebuffer, so if your installation has 4 wells defined and a Prebuff-Max-Size of 256, the indexer can consume up to 1GB of memory holding data. The prebuffer max size will typically only engage in high-throughput systems, as the prebuffer is periodically evicting entries and pushing them to the storage media all the time. This is the second knob to turn (after Search-Pipeline-Buffer-Size) if your host system's OOM killer is terminating the DatalaiQ processes.
 
 ##### Prebuff-Max-Set
 
@@ -204,7 +204,7 @@ The Prebuff-Max-Set specifies how many one-second blocks are allowed to be held 
 
 Example: `Prebuff-Tick-Interval=4`
 
-The Prebuff-Tick-Interval parameter specifies in seconds how often the prebuffer should engage an artificial eviction of entries located in the prebuffer. The prebuffer is always evicting values to persistent storage when there is active ingestion, but in very low-throughput systems this value can be used to ensure that entries are forcibly pushed to persistent storage. Gravwell will never allow data to be lost when it can help it; when gracefully shutting down indexers the prebuffer ensures all entries make it to the persistent storage. However, if you don’t have a lot of faith in the stability of your hosts you may want to set this interval closer to 2 to ensure that system failures, or angry admins, can’t pull the rug out from under the indexers.
+The Prebuff-Tick-Interval parameter specifies in seconds how often the prebuffer should engage an artificial eviction of entries located in the prebuffer. The prebuffer is always evicting values to persistent storage when there is active ingestion, but in very low-throughput systems this value can be used to ensure that entries are forcibly pushed to persistent storage. DatalaiQ will never allow data to be lost when it can help it; when gracefully shutting down indexers the prebuffer ensures all entries make it to the persistent storage. However, if you don’t have a lot of faith in the stability of your hosts you may want to set this interval closer to 2 to ensure that system failures, or angry admins, can’t pull the rug out from under the indexers.
 
 ##### Prebuff-Sort-On-Consume
 
@@ -216,7 +216,7 @@ The Prebuff-Sort-On-Consume parameter tells the prebuffer to sort blocks of data
 
 Example: `Max-Block-Size=8`
 
-The Max-Block-Size specifies a value in megabytes and is used as a hint to tell indexers the maximum block size they can generate when pushing entries into the pipeline. Larger blocks reduce pressure on the pipeline, but increase memory pressure. Large memory and high throughput systems can increase this value to increase throughput, smaller memory systems can decrease this size to reduce memory pressure. The Prebuff-Block-Hint and Max-Block-Size parameters intersect to provide two knobs that tune ingest and search throughput. At Gravwell, on the 128GB nodes, the following is achieved: a clean 1GB/s of search throughput; a 1.25 million entry per second ingest with a Max-Block-Size of 16; and a Prebuff-Block-Hint of 8 is achieved.
+The Max-Block-Size specifies a value in megabytes and is used as a hint to tell indexers the maximum block size they can generate when pushing entries into the pipeline. Larger blocks reduce pressure on the pipeline, but increase memory pressure. Large memory and high throughput systems can increase this value to increase throughput, smaller memory systems can decrease this size to reduce memory pressure. The Prebuff-Block-Hint and Max-Block-Size parameters intersect to provide two knobs that tune ingest and search throughput. At DatalaiQ, on the 128GB nodes, the following is achieved: a clean 1GB/s of search throughput; a 1.25 million entry per second ingest with a Max-Block-Size of 16; and a Prebuff-Block-Hint of 8 is achieved.
 
 #### Well configuration options
 
@@ -224,15 +224,15 @@ The Max-Block-Size specifies a value in megabytes and is used as a hint to tell 
 
 Example: `Disable-Compression=true`
 
-These parameters control user-mode compression of data in the wells. By default, Gravwell will compress data in the well. Setting `Disable-Hot-Compression` or `Disable-Cold-Compression` will disable it for the hot or cold storage, respectively; setting `Disable-Compression` disables it for both.
+These parameters control user-mode compression of data in the wells. By default, DatalaiQ will compress data in the well. Setting `Disable-Hot-Compression` or `Disable-Cold-Compression` will disable it for the hot or cold storage, respectively; setting `Disable-Compression` disables it for both.
 
 ##### Enable-Transparent-Compression, Enable-Hot-Transparent-Compression, Enable-Cold-Transparent-Compression
 
 Example: `Enable-Transparent-Compression=true`
 
-These parameters control kernel-level, transparent compression of data in the wells. If enabled, Gravwell can instruct the `btrfs` filesystem to transparently compress data. This is more efficient than user-mode compression. Setting `Enable-Transparent-Compression` true automatically turns off user-mode compression. Note that setting `Disable-Compression=true` will disable transparent compression.
+These parameters control kernel-level, transparent compression of data in the wells. If enabled, DatalaiQ can instruct the `btrfs` filesystem to transparently compress data. This is more efficient than user-mode compression. Setting `Enable-Transparent-Compression` true automatically turns off user-mode compression. Note that setting `Disable-Compression=true` will disable transparent compression.
 
-Additionally, transparent compression also has performance benefits by taking advantage of memory de-duplication, if you need the best possible performance from Gravwell, combining transparent compression with a well tuned BTFS file system is the best way to achieve it.
+Additionally, transparent compression also has performance benefits by taking advantage of memory de-duplication, if you need the best possible performance from DatalaiQ, combining transparent compression with a well tuned BTFS file system is the best way to achieve it.
 
 ##### Acceleration
 
@@ -242,7 +242,7 @@ As mentioned above, utilizing well acceleration can dramatically improve perform
 
 #### MMAP settings
 
-Gravwell uses the `mmap()` syscall to map data into Gravwell's memory space. The default Linux settings for the maximum number of allowed mmap regions for a single process is often too low for a busy indexer. This can result in out of memory (OOM) events. 
+DatalaiQ uses the `mmap()` syscall to map data into DatalaiQ's memory space. The default Linux settings for the maximum number of allowed mmap regions for a single process is often too low for a busy indexer. This can result in out of memory (OOM) events. 
 
 In order to increase the mmap limit, set the `vm.max_map_count` setting using `sysctl`:
 
@@ -250,13 +250,13 @@ In order to increase the mmap limit, set the `vm.max_map_count` setting using `s
 sysctl -w vm.max_map_count=300000
 ```
 
-## Tuning options for Gravwell ingesters
+## Tuning options for DatalaiQ ingesters
 
-Like indexers, Gravwell ingesters are optimized to perform well on a wide variety of systems and networks. However, remote nodes that may be running ingesters, slow or unreliable network connections, and other distributed system artifacts can greatly impact the performance of the Gravwell ingest dataflow. A number of global and ingester specific configuration parameters are available to fine tune Gravwell ingesters to run best in the environment they are deployed in.
+Like indexers, DatalaiQ ingesters are optimized to perform well on a wide variety of systems and networks. However, remote nodes that may be running ingesters, slow or unreliable network connections, and other distributed system artifacts can greatly impact the performance of the DatalaiQ ingest dataflow. A number of global and ingester specific configuration parameters are available to fine tune DatalaiQ ingesters to run best in the environment they are deployed in.
 
 ### Caching
 
-Each ingester can be configured with a local cache for ingested data. When enabled, ingesters can cache locally when they cannot forward entries to indexers. The ingest cache can help ensure you don't lose data when links go down or if you need to take a Gravwell cluster offline momentarily. Additionally, the cache can be configured to always be enabled, allowing it to "absorb" bursts of activity that momentarily exceed the available network throughput to the indexer.
+Each ingester can be configured with a local cache for ingested data. When enabled, ingesters can cache locally when they cannot forward entries to indexers. The ingest cache can help ensure you don't lose data when links go down or if you need to take a DatalaiQ cluster offline momentarily. Additionally, the cache can be configured to always be enabled, allowing it to "absorb" bursts of activity that momentarily exceed the available network throughput to the indexer.
 
 The cache is configured with four flags:
 
@@ -287,7 +287,7 @@ On Linux, File Follower uses the inotify kernel subsystem. If you are seeing fil
 
 #### Kafka Consumer
 
-The Gravwell Kafka ingester can subscribe to multiple Kafka topics and even multiple Kafka clusters. Each consumer definition can be performance tuned with the following options:
+The DatalaiQ Kafka ingester can subscribe to multiple Kafka topics and even multiple Kafka clusters. Each consumer definition can be performance tuned with the following options:
 
 - `Rebalance-Strategy`: Sets the Kafka-specific read rebalance strategy. The default is `roundrobin`. `sticky` and `range` are also available options. See the Kafka documentation for more information on how these rebalance strategies work.
 - `Synchronous`: Force the ingester to synchronize writes to the indexer after every Kafka batch is processed. The default is false. Enabling this can lower performance but improve reliability.
@@ -304,7 +304,7 @@ These flags map to the equivalent tuning parameters in most packet capture progr
 
 ## Throttling considerations
 
-So far this document has focused on increasing performance (ingest rate, search speed, etc.). By default, Gravwell will use any available resources when needed in order to run as quickly as possible. It is easy to exaust the disk, CPU, and memory resources on indexer and ingester nodes, as well as saturate network links with busy ingesters. The rest of this document focuses on *throttling* Gravwell resource utilization in order to reduce contention.
+So far this document has focused on increasing performance (ingest rate, search speed, etc.). By default, DatalaiQ will use any available resources when needed in order to run as quickly as possible. It is easy to exaust the disk, CPU, and memory resources on indexer and ingester nodes, as well as saturate network links with busy ingesters. The rest of this document focuses on *throttling* DatalaiQ resource utilization in order to reduce contention.
 
 ### Indexer throttling
 
@@ -331,9 +331,9 @@ The argument should be a number followed by an optional rate suffix, e.g. 104857
 
 ### Using Linux cgroups to reduce resource contention
 
-Linux Control Groups (cgroups) are a Linux kernel feature designed to restrict the memory, CPU, I/O, and other subsystems for groups of processes. It is possible to place Gravwell components (including indexers) in cgroups to control overall resource utilization. There are several ways to setup cgroups, and you should refer to the distribution specific guidelines for your Linux distribution. 
+Linux Control Groups (cgroups) are a Linux kernel feature designed to restrict the memory, CPU, I/O, and other subsystems for groups of processes. It is possible to place DatalaiQ components (including indexers) in cgroups to control overall resource utilization. There are several ways to setup cgroups, and you should refer to the distribution specific guidelines for your Linux distribution. 
 
 Most Linux systems today use `systemd`, which indepentently controls cgroups. If your system uses `systemd`, you can use the `systemctl set-property` command to set cgroup properties for running processes. See the [systemctl](https://www.freedesktop.org/software/systemd/man/systemctl.html) and [resource control](https://www.freedesktop.org/software/systemd/man/systemd.resource-control.html) documentation for systemd.
 
-Additionally, if you are using docker to deploy Gravwell services, you can specify [resource restrictions](https://docs.docker.com/config/containers/resource_constraints/) directly in docker.
+Additionally, if you are using docker to deploy DatalaiQ services, you can specify [resource restrictions](https://docs.docker.com/config/containers/resource_constraints/) directly in docker.
 ]s
