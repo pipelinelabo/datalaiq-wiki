@@ -1,6 +1,6 @@
 # Data Exploration
 
-Gravwell provides several tools to help make sense of data with little or no knowledge of the data itself or of the Gravwell query language. We call this *Data Exploration*.
+DatalaiQ provides several tools to help make sense of data with little or no knowledge of the data itself or of the DatalaiQ query language. We call this *Data Exploration*.
 
 ## Word Filtering
 
@@ -36,11 +36,11 @@ The Query Studio also has the ability to parse many data formats and split out i
 
 ![](details-icon.png)
 
-If this is the first time the user is looking at this tag, Gravwell must determine the most appropriate format for parsing the data. A window will appear presenting several options:
+If this is the first time the user is looking at this tag, DatalaiQ must determine the most appropriate format for parsing the data. A window will appear presenting several options:
 
 ![](field-extraction.png)
 
-In this case, Gravwell believes the data to be syslog-formatted and shows a preview of the first result parsed as syslog. The user examines this result and, deeming it acceptable, clicks "Select" and saves the selected extraction.
+In this case, DatalaiQ believes the data to be syslog-formatted and shows a preview of the first result parsed as syslog. The user examines this result and, deeming it acceptable, clicks "Select" and saves the selected extraction.
 
 Now the UI shows the Details Pane at the bottom of the window, with individual fields broken out for easier reading. Note the purple bar on the left side of the raw entry; that indicates which entry is currently being displayed in the Details Pane:
 

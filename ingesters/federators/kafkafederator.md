@@ -1,24 +1,24 @@
 # Kafka Federator
 
-Gravwell also provides a Kafka Federator, that behaves exactly like the Federator, except that it uses Kafka as an upstream transport. Ingesters can connect to it just as with Federator, and ingested entries will be put into Kafka Topics as messages. 
+DatalaiQ also provides a Kafka Federator, that behaves exactly like the Federator, except that it uses Kafka as an upstream transport. Ingesters can connect to it just as with Federator, and ingested entries will be put into Kafka Topics as messages. 
 
 ![](kafkaFederatorDiagram.png)
 
-The Kafka Federator can be paired with the [Kafka Consumer](/ingesters/kafka) to read messages from a topic and ingest them into a Gravwell indexer.
+The Kafka Federator can be paired with the [Kafka Consumer](/ingesters/kafka) to read messages from a topic and ingest them into a DatalaiQ indexer.
 
 ## Configuration
 
 Kafka Federator defines listeners and Kafka headers. A listener is similar to a Federator listener, in which ingesters may connect and send entries. Listeners also define what topic to publish messages on. A header sets arbitrary key value pairs in the generated Kafka header. 
 
-Additionally, the global section defines a group leader to connect to and a partition.  Because the Kafka Federator is designed to send data to a Kafka broker rather than a Gravwell indexer, the `[Global]` section of the configuration file is different than typical Gravwell ingesters.  The following configuration parameters are available in the `[Global]` section:
+Additionally, the global section defines a group leader to connect to and a partition.  Because the Kafka Federator is designed to send data to a Kafka broker rather than a DatalaiQ indexer, the `[Global]` section of the configuration file is different than typical DatalaiQ ingesters.  The following configuration parameters are available in the `[Global]` section:
 
 
 | Configuration Parameter | Description | Required |
 |----------|-------------|------|
 | Leader | Host:Port that specifies a Kafka broker leader to connect to | X |
 | Partition | Partition ID | Defaults to 0 |
-| Enable-Gravwell-Tag | Enables the internal Gravwell tag logging through Kafka | |
-| Gravwell-Tag-Topic | Specifies the topic to send Gravwell tag entries | Required when Enable-Gravwell-Tag=true |
+| Enable-Gravwell-Tag | Enables the internal DatalaiQ tag logging through Kafka | |
+| Gravwell-Tag-Topic | Specifies the topic to send DatalaiQ tag entries | Required when Enable-Gravwell-Tag=true |
 | Timeout | Timeout when connecting to Kafka and sending values | Defaults to 1 second |
 | Log-File | Specify log file for status and error logs | |
 | Log-Level | Logging level | |
@@ -49,7 +49,7 @@ Valid `Auth-Type` options are `plain`, `scramsha256`, and `scramsha512`.
 
 ### Headers
 
-The Kafka Federator supports the ability to set headers in Kafka Messages.  Headers can either be derived from entries using special variables or static values.  This can be useful when the Federator may be feeding non-Gravwell endpoints like Splunk.
+The Kafka Federator supports the ability to set headers in Kafka Messages.  Headers can either be derived from entries using special variables or static values.  This can be useful when the Federator may be feeding non-DatalaiQ endpoints like Splunk.
 
 Headers are enabled by creating a `KafkaHeaders` configuration and then enabling it in an ingest listener using the `Kafka-Header-Set` configuration parameter.  For example we might want to set a static header value to assist with downstream routing as well as the source  and tag.  The configuration for the `KafkaHeaders` would look like so:
 
@@ -60,7 +60,7 @@ Headers are enabled by creating a `KafkaHeaders` configuration and then enabling
 	routeid="business network"
 ```
 
-When enabled on a listener this configuration will attach three header values to each message in Kafka.  The `source` and `gravwelltag` headers will extract their values from the Gravwell entries, creating text representations of the source and tag, the `routeid` value is a static string "business network" which might be useful for a consumer looking to attach metadata to entries.  The entry timestamp attached to Gravwell entries is always copied to the Kafka value.
+When enabled on a listener this configuration will attach three header values to each message in Kafka.  The `source` and `gravwelltag` headers will extract their values from the DatalaiQ entries, creating text representations of the source and tag, the `routeid` value is a static string "business network" which might be useful for a consumer looking to attach metadata to entries.  The entry timestamp attached to DatalaiQ entries is always copied to the Kafka value.
 
 
 Kafka headers can be populated with special variables, as shown in the example above.

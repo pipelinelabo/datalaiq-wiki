@@ -18,9 +18,9 @@ from gravy_lexer import GravwellLexer
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "Gravwell"
-copyright = f"Gravwell, Inc. {date.today().year}"
-author = "Gravwell, Inc."
+project = "DatalaiQ"
+copyright = f"Pipeline Inc. {date.today().year}"
+author = "Pipeline Inc."
 release = "v5.2.0"
 
 # -- General configuration ---------------------------------------------------
@@ -66,26 +66,26 @@ html_theme_options = {
         },
     ],
     "icon_links": [
-        {
-            # Label for this link
-            "name": "GitHub",
-            # URL where the link will redirect
-            "url": "https://github.com/gravwell",  # required
-            # Icon class (if "type": "fontawesome"), or path to local image (if "type": "local")
-            "icon": "fa-brands fa-github",
-            # The type of image to be used (see below for details)
-            "type": "fontawesome",
-        },
-        {
-            # Label for this link
-            "name": "Discord",
-            # URL where the link will redirect
-            "url": "https://discord.com/invite/gravwell",  # required
-            # Icon class (if "type": "fontawesome"), or path to local image (if "type": "local")
-            "icon": "fa-brands fa-discord",
-            # The type of image to be used (see below for details)
-            "type": "fontawesome",
-        },
+#         {
+#             # Label for this link
+#             "name": "GitHub",
+#             # URL where the link will redirect
+#             "url": "https://github.com/gravwell",  # required
+#             # Icon class (if "type": "fontawesome"), or path to local image (if "type": "local")
+#             "icon": "fa-brands fa-github",
+#             # The type of image to be used (see below for details)
+#             "type": "fontawesome",
+#         },
+#         {
+#             # Label for this link
+#             "name": "Discord",
+#             # URL where the link will redirect
+#             "url": "https://discord.com/invite/gravwell",  # required
+#             # Icon class (if "type": "fontawesome"), or path to local image (if "type": "local")
+#             "icon": "fa-brands fa-discord",
+#             # The type of image to be used (see below for details)
+#             "type": "fontawesome",
+#         },
     ],
     "header_links_before_dropdown": 6,
     "footer_items": [

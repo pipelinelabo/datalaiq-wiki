@@ -4,7 +4,7 @@ The Azure Event Hubs Ingester pulls events from Microsoft Azure's [Event Hubs](h
 
 ## Basic Configuration
 
-The Event Hubs ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other Gravwell ingesters, SQS supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
+The Event Hubs ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other DatalaiQ ingesters, SQS supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
 
 The configuration file is located in `/opt/gravwell/etc/azure_event_hubs.conf`. There is also a directory, `/opt/gravwell/etc/azure_event_hubs.conf.d`, into which additional configuration files may be dropped; this is a convenient way to manage individual Event Hub configurations, rather than maintaining one large config file.
 
@@ -44,7 +44,7 @@ Having gathered these four essential pieces of information, you may populate an 
 	Tag-Name=eventhubs_ingester_testing
 ```
 
-This will fetch entries from the `ingester_testing` Hub in the `gravwellEventHub` Namespace, using the `ExamplePolicy` token (the token value shown here is random nonsense, please don't attempt to use it). The data fetched from the Event Hub will be ingested into a Gravwell tag named `eventhubs_ingester_testing`.
+This will fetch entries from the `ingester_testing` Hub in the `gravwellEventHub` Namespace, using the `ExamplePolicy` token (the token value shown here is random nonsense, please don't attempt to use it). The data fetched from the Event Hub will be ingested into a DatalaiQ tag named `eventhubs_ingester_testing`.
 
 By default, the ingester will start fetching data from the oldest available entry and move forward. If you wish to only ingest *new* data created after the ingester starts, see the `Initial-Checkpoint` parameter in the next section.
 
@@ -58,7 +58,7 @@ The following parameters are required:
 * `Event-Hub`, string: the name of the Event Hub to ingest from.
 * `Token-Name`, string: the name of the Shared Access Policy token to use.
 * `Token-Key`, string: the primary key of the desired Shared Access Policy token.
-* `Tag-Name`, string: the Gravwell tag into which entries should be ingested.
+* `Tag-Name`, string: the DatalaiQ tag into which entries should be ingested.
 
 The following optional parameters modify how data is read from the Event Hub:
 
@@ -71,4 +71,4 @@ The following optional parameters modify how the Timestamp field is set for entr
 * `Timezone-Override`, string: if set to a string such as "America/Chicago", the ingester will use the specified timezone when attempting to extract timestamps from event bodies, rather than assuming UTC. This is useful when parsing timestamps which do not specify a UTC offset explicitly. Note that this parameter has no effect if `Parse-Time` is false!
 * `Assume-Local-Timezone`, boolean: if set to true, the ingester will use the system timezone when extracting timestamps from event bodies, rather than assuming UTC. Note that this parameter has no effect if `Parse-Time` is false!
 
-Each EventHub configuration block may also specify one or more `Preprocessor` parameters to invoke [Gravwell ingest proprocessors](/ingesters/preprocessors/preprocessors) as needed.
+Each EventHub configuration block may also specify one or more `Preprocessor` parameters to invoke [DatalaiQ ingest proprocessors](/ingesters/preprocessors/preprocessors) as needed.

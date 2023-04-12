@@ -11,7 +11,7 @@ The process of taint tracking is designed to propagate marks forward or backward
 
 The taint module can be used to track network flow propagation, infection propagation, or movement of physical systems.  For example, if we were tracking ICMP propagation, the source enumerated value might be "SrcIP" and the destination argument might be the enumerated value "DstIP".
 
-Gravwell presented research at the S4x18 conference in Miami which successfully tracked USB based infectors that [hopped air gaps](https://s4x18.com/sessions/using-force-directed-graphs-to-analyze-huge-event-datasets/).
+DatalaiQ presented research at the S4x18 conference in Miami which successfully tracked USB based infectors that [hopped air gaps](https://s4x18.com/sessions/using-force-directed-graphs-to-analyze-huge-event-datasets/).
 
 ```{attention}
 Because taint can control the direction of the search, it is not advisable to combine it with the sort module.

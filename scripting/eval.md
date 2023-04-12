@@ -1,6 +1,6 @@
 # The eval module
 
-As introduced in [the search modules documentation](searchmodule_list), Gravwell's eval module is a general tool for manipulating search entries when other modules may fall short. It uses the [Anko scripting language](scripting) to provide generic scriptability within the pipeline.
+As introduced in [the search modules documentation](searchmodule_list), DatalaiQ's eval module is a general tool for manipulating search entries when other modules may fall short. It uses the [Anko scripting language](scripting) to provide generic scriptability within the pipeline.
 
 The eval module has several important restrictions:
 
@@ -103,10 +103,10 @@ Eval provides a method to store data in a map, meaning data from one entry can b
 To give an example of the persistent map functionality, consider the following json-formatted Hacker News comment (not a real comment):
 
 ```
-{"body": "The eval function has persistent map capabilities", "author": "Gravwell", "article-id": 1234000, "parent-id": 1234111, "article-title": "Gravwell for data analysis", "date-string": "0 minutes ago", "type": "comment", "id": 1234222}
+{"body": "The eval function has persistent map capabilities", "author": "DatalaiQ", "article-id": 1234000, "parent-id": 1234111, "article-title": "DatalaiQ for data analysis", "date-string": "0 minutes ago", "type": "comment", "id": 1234222}
 ```
 
-Note that the comment contains an ID for the current comment (1234222), the author's name ("Gravwell"), and the ID for the parent comment (12341111), but not the name of the parent comment's author.
+Note that the comment contains an ID for the current comment (1234222), the author's name ("DatalaiQ"), and the ID for the parent comment (12341111), but not the name of the parent comment's author.
 
 The following command attempts to match parent IDs to author names. For every comment it sees, it stores a mapping of the comment ID to the author name in a map named "id_to_name". Then, it checks if the parent ID has an entry in that map; if so, it sets the `parentauthor` enumerated value to that name, otherwise it sets the enumerated value to "unknown".
 

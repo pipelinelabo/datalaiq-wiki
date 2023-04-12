@@ -1,10 +1,10 @@
 # Windows Event Service
 
-The Gravwell Windows events ingester runs as a service on a Windows machine and sends Windows events to the Gravwell indexer.  The ingester consumes from the `System`, `Application`, `Setup`, and `Security` channels by default.  Each channel can be configured to consume from a specific set of events or providers.
+The DatalaiQ Windows events ingester runs as a service on a Windows machine and sends Windows events to the DatalaiQ indexer.  The ingester consumes from the `System`, `Application`, `Setup`, and `Security` channels by default.  Each channel can be configured to consume from a specific set of events or providers.
 
 ## Basic Configuration
 
-The Windows Event ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other Gravwell ingesters, the Windows Event ingester supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
+The Windows Event ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other DatalaiQ ingesters, the Windows Event ingester supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
 
 ## EventChannel Examples
 
@@ -45,9 +45,9 @@ The Windows Event ingester uses the unified global configuration block described
 
 ## Installation
 
-Download the Gravwell Windows ingester installer from the [Downloads page](/quickstart/downloads).
+Download the DatalaiQ Windows ingester installer from the [Downloads page](/quickstart/downloads).
 
-Run the .msi installation wizard to install the Gravwell events service.  On first installation the installation wizard will prompt to configure the indexer endpoint and ingest secret.  Subsequent installations and/or upgrades will identify a resident configuration file and will not prompt.
+Run the .msi installation wizard to install the DatalaiQ events service.  On first installation the installation wizard will prompt to configure the indexer endpoint and ingest secret.  Subsequent installations and/or upgrades will identify a resident configuration file and will not prompt.
 
 ![](winevent_msi_1.png)
 
@@ -59,10 +59,10 @@ The Log Level selection is for internal logging only, it does not affect which W
 
 ![](winevent_msi_3.png)
 
-The ingester is configured with the `config.cfg` file located at `%PROGRAMDATA%\gravwell\eventlog\config.cfg`.  The configuration file follows the same form as other Gravwell ingesters with a `[Global]` section configuring the indexer connections and multiple `EventChannel` definitions.
+The ingester is configured with the `config.cfg` file located at `%PROGRAMDATA%\gravwell\eventlog\config.cfg`.  The configuration file follows the same form as other DatalaiQ ingesters with a `[Global]` section configuring the indexer connections and multiple `EventChannel` definitions.
 
 
-To modify the indexer connection or specify multiple indexers, change the connection IP address to the IP of your Gravwell server and set the Ingest-Secret value.  This example shows configuring an encrypted transport:
+To modify the indexer connection or specify multiple indexers, change the connection IP address to the IP of your DatalaiQ server and set the Ingest-Secret value.  This example shows configuring an encrypted transport:
 
 ```
 Ingest-Secret=YourSecretGoesHere

@@ -1,10 +1,10 @@
-# Gravwell CLI
+# DatalaiQ CLI
 
-The Gravwell command line client can be used to remotely manage Gravwell and perform searches (with limited renderer support).  Administrators can manage users and monitor cluster health without the need for a full web browser.  Users can perform searches and easily export results to files for additional analysis with other tools.
+The DatalaiQ command line client can be used to remotely manage DatalaiQ and perform searches (with limited renderer support).  Administrators can manage users and monitor cluster health without the need for a full web browser.  Users can perform searches and easily export results to files for additional analysis with other tools.
 
 The command line client is slightly limited in that it cannot render some search results (e.g. the CLI cannot draw a chart in a terminal, so it will refuse to render a search that uses the chart module).  However, the CLI does have access to all renderer modules when issuing backgrounded searches, which may be useful if an advanced user wanted to login remotely and start a few very large searches that will be ready for viewing on a full browser once they get on-site.
 
-On a typical installation, the CLI tool will be installed as `/usr/sbin/gravwell`; passing the `-h` flag will give you an idea on where to start.  By default the Gravwell client expects the webserver to be listening on the local machine, specify the `-s` flag to point it at other webservers or a remote Gravwell instance.
+On a typical installation, the CLI tool will be installed as `/usr/sbin/gravwell`; passing the `-h` flag will give you an idea on where to start.  By default the DatalaiQ client expects the webserver to be listening on the local machine, specify the `-s` flag to point it at other webservers or a remote DatalaiQ instance.
 
 ```
 gravwell options
@@ -23,7 +23,7 @@ gravwell options
     	Query string
   -r	Raw output, no pretty print
   -s string
-    	Address and port of Gravwell webserver
+    	Address and port of DatalaiQ webserver
   -si
     	Enable additional search information output
   -t	Disable sessions, always require logins
@@ -68,15 +68,15 @@ MODIFIERS:
 EXAMPLE: gravwell -s=localhost state
 ```
 
-The Gravwell client is also a great way to perform searches on Gravwell and feed the output to other tools.  For instance if you have a custom program for processing security data, but prefer to store your log entries in Gravwell, you can run a background query using the CLI client to extract the entries, then save the results to a file for the custom program to read.
+The DatalaiQ client is also a great way to perform searches on DatalaiQ and feed the output to other tools.  For instance if you have a custom program for processing security data, but prefer to store your log entries in DatalaiQ, you can run a background query using the CLI client to extract the entries, then save the results to a file for the custom program to read.
 
 ## Using the CLI interactively.
 
-The Gravwell CLI client provides an interactive shell similar to those found on commercial switches. It has different "menu" levels; for example, from the top level menu one might select the 'dashboards' sub-menu, which contains commands for managing dashboards. This section will describe the basics of using the client interactively.
+The DatalaiQ CLI client provides an interactive shell similar to those found on commercial switches. It has different "menu" levels; for example, from the top level menu one might select the 'dashboards' sub-menu, which contains commands for managing dashboards. This section will describe the basics of using the client interactively.
 
 ### Connecting & Logging In
 
-By default, the client will assume the Gravwell webserver is listening on `localhost:443`. If this is correct, you can connect by simply running the command `gravwell`. The client will prompt for your username and password, then display a prompt:
+By default, the client will assume the DatalaiQ webserver is listening on `localhost:443`. If this is correct, you can connect by simply running the command `gravwell`. The client will prompt for your username and password, then display a prompt:
 
 ```
 $ gravwell
@@ -197,7 +197,7 @@ The `install` command will ask the user if the kit should be installed with defa
 
 ### Building Kits
 
-The `build` command walks the user through the process of building a kit. It prompts for the kit ID, name, description, and version. Note that the ID should be a "namespaced" ID such as "io.gravwell.networkenrichment" to avoid conflicts; the name and description fields can be anything. The version must be an integer.
+The `build` command walks the user through the process of building a kit. It prompts for the kit ID, name, description, and version. Note that the ID should be a "namespaced" ID such as "io.datalaiq.networkenrichment" to avoid conflicts; the name and description fields can be anything. The version must be an integer.
 
 After gathering basic information, the CLI will then prompt the user to select which objects should be included in the kit. It will prompt for dashboards, templates, actionables, etc. one after another. Pressing enter at a prompt indicates that you do not want to include any of that type of object.
 
@@ -209,7 +209,7 @@ The `rebuild` command is used to build an updated version of a previously-built 
 
 ### Repacking Kits
 
-The `repack` command operates much like the `rebuild` command, except it re-packages one of the *currently-installed* kits, instead of rebuilding a *previously built* kit. This is useful if you want to modify an existing kit obtained from Gravwell or another user: install the kit, modify whatever items need to be changed, and then run the repack command on that kit.
+The `repack` command operates much like the `rebuild` command, except it re-packages one of the *currently-installed* kits, instead of rebuilding a *previously built* kit. This is useful if you want to modify an existing kit obtained from DatalaiQ or another user: install the kit, modify whatever items need to be changed, and then run the repack command on that kit.
 
 ## Searching via CLI
 
@@ -256,7 +256,7 @@ Saving to  /tmp/nm.txt
 
 ## Admin
 
-The Gravwell client implements many commands for managing the system in the admin sub-menu:
+The DatalaiQ client implements many commands for managing the system in the admin sub-menu:
 
 ```
 #>  admin
@@ -322,7 +322,7 @@ $ gravwell state
 +----------------------+----------+
 ```
 
-Output of every command can be set to “raw” with no tables or formatting.  The raw output can be easier to digest if you are passing Gravwell data to other tools or scripts.
+Output of every command can be set to “raw” with no tables or formatting.  The raw output can be easier to digest if you are passing DatalaiQ data to other tools or scripts.
 
 ```
 $ gravwell -r state

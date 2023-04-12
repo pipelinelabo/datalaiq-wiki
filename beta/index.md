@@ -1,10 +1,9 @@
-# Gravwell Beta Program
+# DatalaiQ Beta Program
 
 Greetings and salutations!
 
-You are reading this message because you are in the early access group for Gravwell Beta!  We sincerely thank you for your participation and look forward to feedback and bug reports.
+You are reading this message because you are in the early access group for DatalaiQ Beta!  We sincerely thank you for your participation and look forward to feedback and bug reports.
 
-Please submit any bugs or feedback to [beta@gravwell.io](mailto:beta@gravwell.io)
 
 Thank you!
 
@@ -12,8 +11,9 @@ Thank you!
 
 We're very excited to say this build is now available for your use and testing. We have created a new Ubuntu repository and Docker images. Switching from Stable to Beta is done by modifying your apt source repository (or our quick start instructions if installing from scratch).
 
-### Upgrading:
-Edit your `/etc/apt/sources.list.d/gravwell.list` file and replace `https://update.gravwell.io/debian/` with `https://update.gravwell.io/debianbeta/`. Then `apt update` and `apt upgrade` and you should be on the new release.
+[//]: # (### Upgrading:)
+
+[//]: # (Edit your `/etc/apt/sources.list.d/gravwell.list` file and replace `https://update.gravwell.io/debian/` with `https://update.gravwell.io/debianbeta/`. Then `apt update` and `apt upgrade` and you should be on the new release.)
 
 ### Installing from scratch:
 
@@ -37,6 +37,6 @@ The Docker image is available at [gravwell/beta](https://hub.docker.com/r/gravwe
 
 ## Thank You
 
-We are very excited about the new capabilities that Gravwell brings. Thank you for your interest and participation in the beta program. We couldn't do it without you!
+We are very excited about the new capabilities that DatalaiQ brings. Thank you for your interest and participation in the beta program. We couldn't do it without you!
 
 Please send us feedback, bug reports, and especially show us cool stuff that you build with the new tools!

@@ -111,7 +111,7 @@ words <words/words>
 * [langfind](langfind/langfind) - classify the language of text.
 * [length](length/length) - compute the length of entries or enumerated values.
 * [limit](limit/limit) - limit the number of entries which will pass further down the pipeline.
-* [location](location/location) - convert individual lat/lon enumerated values into a single Gravwell Location enumerated value.
+* [location](location/location) - convert individual lat/lon enumerated values into a single DatalaiQ Location enumerated value.
 * [lookup](lookup/lookup) - enrich entries by looking up keys in a table.
 * [lower](upperlower/upperlower) - convert text to lower-case.
 * [maclookup](maclookup/maclookup) - look up manufacturer, address, and country information based on a MAC address.

@@ -1,6 +1,6 @@
 # PDF Node
 
-The PDF node generates PDF documents based on items pulled from the payload. This allows the user to quickly put together reports based on the results of Gravwell queries and other data sources.
+The PDF node generates PDF documents based on items pulled from the payload. This allows the user to quickly put together reports based on the results of DatalaiQ queries and other data sources.
 
 ## Configuration
 
@@ -18,7 +18,7 @@ The PDF node generates PDF documents based on items pulled from the payload. Thi
 
 ## Example
 
-This flow runs two Gravwell queries, formats the results in a PDF, and emails the PDF.
+This flow runs two DatalaiQ queries, formats the results in a PDF, and emails the PDF.
 
 ![](pdf-example1.png)
 

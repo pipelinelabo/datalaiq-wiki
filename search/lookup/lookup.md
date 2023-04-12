@@ -53,7 +53,7 @@ In the above example, the table renderer automatically creates a resource named 
 
 #### CSV tables
 
-CSV data can also be used for the lookup module. In order to use a csv file as a resource in the Gravwell lookup search module the CSV must contain unique headers for the columns.
+CSV data can also be used for the lookup module. In order to use a csv file as a resource in the DatalaiQ lookup search module the CSV must contain unique headers for the columns.
 
 ### Examples
 

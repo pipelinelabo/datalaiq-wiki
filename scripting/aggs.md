@@ -1,8 +1,8 @@
 # Data Aggregation
 
-Although Gravwell queries are fast, some questions, like "how much data did we ingest into each tag over the last year", can take a while to answer due to the massive quantities of data involved. If you have to pull 150 TB of entries off the disk in order to tally up sizes per tag, it may take a while!
+Although DatalaiQ queries are fast, some questions, like "how much data did we ingest into each tag over the last year", can take a while to answer due to the massive quantities of data involved. If you have to pull 150 TB of entries off the disk in order to tally up sizes per tag, it may take a while!
 
-Our recommended solution? Ingest some more stuff; specifically, ingest periodic *statistics* about your data. We call these "aggregates", or just "aggs". Gravwell includes a pre-built aggregate [flow](/flows/flows) which does basic aggregation with zero configuration required on the user's part, and you can build your own flows to generate custom aggs. This page shows how to deploy the pre-built aggregate flow, how to query aggs, and gives some hints on building your own agg flows.
+Our recommended solution? Ingest some more stuff; specifically, ingest periodic *statistics* about your data. We call these "aggregates", or just "aggs". DatalaiQ includes a pre-built aggregate [flow](/flows/flows) which does basic aggregation with zero configuration required on the user's part, and you can build your own flows to generate custom aggs. This page shows how to deploy the pre-built aggregate flow, how to query aggs, and gives some hints on building your own agg flows.
 
 ```{note}
 By convention, aggregates are ingested into tags beginning with `_aggs`, e.g. `_aggs_tags`, `_aggs_userstats`, etc. The default `gravwell.conf` configuration includes a separate well specifically for aggregates for the sake of performance and retention.
@@ -26,7 +26,7 @@ Now that the flow is running and generating aggs, it is instructive to take a lo
 
 The [Sleep](/flows/nodes/sleep) node makes execution of the flow pause for 30 seconds. This allows any "late" entries to get fully ingested so they can be properly counted.
 
-The [Run Query](/flows/nodes/runquery) node runs the following Gravwell query over the interval of the flow--the last hour, the last 5 minutes, etc. Critically, it runs the search up until the time the flow was *scheduled to begin* execution, not the current time, so statistics will be properly bounded:
+The [Run Query](/flows/nodes/runquery) node runs the following DatalaiQ query over the interval of the flow--the last hour, the last 5 minutes, etc. Critically, it runs the search up until the time the flow was *scheduled to begin* execution, not the current time, so statistics will be properly bounded:
 
 ```gravwell
 tag=* length
@@ -41,7 +41,7 @@ Finally, the [Ingest](/flows/nodes/ingest) node is configured to ingest the resu
 
 ## Querying aggregates
 
-The basic per-tag aggregates end up in the Gravwell tag named `_aggs_tags`. The raw entries are in CSV format:
+The basic per-tag aggregates end up in the DatalaiQ tag named `_aggs_tags`. The raw entries are in CSV format:
 
 ![](aggs-raw.png)
 
@@ -98,10 +98,10 @@ tag=_aggs_pcap_ports csv [0] as Port [1] as count [2] as bytes
 
 ## Agg caveats
 
-Keep in mind that, since aggregates are built up by periodically executing a flow which runs Gravwell queries and re-ingests the results, there are several cluster problems which could cause the flow's execution to fail, meaning aggregates are not generated for a given time period:
+Keep in mind that, since aggregates are built up by periodically executing a flow which runs DatalaiQ queries and re-ingests the results, there are several cluster problems which could cause the flow's execution to fail, meaning aggregates are not generated for a given time period:
 
 * Search agent service is down / cannot communicate with webserver.
 * Webserver is down.
 * Indexer(s) are down / inaccessible to the webserver.
 
-Also note that if multiple users instantiate the same agg flow, **duplicate aggregate entries will be ingested!** Queries which use duplicate aggs will have incorrect results. For this reason, in a multi-user Gravwell installation we recommend restricting ingest permissions to admin users only (see `Webserver-Ingest-Groups` in [the configuration page](/configuration/parameters)) and coordinating with other admin users to ensure duplicate flows are not in use.
+Also note that if multiple users instantiate the same agg flow, **duplicate aggregate entries will be ingested!** Queries which use duplicate aggs will have incorrect results. For this reason, in a multi-user DatalaiQ installation we recommend restricting ingest permissions to admin users only (see `Webserver-Ingest-Groups` in [the configuration page](/configuration/parameters)) and coordinating with other admin users to ensure duplicate flows are not in use.

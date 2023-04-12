@@ -10,7 +10,7 @@ A very common use-case for flows is to run one or more queries, check if there w
 
 The [Run Query](/flows/nodes/runquery) node executes a search using the table renderer; for the sake of the example we use `tag=gravwell syslog Appname | stats count by Appname | table Appname count`. We then use the [If](/flows/nodes/if) node to check if `search.Count` is greater than 0. If there were results, the flow will continue on to format and send the email.
 
-Immediately after the If node, we use the [Get Table Results](/flows/nodes/gettableresults) node to fetch the actual results of the query. Then we use the [Set Variables](/flows/nodes/inject) node to inject the Gravwell system's hostname into the payload, for our convenience in the next step:
+Immediately after the If node, we use the [Get Table Results](/flows/nodes/gettableresults) node to fetch the actual results of the query. Then we use the [Set Variables](/flows/nodes/inject) node to inject the DatalaiQ system's hostname into the payload, for our convenience in the next step:
 
 ![](email2.png)
 
@@ -72,7 +72,7 @@ It is often necessary to encode data as JSON, usually in preparation for sending
 
 ![](json1.png)
 
-However, it is sometimes necessary to combine multiple objects from the payload into a single JSON structure. For instance, suppose we wish to send an HTTP endpoint the flow's scheduled execution time (`flow.Scheduled`) and the number of results from a Gravwell query (`search.Count`)? We can use the [Javascript](/flows/nodes/javascript) node and the JSON Encode node in concert.
+However, it is sometimes necessary to combine multiple objects from the payload into a single JSON structure. For instance, suppose we wish to send an HTTP endpoint the flow's scheduled execution time (`flow.Scheduled`) and the number of results from a DatalaiQ query (`search.Count`)? We can use the [Javascript](/flows/nodes/javascript) node and the JSON Encode node in concert.
 
 First, we configure the Javascript node with the following script and specify that there will be an output named `combined`. The screenshot below shows this configuration; it also shows how the Javascript node creates an object in the payload named `combined` which contains the specified fields:
 
@@ -97,7 +97,7 @@ When decoded from base64, the `encoded_output` variable contains the following:
 
 ## Go from a curl command to an HTTP node
 
-It's common to see examples of API access as `curl` invocations. These can be easily translated to the [HTTP flow node](/flows/nodes/http). Consider the following curl invocation, which fetches a list of notifications from a Gravwell server:
+It's common to see examples of API access as `curl` invocations. These can be easily translated to the [HTTP flow node](/flows/nodes/http). Consider the following curl invocation, which fetches a list of notifications from a DatalaiQ server:
 
 ```
 curl 'https://gravwell.example.org/api/notifications' -X GET --max-time 5 
@@ -108,7 +108,7 @@ Here's the same request accomplished via the HTTP node:
 
 ![](http1.png)
 
-* `https://gravwell.example.org/api/notifications`: set the same URL in the "URL" config.
+* `https://datalaiq.example.org/api/notifications`: set the same URL in the "URL" config.
 * `-X GET`: select GET in the "Method" config.
 * `--max-time 5`: set "Request Timeout" to 5.
 * `--insecure`: set "Skip TLS Verify" to true.

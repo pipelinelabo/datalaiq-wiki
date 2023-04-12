@@ -1,16 +1,16 @@
 # Ingest Node
 
-This node ingests data into Gravwell under a specified tag. Note that the user must be a member of a group specified in the [`Webserver-Ingest-Groups` configuration parameter](/configuration/parameters) to ingest entries.
+This node ingests data into DatalaiQ under a specified tag. Note that the user must be a member of a group specified in the [`Webserver-Ingest-Groups` configuration parameter](/configuration/parameters) to ingest entries.
 
 ## Configuration
 
-* `Tag`, required: the Gravwell tag into which the data should be ingested.
+* `Tag`, required: the DatalaiQ tag into which the data should be ingested.
 * `Input`, required: the data to ingest.
 * `Split Lines`: if set to true, the node will split the input data into separate entries at newline boundaries.
 
 ## Output
 
-The node does not inject anything into the payload, but it does ingest entries into Gravwell.
+The node does not inject anything into the payload, but it does ingest entries into DatalaiQ.
 
 ## Example
 

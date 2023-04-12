@@ -1,6 +1,6 @@
 # Actionables API
 
-Actionables (previously called "pivots"), are objects stored in Gravwell which the web GUI uses to pivot from search result data. For instance, an actionable could define a set of queries which can be run on an IP address, along with a regular expression which *matches* IP addresses. When the user runs a query that includes IP addresses in the results, those addresses will be clickable, bringing up a menu to launch the pre-defined queries.
+Actionables (previously called "pivots"), are objects stored in DatalaiQ which the web GUI uses to pivot from search result data. For instance, an actionable could define a set of queries which can be run on an IP address, along with a regular expression which *matches* IP addresses. When the user runs a query that includes IP addresses in the results, those addresses will be clickable, bringing up a menu to launch the pre-defined queries.
 
 ## Data Structure
 
@@ -85,7 +85,7 @@ Actionables have two different IDs attached to them: a GUID, and a ThingUUID. Th
 
 Consider an example: I create the actionable from scratch, so it gets assigned a random GUID, `e80293f0-5732-4c7e-a3d1-2fb779b91bf7`, and a random ThingUUID, `c3b24e1e-5186-4828-82ee-82724a1d4c45`. I then bundle the actionable into a kit. Another user on the same system then installs this kit for themselves, which instantiates an actionable with the **same** GUID (`e80293f0-5732-4c7e-a3d1-2fb779b91bf7`) but a **random** ThingUUID (`f07373a8-ea85-415f-8dfd-61f7b9204ae0`).
 
-This system is identical to the one used in [templates](templates). Templates use GUIDs and ThingUUIDs so that dashboards can refer to templates by GUID, but multiple users can still install the same kit (with the sample template) at the same time without conflict. Although no Gravwell components reference actionables in the same way dashboards reference templates, we have included the behavior as future-proofing.
+This system is identical to the one used in [templates](templates). Templates use GUIDs and ThingUUIDs so that dashboards can refer to templates by GUID, but multiple users can still install the same kit (with the sample template) at the same time without conflict. Although no DatalaiQ components reference actionables in the same way dashboards reference templates, we have included the behavior as future-proofing.
 
 ### Accessing Actionables via GUID vs ThingUUID
 
@@ -347,7 +347,7 @@ To delete an actionable, issue a DELETE request to `/api/pivots/<guid>`.
 
 ## Admin actions
 
-Admin users may occasionally need to view all actionables on the system, modify them, or delete them. Because GUIDs are not necessarily unique, the admin API must refer instead to the unique UUID Gravwell uses internally to store the items. Note that the example actionable listings above include a field named "ThingUUID". This is the internal, unique identifier for that actionable.
+Admin users may occasionally need to view all actionables on the system, modify them, or delete them. Because GUIDs are not necessarily unique, the admin API must refer instead to the unique UUID DatalaiQ uses internally to store the items. Note that the example actionable listings above include a field named "ThingUUID". This is the internal, unique identifier for that actionable.
 
 An administrator user may obtain a global listing of all actionables in the system with a GET request on `/api/pivots?admin=true`.
 

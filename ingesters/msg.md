@@ -1,6 +1,6 @@
 # Microsoft Graph API Ingester
 
-Gravwell provides an ingester which can pull security information from Microsoft's Graph API. In order to configure the ingester, you will need to register a new *application* within the Azure Active Directory management portal; this will generate a set of keys which can be used to access the logs. You will need the following information:
+DatalaiQ provides an ingester which can pull security information from Microsoft's Graph API. In order to configure the ingester, you will need to register a new *application* within the Azure Active Directory management portal; this will generate a set of keys which can be used to access the logs. You will need the following information:
 
 * Client ID: A UUID generated for your application via the Azure management console
 * Client secret: A secret token generated for your application via the Azure console
@@ -8,7 +8,7 @@ Gravwell provides an ingester which can pull security information from Microsoft
 
 ## Basic Configuration
 
-The MS Graph ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other Gravwell ingesters, the MS Graph ingester supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
+The MS Graph ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other DatalaiQ ingesters, the MS Graph ingester supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
 
 ## ContentType Examples
 
@@ -35,7 +35,7 @@ First, download the installer from the [Downloads page](/quickstart/downloads), 
 root@gravserver ~# bash gravwell_msgraph_installer.sh
 ```
 
-If the Gravwell services are present on the same machine, the installation script should automatically extract and configure the `Ingest-Auth` parameter and set it appropriately. You will now need to open the `/opt/gravwell/etc/msgraph_ingest.conf` configuration file and set it up for your application, replacing the placeholder fields and modifying tags as desired. Once you have modified the configuration as described below, start the service with the command `systemctl start gravwell_msgraph_ingest.service`.
+If the DatalaiQ services are present on the same machine, the installation script should automatically extract and configure the `Ingest-Auth` parameter and set it appropriately. You will now need to open the `/opt/gravwell/etc/msgraph_ingest.conf` configuration file and set it up for your application, replacing the placeholder fields and modifying tags as desired. Once you have modified the configuration as described below, start the service with the command `systemctl start gravwell_msgraph_ingest.service`.
 
 By default, the ingester will ingest security alerts as they arrive. It will also periodically query for new security score results (typically issued daily), and ingest the associated control profiles which are used to build those security score results. These three data sources are by default ingested to the tags `graph-alerts`, `graph-scores`, and `graph-profiles`, respectively.
 

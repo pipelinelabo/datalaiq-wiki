@@ -60,7 +60,7 @@ switch
 
 #### Operators
 
-Operators are used for filtering and boolean/arithmetic logic. Operators behave similarly to all C-style programming languages (C, C++, Go, ...) with one caveat -- the bitwise OR operator `|` can only appear inside parenthetical expressions in order to avoid a syntax conflict with the Gravwell query language.
+Operators are used for filtering and boolean/arithmetic logic. Operators behave similarly to all C-style programming languages (C, C++, Go, ...) with one caveat -- the bitwise OR operator `|` can only appear inside parenthetical expressions in order to avoid a syntax conflict with the DatalaiQ query language.
 
 The following operators are supported.
 

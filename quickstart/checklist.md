@@ -2,23 +2,23 @@
 
 ## Single-Node Checklist
 
-This checklist gives a general order of operation for configuring a single-node, standalone Gravwell instance. Refer to the [Quickstart](quickstart) for additional step-by-step instructions.
+This checklist gives a general order of operation for configuring a single-node, standalone DatalaiQ instance. Refer to the [Quickstart](quickstart) for additional step-by-step instructions.
 
-□ Install Gravwell via self-extracting installer, Debian/Redhat package, or Docker container (see [Quickstart](quickstart)).
+□ Install DatalaiQ via self-extracting installer, Debian/Redhat package, or Docker container (see [Quickstart](quickstart)).
 
-□ Verify firewall rules allow incoming traffic on [ports used by Gravwell](/configuration/networking).
+□ Verify firewall rules allow incoming traffic on [ports used by DatalaiQ](/configuration/networking).
 
-□ Use a web browser to access the new Gravwell instance, e.g. `http://gravwell.example.org/`, and upload your license file when prompted.
+□ Use a web browser to access the new DatalaiQ instance, e.g. `http://datalaiq.example.org/`, and upload your license file when prompted.
 
 □ Login as "admin", password "changeme". Change the default admin password by clicking user icon in upper right.
 
-□ Configure any additional storage wells if desired. (See [Gravwell configuration](/configuration/configuration) and [detailed configuration parameters](/configuration/parameters) documentation)
+□ Configure any additional storage wells if desired. (See [DatalaiQ configuration](/configuration/configuration) and [detailed configuration parameters](/configuration/parameters) documentation)
 
 □ Set up [ageout](/configuration/ageout) on your wells to avoid running out of disk space.
 
 □ Optional: [configure TLS](/configuration/certificates) for user access and ingester connections.
 
-□ [Configure ingesters](/ingesters/ingesters) to bring data into Gravwell.
+□ [Configure ingesters](/ingesters/ingesters) to bring data into DatalaiQ.
 
 
 <!-- TODO: this is a complex process that's difficult to capture in a linear checklist, because there are lots of options you may or may not be using. Leaving this here because it collects at least some of the steps.
@@ -30,7 +30,7 @@ This checklist gives a general order of operation for configuring a single-node,
 
 □ If you intend to use [distributed frontends](/distributed/frontend), provision an additional system for the *datastore*. Note that the datastore cannot be co-resident with an indexer or webserver process.
 
-□ Install Gravwell on each of the webserver and indexer nodes (see [Quickstart](quickstart)).
+□ Install DatalaiQ on each of the webserver and indexer nodes (see [Quickstart](quickstart)).
 
 □ Install the datastore if desired. This is included in the core shell installer, but is in a separate package for Debian and Redhat.
 
@@ -67,7 +67,7 @@ Remote-Indexers=net:indexer2.example.net:9404
 
 ### Deployment
 
-□ Use systemd to disable un-needed Gravwell processes: disable webserver & searchagent on indexers, indexer on webservers. Make sure the searchagent process is only enabled on one webserver.
+□ Use systemd to disable un-needed DatalaiQ processes: disable webserver & searchagent on indexers, indexer on webservers. Make sure the searchagent process is only enabled on one webserver.
 
 □ Copy indexer config to indexers, webserver config to webservers.
 

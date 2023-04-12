@@ -1,16 +1,16 @@
 # Common Problems & Caveats
 
-There are a few issues which can crop up in the course of configuring and using Gravwell. This document attempts to cover some of the most common.
+There are a few issues which can crop up in the course of configuring and using DatalaiQ. This document attempts to cover some of the most common.
 
 ## Clock Source Warning
 
-When running Gravwell in a virtualized environment such as KVM, you may see a notification like this:
+When running DatalaiQ in a virtualized environment such as KVM, you may see a notification like this:
 
 ```
 Detected potentially slow clock source acpi_pm. Consider changing webservers and indexers to one of the following: tsc, kvm-clock
 ```
 
-Because Gravwell is a heavily time-oriented system, it needs to check the current time frequently. Some clock sources are significantly slower than others, which can lead to a noticeable slowdown in Gravwell queries.
+Because DatalaiQ is a heavily time-oriented system, it needs to check the current time frequently. Some clock sources are significantly slower than others, which can lead to a noticeable slowdown in DatalaiQ queries.
 
 To modify the clock source, [follow the directions here](https://aws.amazon.com/premiumsupport/knowledge-center/manage-ec2-linux-clock-source/).
 
@@ -18,21 +18,21 @@ To modify the clock source, [follow the directions here](https://aws.amazon.com/
 If you are unable to modify the clock source, this notification is only visible to the default 'admin' user, not to any other users, and can be ignored if necessary.
 ```
 
-## Cannot Reach Gravwell Interface
+## Cannot Reach DatalaiQ Interface
 
-After installing Gravwell, you may find that your web browser cannot reach the webserver, or that the webserver is not connecting to any indexers. This is frequently a result of closed firewall ports. Gravwell uses a number of TCP ports which must be opened for proper operation. Please refer to [the networking considerations page](networking) for more information on which ports must be opened.
+After installing DatalaiQ, you may find that your web browser cannot reach the webserver, or that the webserver is not connecting to any indexers. This is frequently a result of closed firewall ports. DatalaiQ uses a number of TCP ports which must be opened for proper operation. Please refer to [the networking considerations page](networking) for more information on which ports must be opened.
 
 ## Configuring HTTPS and Secure Listeners
 
-By default, Gravwell does not include or generate TLS certificates. If you intend to use Gravwell on the Internet or any other untrusted network, we strongly recommend you install certificates as soon as possible. See [the certificates page](certificates) for instructions.
+By default, DatalaiQ does not include or generate TLS certificates. If you intend to use DatalaiQ on the Internet or any other untrusted network, we strongly recommend you install certificates as soon as possible. See [the certificates page](certificates) for instructions.
 
 ```{note}
-Gravwell requires certificates that are compatible with TLS 1.2 or later.
+DatalaiQ requires certificates that are compatible with TLS 1.2 or later.
 ```
 
-## Gravwell Processes Won't Start
+## DatalaiQ Processes Won't Start
 
-There are a few reasons that Gravwell components (webserver, indexers, searchagent, ingesters, etc.) may refuse to start.
+There are a few reasons that DatalaiQ components (webserver, indexers, searchagent, ingesters, etc.) may refuse to start.
 
 ### Invalid Configuration
 
@@ -44,7 +44,7 @@ An invalid configuration file will usually lead to the failure of the associated
 
 ### Ownership Issues
 
-The Gravwell components are intended to run as user "gravwell". If the root user runs a Gravwell component manually, it may create or modify essential files and mark them as belonging to root. When run under the "gravwell" account later, the processes will not be able to access the files. You can use `chown` to reassign these files to the gravwell user, but take care *not* to modify anything in `/opt/gravwell/bin` as this can conflict with SELinux flags!
+The DatalaiQ components are intended to run as user "gravwell". If the root user runs a DatalaiQ component manually, it may create or modify essential files and mark them as belonging to root. When run under the "gravwell" account later, the processes will not be able to access the files. You can use `chown` to reassign these files to the gravwell user, but take care *not* to modify anything in `/opt/gravwell/bin` as this can conflict with SELinux flags!
 
 ```{warning}
 Do not modify permissions or ownership of files in `/opt/gravwell/bin` unless explicitly instructed by Gravwell support.
@@ -52,15 +52,15 @@ Do not modify permissions or ownership of files in `/opt/gravwell/bin` unless ex
 
 ### SELinux Issues
 
-Gravwell makes an attempt to properly flag files in `/opt/gravwell` for SELinux compatibility, but careless use of the `chown` and `chmod` commands in `/opt/gravwell/bin` can clear these flags. See [the SELinux section of the hardening document](hardening) for more information.
+DatalaiQ makes an attempt to properly flag files in `/opt/gravwell` for SELinux compatibility, but careless use of the `chown` and `chmod` commands in `/opt/gravwell/bin` can clear these flags. See [the SELinux section of the hardening document](hardening) for more information.
 
-## Gravwell Consumes Too Much Memory/CPU
+## DatalaiQ Consumes Too Much Memory/CPU
 
-Because Gravwell often has to deal with huge quantities of data, we do not restrict how much memory or CPU time it can consume. If, however, you must run Gravwell on the same system as some other important software, you may wish to restrict its access to resources. In that case, see the "systemd Unit Files" section of the [system hardening document](hardening).
+Because DatalaiQ often has to deal with huge quantities of data, we do not restrict how much memory or CPU time it can consume. If, however, you must run DatalaiQ on the same system as some other important software, you may wish to restrict its access to resources. In that case, see the "systemd Unit Files" section of the [system hardening document](hardening).
 
-## Gravwell and Virtual Memory Areas
+## DatalaiQ and Virtual Memory Areas
 
-Gravwell indexers use memory mapped (mmap) files to access stored data. Every mapped file counts against the indexer's maximum number of memory mapped files, as dictated by the Linux Kernel. On some systems, and depending on the amount and granularity of data in your indexer, you may have to increase the allowed number of memory mapped files to avoid crashes. Crashes caused by exhausting the available number of memory mapped files usually appear as a `malloc` failure. On most modern Linux distributions, the default number of allowed memory mapped files is 65536.
+DatalaiQ indexers use memory mapped (mmap) files to access stored data. Every mapped file counts against the indexer's maximum number of memory mapped files, as dictated by the Linux Kernel. On some systems, and depending on the amount and granularity of data in your indexer, you may have to increase the allowed number of memory mapped files to avoid crashes. Crashes caused by exhausting the available number of memory mapped files usually appear as a `malloc` failure. On most modern Linux distributions, the default number of allowed memory mapped files is 65536.
 
 To increase the number of allowed memory mapped files, use `sysctl`:
 

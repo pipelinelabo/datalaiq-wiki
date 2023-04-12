@@ -1,6 +1,6 @@
 # Templates
 
-Templates are special objects which define a Gravwell query containing *variables*. Multiple templates using the same variable(s) can be included in a dashboard to create a powerful tool called an **Investigative Dashboard**--for instance, templates which expect an IP address as their variable can be used to create an IP address investigation dashboard.
+Templates are special objects which define a DatalaiQ query containing *variables*. Multiple templates using the same variable(s) can be included in a dashboard to create a powerful tool called an **Investigative Dashboard**--for instance, templates which expect an IP address as their variable can be used to create an IP address investigation dashboard.
 
 ## The Template Page
 
@@ -12,7 +12,7 @@ The template management page may be accessed from the main menu, under the "Tool
 
 ## Creating a Template
 
-To create a new template, click the 'Add' button in the upper right corner of the templates page. Gravwell will prompt for several values which are used to define the template. In the image below, we're defining a template which will search netflow entries.
+To create a new template, click the 'Add' button in the upper right corner of the templates page. DatalaiQ will prompt for several values which are used to define the template. In the image below, we're defining a template which will search netflow entries.
 
 ![](new-template.png)
 
@@ -25,7 +25,7 @@ The various fields are described below:
 * **'Require a value' checkbox**: This checkbox indicates whether or not a value *must* be entered. Some queries may be useful with or without a value in the variable, so this box enables that behavior.
 * **Preview & Validation**: This is an *optional* text box where you can enter a value to check the resulting query. 
 
-The remaining fields (Name, Description, etc.) are common to most objects in Gravwell and need no explanation.
+The remaining fields (Name, Description, etc.) are common to most objects in DatalaiQ and need no explanation.
 
 When the template has been properly defined, we click 'Save' and are returned to the main template page.
 
@@ -51,7 +51,7 @@ To modify a template, click the edit icon (a pencil) on the template's tile. To 
 
 ## Sharing Templates
 
-As with most objects in Gravwell, templates may be set visible to the owner only, shared with one or more groups, or shared globally (by administrators only). This is managed from the Permissions tab in the template editor:
+As with most objects in DatalaiQ, templates may be set visible to the owner only, shared with one or more groups, or shared globally (by administrators only). This is managed from the Permissions tab in the template editor:
 
 ![](permissions.png)
 

@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This is the reference specification the Gravwell query language syntax. A query is made up of indexer and webserver constraints, modules, a pipeline, and a renderer. This document provides documentation for how input text is interpreted and tokenized. Some lexical meaning of input is also defined here. Modules have context-specific semantics that differ between modules (such as numbers being implied to be strings). The user should read the search module documentation for more information on module-specific considerations.
+This is the reference specification the DatalaiQ query language syntax. A query is made up of indexer and webserver constraints, modules, a pipeline, and a renderer. This document provides documentation for how input text is interpreted and tokenized. Some lexical meaning of input is also defined here. Modules have context-specific semantics that differ between modules (such as numbers being implied to be strings). The user should read the search module documentation for more information on module-specific considerations.
 
 ## Text Encoding 
 
-**All** Gravwell input is Unicode text encoded in UTF-8. 
+**All** DatalaiQ input is Unicode text encoded in UTF-8. 
 
 ### Characters and digits 
 
@@ -14,7 +14,7 @@ A "character" is any of the Unicode points in the "General Category" of the Unic
 
 ## Lexical grammar
 
-This section defines the syntax of a Gravwell query. Token semantics are module-specific, so the user should read the search module documentation for more information on module-specific considerations.
+This section defines the syntax of a DatalaiQ query. Token semantics are module-specific, so the user should read the search module documentation for more information on module-specific considerations.
 
 ```{note}
 The grammar is specified using [pbpg](https://github.com/gravwell/pbpg), which is similar to Extended Backus–Naur form. pbpg is itself specified with pbpg and contains the following rules:
@@ -34,7 +34,7 @@ Literal     = "\"" String "\"" .
 
 ### Quotes
 
-Many characters and keywords have special meaning in the Gravwell syntax. When using a special character or keyword as a literal string, you must use double quoted strings `"`. For example
+Many characters and keywords have special meaning in the DatalaiQ syntax. When using a special character or keyword as a literal string, you must use double quoted strings `"`. For example
 
 ```
 json foo bar | table
@@ -79,7 +79,7 @@ For example, the input
 json foo bar
 ```
 
-is made up of three tokens `json`, `foo`, and `bar`. In the `json` module in Gravwell, this would extract two enumerated values `foo` and `bar`.
+is made up of three tokens `json`, `foo`, and `bar`. In the `json` module in DatalaiQ, this would extract two enumerated values `foo` and `bar`.
 
 Quoted whitespace is treated as part of a single string. For example, the input
 
@@ -97,7 +97,7 @@ whitespace = Characters from Unicode's whitespace category and Unicode category 
 
 ### Comments
 
-A comment is any input between ANSI-C style comment specifiers `/* */`, and is not considered part of the input to Gravwell. 
+A comment is any input between ANSI-C style comment specifiers `/* */`, and is not considered part of the input to DatalaiQ. 
 
 For example,
 
@@ -127,7 +127,7 @@ Tokens are groups of characters separated by whitespace (as defined above) and r
 tag=default json tag
 ```
 
-extracts the enumerated value `tag`, using the `json` module, all from the default Gravwell tag. While the token `tag` shows up twice, the meaning is different based on the position in the input. The first occurrence tells Gravwell to pull data from the default tag. The second occurrence tells the `json` module to extract a value named `tag`.
+extracts the enumerated value `tag`, using the `json` module, all from the default Gravwell tag. While the token `tag` shows up twice, the meaning is different based on the position in the input. The first occurrence tells DatalaiQ to pull data from the default tag. The second occurrence tells the `json` module to extract a value named `tag`.
 
 Tokens cannot contain the following reserved characters, unless quoted:
 
@@ -147,7 +147,7 @@ When filtering, tokenizing in the R-value (the value of the filter) of the filte
 
 ### Tokenizing in `eval` and code fragments
 
-Gravwell syntax supports inline code fragments for filtering and other operations. This is accomplished with either the `eval` module, followed by the code fragment, or a module stage wrapped in parentheses. For example,
+DatalaiQ syntax supports inline code fragments for filtering and other operations. This is accomplished with either the `eval` module, followed by the code fragment, or a module stage wrapped in parentheses. For example,
 
 ```gravwell
 tag=default json foo-bar baz | eval baz > 10 | table
@@ -159,7 +159,7 @@ has the code fragment `baz > 10`. This is easily parsed using the tokenizing rul
 tag=default json foo-bar baz | (baz>10) | table
 ```
 
-However, the code fragment syntax supports C-style notation for bitwise and logic operations, so Gravwell parses these fragments differently than the regular token stream. For example,
+However, the code fragment syntax supports C-style notation for bitwise and logic operations, so DatalaiQ parses these fragments differently than the regular token stream. For example,
 
 ```gravwell
 tag=default json foo-bar foo bar | ( foo-bar > 10 ) | table
@@ -228,7 +228,7 @@ All input before the first module in a query represents the query constraints. U
 
 Please see the list of modules in the [Search section](./search) for module specific documentation.
 
-Modules are pipelined functions that extract, transform, and render data. Conceptually, data flows left-to-right in the module pipeline, and modules can drop, pass, modify, or inject data into the pipeline. The last module in the pipeline is the render module (such as `table` or `chart`); note that if no render module is explicitly defined, Gravwell will add one automatically. The module pipeline is split by the `|` character. A module invocation is made up of the module name, optional flags, and optional arguments. 
+Modules are pipelined functions that extract, transform, and render data. Conceptually, data flows left-to-right in the module pipeline, and modules can drop, pass, modify, or inject data into the pipeline. The last module in the pipeline is the render module (such as `table` or `chart`); note that if no render module is explicitly defined, DatalaiQ will add one automatically. The module pipeline is split by the `|` character. A module invocation is made up of the module name, optional flags, and optional arguments. 
 
 #### Module name
 

@@ -1,10 +1,10 @@
 # Netflow Ingester
 
-The Netflow ingester acts as a Netflow collector (see [the Wikipedia article](https://en.wikipedia.org/wiki/NetFlow) for a full description of Netflow roles), gathering records created by Netflow exporters and capturing them as Gravwell entries for later analysis. These entries can then be analyzed using the [netflow](/search/netflow/netflow) search module.
+The Netflow ingester acts as a Netflow collector (see [the Wikipedia article](https://en.wikipedia.org/wiki/NetFlow) for a full description of Netflow roles), gathering records created by Netflow exporters and capturing them as DatalaiQ entries for later analysis. These entries can then be analyzed using the [netflow](/search/netflow/netflow) search module.
 
 ## Basic Configuration
 
-The Netflow ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other Gravwell ingesters, the Netflow ingester supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
+The Netflow ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other DatalaiQ ingesters, the Netflow ingester supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
 
 ## Collector Examples
 
@@ -23,7 +23,7 @@ The Netflow ingester uses the unified global configuration block described in th
 
 ## Installation
 
-If you're using the Gravwell Debian repository, installation is just a single apt command:
+If you're using the DatalaiQ Debian repository, installation is just a single apt command:
 
 ```
 apt-get install gravwell-netflow-capture
@@ -35,7 +35,7 @@ Otherwise, download the installer from the [Downloads page](/quickstart/download
 root@gravserver ~ # bash gravwell_netflow_capture_installer.sh
 ```
 
-If there is no Gravwell indexer on the local machine, the installer will prompt for an Ingest-Secret value and an IP address for an indexer (or a Federator). Otherwise, it will pull the appropriate values from the existing Gravwell configuration. In any case, review the configuration file in `/opt/gravwell/etc/netflow_capture.conf` after installation. A straightforward example which listens on UDP port 2055 might look like this:
+If there is no DatalaiQ indexer on the local machine, the installer will prompt for an Ingest-Secret value and an IP address for an indexer (or a Federator). Otherwise, it will pull the appropriate values from the existing DatalaiQ configuration. In any case, review the configuration file in `/opt/gravwell/etc/netflow_capture.conf` after installation. A straightforward example which listens on UDP port 2055 might look like this:
 
 ```
 [Global]

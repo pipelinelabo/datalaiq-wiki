@@ -1,6 +1,6 @@
-# Gravwell Auto-Extractors
+# DatalaiQ Auto-Extractors
 
-Gravwell enables per-tag extraction definitions that can ease the complexity of interacting with unstructured data and data formats that are not self-describing.  Unstructured data often requires complicated regular expressions to extract desired data fields, which can be time consuming to produce and prone to errors.
+DatalaiQ enables per-tag extraction definitions that can ease the complexity of interacting with unstructured data and data formats that are not self-describing.  Unstructured data often requires complicated regular expressions to extract desired data fields, which can be time consuming to produce and prone to errors.
 
 Auto-extractors are simply definitions that can be applied to tags and describe how to correctly extract fields from the data in a given tag. The "ax" module then automatically invokes the appropriate functionality of other modules. 
 
@@ -8,7 +8,7 @@ Auto-extractor definitions are used by the [AX](/search/ax/ax) module which tran
 
 ## Auto-Extractor Configuration
 
-Extractors are managed through the "Extractors" page, found in the "Tools & Resources" sub-menu under the Gravwell main menu. The page will show any existing extractor definitions:
+Extractors are managed through the "Extractors" page, found in the "Tools & Resources" sub-menu under the DatalaiQ main menu. The page will show any existing extractor definitions:
 
 ![](extractors.png)
 
@@ -37,10 +37,10 @@ Auto-extractors always operate on the full underlying data of an entry.  They ca
 
 ### Auto-Extractor File Definitions
 
-Auto-extractors can also be defined in text files and uploaded to Gravwell by clicking the "Upload" button in the upper-right corner of the Extractors management page. Because each file can contain multiple extractor definitions, and re-uploading a file will update any existing extractions, this can be a convenient way to share auto-extractor definitions or for mass-updating. Auto-extractor files follow the [TOML V4](https://github.com/toml-lang/toml) format which allows comments using the "#" character. 
+Auto-extractors can also be defined in text files and uploaded to DatalaiQ by clicking the "Upload" button in the upper-right corner of the Extractors management page. Because each file can contain multiple extractor definitions, and re-uploading a file will update any existing extractions, this can be a convenient way to share auto-extractor definitions or for mass-updating. Auto-extractor files follow the [TOML V4](https://github.com/toml-lang/toml) format which allows comments using the "#" character. 
 
 ```{attention}
-Older versions of Gravwell managed auto-extractors as files in `/opt/gravwell/extractions`. This is no longer supported, but any existing files in that directory will be automatically imported when Gravwell is updated. *All* extractor management should take place through the Gravwell UI.
+Older versions of DatalaiQ managed auto-extractors as files in `/opt/gravwell/extractions`. This is no longer supported, but any existing files in that directory will be automatically imported when DatalaiQ is updated. *All* extractor management should take place through the DatalaiQ UI.
 ```
 
 Each extractor contains a header and the following parameters:
@@ -301,7 +301,7 @@ tag=test ax email~"test.org" app path | table
 
 ### Slice
 
-The [Slice](/search/slice/slice) module is a powerful binary-slicing system that can extract data directly from binary data streams.  Gravwell engineers have developed entire protocol dissectors using nothing but the slice module.  However, cutting up binary streams of data and interpreting the data is not for the faint of heart, and once you have built up a beautiful query that slices and dices a proprietary data stream no one wants to remember it or even copy & paste it.
+The [Slice](/search/slice/slice) module is a powerful binary-slicing system that can extract data directly from binary data streams.  DatalaiQ engineers have developed entire protocol dissectors using nothing but the slice module.  However, cutting up binary streams of data and interpreting the data is not for the faint of heart, and once you have built up a beautiful query that slices and dices a proprietary data stream no one wants to remember it or even copy & paste it.
 
 Showing binary data in text form is difficult, so in this document we will show the data in hex encoding.  We will be cutting up a binary data stream coming from a small control system that regulates a refrigerant compressor to maintain precise temperature control in a brewing system.  The control system ships strings, integers, and some floating point values, and as is often the case in control systems all the data is in [Big Endian](https://en.wikipedia.org/wiki/Endianness) order.
 

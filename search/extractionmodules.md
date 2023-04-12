@@ -1,6 +1,6 @@
 # Search Extraction Modules
 
-Gravwell is a structure-on-read data lake, and these are the modules that add that structure. This is where the power and flexibility of the platform can be seen, as information about data doesn't need to be known before collection. Instead, we can ingest the raw data and perform the extractions at search time which gives tremendous flexibility to search operations.
+DatalaiQ is a structure-on-read data lake, and these are the modules that add that structure. This is where the power and flexibility of the platform can be seen, as information about data doesn't need to be known before collection. Instead, we can ingest the raw data and perform the extractions at search time which gives tremendous flexibility to search operations.
 
 Extraction modules are often the first module in a search. Netflow data, as an example, sits in it's native binary format on disk and any searches looking to operate on that data will be using the netflow extraction module as a first module in the analysis pipeline to do extraction and basic filtering. While you *could* do filtering before the `netflow` extraction module using modules like `grep`, that is unlikely to be effective.
 
@@ -12,7 +12,7 @@ Extraction modules can make use of [query accelerators](/configuration/accelerat
 
 Not all query modules are compatible with all query accelerators.  For example, the `netflow` tag is configured to be accelerated using the netflow accelerator, but the [words](words/words) module will not be able to invoke netflow query acceleration. This is because the netflow accelerator is expecting to operate on binary data and apply a specific structure to data during indexing where the words module is designed to operate on a fulltext acceleration.
 
-Gravwell will intelligently examine query parameters and invoke the acceleration system whenever possible, but there are some caveats to be aware of:
+DatalaiQ will intelligently examine query parameters and invoke the acceleration system whenever possible, but there are some caveats to be aware of:
 
 1. Query acceleration that uses specific structure (such as netflow, ipfix, packet, fields, regex, etc) requires that the query parameters match exactly.
 
@@ -28,13 +28,13 @@ Modules which can accelerate queries will hint about their ability to accelerate
 
 4. Query acceleration is on a shard-by-shard basis.
 
-Gravwell does not require tag accelerators to be consistent across all time. You can setup acceleration, ingest some data, and then change that acceleration configuration without re-indexing data.  When you issue a query, the acceleration hints are handed to each shard of data across time and the compatibility of acceleration is checked on each shard.  Gravwell will automatically invoke acceleration wherever possible; this means that as your query moves over historical data, it may be engaging acceleration in different ways transparently.  You may notice that a query is fast on some sections of data and slower on others.  That is just the system engaging acceleration where it can.
+DatalaiQ does not require tag accelerators to be consistent across all time. You can setup acceleration, ingest some data, and then change that acceleration configuration without re-indexing data.  When you issue a query, the acceleration hints are handed to each shard of data across time and the compatibility of acceleration is checked on each shard.  DatalaiQ will automatically invoke acceleration wherever possible; this means that as your query moves over historical data, it may be engaging acceleration in different ways transparently.  You may notice that a query is fast on some sections of data and slower on others.  That is just the system engaging acceleration where it can.
 
-A side affect of this per-shard acceleration calculation is that Gravwell can still query accurately in the event of catastrophic index corruption.  For example, if you suffer a filesystem corruption or hardware failure where an index is entirely corrupted but the underlying data is still intact, Gravwell will determine that it cannot use the index and ignore it.  Your queries will still complete albeit slower.
+A side affect of this per-shard acceleration calculation is that DatalaiQ can still query accurately in the event of catastrophic index corruption.  For example, if you suffer a filesystem corruption or hardware failure where an index is entirely corrupted but the underlying data is still intact, DatalaiQ will determine that it cannot use the index and ignore it.  Your queries will still complete albeit slower.
 
 5. Query acceleration operates on positive matches.
 
-Gravwell is not a bit field index which means that it will only accelerate on direct matches.  For example `tag=syslog syslog Hostname=="foobar"` can invoke the accelerator, but `tag=syslog ProcID < 20` will not.  The accelerators also do not accelerate on the negative, meaning that `tag=syslog syslog Hostname != "foobar"` will not invoke the accelerator engine.
+DatalaiQ is not a bit field index which means that it will only accelerate on direct matches.  For example `tag=syslog syslog Hostname=="foobar"` can invoke the accelerator, but `tag=syslog ProcID < 20` will not.  The accelerators also do not accelerate on the negative, meaning that `tag=syslog syslog Hostname != "foobar"` will not invoke the accelerator engine.
 
 ## Universal Flags
 

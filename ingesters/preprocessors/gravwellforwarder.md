@@ -1,16 +1,16 @@
-## Gravwell Forwarding Preprocessor
+## DatalaiQ Forwarding Preprocessor
 
-The Gravwell forwarding processor can duplicate entries to multiple instances of Gravwell.  This preprocessor can be useful for testing or in situations where a specific data stream needs to be duplicated to an additional set of Gravwell indexers.  The Gravwell forwarding preprocessor utilizes the same configuration structure to specify indexers, ingest secrets, and even cache controls as the packaged ingesters.  The Gravwell forwarding preprocessor is a blocking preprocessor, this means that if you do not enable a local cache it can block the ingest pipeline if the preprocessor cannot forward entries to the specified indexers.
+The DatalaiQ forwarding processor can duplicate entries to multiple instances of DatalaiQ.  This preprocessor can be useful for testing or in situations where a specific data stream needs to be duplicated to an additional set of DatalaiQ indexers.  The DatalaiQ forwarding preprocessor utilizes the same configuration structure to specify indexers, ingest secrets, and even cache controls as the packaged ingesters.  The DatalaiQ forwarding preprocessor is a blocking preprocessor, this means that if you do not enable a local cache it can block the ingest pipeline if the preprocessor cannot forward entries to the specified indexers.
 
-The Gravwell Forwarding preprocessor Type is `gravwellforwarder`.
+The DatalaiQ Forwarding preprocessor Type is `gravwellforwarder`.
 
 ### Supported Options
 
-See the [Global Configuration Parameters](ingesters_global_configuration_parameters) section for full details on all the Gravwell ingester options.  Most global ingester configuration options are supported by the Gravwell Forwarder preprocessor.
+See the [Global Configuration Parameters](ingesters_global_configuration_parameters) section for full details on all the DatalaiQ ingester options.  Most global ingester configuration options are supported by the DatalaiQ Forwarder preprocessor.
 
 ### Example: Duplicating Data In a Federator
 
-For this example we are going to specify a complete Federator configuration that will duplicate all entries to a second cluster. Incoming entries will be sent to both of the following Gravwell systems:
+For this example we are going to specify a complete Federator configuration that will duplicate all entries to a second cluster. Incoming entries will be sent to both of the following DatalaiQ systems:
 
 * The cluster composed of 172.19.0.4 and 172.19.0.5
 * The single-node system 172.19.0.2
@@ -46,7 +46,7 @@ Log-Level=INFO
 
 ### Example: Stacking Duplicate Forwarders
 
-For this example we are going to specify a complete Federator configuration and multiple Gravwell preprocessors so that we can duplicate our single stream of entries to multiple Gravwell clusters. Each entry will be sent to the following separate Gravwell systems:
+For this example we are going to specify a complete Federator configuration and multiple DatalaiQ preprocessors so that we can duplicate our single stream of entries to multiple DatalaiQ clusters. Each entry will be sent to the following separate DatalaiQ systems:
 
 * 172.19.0.101
 * 172.19.0.102

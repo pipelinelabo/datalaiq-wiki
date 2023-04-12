@@ -22,7 +22,7 @@ At startup, file follower will ingest any existing data in the tracked paths bef
 
 The File Follower configuration file is by default located in `/opt/gravwell/etc/file_follow.conf` on Linux and `C:\Program Files\gravwell\file_follow.cfg` on Windows.
 
-The File Follower ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other Gravwell ingesters, File Follower supports multiple upstream indexers, TLS, cleartext, and named pipe connections, and local logging.
+The File Follower ingester uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other DatalaiQ ingesters, File Follower supports multiple upstream indexers, TLS, cleartext, and named pipe connections, and local logging.
 
 ```{note}
 We recommend strongly against using a file cache with the File Follower ingester, since it is already tracking its position within the source files.
@@ -322,4 +322,4 @@ The format defined using these options will be inserted at the top of the list o
 
 ### Attach-Filename
 
-Each follower has the option to attach the complete file path of the source file to each entry at the time of ingest using the `Attach-Filename=true` parameter to the Follower configuration block.  Setting `Attach-Filename=true` to the follower will attach a value named `file` to each entry which is available at query time in Gravwell.  Be aware that attaching long file paths to entries will have an impact on storage; compression will reduce that impact but it will not eliminate it.
+Each follower has the option to attach the complete file path of the source file to each entry at the time of ingest using the `Attach-Filename=true` parameter to the Follower configuration block.  Setting `Attach-Filename=true` to the follower will attach a value named `file` to each entry which is available at query time in DatalaiQ.  Be aware that attaching long file paths to entries will have an impact on storage; compression will reduce that impact but it will not eliminate it.

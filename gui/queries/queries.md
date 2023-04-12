@@ -1,6 +1,6 @@
 # The Search Bar & Query Interfaces
 
-Although investigations may begin with an email alert from an automated script, or when the user notices something strange on a dashboard, actual *data exploration* typically involves running queries manually, iterating over different timeframes and queries to drill down to the information of interest. This document describes the **user interfaces** Gravwell provides for building and running queries; for discussion of how to actually build the queries, see [the search documentation](/search/search).
+Although investigations may begin with an email alert from an automated script, or when the user notices something strange on a dashboard, actual *data exploration* typically involves running queries manually, iterating over different timeframes and queries to drill down to the information of interest. This document describes the **user interfaces** DatalaiQ provides for building and running queries; for discussion of how to actually build the queries, see [the search documentation](/search/search).
 
 ## Query Studio Page
 
@@ -74,12 +74,12 @@ Finally, "ISO 8601 duration" allows you to specify a duration in [ISO-8601 forma
 ![](preview.png)
 
 ```{note}
-"Preview" tells Gravwell to just go find "something" without regard to time.  This means that the system will look at the specific tags in use and ask the indexers for time ranges where the data could exist and then begin sampling it.  The data may be in the future or it may be way in the past.  This is a good option for testing queries.
+"Preview" tells DatalaiQ to just go find "something" without regard to time.  This means that the system will look at the specific tags in use and ask the indexers for time ranges where the data could exist and then begin sampling it.  The data may be in the future or it may be way in the past.  This is a good option for testing queries.
 ```
 
 ## Search Results Page
 
-When you run a query, Gravwell displays the *search results page* to show the output. From this page, you can drill down into subsections of the results, modify & re-run the query, change the timeframe, save the results, and more.
+When you run a query, DatalaiQ displays the *search results page* to show the output. From this page, you can drill down into subsections of the results, modify & re-run the query, change the timeframe, save the results, and more.
 
 ![](results.png)
 
@@ -121,7 +121,7 @@ The "Download" menu gives options for downloading the search results in various 
 
 Different renderers will give different download formats; in the screenshot above, the chart renderer offers JSON and CSV formats. You may find it useful to download a chart in CSV format and import it into a spreadsheet, for instance.
 
-One particularly useful combination is downloading JSON results from the [raw renderer](/search/raw/raw). The resulting file can be used with Gravwell's [reimport ingester](https://github.com/gravwell/gravwell/tree/master/ingesters/reimport) to re-ingest the same entries into a different Gravwell instance. If you email Gravwell support about a problem, they may request that you send entries in this format for testing.
+One particularly useful combination is downloading JSON results from the [raw renderer](/search/raw/raw). The resulting file can be used with DatalaiQ's [reimport ingester](https://github.com/gravwell/gravwell/tree/master/ingesters/reimport) to re-ingest the same entries into a different DatalaiQ instance. If you email DatalaiQ support about a problem, they may request that you send entries in this format for testing.
 
 ### Share Query URL
 
@@ -131,13 +131,13 @@ The "Share query URL" option brings up a dialog showing a URL which you can copy
 
 ### Start a template
 
-The "Start a template" option opens the New Template page with the current query pre-populated. Templates are essentially stored queries in Gravwell which contain a *variable*. They are used to build investigative dashboards or in combination with actionables to launch a query based on a portion of the results of a previous search. Templates, actionables, and investigative dashboards are documented elsewhere.
+The "Start a template" option opens the New Template page with the current query pre-populated. Templates are essentially stored queries in DatalaiQ which contain a *variable*. They are used to build investigative dashboards or in combination with actionables to launch a query based on a portion of the results of a previous search. Templates, actionables, and investigative dashboards are documented elsewhere.
 
 ![](template.png)
 
 ## Timeframe sub-selection
 
-For many queries, Gravwell will display a timeframe sub-selection interface above the search results. This is a small chart, where the x-axis covers the query's timeframe and the y-axis represents the number of entries.
+For many queries, DatalaiQ will display a timeframe sub-selection interface above the search results. This is a small chart, where the x-axis covers the query's timeframe and the y-axis represents the number of entries.
 
 ![](timeframe.png)
 
@@ -149,7 +149,7 @@ You can use the timeframe selector to zoom in on a portion of the search results
 
 ![](dhcp-top.png)
 
-By clicking and holding the left mouse button on the timeframe selector, we can highlight a portion of the timeframe. Releasing the mouse button will cause Gravwell to zoom in on the selected portion, re-calculating the appropriate results *without* re-running the query:
+By clicking and holding the left mouse button on the timeframe selector, we can highlight a portion of the timeframe. Releasing the mouse button will cause DatalaiQ to zoom in on the selected portion, re-calculating the appropriate results *without* re-running the query:
 
 ![](dhcp-zoomed.png)
 
@@ -158,7 +158,7 @@ You can zoom in multiple times, down to a minimum zoom level (determined by the 
 Note that the timeframe button on the query bar now has a dot on it. This indicates that if you re-run the query at this time, it will run over *the currently selected timeframe*. This is extremely useful when you're starting from a wide set of results and want to drill down into one particular area.
 
 ```{note}
-Not all queries will display the timeframe selector. Some modules or module options (like the table renderer's `-nt` flag) force Gravwell into *non-temporal mode*, which disallows zooming.
+Not all queries will display the timeframe selector. Some modules or module options (like the table renderer's `-nt` flag) force DatalaiQ into *non-temporal mode*, which disallows zooming.
 ```
 
 ## Run search in background
@@ -169,7 +169,7 @@ This option is useful when a search is taking longer than expected to complete. 
 
 ## Live Update Queries
 
-If you want to track a particular query, updating the results as new entries come into Gravwell, you can use the Live Update function. Click the "Begin live update" button in the toolbar to turn it on and re-run the search.
+If you want to track a particular query, updating the results as new entries come into DatalaiQ, you can use the Live Update function. Click the "Begin live update" button in the toolbar to turn it on and re-run the search.
 
 ![](live-results.png)
 

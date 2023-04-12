@@ -1,10 +1,10 @@
 # IPFIX and Netflow V9
 
-The ipfix processor is designed to extract and filter raw IPFIX and Netflow V9 data frames, allowing you to quickly identify network flows, filter on ports, or generally monitor the behavior of aggregate flows.  Gravwell has a native IPFIX + Netflow ingester which is open source and available at https://github.com/gravwell/ingesters or as an installer in the [quickstart section](/quickstart/downloads).
+The ipfix processor is designed to extract and filter raw IPFIX and Netflow V9 data frames, allowing you to quickly identify network flows, filter on ports, or generally monitor the behavior of aggregate flows.  DatalaiQ has a native IPFIX + Netflow ingester which is open source and available at https://github.com/gravwell/ingesters or as an installer in the [quickstart section](/quickstart/downloads).
 
 ## A Note About Templates
 
-Gravwell is flexible with regards to entry order. You can run queries from oldest entry to newest, from newest to oldest, or you can sort entries based on some other criteria entirely.
+DatalaiQ is flexible with regards to entry order. You can run queries from oldest entry to newest, from newest to oldest, or you can sort entries based on some other criteria entirely.
 
 Unfortunately, this flexibility does not interact well with IPFIX and Netflow V9. These protocols define *templates*, which describe the format of data records. Templates are transmitted infrequently; any given IPFIX message is unlikely to contain a template record, but it will have data records referring to previously-defined templates. Without access to the appropriate template, a data record is meaningless. This means that parsing IPFIX messages from newest to oldest (or sorted in some other fashion) cannot work properly **unless** additional steps are taken.
 

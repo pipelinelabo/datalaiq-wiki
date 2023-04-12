@@ -108,12 +108,12 @@ Sending a GET request to `/api/users` will return a JSON packet containing infor
     },
     {
         "Admin": false,
-        "Email": "joe@gravwell.io",
+        "Email": "joe@ppln.co",
         "Groups": [
             {
                 "Desc": "",
                 "GID": 7,
-                "Name": "gravwell-users",
+                "Name": "datalaiq-users",
                 "Synced": false
             }
         ],

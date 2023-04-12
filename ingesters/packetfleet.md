@@ -1,6 +1,6 @@
 # Packet Fleet Ingester
 
-The Packet Fleet Ingester provides a mechanism to query Google Stenographer instances and have results ingested per-packet into Gravwell. 
+The Packet Fleet Ingester provides a mechanism to query Google Stenographer instances and have results ingested per-packet into DatalaiQ. 
 
 Each Stenographer ingester listens on a given port (```Listen-Address```) and accepts Stenographer queries (see query syntax below) as an HTTP POST. On receiving a query, the ingester returns an integer job ID, and asynchronously queries the Stenographer instance and begins to ingest the returned PCAP. Multiple in-flight queries can be ran concurrently. Job status can be viewed by issuing an HTTP GET on "/status", which returns a JSON-encoded array of in-flight job IDs. 
 
@@ -8,7 +8,7 @@ A simple web interface to submit and view job status is also available by browsi
 
 ## Basic Configuration
 
-Packet Fleet uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other Gravwell ingesters, Packet Fleet supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
+Packet Fleet uses the unified global configuration block described in the [ingester section](ingesters_global_configuration_parameters).  Like most other DatalaiQ ingesters, Packet Fleet supports multiple upstream indexers, TLS, cleartext, and named pipe connections, a local cache, and local logging.
 
 ## Stenographer Examples
 

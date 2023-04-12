@@ -1,6 +1,6 @@
-# Gravwell Administration
+# DatalaiQ Administration
 
-This section discusses the administration of a Gravwell system.
+This section discusses the administration of a DatalaiQ system.
 
 ```{toctree}
 Managing users and groups <users>

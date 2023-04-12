@@ -1,6 +1,6 @@
 # The Query Library
 
-The query library lets you store commonly-used search queries for quick recall. You can pull up queries from the library at the [Gravwell search prompt](/gui/queries/queries) and embed them in [dashboards](/gui/dashboards/dashboards).
+The query library lets you store commonly-used search queries for quick recall. You can pull up queries from the library at the [DatalaiQ search prompt](/gui/queries/queries) and embed them in [dashboards](/gui/dashboards/dashboards).
 
 ## The Query Library Page
 

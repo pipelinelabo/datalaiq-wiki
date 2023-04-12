@@ -23,7 +23,7 @@ Typing a name into the field and clicking the "+" icon will add new inputs:
 
 ## Example
 
-This example runs two Gravwell queries, combines the outputs via a Nest Merge node, then generates a PDF containing both searches:
+This example runs two DatalaiQ queries, combines the outputs via a Nest Merge node, then generates a PDF containing both searches:
 
 ![](nestmerge-example1.png)
 

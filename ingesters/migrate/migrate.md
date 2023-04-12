@@ -1,20 +1,20 @@
 # Migrating Data
 
-When you first stand up Gravwell, one of the first tasks is typically getting data from an old system or log archive into Gravwell.  Migration may involve pulling historical data out of an existing system like Splunk, scraping a large database, or just ingesting 5 years of old syslog from flat files.  Gravwell provides a series of "normal" ingesters designed to stream data in from a variety of sources in near real-time, but for one-time migration of existing data, there are specialized tools which may be a better choice.
+When you first stand up DatalaiQ, one of the first tasks is typically getting data from an old system or log archive into DatalaiQ.  Migration may involve pulling historical data out of an existing system like Splunk, scraping a large database, or just ingesting 5 years of old syslog from flat files.  DatalaiQ provides a series of "normal" ingesters designed to stream data in from a variety of sources in near real-time, but for one-time migration of existing data, there are specialized tools which may be a better choice.
 
-This section will explore the available tools to migrate existing data and give some tips on how to efficiently migrate potentially hundreds of TB of existing logs into a new Gravwell instance.  We will examine a few scenarios where using migration tools will provide much better migration performance and storage efficiency as opposed to just tossing something at a typical ingester.  Most of our migration tools are open source, so we can also provide links to source code and deep dive examinations of functionality.  Most data migrations are a one time occurrence, which means a one-off tool that is specialized for the task is usually the right answer.  
+This section will explore the available tools to migrate existing data and give some tips on how to efficiently migrate potentially hundreds of TB of existing logs into a new DatalaiQ instance.  We will examine a few scenarios where using migration tools will provide much better migration performance and storage efficiency as opposed to just tossing something at a typical ingester.  Most of our migration tools are open source, so we can also provide links to source code and deep dive examinations of functionality.  Most data migrations are a one time occurrence, which means a one-off tool that is specialized for the task is usually the right answer.  
 
 ### Migration Caveats
 
-Most Gravwell licenses are unlimited, meaning that when it is time to migrate massive quantities of data in you are only limited by the resources available to accept and index that data.  However, the one exception is the free Community Edition license which has hard ingest limits.  All other license types are either unlimited or allow for bursting to accommodate data migration.
+Most DatalaiQ licenses are unlimited, meaning that when it is time to migrate massive quantities of data in you are only limited by the resources available to accept and index that data.  However, the one exception is the free Community Edition license which has hard ingest limits.  All other license types are either unlimited or allow for bursting to accommodate data migration.
 
 ## Splunk Migration
 
-Gravwell provides an interactive migration tool which can import data from Splunk. See the [migrate tool](/migrate/migrate) documentation.
+DatalaiQ provides an interactive migration tool which can import data from Splunk. See the [migrate tool](/migrate/migrate) documentation.
 
 ## Importing Many Files
 
-Gravwell provides an interactive migration tool which can pull data from static files on disk efficiently. See the [migrate tool](/migrate/migrate) documentation.
+DatalaiQ provides an interactive migration tool which can pull data from static files on disk efficiently. See the [migrate tool](/migrate/migrate) documentation.
 
 ```{note}
 Only use the migrate tool if the files on disk are not expected to change. To ingest files which are still being added to, use the [File Follow](/ingesters/file_follow) ingester.
@@ -22,7 +22,7 @@ Only use the migrate tool if the files on disk are not expected to change. To in
 
 ## Importing One File
 
-The single file ingester is one of the most simplistic ingesters in the Gravwell arsenal.  It is designed to ingest a single line-delimited file to a specific tag.  It can transparently decompress files and has some limited parsing ability.  If you have a single large Apache access log or just need to script up some one off file ingestion, it can be the simplest option. The ingester is included in the `gravwell-tools` package for Debian and Redhat, and is also available as a standalone shell installer on [our downloads page](/quickstart/downloads). Once installed, the program is located at `/usr/local/sbin/gravwell_single_file_ingester`.
+The single file ingester is one of the most simplistic ingesters in the DatalaiQ arsenal.  It is designed to ingest a single line-delimited file to a specific tag.  It can transparently decompress files and has some limited parsing ability.  If you have a single large Apache access log or just need to script up some one off file ingestion, it can be the simplest option. The ingester is included in the `gravwell-tools` package for Debian and Redhat, and is also available as a standalone shell installer on [our downloads page](/quickstart/downloads). Once installed, the program is located at `/usr/local/sbin/gravwell_single_file_ingester`.
 
 The ingester is a standalone ingester that is designed to operate using flags rather than a config file.  This means that it lacks some of the additional functionality of other ingesters such as custom timestamp definitions and preprocessor support.  The following flags are supported:
 

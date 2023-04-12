@@ -22,7 +22,7 @@ The HTTP node sets several items in the outgoing payload:
 
 ## Example
 
-This example runs a Gravwell query (`tag=gravwell limit 2`) and sends the results to a simple HTTP server listening for POST requests.
+This example runs a DatalaiQ query (`tag=gravwell limit 2`) and sends the results to a simple HTTP server listening for POST requests.
 
 The HTTP node is configured to use `search.Results` as the request body. Internally, it formats the search results as a string before sending. It is also set up to attach two headers to the request: `X-Run-Time` will contain the time at which the flow ran (the `flow.Scheduled` variable), and `X-Flow-Name` will contain the name of the flow (the `flow.Name` variable).
 

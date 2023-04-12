@@ -1,6 +1,6 @@
 # Backup/Restore
 
-The Gravwell UI provides a simple method for administrators to fully back-up the system and restore from previous backups. The backups include dashboards, saved searches, users, groups, essentially everything which can be created and accessed through the Gravwell UI.
+The DatalaiQ UI provides a simple method for administrators to fully back-up the system and restore from previous backups. The backups include dashboards, saved searches, users, groups, essentially everything which can be created and accessed through the DatalaiQ UI.
 
 ```{note}
 This functionality backs up everything *except* your actual data; because you may have many terabytes of data on the indexers, we provide separate tools to help protect the data. Refer to the [replication documentation](/configuration/replication) for more information.
@@ -16,7 +16,7 @@ Then, click the "Download Archive" button to immediately download a backup of al
 
 ![](backup.png)
 
-Note the "Include persistent searches and saved results". If checked, the archive will include all saved searches owned by all users on the system, with results. Depending on the number of users and their use patterns, these search results could total up to multiple gigabytes! If you have a large Gravwell cluster with many active users, consider un-checking this option for efficiency.
+Note the "Include persistent searches and saved results". If checked, the archive will include all saved searches owned by all users on the system, with results. Depending on the number of users and their use patterns, these search results could total up to multiple gigabytes! If you have a large DatalaiQ cluster with many active users, consider un-checking this option for efficiency.
 
 ## Restoring
 
@@ -28,7 +28,7 @@ To restore a previously-made backup, click in the Restore pane of the Backup/Res
 
 ![](restore.png)
 
-You will be prompted for confirmation before the restoration process begins. Note that this will *completely* replace everything on your Gravwell system with the contents of the archive. Any users added since the backup will be deleted, etc.
+You will be prompted for confirmation before the restoration process begins. Note that this will *completely* replace everything on your DatalaiQ system with the contents of the archive. Any users added since the backup will be deleted, etc.
 
 ![](restore-prompt.png)
 

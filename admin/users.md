@@ -1,8 +1,8 @@
 # Managing Users and Groups
 
-Gravwell implements a system of users and groups very similar to Unix's. Each user is assigned a unique user ID number (UID), and each group has a unique group ID number (GID). A given user may belong to zero or more groups.
+DatalaiQ implements a system of users and groups very similar to Unix's. Each user is assigned a unique user ID number (UID), and each group has a unique group ID number (GID). A given user may belong to zero or more groups.
 
-Resources, dashboards, search results, and other things within Gravwell are typically owned by a user and optionally shared with a list of groups. A resource, for instance, may be owned by UID 3 and shared with several groups, the members of which may read but not modify that resource. Administrator users can read, modify, or delete anything.
+Resources, dashboards, search results, and other things within DatalaiQ are typically owned by a user and optionally shared with a list of groups. A resource, for instance, may be owned by UID 3 and shared with several groups, the members of which may read but not modify that resource. Administrator users can read, modify, or delete anything.
 
 The user and group management pages are located in the Administration section of the main menu, near the bottom:
 
@@ -52,7 +52,7 @@ A user can be deleted by clicking the trash can icon on their user tile. The sys
 
 ## Managing Groups
 
-Selecting the `Groups` page will list any existing groups; by default, Gravwell includes no groups. This screenshot shows a single group:
+Selecting the `Groups` page will list any existing groups; by default, DatalaiQ includes no groups. This screenshot shows a single group:
 
 ![](groups.png)
 

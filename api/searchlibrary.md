@@ -88,7 +88,7 @@ Here is an example entry that is owned by the user with UID 1 and shared with 3 
 
 ## Examples API Interaction
 
-This section contains example interactions with the search library API endpoint.  These examples were generated using the Gravwell CLI using the `-debug` flag.
+This section contains example interactions with the search library API endpoint.  These examples were generated using the DatalaiQ CLI using the `-debug` flag.
 
 ### Creating a New Entry
 

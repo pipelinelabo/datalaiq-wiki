@@ -1,6 +1,6 @@
 # Kits Web API
 
-This API implements the creation, installation, and deletion of Gravwell kits. Kits contain other components which are installed on the local system to provide a ready-to-go solution to a particular problem. Kits can contain:
+This API implements the creation, installation, and deletion of DatalaiQ kits. Kits contain other components which are installed on the local system to provide a ready-to-go solution to a particular problem. Kits can contain:
 
 * Resources
 * Scheduled searches
@@ -68,9 +68,9 @@ Note that while the ID, Name, Description, and Version fields are required, the 
         7,
         10
     ],
-    "Description": "Test Gravwell kit",
+    "Description": "Test DatalaiQ kit",
     "ID": "io.gravwell.test",
-    "Name": "test-gravwell",
+    "Name": "test-datalaiq",
     "Description":"testing\n\n## TESTING",
     "Pivots": [
         "ae9f2598-598f-4859-a3d4-832a512b6104"
@@ -139,11 +139,11 @@ A kit may depend on other kits. List these dependencies in the Dependencies arra
 }
 ```
 
-The ID field specifies the dependency's ID, e.g. io.gravwell.testresource. The MinVersion field specifies the minimum version of that kit which must be installed, e.g. 3.
+The ID field specifies the dependency's ID, e.g. io.ppln.testresource. The MinVersion field specifies the minimum version of that kit which must be installed, e.g. 3.
 
 ### Config Macros
 
-A kit may define "config macros", which are special macros which will be created by Gravwell when the kit is installed. A config macro looks like this:
+A kit may define "config macros", which are special macros which will be created by DatalaiQ when the kit is installed. A config macro looks like this:
 
 ```
 {
@@ -215,7 +215,7 @@ The server will respond with a description of the kit which has been uploaded, e
             "Type": "resource"
         }
     ],
-    "Description": "Test Gravwell kit",
+    "Description": "Test DatalaiQ kit",
     "GID": 0,
     "ID": "io.gravwell.test",
     "Installed": false,
@@ -265,7 +265,7 @@ The server will respond with a description of the kit which has been uploaded, e
             "Type": "dashboard"
         }
     ],
-    "Name": "test-gravwell",
+    "Name": "test-datalaiq",
     "RequiredDependencies": [
         {
             "AdminRequired": false,
@@ -352,7 +352,7 @@ A GET request on `/api/kits` will return a list of all known kits. Here is an ex
 [
     {
         "AdminRequired": false,
-        "Description": "Test Gravwell kit",
+        "Description": "Test DatalaiQ kit",
         "GID": 0,
         "ID": "io.gravwell.test",
         "Installed": false,
@@ -401,7 +401,7 @@ A GET request on `/api/kits` will return a list of all known kits. Here is an ex
                 "Type": "pivot"
             }
         ],
-        "Name": "test-gravwell",
+        "Name": "test-datalaiq",
         "Signed": false,
         "UID": 7,
         "UUID": "549c0805-a693-40bd-abb5-bfb29fc98ef1",
@@ -421,7 +421,7 @@ For example, a GET request on `/api/kits/549c0805-a693-40bd-abb5-bfb29fc98ef1` w
 ```
 {
     "AdminRequired": false,
-    "Description": "Test Gravwell kit",
+    "Description": "Test DatalaiQ kit",
     "GID": 0,
     "ID": "io.gravwell.test",
     "Installed": false,
@@ -470,7 +470,7 @@ For example, a GET request on `/api/kits/549c0805-a693-40bd-abb5-bfb29fc98ef1` w
             "Type": "pivot"
         }
     ],
-    "Name": "test-gravwell",
+    "Name": "test-datalaiq",
     "Signed": false,
     "UID": 7,
     "UUID": "549c0805-a693-40bd-abb5-bfb29fc98ef1",
@@ -524,11 +524,11 @@ If set, `OverwriteExisting` tells the installer to simply replace any existing i
 
 The `Global` flag may only be set by the administrator. If set, all items will be marked as Global, meaning all users will have access.
 
-Regular users can only install properly-signed kits from Gravwell. If `AllowUnsigned` is set, *administrators* can install unsigned kits.
+Regular users can only install properly-signed kits from DatalaiQ. If `AllowUnsigned` is set, *administrators* can install unsigned kits.
 
 `InstallationGroup` allows the installing user to share the contents of the kit with one of the groups to which he belongs.
 
-`Labels` is a list of additional labels which should be applied to all label-able items in the kit upon installation. Note that Gravwell automatically labels kit-installed items with "kit" and the ID of the kit (e.g. "io.gravwell.coredns").
+`Labels` is a list of additional labels which should be applied to all label-able items in the kit upon installation. Note that DatalaiQ automatically labels kit-installed items with "kit" and the ID of the kit (e.g. "io.gravwell.coredns").
 
 `ConfigMacros` is the list of ConfigMacros found in the kit information structure, with the "Value" fields optionally set to whatever the user wishes. If the "Value" field is blank, the webserver will use the "DefaultValue".
 
@@ -585,7 +585,7 @@ The UI should prompt the user at this point; to force removal of the kit, add th
 
 ## Querying Remote Kit Server
 
-To get a list of remote kits from the Gravwell Kit Server, issue a GET on `/api/kits/remote/list`.  This will return a JSON encoded list of kit metadata structures that represents the latest versions for all available kits.  The API path `/api/kits/remote/list/all` will provide all kits for all versions.
+To get a list of remote kits from the DatalaiQ Kit Server, issue a GET on `/api/kits/remote/list`.  This will return a JSON encoded list of kit metadata structures that represents the latest versions for all available kits.  The API path `/api/kits/remote/list/all` will provide all kits for all versions.
 
 The Metadata structure is as follows:
 

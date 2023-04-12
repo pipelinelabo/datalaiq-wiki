@@ -16,7 +16,7 @@ Clicking the "+" icon will add additional sockets:
 
 ## Example
 
-This example runs two Gravwell queries, combines the outputs via a Nest Merge node, then generates a PDF containing both searches:
+This example runs two DatalaiQ queries, combines the outputs via a Nest Merge node, then generates a PDF containing both searches:
 
 ![](stackmerge-example1.png)
 

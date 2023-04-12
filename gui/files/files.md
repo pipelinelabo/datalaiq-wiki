@@ -1,6 +1,6 @@
 # User Files
 
-Gravwell users can upload small (default 8MB) files for use in [playbooks](/gui/playbooks/playbooks), as cover images for kits, etc. Typically, these files are created or selected at the point of use: via a picker in the playbook editor, in the kit builder, etc.
+DatalaiQ users can upload small (default 8MB) files for use in [playbooks](/gui/playbooks/playbooks), as cover images for kits, etc. Typically, these files are created or selected at the point of use: via a picker in the playbook editor, in the kit builder, etc.
 
 ![](file-picker.png)
 

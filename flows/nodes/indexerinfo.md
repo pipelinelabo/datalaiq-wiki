@@ -1,6 +1,6 @@
 # Indexer Info Node
 
-This node injects information about the current Gravwell indexers into the payload. This is useful when generating reports or monitoring cluster health.
+This node injects information about the current DatalaiQ indexers into the payload. This is useful when generating reports or monitoring cluster health.
 
 ## Configuration
 
@@ -8,7 +8,7 @@ This node injects information about the current Gravwell indexers into the paylo
 
 ## Output
 
-The node inserts an array (named `gravwell_indexers` by default) into the payload containing information about the indexers currently active in the Gravwell cluster. Each element in the array is a structure containing the following fields:
+The node inserts an array (named `gravwell_indexers` by default) into the payload containing information about the indexers currently active in the DatalaiQ cluster. Each element in the array is a structure containing the following fields:
 
 * `Name`: the name of the indexer, e.g. "indexer1:9404".
 * `UUID`: the UUID of the indexer.

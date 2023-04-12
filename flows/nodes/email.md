@@ -22,6 +22,6 @@ The screenshot below shows a complex flow using the Email node:
 
 ![](email-example.png)
 
-The flow runs several Gravwell queries and also gathers information about ingesters, then uses the [Stack Merge](stackmerge) node to join all the results together. It then feeds those results into the PDF node, which generates a file named `gravwell_daily_report.pdf`.
+The flow runs several DatalaiQ queries and also gathers information about ingesters, then uses the [Stack Merge](stackmerge) node to join all the results together. It then feeds those results into the PDF node, which generates a file named `gravwell_daily_report.pdf`.
 
-The Email node is configured to send a message from gravwell@gravwell.io to john@gravwell.io. The email's subject will be set to the contents of the payload variable `flow.Name`, which corresponds to the *name of the flow* e.g. "Daily Report Flow". The body is set to a simple static string, and the previously-generated PDF file is included as an attachment.
+The Email node is configured to send a message from gravwell@gravwell.io to john@ppln.co. The email's subject will be set to the contents of the payload variable `flow.Name`, which corresponds to the *name of the flow* e.g. "Daily Report Flow". The body is set to a simple static string, and the previously-generated PDF file is included as an attachment.
