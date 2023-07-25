@@ -19,12 +19,6 @@ This guide is suitable for Community Edition users as well as users with a paid 
 
 You may find the [installation checklist](checklist) a useful companion to this document.
 
-If you are interested in a complete training package, please see the [complete training PDF](https://github.com/gravwell/training/releases/download/v5.2.0/gravwell_training_5.2.0.pdf).  The DatalaiQ training PDF is the complete training manual which is paired with labs and exercises. The exercises are built from the open source [DatalaiQ Training](https://github.com/gravwell/training) repository.
-
-```{note}
-Community Edition users will need to obtain their own license from [https://www.gravwell.io/download](https://www.gravwell.io/download) before beginning installation. Paid users should already have received a license file via email.
-```
-
 ```{toctree}
 ---
 maxdepth: 1
@@ -117,8 +111,8 @@ DatalaiQ is available as a `yum` repository for both Redhat and CentOS Linux dis
 ```
 [gravwell]
 name=gravwell
-baseurl=https://update.gravwell.io/rhel 
-gpgkey=https://update.gravwell.io/rhel/gpg.key
+baseurl=https://repo.datalaiq.io/rhel
+gpgkey=https://repo.datalaiq.io/rhel/gpg.key
 ```
 
 Next perform the following:
@@ -148,7 +142,7 @@ For non-Debian systems, download the self-contained installer from our [download
 Then run the installer:
 
 ```
-sudo bash gravwell_X.X.X.sh
+sudo bash datalaiq_X.X.X.sh
 ```
 
 Follow the prompts and, after completion, you should have a running DatalaiQ instance.
@@ -231,13 +225,13 @@ The File Follower ingester is one of the simplest ways to start getting logs int
 If you're using the DatalaiQ Debian repository, installation is just a single apt command:
 
 ```
-apt-get install gravwell-file-follow
+apt-get install datalaiq-file-follow
 ```
 
 Otherwise, download the installer from the [Downloads page](/quickstart/downloads). Using a terminal on the DatalaiQ server, issue the following command as a superuser (e.g. via the `sudo` command) to install the ingester:
 
 ```console
-root@gravserver ~ # bash gravwell_file_follow_installer.sh
+root@gravserver ~ # bash datalaiq_file_follow_installer.sh
 ```
 
 If the DatalaiQ services are present on the same machine, the installation script will automatically extract and configure the `Ingest-Auth` parameter and set it appropriately. However, if your ingester is not resident on the same machine as a pre-existing DatalaiQ backend, the installer will prompt for the authentication token and the IP address of the DatalaiQ indexer. You can set these values during installation or leave them blank and modify the configuration file in `/opt/gravwell/etc/file_follow.conf` manually. See the [ingesters documentation](/ingesters/ingesters) for more information on configuring the ingester.
@@ -249,13 +243,13 @@ DatalaiQ's 'Simple Relay' ingester can ingest line-delimited or syslog-formatted
 If you're using the DatalaiQ Debian repository, installation is just a single apt command:
 
 ```
-apt-get install gravwell-simple-relay
+apt-get install datalaiq-simple-relay
 ```
 
 Otherwise, download the installer from the [Downloads page](/quickstart/downloads). Using a terminal on the DatalaiQ server, issue the following command as a superuser (e.g. via the `sudo` command) to install the ingester:
 
 ```console
-root@gravserver ~ # bash gravwell_simple_relay_installer.sh
+root@gravserver ~ # bash datalaiq_simple_relay_installer.sh
 ```
 
 If the DatalaiQ services are present on the same machine, the installation script will automatically extract and configure the `Ingest-Auth` parameter and set it appropriately.  However, if your ingester is not resident on the same machine as a pre-existing DatalaiQ backend, the installer will prompt for the authentication token and the IP address of the DatalaiQ indexer. You can set these values during installation or leave them blank and modify the configuration file in `/opt/gravwell/etc/simple_relay.conf` manually. See the [ingesters documentation](/ingesters/ingesters) for more information on configuring the ingester.
@@ -326,13 +320,13 @@ A primary strength of DatalaiQ is the ability to ingest binary data. The network
 If you're using the DatalaiQ Debian repository, installation is just a single apt command:
 
 ```
-apt-get install libpcap0.8 gravwell-network-capture
+apt-get install libpcap0.8 datalaiq-network-capture
 ```
 
 Otherwise, download the installer from the [Downloads page](/quickstart/downloads). To install the network ingester, simply run the installer as root (the file name may differ slightly):
 
 ```console
-root@gravserver ~ # bash gravwell_network_capture_installer.sh
+root@gravserver ~ # bash datalaiq_network_capture_installer.sh
 ```
 
 The network ingester requires the libpcap shared libraries. If using the standalone installer, you'll need to make sure you have also installed the libraries; the package is `libpcap0.8` on Debian.
@@ -572,8 +566,8 @@ If you decide you no longer want DatalaiQ installed on a particular system, the 
 
 On Redhat and Debian systems, uninstalling the package should disable the services and remove the DatalaiQ binaries. It is then your choice to remove the rest of `/opt/gravwell`; note that if you delete the storage directories, any data that was ingested into your DatalaiQ system will be lost!
 
-* Debian: `apt-get remove gravwell gravwell-crash-reporter`
-* Redhat: `yum remove gravwell gravwell-crash-reporter`
+* Debian: `apt-get remove gravwell datalaiq-crash-reporter`
+* Redhat: `yum remove gravwell datalaiq-crash-reporter`
 
 On Docker systems, use `docker kill` and `docker rm` to remove your DatalaiQ container. You may need to delete any persistent volumes you created.
 
