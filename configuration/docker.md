@@ -18,7 +18,7 @@ To keep our DatalaiQ containers separated from any other containers you may be r
 
 ## Deploy the indexer and webserver
 
-The DatalaiQ indexer and webserver frontend, plus the Simple Relay ingester, are shipped in a single Docker image ([datalaiq/datalaiq](https://hub.docker.com/r/gravwell/gravwell/)) for convenience. We will launch it with port 80 forwarded to port 8080 on the host for access to the webserver:
+The DatalaiQ indexer and webserver frontend, plus the Simple Relay ingester, are shipped in a single Docker image for convenience. We will launch it with port 80 forwarded to port 8080 on the host for access to the webserver:
 
 	docker run --net gravnet -p 8080:80 -p 4023:4023 -p 4024:4024 -d -e GRAVWELL_INGEST_SECRET=MyIngestSecret -e GRAVWELL_INGEST_AUTH=MyIngestSecret -e GRAVWELL_CONTROL_AUTH=MyControlSecret -e GRAVWELL_SEARCHAGENT_AUTH=MySearchAgentAuth --name gravwell gravwell/gravwell:latest
 
@@ -70,7 +70,7 @@ Log in with the default credentials **admin** / **changeme**. You're now in Data
 
 ## Add some data to test
 
-The gravwell/gravwell Docker image ships with the Simple Relay [ingester](/ingesters/ingesters) pre-installed. It listens on the following ports:
+The Docker image ships with the Simple Relay [ingester](/ingesters/ingesters) pre-installed. It listens on the following ports:
 
 * TCP 7777 for line-delimited logs (tagged 'default')
 * TCP 601 for syslog messages (tagged 'syslog')
@@ -96,7 +96,7 @@ We can then run a quick search over the last hour to verify that the data made i
 
 ## Set up ingesters
 
-Besides the Simple Relay ingester that ships with the gravwell/gravwell image, we provide a number of pre-build images for our ingesters. More information can be found at the [DatalaiQ Docker Hub](https://hub.docker.com/u/gravwell) page.
+Besides the Simple Relay ingester that ships with the docker image, we provide a number of pre-build images for our ingesters.
 
 We'll launch the Netflow ingester here, but the same command (with names and ports changed) can be used for the other ingesters too:
 
@@ -207,4 +207,4 @@ The DatalaiQ software has automated crash reporting & metrics reporting built in
 
 With DatalaiQ running, refer to [the rest of the documentation](/index) for more information on how to use the system.
 
-If you are a paid DatalaiQ customer and wish to deploy DatalaiQ in Docker, contact support@ppln.co for help. We also have some information about deploying a custom Docker instance [on this wiki](/configuration/custom-docker) and [on our blog](https://www.gravwell.io/blog/gravwell-docker-deployment).
+If you are a paid DatalaiQ customer and wish to deploy DatalaiQ in Docker, contact support@ppln.co for help. We also have some information about deploying a custom Docker instance [on this wiki](/configuration/custom-docker).
